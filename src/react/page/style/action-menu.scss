@@ -1,13 +1,17 @@
 
 .activity-bar{
+    position: absolute;
+    top: 0;
+    bottom: 0; 
+    left: 0; 
     width: 50px;
-    background-color: rgb(51,51,51);
+    background-color: rgb(51,51,51); 
     li{
         padding: 5px 0;
     }
     a{
         display: block;
         height: 40px;
-        line-height: 40px;
+        line-height: 40px; 
     }
 }

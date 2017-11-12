@@ -17,7 +17,9 @@ export class ActionMenu extends React.Component{
                     {
                         actionMenus.map((menu,index) =>(
                             <li key={index}>
-                                <a>{menu.text}</a>
+                                <a>
+                                    {menu.text}                                
+                                </a>
                             </li>
                         ))
                     }

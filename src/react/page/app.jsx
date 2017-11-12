@@ -3,13 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {ActionMenu} from './component/action-menu';
 
-import './Style/action-menu.scss';
+import './style/action-menu.scss';
 
 import 'antd/dist/antd.css';
 
 
 const actionMenus = [{
-    text: "22",
+    text: "232",
     active: false,
     icon: ""
 },{

@@ -19,7 +19,7 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
     entry: {
-        app: './page/app.jsx'
+        app: ['./page/app.jsx']
     },
     output: {
         path: ASSETS_BUILD_PATH, 
@@ -85,6 +85,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false }),        
         new HtmlWebpackPlugin({
             filename: './index.html',
             template: './page/template/index.html',
