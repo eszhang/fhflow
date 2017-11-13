@@ -1,0 +1,29 @@
+
+.activity-bar{
+    height: 100%; 
+    li{
+        padding: 5px 0;
+        $action-menus: resource-management environment-debugging digital-simulation expanding-task environment-doc environment-install;   
+        @each $EN in $action-menus {
+            &.#{$EN}{
+                a{
+                    background-image: url(../images/icon-#{$EN}-normal.png);
+                }
+                &:hover,&.active{
+                    
+                    a{
+                        background-image: url(../images/icon-#{$EN}-active.png);
+                    }
+                }
+            }
+        }
+    }
+    a{
+        display: block;
+        height: 40px;   
+        line-height: 40px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 24px;
+    }
+}

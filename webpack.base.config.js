@@ -1,6 +1,7 @@
 
 /*
  * webpack base config
+ * 模块化打包后面再考虑
  */
 
 const webpack            = require('webpack'),
@@ -10,16 +11,16 @@ const webpack            = require('webpack'),
 
 const SRC_PATH           = path.resolve('./src'),
       ELECTRON_PATH      = path.join(SRC_PATH, 'electron'),
-      REACT_PATH         = path.join(SRC_PATH, 'react'),
+      APP_PATH           = path.join(SRC_PATH, 'app'),
       ASSETS_BUILD_PATH  = path.resolve('./build');
 
 module.exports = {
-    context: REACT_PATH, // 设置源代码的默认根路径
+    context: APP_PATH, // 设置源代码的默认根路径
     resolve: {
         extensions: ['.js', '.jsx']
     },
     entry: {
-        app: ['./page/app.jsx']
+        app: ['./react/index.jsx']
     },
     output: {
         path: ASSETS_BUILD_PATH, 
@@ -88,7 +89,7 @@ module.exports = {
         new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false }),        
         new HtmlWebpackPlugin({
             filename: './index.html',
-            template: './page/template/index.html',
+            template: './react/template/index.html',
             hash: false
         })
     ]

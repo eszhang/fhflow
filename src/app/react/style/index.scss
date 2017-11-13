@@ -1,0 +1,49 @@
+
+
+$action-menu-area-width: 50px;
+$action-setting-area-widht: 300px;
+$status-bar-area-height: 150px;
+
+body{
+    overflow: hidden;
+}
+
+#root{
+    height: 100%;
+}
+
+.app-container{
+    height: 100%;
+    .action-menu-area{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: $action-menu-area-width;
+        background-color: rgb(51,51,51);
+    }
+    .main-content-area{
+        position: absolute;
+        top: 0;
+        right: $action-setting-area-widht;
+        bottom: $status-bar-area-height;
+        left: $action-menu-area-width;
+        // border: 1px solid red;
+    }
+    .status-bar-area{
+        position: absolute;
+        right: $action-setting-area-widht;
+        bottom: 0px;
+        left: $action-menu-area-width;
+        height: $status-bar-area-height;
+        background-color: rgb(30, 30, 30);  
+    }
+    .action-setting-area{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: $action-setting-area-widht;
+        border: 1px solid red;
+    }
+}
