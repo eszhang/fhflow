@@ -1,0 +1,18 @@
+
+.status-bar{
+    height: 100%;
+    padding: 8px 0;
+    .status-bar-inner{
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    li{
+        padding: 4px 10px;
+    }
+    a{
+        display: block;
+        white-space: nowrap;
+        
+    }
+}

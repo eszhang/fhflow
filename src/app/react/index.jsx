@@ -2,14 +2,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ActionMenu } from './component/action-menu';
+import { StatusBar } from './component/status-bar';
 
 import './style/index.scss';
 import './style/action-menu.scss';
+import './style/status-bar.scss';
 
 import 'antd/dist/antd.css';
 
 
-const actionMenus = {
+const actionMenu = {
     data: [{
         CN: "资源管理器",
         EN: "resource-management"
@@ -32,6 +34,15 @@ const actionMenus = {
     selectedIndex: 0
 };
 
+const statusBar = [
+    "dev任务已成功编译，这是一条描述信息",
+    "dist任务已经成功编译，这也是一条描述信息",
+    "dev任务已成功编译，这是一条描述信息",
+    "dist任务已经成功编译，这也是一条描述信息",
+    "dev任务已成功编译，这是一条描述信息",
+    "dist任务已经成功编译，这也是一条描述信息"
+]
+
 /**
  * @class action-menu
  * @extends {Component}
@@ -42,7 +53,7 @@ class Container extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: props.actionMenus.selectedIndex
+            selectedIndex: props.actionMenu.selectedIndex
         }
     }
 
@@ -58,11 +69,12 @@ class Container extends React.Component {
         return (
             <div className="app-container">
                 <div className="action-menu-area">
-                    <ActionMenu data={this.props.actionMenus.data} selectedIndex={this.state.selectedIndex} onClickHandler={this.handleActionMenuClick} />
+                    <ActionMenu data={this.props.actionMenu.data} selectedIndex={this.state.selectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
                 </div>
                 <div className="status-bar-area">
+                    <StatusBar data={this.props.statusBar}/>
                 </div>
                 <div className="action-setting-area">
                 </div>
@@ -72,6 +84,6 @@ class Container extends React.Component {
     }
 }
 ReactDOM.render(
-    <Container actionMenus={actionMenus} />,
+    <Container actionMenu={actionMenu} statusBar={statusBar} />,
     document.getElementById("root")
 )

@@ -28,7 +28,7 @@ body{
         right: $action-setting-area-widht;
         bottom: $status-bar-area-height;
         left: $action-menu-area-width;
-        // border: 1px solid red;
+        background-color: rgb(30, 30, 30);
     }
     .status-bar-area{
         position: absolute;
@@ -36,7 +36,8 @@ body{
         bottom: 0px;
         left: $action-menu-area-width;
         height: $status-bar-area-height;
-        background-color: rgb(30, 30, 30);  
+        background-color: rgb(30, 30, 30); 
+        border-top: 1px solid rgba(128, 128, 128, 0.35) 
     }
     .action-setting-area{
         position: absolute;
@@ -44,6 +45,7 @@ body{
         bottom: 0;
         right: 0;
         width: $action-setting-area-widht;
-        border: 1px solid red;
+        background-color: rgb(30, 30, 30);
+        border-left: 1px solid rgba(128, 128, 128, 0.35)
     }
 }

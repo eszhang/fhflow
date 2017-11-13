@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 function Item(props) {
@@ -11,7 +12,7 @@ function Item(props) {
 }
 
 /**
- * @class action-menu
+ * @class ActionMenu
  * @extends {Component}
  */
 
