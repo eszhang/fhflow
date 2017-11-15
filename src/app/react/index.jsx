@@ -10,7 +10,7 @@ import './style/status-bar.scss';
 
 import 'antd/dist/antd.css';
 
-
+//这里先模拟管理数据部分，后面用redux来管理
 const actionMenu = {
     data: [{
         CN: "资源管理器",
