@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Icon from 'antd/lib/icon'
 
 /**
  * @class StatusBar
@@ -7,17 +8,26 @@ import React from 'react';
  */
 
 export function StatusBar(props) {
+
+    const IconTypeMap = {
+        info: "info-circle",
+        warning: "exclamation-circle",
+        success: "check-circle",
+        error: "close-circle"
+    };
+
     return (
-        <div className="status-bar">
-            <ul className="status-bar-inner">
-                {
-                    props.data.map((text, index) => (
-                        <li key={index}>
-                            <a>{text}</a>
-                        </li>
-                    ))
-                }
-            </ul>
-        </div>
+        <ul className="status-bar">
+            {
+                props.data.map((info, index) => (
+                    <li className={info.type} key={index}>
+                        <a>
+                            {info.type && <Icon type={IconTypeMap[info.type]} />}
+                            {info.desc}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
     )
-}
+}   

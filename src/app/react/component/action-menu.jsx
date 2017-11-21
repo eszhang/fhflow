@@ -22,13 +22,11 @@ export class ActionMenu extends React.Component {
 
         const { data = [], selectedIndex = 0, onClickHandler } = this.props;
         return (
-            <div className="activity-bar">
-                <ul className="action-bar">
-                    {
-                        data.map((menu, index) => <Item className={menu.EN + ((selectedIndex === index) ? " active" : "")} title={menu.CN} onClickHandler={onClickHandler.bind(this, index)} key={index} />)
-                    }
-                </ul>
-            </div>
+            <ul className="action-menu">
+                {
+                    data.map((menu, index) => <Item className={menu.EN + ((selectedIndex === index) ? " active" : "")} title={menu.CN} onClickHandler={onClickHandler.bind(this, index)} key={index} />)
+                }
+            </ul>
         )
     }
 }

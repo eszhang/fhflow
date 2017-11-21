@@ -1,5 +1,4 @@
 
-
 $action-menu-area-width: 50px;
 $action-setting-area-widht: 300px;
 $status-bar-area-height: 150px;
@@ -29,6 +28,10 @@ body{
         bottom: $status-bar-area-height;
         left: $action-menu-area-width;
         background-color: rgb(30, 30, 30);
+        >div{
+            height: 100%;
+            overflow-y: auto;
+        }
     }
     .status-bar-area{
         position: absolute;
@@ -36,8 +39,13 @@ body{
         bottom: 0px;
         left: $action-menu-area-width;
         height: $status-bar-area-height;
+        padding: 8px 0;
         background-color: rgb(30, 30, 30); 
-        border-top: 1px solid rgba(128, 128, 128, 0.35) 
+        border-top: 1px solid rgba(128, 128, 128, 0.35);
+        >div{
+            height: 100%;
+            overflow-y: auto;
+        } 
     }
     .action-setting-area{
         position: absolute;
@@ -46,6 +54,6 @@ body{
         right: 0;
         width: $action-setting-area-widht;
         background-color: rgb(30, 30, 30);
-        border-left: 1px solid rgba(128, 128, 128, 0.35)
+        border-left: 1px solid rgba(128, 128, 128, 0.35);
     }
 }
