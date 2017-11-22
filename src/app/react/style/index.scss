@@ -56,4 +56,16 @@ body{
         background-color: rgb(30, 30, 30);
         border-left: 1px solid rgba(128, 128, 128, 0.35);
     }
+    &[data-layout-type='3']{
+        .main-content-area{
+            right: 0;
+            bottom: 0;          
+        }
+        .status-bar-area{
+            display: none;
+        }
+        .action-setting-area{
+            display: none;
+        }
+    }
 }

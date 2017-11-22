@@ -7,29 +7,20 @@ import { Card, Col, Row, Pagination } from 'antd';
  * @extends {Component}
  */
 
-export class DocList extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    handleChange(page, pageSize){
-        console.log(page, pageSize)
-    }
-    render() {
-
-        return (
-            <div className="doc-list">
-                <Row gutter={16}>
-                    {
-                        this.props.data.map((docObj, index) => (
-                            <Col span={8} key={index}>
-                                <Card title={docObj.title} bordered={false} extra={<a href={docObj.href}>More</a>}>{docObj.desc}</Card>
-                            </Col>
-                        ))
-                    }
-                </Row>
-                <Pagination defaultCurrent={1} total={50} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />
-            </div>
-        )
-    }
+export function DocList(props) {
+    const { data, index, handleChange } = props;
+    return (
+        <div className="doc-list">
+            <Row gutter={16}>
+                {
+                    data.map((item, index) => (
+                        <Col span={8} key={index}>
+                            <Card title={item.title} bordered={false} extra={<a href={item.href}>More</a>}>{item.desc}</Card>
+                        </Col>
+                    ))
+                }
+            </Row>
+            <Pagination defaultCurrent={index} total={data.length} onChange={(page, pageSize) => handleChange(page, pageSize)} />
+        </div>
+    )
 }   

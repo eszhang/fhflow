@@ -1,6 +1,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { changeGridLayout, changeActionMenu, updateDocList } from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
 import { DocList } from './component/doc-list';
@@ -12,36 +14,36 @@ import './style/doc-list.scss';
 
 import 'antd/dist/antd.css';
 
-//这里先模拟管理数据部分，后面用redux来管理
-const actionMenu = {
-    data: [{
+const actionMenuData = [
+    {
         CN: "资源管理器",
-        EN: "resource-management"
+        EN: "resource-management",
+        layoutType: 0
     }, {
         CN: "开发调试",
-        EN: "environment-debugging"
+        EN: "environment-debugging",
+        layoutType: 0
     }, {
         CN: "数据模拟",
-        EN: "digital-simulation"
+        EN: "digital-simulation",
+        layoutType: 0
     }, {
         CN: "文档",
-        EN: "environment-doc"
+        EN: "environment-doc",
+        layoutType: 3
     }, {
         CN: "自定义任务流",
-        EN: "expanding-task"
+        EN: "expanding-task",
+        layoutType: 0
     }, {
         CN: "开发环境安装",
-        EN: "environment-install"
-    }],
-    selectedIndex: 0
-};
+        EN: "environment-install",
+        layoutType: 0
+    }
+];
 
-const docList = [
+const docListData = [
     {
-        title: "jquery",
-        desc: "jquery API 开发文档",
-        href: "#"
-    }, {
         title: "oasis",
         desc: "oasis API 开发文档",
         href: "#"
@@ -58,6 +60,10 @@ const docList = [
         desc: "rhyton API 开发文档",
         href: "#"
     }, {
+        title: "jquery",
+        desc: "jquery API 开发文档",
+        href: "#"
+    }, {
         title: "lodash",
         desc: "lodash API 开发文档",
         href: "#"
@@ -68,12 +74,11 @@ const docList = [
     }
 ];
 
-const statusBar = [
+const statusBarData = [
     {
         desc: "dev任务开发编译，这是一条描述信息",
         type: ""
-    },
-    {
+    }, {
         desc: "dev任务已成功编译，这是一条成功描述信息",
         type: "success"
     }, {
@@ -103,32 +108,35 @@ class Container extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            selectedIndex: props.actionMenu.selectedIndex
-        }
+
     }
 
-    handleActionMenuClick = (index, e) => {
-        console.log(index, e.target)
-        this.setState({
-            //actionMenu active下标
-            selectedIndex: index
-        })
+    componentWillMount(){
+       
+    }
+
+    handleActionMenuClick = index => {
+
+        const { dispatch } = this.props;
+
+        dispatch(changeGridLayout(actionMenuData[index].layoutType));
+        dispatch(changeActionMenu(index));
     }
 
     render() {
-        const { actionMenu, docList, statusBar } = this.props;
+        const { docList, statusBar, dispatch, actionMenuSelectedIndex, gridLayoutType } = this.props;
+        console.log(this.props);
         return (
-            <div className="app-container">
+            <div className="app-container" data-layout-type={gridLayoutType}>
                 <div className="action-menu-area">
-                    <ActionMenu data={actionMenu.data} selectedIndex={this.state.selectedIndex} onClickHandler={this.handleActionMenuClick} />
+                    <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    <DocList data={docList} />
+                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList data={docListData} />}
                 </div>
                 <div className="status-bar-area">
                     <div>
-                        <StatusBar data={statusBar} />
+                        <StatusBar data={statusBarData} />
                     </div>
                 </div>
                 <div className="action-setting-area">
@@ -138,7 +146,5 @@ class Container extends React.Component {
         )
     }
 }
-ReactDOM.render(
-    <Container actionMenu={actionMenu} docList={docList} statusBar={statusBar} />,
-    document.getElementById("root")
-)
+
+export default connect(state => state)(Container); 
