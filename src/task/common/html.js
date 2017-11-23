@@ -1,6 +1,6 @@
 const gulp = require('gulp'),
       fileinclude = require('gulp-file-include'),
-      copy = require('./copy.js');
+      reload = require('./util').reload;
 
 module.exports = function(htmlObj,cb){
     gulp.src(htmlObj.src)
@@ -12,5 +12,6 @@ module.exports = function(htmlObj,cb){
     .on('end',function(){
         console.log(htmlObj.logInfo || `拷贝成功`);
         cb ? cb(): undefined;
+        reload? reload() : undefined;
     });
 }

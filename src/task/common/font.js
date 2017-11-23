@@ -1,5 +1,5 @@
 const gulp = require('gulp'),
       Copy = require('./util').copy;
-module.exports = function(imgObj,cb){
-    Copy(imgObj,cb);
+module.exports = function(fontObj,cb){
+    Copy(fontObj,cb);
 }

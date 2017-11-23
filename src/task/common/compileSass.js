@@ -4,7 +4,8 @@ const gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     sourceMap = require('gulp-sourcemaps'),
     compass = require('gulp-compass'),
-    minifyCss = require('gulp-clean-css');
+    minifyCss = require('gulp-clean-css'),
+    reload = require('./util').reload;
 
 module.exports = function(compileSassObj,cb){
     var stream = gulp.src(compileSassObj.src)
@@ -44,7 +45,8 @@ module.exports = function(compileSassObj,cb){
         stream = stream.pipe(gulp.dest(compileSassObj.dest))
         .on('end',function(){
             console.log( compileSassObj.logInfo || `编译成功`);
-            cb ? cb(): undefined;
+            cb ? cb() : undefined;
+            reload ? reload() : undefined;
         });
 }
 // module.exports = function(compileSassObj,cb){
