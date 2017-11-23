@@ -20,7 +20,7 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
     entry: {
-        app: ['./react/index.jsx']
+        app: ['./app.jsx']
     },
     output: {
         path: ASSETS_BUILD_PATH, 

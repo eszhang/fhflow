@@ -1,18 +1,33 @@
 
 .status-bar{
-    height: 100%;
-    padding: 8px 0;
-    .status-bar-inner{
-        height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    li{
+    li{ 
         padding: 4px 10px;
-    }
-    a{
-        display: block;
-        white-space: nowrap;
-        
+        white-space: nowrap;    
+        >a{
+            color: #fff;
+        }
+        i{
+            margin-right: 5px;
+        }
+        &.info{
+            a{
+                color: #49a9ee;
+            }        
+        }
+        &.warning{
+            a{
+                color: #f56e00;
+            }
+        }
+        &.success{
+            a{
+                color: #3dbd7d;
+            }
+        }
+        &.error{
+            a{
+                color: #f4665c;
+            }
+        }
     }
 }
