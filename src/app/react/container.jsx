@@ -2,77 +2,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { changeGridLayout, changeActionMenu, updateDocList } from '../redux/action/index';
+import { changeGridLayout, changeActionMenu, updateDocList, updateInstallToolsList } from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
-import { DocList } from './component/doc-list';
+import DocList  from './container/doc-list';
+// import { InstallList } from './component/install-list';
+
+import actionMenuData from '../redux/data/actionMenu';
+import installListData from '../redux/data/installList';
 
 import './style/index.scss';
 import './style/action-menu.scss';
 import './style/status-bar.scss';
-import './style/doc-list.scss';
+import './style/item-list.scss';
+import './style/install-list.scss';
 
 import 'antd/dist/antd.css';
 
-const actionMenuData = [
-    {
-        CN: "资源管理器",
-        EN: "resource-management",
-        layoutType: 0
-    }, {
-        CN: "开发调试",
-        EN: "environment-debugging",
-        layoutType: 0
-    }, {
-        CN: "数据模拟",
-        EN: "digital-simulation",
-        layoutType: 0
-    }, {
-        CN: "文档",
-        EN: "environment-doc",
-        layoutType: 3
-    }, {
-        CN: "自定义任务流",
-        EN: "expanding-task",
-        layoutType: 0
-    }, {
-        CN: "开发环境安装",
-        EN: "environment-install",
-        layoutType: 0
-    }
-];
-
-const docListData = [
-    {
-        title: "oasis",
-        desc: "oasis API 开发文档",
-        href: "#"
-    }, {
-        title: "oasisL-1.0",
-        desc: "oasisL-1.0 API 开发文档",
-        href: "#"
-    }, {
-        title: "oasisL-2.0",
-        desc: "oasisL-2.0 API 开发文档",
-        href: "#"
-    }, {
-        title: "rhyton",
-        desc: "rhyton API 开发文档",
-        href: "#"
-    }, {
-        title: "jquery",
-        desc: "jquery API 开发文档",
-        href: "#"
-    }, {
-        title: "lodash",
-        desc: "lodash API 开发文档",
-        href: "#"
-    }, {
-        title: "path",
-        desc: "path API 开发文档",
-        href: "#"
-    }
-];
+const { dev: devData, tools: toolsListData } = installListData;
 
 const statusBarData = [
     {
@@ -99,6 +46,7 @@ const statusBarData = [
     }
 ]
 
+const docPageSize = 9;
 /**
  * @class action-menu
  * @extends {Component}
@@ -111,20 +59,34 @@ class Container extends React.Component {
 
     }
 
-    componentWillMount(){
-       
+    componentDidMount() {
+
+        const { dispatch } = this.props;
+
+        let toolsIndex = 1,
+            toolsData = toolsListData.slice(0, docPageSize);
+
+        dispatch(updateInstallToolsList(toolsIndex, toolsData));
     }
 
     handleActionMenuClick = index => {
 
         const { dispatch } = this.props;
-
         dispatch(changeGridLayout(actionMenuData[index].layoutType));
         dispatch(changeActionMenu(index));
     }
 
+
+    handleToolsPageChange = (page, pageSize) => {
+
+        let index = page,
+            data = toolsListData.slice((index - 1) * pageSize, index * pageSize);
+        const { dispatch } = this.props;
+        dispatch(updateInstallToolsList(index, data));
+    }
+
     render() {
-        const { docList, statusBar, dispatch, actionMenuSelectedIndex, gridLayoutType } = this.props;
+        const { dispatch, actionMenuSelectedIndex, gridLayoutType, docList, installList, statusBar } = this.props;
         console.log(this.props);
         return (
             <div className="app-container" data-layout-type={gridLayoutType}>
@@ -132,7 +94,8 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList data={docListData} />}
+                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList />}
+                    {/* {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList data={installList.tools.data} currentIndex={installList.tools.index} pageSize={docPageSize} total={toolsListData.length} onChangeHandler={this.handleToolsPageChange} />} */}
                 </div>
                 <div className="status-bar-area">
                     <div>

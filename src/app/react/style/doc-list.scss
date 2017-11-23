@@ -3,14 +3,11 @@
     padding: 30px;
     background-color: #ECECEC;
     text-align: center;
-    >.ant-row{
+    .item-list{
         text-align: left;
-        >div{
-            padding: 8px;
-        }
     }
     .ant-pagination{
         display: inline-block;
-        margin: 0 auto;
+        margin: 15px auto 0;
     }
 }

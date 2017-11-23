@@ -1,26 +1,43 @@
 
 import React from 'react';
-import { Card, Col, Row, Pagination } from 'antd';
+import { connect } from 'react-redux';
+import { Pagination, Button, Icon, Tabs, Steps } from 'antd';
+import { ItemList } from './item-list';
 
+import { InstallList } from './component/install-list';
 /**
- * @class DocList
- * @extends {Component}
+ * @function installList
  */
 
-export function DocList(props) {
+const TabPane = Tabs.TabPane;
+const Step = Steps.Step;
+const { dev: devData, tools: toolsListData } = installListData;
 
+function InstallList(props) {
+
+    const { data } = props;
     return (
-        <div className="doc-list">
-            <Row gutter={16}>
-                {
-                    props.data.map((docObj, index) => (
-                        <Col span={8} key={index}>
-                            <Card title={docObj.title} bordered={false} extra={<a href={docObj.href}>More</a>}>{docObj.desc}</Card>
-                        </Col>
-                    ))
-                }
-            </Row>  
-            <Pagination defaultCurrent={1} total={50} onChange={}/>
+        <div className="install-list">
+            <Tabs defaultActiveKey="1">
+                <TabPane tab={<span><Icon type="apple" />开发环境安装</span>} key="1">
+                    <div className="dev-wrap">
+                        <Steps current={0}>
+                            {steps.map(item => <Step key={item.title} title={item.title} />)}
+                        </Steps>
+                        <div className="opt-area">
+                            <Button type="primary" loading={true} size="large">
+                                INSTALL
+                            </Button>
+                        </div>
+                    </div>
+                </TabPane>
+                <TabPane tab={<span><Icon type="android" />常用开发工具下载</span>} key="2">
+                    <ItemList data={data} extraText="下载" />
+                </TabPane>
+            </Tabs>
+
         </div>
     )
-}   
+}
+
+export default connect(state => state)(InstallList); 

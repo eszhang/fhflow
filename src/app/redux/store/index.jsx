@@ -1,6 +1,5 @@
 
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import {SELECT_ACTION_MENU} from '../action/index'
 import * as reducer from '../reducer/index';
 import thunk from 'redux-thunk';
 

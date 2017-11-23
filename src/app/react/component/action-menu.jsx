@@ -1,31 +1,23 @@
 
 import React from 'react';
 
-function Item(props) {
-
-    const { text, className, title, onClickHandler } = props;
-    return (
-        <li className={className} title={title} onClick={onClickHandler}>
-            <a>{text}</a>
-        </li>
-    )
-}
-
 /**
- * @class ActionMenu
- * @extends {Component}
+ * @function ActionMenu
  */
 
-export class ActionMenu extends React.Component {
+export function ActionMenu(props) {
 
-    render() {
-        const { data = [], selectedIndex = 0, onClickHandler = function(){} } = this.props;
-        return (
-            <ul className="action-menu">
-                {
-                    data.map((menu, index) => <Item className={menu.EN + ((selectedIndex === index) ? " active" : "")} title={menu.CN} onClickHandler={index => onClickHandler(index)} key={index} />)
-                }
-            </ul>
-        )
-    }
+    const { data = [], selectedIndex = 0, onClickHandler = function () { } } = props;
+    return (
+        <ul className="action-menu">
+            {
+                data.map((m, index) => (
+                    <li className={m.EN + ((selectedIndex === index) ? " active" : "")} title={m.CN} onClick={onClickHandler.bind(this, index)} key={index}>
+                        <a></a>
+                    </li>
+                ))
+            }
+        </ul>
+    )
+
 }
