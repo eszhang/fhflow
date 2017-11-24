@@ -29,7 +29,7 @@ class InstallList extends React.Component {
         super(props);
         this.state = {
             installProgressIndex: 0,
-            installPending: false                    
+            installPending: false
         }
     }
 
@@ -38,51 +38,51 @@ class InstallList extends React.Component {
     }
 
     enterLoading = () => {
-        this.setState({ 
+        this.setState({
             installProgressIndex: 0,
-            installPending: true 
+            installPending: true
         });
 
         //模拟
 
-        let trggerInstall = (index,delay) => {
+        let trggerInstall = (index, delay) => {
             setTimeout(() => {
-                this.setState({ 
+                this.setState({
 
-                    installProgressIndex: index 
-                    
+                    installProgressIndex: index
+
                 });
-            },delay)
+            }, delay)
         };
-       
-        trggerInstall(1,1500);
-        trggerInstall(2,2500);
-        trggerInstall(3,3500);
-        trggerInstall(4,4500);
+
+        trggerInstall(1, 1500);
+        trggerInstall(2, 2500);
+        trggerInstall(3, 3500);
+        trggerInstall(4, 4500);
 
         setTimeout(() => {
-            this.setState({ 
-                installPending: false 
-                
+            this.setState({
+                installPending: false
+
             });
             console.log(this.state)
-        },5500)
+        }, 5500)
     }
 
     handleChange(pageNo, pageSize) {
         this.props.updateInstallToolsList(toolsListData, pageNo, pageSize);
     }
 
-    render(){
-        let { installList, updateInstallProgress, updateInstallToolsList } = this.props, 
+    render() {
+        let { installList, updateInstallProgress, updateInstallToolsList } = this.props,
             { dev, tools } = installList,
-            { data: devData = devListData, progressIndex: devProgressIndex =0} = dev,
-            { data: toolsData = [], page: toolsPage = {}} = tools,
-            { pageNo = 1, pageSize = 10, totalRows = 0 } = toolsPage;
+            { data: devData = devListData, progressIndex: devProgressIndex = 0 } = dev,
+            { data: toolsData = [], page: toolsPage = {} } = tools,
+            { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = toolsPage;
 
         let { installProgressIndex, installPending } = this.state;
 
-        let installSteps = [{title: "START"}, ...devData, {title: "FINISH"}];
+        let installSteps = [{ title: "START" }, ...devData, { title: "FINISH" }];
 
         return (
             <div className="install-list">
@@ -101,7 +101,7 @@ class InstallList extends React.Component {
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />常用开发工具下载</span>} key="2">
                         <ItemList data={toolsData} extraText="下载" />
-                        <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />
+                        {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />}
                     </TabPane>
                 </Tabs>
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
-import DocList  from './component/doc-list';
+import DocList from './component/doc-list';
 import InstallList from './component/install-list';
 
 import actionMenuData from '../redux/data/action-menu';
@@ -66,7 +66,7 @@ class Container extends React.Component {
     }
 
     render() {
-        const { actionMenuSelectedIndex, gridLayoutType} = this.props;
+        const { actionMenuSelectedIndex, gridLayoutType } = this.props;
         console.log(this.props);
         return (
             <div className="app-container" data-layout-type={gridLayoutType}>
@@ -75,7 +75,7 @@ class Container extends React.Component {
                 </div>
                 <div className="main-content-area">
                     {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList />}
-                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList/>}
+                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList />}
                 </div>
                 <div className="status-bar-area">
                     <div>
@@ -90,4 +90,4 @@ class Container extends React.Component {
     }
 }
 
-export default connect(state => state,action)(Container); 
+export default connect(state => state, action)(Container); 

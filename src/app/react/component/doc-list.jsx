@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateDocList } from '../../redux/action/index';
 
 import { Pagination } from 'antd';
-import ItemList  from './item-list';
+import ItemList from './item-list';
 
 import docListData from '../../redux/data/doc-list';
 
@@ -38,13 +38,13 @@ class DocList extends React.Component {
 
         let { docList, updateDocList } = this.props,
             { data = [], page = {} } = docList,
-            { pageNo = 1, pageSize = 10, totalRows = 0 } = page;
+            { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = page;
 
         console.log(this.props)
         return (
             <div className="doc-list">
                 <ItemList data={data} extraText="查看" />
-                <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />
+                {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />}
             </div>
         )
     }

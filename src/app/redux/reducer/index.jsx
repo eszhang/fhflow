@@ -38,9 +38,9 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
     switch (action.type) {
         case UPDATE_INSTALL_PROGRESS:
             return Object.assign({}, state, {
-                dev:{
+                dev: {
                     progressIndex: action.payload
-                }        
+                }
             });
         case UPDATE_INSTALL_TOOLS_LIST:
             return Object.assign({}, state, {

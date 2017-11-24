@@ -21,7 +21,7 @@ const actionMemuData = [
         EN: "digital-simulation",
         layoutType: 3
     }, {
-        CN: "文档",
+        CN: "开发文档",
         EN: "environment-doc",
         layoutType: 3
     }, {
