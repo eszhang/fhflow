@@ -2,7 +2,7 @@
 .install-list{    
     padding: 30px;
     background-color: #ECECEC;
-    // text-align: center;
+    
     .dev-wrap{
         padding: 15px;
         background-color: #fff;
@@ -18,10 +18,16 @@
     }
     .item-list{
         text-align: left;
-        .ant-pagination{
-            display: inline-block;
-            margin: 15px auto 0;
-        }
+    }
+    .ant-tabs-tabpane:last-child{
+        text-align: center;
+    }
+    .ant-pagination{
+        display: inline-block;
+        margin: 15px auto 0;
+    }
+    .ant-btn.ant-btn-loading:not(.ant-btn-circle):not(.ant-btn-circle-outline):not(.ant-btn-icon-only){
+        padding-left: 60px;
     }
     
 }

@@ -2,11 +2,15 @@
 import React from 'react';
 import { Card, Col, Row } from 'antd';
 
+import '../style/item-list.scss';
+
 /**
+ * （列表展示）
+ * @export
  * @function ItemList
  */
 
-export function ItemList(props) {
+export default function ItemList(props) {
     const { data = [], extraText = "查看" } = props;
     return (
         <div className="item-list">

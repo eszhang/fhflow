@@ -2,24 +2,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { changeGridLayout, changeActionMenu, updateDocList, updateInstallToolsList } from '../redux/action/index';
+import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
-import DocList  from './container/doc-list';
-// import { InstallList } from './component/install-list';
+import DocList  from './component/doc-list';
+import InstallList from './component/install-list';
 
-import actionMenuData from '../redux/data/actionMenu';
-import installListData from '../redux/data/installList';
+import actionMenuData from '../redux/data/action-menu';
+
+import 'antd/dist/antd.css';
 
 import './style/index.scss';
 import './style/action-menu.scss';
 import './style/status-bar.scss';
 import './style/item-list.scss';
-import './style/install-list.scss';
 
-import 'antd/dist/antd.css';
 
-const { dev: devData, tools: toolsListData } = installListData;
+
+
 
 const statusBarData = [
     {
@@ -46,7 +46,6 @@ const statusBarData = [
     }
 ]
 
-const docPageSize = 9;
 /**
  * @class action-menu
  * @extends {Component}
@@ -59,34 +58,15 @@ class Container extends React.Component {
 
     }
 
-    componentDidMount() {
-
-        const { dispatch } = this.props;
-
-        let toolsIndex = 1,
-            toolsData = toolsListData.slice(0, docPageSize);
-
-        dispatch(updateInstallToolsList(toolsIndex, toolsData));
-    }
-
     handleActionMenuClick = index => {
 
-        const { dispatch } = this.props;
-        dispatch(changeGridLayout(actionMenuData[index].layoutType));
-        dispatch(changeActionMenu(index));
-    }
-
-
-    handleToolsPageChange = (page, pageSize) => {
-
-        let index = page,
-            data = toolsListData.slice((index - 1) * pageSize, index * pageSize);
-        const { dispatch } = this.props;
-        dispatch(updateInstallToolsList(index, data));
+        const { changeActionMenu, changeGridLayout } = this.props;
+        changeGridLayout(actionMenuData[index].layoutType);
+        changeActionMenu(index);
     }
 
     render() {
-        const { dispatch, actionMenuSelectedIndex, gridLayoutType, docList, installList, statusBar } = this.props;
+        const { actionMenuSelectedIndex, gridLayoutType} = this.props;
         console.log(this.props);
         return (
             <div className="app-container" data-layout-type={gridLayoutType}>
@@ -95,7 +75,7 @@ class Container extends React.Component {
                 </div>
                 <div className="main-content-area">
                     {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList />}
-                    {/* {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList data={installList.tools.data} currentIndex={installList.tools.index} pageSize={docPageSize} total={toolsListData.length} onChangeHandler={this.handleToolsPageChange} />} */}
+                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList/>}
                 </div>
                 <div className="status-bar-area">
                     <div>
@@ -110,4 +90,4 @@ class Container extends React.Component {
     }
 }
 
-export default connect(state => state)(Container); 
+export default connect(state => state,action)(Container); 
