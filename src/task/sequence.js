@@ -9,15 +9,16 @@ const CompileHtml = require('./common/html'),
       StartServer = require('./common/startServer').startServer,
       Watch = require('./common/watch'),
       Zip = require('./common/zip'),
+      Ssh = require('./common/ssh'),
       async = require('async');
 
 var chosen = 'dist';
 
     if( chosen === 'dev'){       
-        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj} = require('./task.config.js').devObj;
+        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').devObj;
         dev();
     }else if(chosen === 'dist'){
-        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj} = require('./task.config.js').distObj;
+        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').distObj;
         dist();
     }
 
@@ -108,6 +109,9 @@ function dist(){
                 }
                 next();
             })
+        },
+        function (cb){
+            Ssh(sshObj,cb);
         },
         function (cb){
             Zip(zipObj,cb);

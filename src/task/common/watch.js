@@ -8,9 +8,11 @@ const gulp = require('gulp'),
       CompileImage = require('./image'),
       CompileFont = require('./font'),
       reload = require('./util').reload,
-      {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj} = require('../task.config.js');
+      {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj} = require('../task.config.js').devObj;
+      
 
 module.exports = function(watchObj,cb){
+    
     var watcher = watch(watchObj.watchPath,{ignored: /[\/\\]\./});
     watcher.on('change',function(file){// 修改
         console.log(file + "has been changed");

@@ -4,3 +4,5 @@ build
 oasisl
 .vscode
 .sass-cache
+release
+*.zip
