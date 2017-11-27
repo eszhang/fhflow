@@ -2,12 +2,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import * as reducer from '../reducer/index';
 import thunk from 'redux-thunk';
+import {createLogger} from 'redux-logger';
 
-//创建一个 Redux store 来以存放应用中所有的 state，应用中应有且仅有一个 store。
+// 安装redux-devtools-extension的可视化工具。
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 var store = createStore(
     combineReducers(reducer),
-    applyMiddleware(thunk)
+    composeWithDevTools(applyMiddleware(thunk,createLogger()))
 );
 
 export default store;
