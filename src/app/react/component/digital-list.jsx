@@ -1,7 +1,7 @@
 
 import React from 'react';
-
-import digitalListData from '../../redux/data/digital-list';
+import PropTypes from 'prop-types';
+import { Button, Icon } from 'antd';
 
 import '../style/digital-list.scss';
 
@@ -12,15 +12,29 @@ import '../style/digital-list.scss';
  */
 
 function DigitalList(props) {
-    const { title, content } = props;
+
+    let { title, contents = [], link = { text: "link", href: "#" } } = props.data;
+
     return (
         <div className="digital-list">
-            <h3>{title}</h3>
-            <p>{content}</p>
+            <h2>{title}</h2>
+            {
+                contents.map((m, index) => (
+                    <div key={index}>
+                        <h3>{m.subTitle}</h3>
+                        <p>{m.subContent}</p>
+                    </div>
+                ))
+            }
+            <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
+                {link.text}<Icon type="right" />
+            </Button>
         </div>
     )
 }
 
-export default function (props) {
-    return <DigitalList {...digitalListData} />
+DigitalList.propTypes = {
+    data: PropTypes.object.isRequired
 }
+
+export default DigitalList;

@@ -2,7 +2,6 @@
 /*
  * action类型
  */
-export const CHANGE_GRID_LAYOUT = 'CHANGE_GRID_LAYOUT';
 export const CHANGE_ACTION_MENU = 'CHANGE_ACTION_MENU';
 export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
@@ -12,12 +11,6 @@ export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 /*
  * action 创建函数
  */
-
-//切换布局
-export const changeGridLayout = layoutType => ({
-    type: CHANGE_GRID_LAYOUT,
-    payload: layoutType
-});
 
 //切换主模块
 export const changeActionMenu = index => ({

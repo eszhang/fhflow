@@ -13,16 +13,6 @@ export const actionMenuSelectedIndex = (state = 0, action = {}) => {
     }
 };
 
-//gridLayoutType state
-export const gridLayoutType = (state = 0, action = {}) => {
-    switch (action.type) {
-        case CHANGE_GRID_LAYOUT:
-            return action.payload;
-        default:
-            return state;
-    }
-};
-
 //docList state
 export const docList = (state = {}, action = {}) => {
     switch (action.type) {

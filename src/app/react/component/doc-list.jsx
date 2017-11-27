@@ -1,57 +1,35 @@
 
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { updateDocList } from '../../redux/action/index';
-
+import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 import ItemList from './item-list';
-
-import docListData from '../../redux/data/doc-list';
 
 import '../style/doc-list.scss';
 
 /**
- * （文档列表）
+ * （文档列表展示）
  * @export
- * @class DocList
- * @extends Component
+ * @function DocList
  */
 
-const pageSize = 9;
+function DocList(props) {
 
-class DocList extends React.Component {
+    let { updateHandler } = props,
+        { data = [], page = {} } = props.data,
+        { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = page;
 
-    constructor(props) {
-        super(props);
-    }
+    return (
+        <div className="doc-list">
+            <ItemList data={data} extraText="查看" />
+            {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(pageNo, pageSize) => updateHandler(pageNo, pageSize)} />}
+        </div>
+    )
 
-    componentDidMount() {
-        this.props.updateDocList(docListData, 1, pageSize);
-    }
-
-    handleChange(pageNo, pageSize) {
-        this.props.updateDocList(docListData, pageNo, pageSize);
-    }
-
-    render() {
-
-        let { docList, updateDocList } = this.props,
-            { data = [], page = {} } = docList,
-            { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = page;
-
-        console.log(this.props)
-        return (
-            <div className="doc-list">
-                <ItemList data={data} extraText="查看" />
-                {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(page, pageSize) => this.handleChange(page, pageSize)} />}
-            </div>
-        )
-    }
 }
 
-export default connect(state => ({
-    docList: state.docList
-}), dispatch => ({
-    updateDocList: bindActionCreators(updateDocList, dispatch)
-}))(DocList);
+DocList.propTypes = {
+    data: PropTypes.object.isRequired,
+    updateHandler: PropTypes.func.isRequired
+}
+
+export default DocList;

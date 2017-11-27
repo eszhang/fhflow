@@ -9,13 +9,13 @@ const actionMemuData = [
         EN: "resource-management",
         layoutType: 0
     }, {
-        CN: "开发调试",
-        EN: "environment-debugging",
-        layoutType: 0
-    }, {
         CN: "自定义任务流",
         EN: "expanding-task",
         layoutType: 0
+    }, {
+        CN: "请求代理",
+        EN: "ajax-proxy",
+        layoutType: 3
     }, {
         CN: "数据模拟",
         EN: "digital-simulation",

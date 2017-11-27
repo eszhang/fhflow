@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Row, Col } from 'antd';
 
 import '../style/item-list.scss';
 

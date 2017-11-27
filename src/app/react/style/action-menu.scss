@@ -2,7 +2,7 @@
 .action-menu{
     li{
         padding: 5px 0;
-        $action-menus: resource-management environment-debugging digital-simulation expanding-task environment-doc environment-install;   
+        $action-menus: resource-management ajax-proxy digital-simulation expanding-task environment-doc environment-install;   
         @each $EN in $action-menus {
             &.#{$EN}{
                 a{

@@ -6,11 +6,17 @@
 const installListData = {
     dev: [
         {
-            title: 'NODEJS-INSTALL'
+            title: "START"
+        },
+        {
+            title: "NODEJS-INSTALL"
         }, {
-            title: 'RUBY-INSTALL'
+            title: "RUBY-INSTALL"
         }, {
-            title: 'COMPASS-INSTALL'
+            title: "COMPASS-INSTALL"
+        },
+        {
+            title: "FINISH"
         }
     ],
     tools: [

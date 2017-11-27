@@ -5,25 +5,20 @@ import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
-import Digital from './component/digital-list';
+import ProxyList from './component/proxy-list';
+import DigitalList from './component/digital-list';
 import DocList from './component/doc-list';
 import InstallList from './component/install-list';
 
 import actionMenuData from '../redux/data/action-menu';
+import digitalListData from '../redux/data/digital-list';
+import docListData from '../redux/data/doc-list';
+import installListData from '../redux/data/install-list';
 
 import 'antd/dist/antd.css';
 
 import './style/index.scss';
-import './style/action-menu.scss';
 import './style/status-bar.scss';
-import './style/item-list.scss';
-
-
-const digitalData = {
-    title: "数据模拟",
-    
-}
-
 
 const statusBarData = [
     {
@@ -50,6 +45,8 @@ const statusBarData = [
     }
 ]
 
+const pageSize = 9;
+
 /**
  * @class action-menu
  * @extends {Component}
@@ -59,28 +56,48 @@ class Container extends React.Component {
 
     constructor(props) {
         super(props);
+    }
 
+    componentDidMount() {
+        const { updateDocList, updateInstallToolsList } = this.props;
+        updateDocList(docListData, 1, pageSize);
+        updateInstallToolsList(installListData.tools, 1, pageSize)
     }
 
     handleActionMenuClick = index => {
 
         const { changeActionMenu, changeGridLayout } = this.props;
-        changeGridLayout(actionMenuData[index].layoutType);
+
         changeActionMenu(index);
     }
 
+    handleUpdateToDocList = (pageNo, pageSize) => {
+        this.props.updateDocList(docListData, pageNo, pageSize);
+    }
+
+    handleUpdateToInstallList = (pageNo, pageSize) => {
+        this.props.updateInstallToolsList(installListData.tools, pageNo, pageSize);
+    }
+
+    handleUpdateToInstallProgress = index => {
+        this.props.updateInstallProgress(index);
+    } 
+
     render() {
-        const { actionMenuSelectedIndex, gridLayoutType } = this.props;
+        const { actionMenuSelectedIndex, docList, installList } = this.props;
+        const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
+
         console.log(this.props);
         return (
-            <div className="app-container" data-layout-type={gridLayoutType}>
+            <div className="app-container" data-layout-type={layoutType}>
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {actionMenuData[actionMenuSelectedIndex].EN === "digital-simulation" && <Digital />}
-                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList />}
-                    {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList />}
+                    {EN === "ajax-proxy" && <ProxyList />}
+                    {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
+                    {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
+                    {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress}/>}
                 </div>
                 <div className="status-bar-area">
                     <div>
