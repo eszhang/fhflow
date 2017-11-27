@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { StatusBar } from './component/status-bar';
+import Digital from './component/digital-list';
 import DocList from './component/doc-list';
 import InstallList from './component/install-list';
 
@@ -18,7 +19,10 @@ import './style/status-bar.scss';
 import './style/item-list.scss';
 
 
-
+const digitalData = {
+    title: "数据模拟",
+    
+}
 
 
 const statusBarData = [
@@ -74,6 +78,7 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
+                    {actionMenuData[actionMenuSelectedIndex].EN === "digital-simulation" && <Digital />}
                     {actionMenuData[actionMenuSelectedIndex].EN === "environment-doc" && <DocList />}
                     {actionMenuData[actionMenuSelectedIndex].EN === "environment-install" && <InstallList />}
                 </div>
