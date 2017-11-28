@@ -1,0 +1,28 @@
+.project-list{
+    .add-project{
+        margin: 10px 20px;
+    }
+    li{
+        padding: 0 20px;
+        display: flex;
+        flex-direction: row;
+        color: #adadad;
+            // background-color: #3f3f46;
+        &:hover{
+            background-color: #3f3f46;
+        }
+        &.active{
+            color: #fff;
+            background-color: #42a5f5;
+        }
+    }
+    .anticon-folder{
+        font-size: 24px;
+        line-height: 36px;
+    }
+    .project-info{
+        height: 36px;
+        line-height: 36px;
+        padding-left: 10px;
+    }
+}

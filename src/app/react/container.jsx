@@ -9,6 +9,8 @@ import ProxyList from './component/proxy-list';
 import DigitalList from './component/digital-list';
 import DocList from './component/doc-list';
 import InstallList from './component/install-list';
+import ProjectList from './component/project-list';
+
 
 import actionMenuData from '../redux/data/action-menu';
 import digitalListData from '../redux/data/digital-list';
@@ -69,6 +71,7 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
+                    {EN === "resource-management" && <ProjectList/>}
                     {EN === "ajax-proxy" && <ProxyList />}
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
