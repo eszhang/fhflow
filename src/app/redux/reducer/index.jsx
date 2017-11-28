@@ -1,6 +1,6 @@
 
 import { CHANGE_ACTION_MENU } from '../action/index'
-import { ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, UPDATE_PROXY_LIST } from '../action/index'
+import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
 import { CHANGE_ACTION_PROJECT } from '../action/index'
@@ -16,8 +16,12 @@ export const actionMenuSelectedIndex = (state = 0, action = {}) => {
 };
 
 //proxyList state Immutable.js
-export const proxyList = (state = { data: [], list: {} }, action = {}) => {
+export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
     switch (action.type) {
+        case UPDATE_PROXY_HOST:
+            return Object.assign({}, state, {
+                host: { ...action.payload }
+            })
         case ADD_PROXY_ITEM:
             return Object.assign({}, state, {
                 data: [action.payload, ...state]
@@ -30,9 +34,9 @@ export const proxyList = (state = { data: [], list: {} }, action = {}) => {
             return Object.assign({}, state, {
                 data: [action.payload, ...state]
             })
-        case UPDATE_PROXY_LIST:
+        case SET_PROXY_DATA:
             return Object.assign({}, state, {
-                list: { ...action.payload }
+                data: action.payload.data
             })
         default:
             return state;

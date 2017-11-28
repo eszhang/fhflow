@@ -3,6 +3,7 @@
  * action类型
  */
 export const CHANGE_ACTION_MENU = 'CHANGE_ACTION_MENU';
+export const UPDATE_PROXY_HOST = 'UPDATE_PROXY_HOST';
 export const ADD_PROXY_ITEM = 'ADD_PROXY_ITEM';
 export const UPDATE_PROXY_ITEM = 'UPDATE_PROXY_ITEM';
 export const DELETE_PROXY_ITEM = 'DELETE_PROXY_ITEM';
@@ -26,6 +27,14 @@ export const changeActionMenu = index => ({
     },
 });
 
+//更新本地请求host配置项
+export const updateProxyHost = (data) => ({
+    type: UPDATE_PROXY_HOST,
+    payload: {
+        ...data
+    }
+})
+
 //新增转发代理
 export const addProxyItem = (data) => ({
     type: ADD_PROXY_ITEM,
@@ -39,7 +48,7 @@ export const addProxyItem = (data) => ({
 export const updateProxyItem = (data) => ({
     type: UPDATE_PROXY_ITEM,
     payload: {
-        data
+        ...data
     }
 })
 
@@ -52,20 +61,11 @@ export const deleteProxyItem = (id) => ({
 });
 
 //重置转发代理数据
-export const setProxyData = (id) => ({
+export const setProxyData = (data) => ({
     type: SET_PROXY_DATA,
     payload: {
         data
     }
-});
-
-//更新请求代理列表
-export const updateProxyList = (data, pageNo, pageSize) => ({
-    type: UPDATE_PROXY_LIST,
-    payload: fetchData(data, {
-        pageNo,
-        pageSize
-    })
 });
 
 //更新文档数据列表
