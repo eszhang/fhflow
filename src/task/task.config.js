@@ -124,7 +124,7 @@ var distObj = {
         watchPath: ['oasisl/**/*.*']
     },
     zipObj:{
-        src: ['build/**/*.*'],
+        src: ['release/**/*.*'],
         projectName: 'fh',
         version: '2.0',
         logInfo: 'zip打包完成'
