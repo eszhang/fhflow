@@ -10,26 +10,13 @@ import '../style/project-list.scss';
  * @returns 
  */
 export default function projectList(props) {
-    const { selectedIndex = 0, onClickHandler = function () { } } = props;
-    const data = [];
-
-    for (let i = 0; i < 5; i++) {
-        data.push({
-            key: i,
-            class: 'project-floader',
-            name: `Floader ${i}`,
-            path: `E://test/${i}`,
-        });
-    }
+    const {data= {}, selectedIndex = 0, onClickHandler = function () { } } = props;
     
     return (
         <div className="project-list">
-            <Button type="primary" className="add-project" onClick={() => { window.open("#", "_blank") }}>
-                新增
-            </Button>
             <ul className="project-list-ul">
                 {
-                    data.map((m, index) => (
+                    data.projectListData.map((m, index) => (
                         <li className={m.class + ((selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
                             <Icon type="folder" />
                             <div className="project-info">
@@ -39,6 +26,13 @@ export default function projectList(props) {
                     ))
                 }
             </ul>
+            <div className="project-list-footer">
+                {
+                    data.projectOperateData.map((n, index) => (
+                        <Icon type={n.icon} title={n.title} key={index}/>
+                    ))
+                }
+            </div>
         </div>
     )
 }

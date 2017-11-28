@@ -6,6 +6,7 @@ export const CHANGE_ACTION_MENU = 'CHANGE_ACTION_MENU';
 export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
+export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
 
 
 /*
@@ -44,6 +45,11 @@ export const updateInstallToolsList = (data, pageNo, pageSize) => ({
     })
 });
 
+//切换文件夹
+export const changeActionProject = index => ({
+    type: CHANGE_ACTION_PROJECT,
+    payload: index,
+});
 
 /*==============*/
 

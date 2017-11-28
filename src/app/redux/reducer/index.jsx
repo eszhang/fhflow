@@ -2,6 +2,7 @@
 import { CHANGE_ACTION_MENU, CHANGE_GRID_LAYOUT } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
+import { CHANGE_ACTION_PROJECT } from '../action/index'
 
 //actionMenu state
 export const actionMenuSelectedIndex = (state = 0, action = {}) => {
@@ -36,6 +37,16 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
             return Object.assign({}, state, {
                 tools: { ...action.payload }
             });
+        default:
+            return state;
+    }
+};
+
+//project state
+export const actionProjectSelectedIndex = (state = 0, action = {}) => {
+    switch (action.type) {
+        case CHANGE_ACTION_PROJECT:
+            return action.payload;
         default:
             return state;
     }

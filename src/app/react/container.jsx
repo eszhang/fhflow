@@ -17,6 +17,7 @@ import digitalListData from '../redux/data/digital-list';
 import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
 import statusBarData from '../redux/data/status-bar';
+import projectManageData from '../redux/data/project-list';
 
 import 'antd/dist/antd.css';
 
@@ -49,6 +50,10 @@ class Container extends React.Component {
         changeActionMenu(index);
     }
 
+    handleActionProjectClick = index => {
+        this.props.changeActionProject(index);
+    }
+
     handleUpdateToDocList = (pageNo, pageSize) => {
         this.props.updateDocList(docListData, pageNo, pageSize);
     }
@@ -62,17 +67,18 @@ class Container extends React.Component {
     } 
 
     render() {
-        const { actionMenuSelectedIndex, docList, installList } = this.props;
+        const { actionMenuSelectedIndex, docList, installList, actionProjectSelectedIndex} = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
 
         console.log(this.props);
+        console.log(projectManageData);
         return (
             <div className="app-container" data-layout-type={layoutType}>
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList/>}
+                    {EN === "resource-management" && <ProjectList data={projectManageData} selectedIndex={actionProjectSelectedIndex}  onClickHandler={this.handleActionProjectClick}/>}
                     {EN === "ajax-proxy" && <ProxyList />}
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
