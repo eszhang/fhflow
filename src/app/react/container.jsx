@@ -22,7 +22,6 @@ import projectManageData from '../redux/data/project-list';
 import 'antd/dist/antd.css';
 
 import './style/index.scss';
-import './style/status-bar.scss';
 
 const pageSize = 9;
 
