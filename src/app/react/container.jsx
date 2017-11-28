@@ -14,11 +14,11 @@ import actionMenuData from '../redux/data/action-menu';
 import digitalListData from '../redux/data/digital-list';
 import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
+import statusBarData from '../redux/data/status-bar';
 
 import 'antd/dist/antd.css';
 
 import './style/index.scss';
-import './style/status-bar.scss';
 
 const pageSize = 9;
 

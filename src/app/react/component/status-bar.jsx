@@ -2,9 +2,12 @@
 import React from 'react';
 import Icon from 'antd/lib/icon'
 
+import '../style/status-bar.scss';
+
 /**
- * @class StatusBar
- * @extends {Component}
+ * （状态栏）
+ * @export
+ * @function StatusBar
  */
 
 export function StatusBar(props) {
