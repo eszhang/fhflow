@@ -2,7 +2,14 @@
 .proxy-list{
     padding: 30px;
     background-color: #fff;
+
+    .ant-form{
+        margin-bottom: 10px;
+    }
     .editable-add-btn{
         margin-bottom: 8px;
+    }
+    .editable-row-operations a {
+        margin-right: 8px;
     }
 }

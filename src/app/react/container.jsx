@@ -13,6 +13,7 @@ import ProjectList from './component/project-list';
 
 
 import actionMenuData from '../redux/data/action-menu';
+import proxyListData from '../redux/data/proxy-list';
 import digitalListData from '../redux/data/digital-list';
 import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
@@ -37,7 +38,9 @@ class Container extends React.Component {
     }
 
     componentDidMount() {
-        const { updateDocList, updateInstallToolsList } = this.props;
+        const { updateProxyHost, setProxyData, updateDocList, updateInstallToolsList } = this.props
+        updateProxyHost(proxyListData.host);
+        setProxyData(proxyListData.data);
         updateDocList(docListData, 1, pageSize);
         updateInstallToolsList(installListData.tools, 1, pageSize)
     }
@@ -63,10 +66,10 @@ class Container extends React.Component {
 
     handleUpdateToInstallProgress = index => {
         this.props.updateInstallProgress(index);
-    } 
+    }
 
     render() {
-        const { actionMenuSelectedIndex, docList, installList, actionProjectSelectedIndex} = this.props;
+        const { actionMenuSelectedIndex, proxyList, docList, installList, actionProjectSelectedIndex, updateProxyHost } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
 
         console.log(this.props);
@@ -77,11 +80,11 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList data={projectManageData} selectedIndex={actionProjectSelectedIndex}  onClickHandler={this.handleActionProjectClick}/>}
-                    {EN === "ajax-proxy" && <ProxyList />}
+                    {EN === "resource-management" && <ProjectList data={projectManageData} selectedIndex={actionProjectSelectedIndex} onClickHandler={this.handleActionProjectClick} />}
+                    {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} updateHostHandler={updateProxyHost} />}
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
-                    {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress}/>}
+                    {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />}
                 </div>
                 <div className="status-bar-area">
                     <div>
