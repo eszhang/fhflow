@@ -17,21 +17,24 @@ export default function projectList(props) {
             <ul className="project-list-ul">
                 {
                     data.projectListData.map((m, index) => (
-                        <li className={m.class + ((selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
+                        <li className={m.class + ((selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
                             <Icon type="folder" />
                             <div className="project-info">
-                                <div>{m.name}</div>
+                                <div title={m.name}>{m.name}</div>
+                                {(selectedIndex === index) && <div title={m.path}>{m.path}</div>}
                             </div>
                         </li>
                     ))
                 }
             </ul>
             <div className="project-list-footer">
-                {
-                    data.projectOperateData.map((n, index) => (
-                        <Icon type={n.icon} title={n.title} key={index}/>
-                    ))
-                }
+                    {
+                        data.projectOperateData.map((n, index) => (
+                            <a key={index}>
+                                <Icon type={n.icon} title={n.title} />
+                            </a>
+                        ))
+                    }
             </div>
         </div>
     )

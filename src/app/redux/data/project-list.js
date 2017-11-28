@@ -42,8 +42,17 @@ const projectManageData ={
             key: 0,
             title: '增加项目',
             icon: 'folder-add',
+        },
+        {
+            key: 1,
+            title: '删除项目',
+            icon: 'delete',
+        },
+        {
+            key: 2,
+            title: '打开项目',
+            icon: 'folder-open',
         }
-
     ]
 } 
  
