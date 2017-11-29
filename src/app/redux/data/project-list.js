@@ -37,7 +37,7 @@ const projectManageData ={
             path: 'E://test/ued5'
         }
     ],
-    projectOperateData: [
+    projectLeftOperateData: [
         {
             key: 0,
             title: '增加项目',
@@ -52,6 +52,24 @@ const projectManageData ={
             key: 2,
             title: '打开项目',
             icon: 'folder-open',
+        }
+    ],
+    projectRightOperateData: [
+        {
+            key: 0,
+            name: '开发'
+        },
+        {
+            key: 1,
+            name: '编译'
+        },
+        {
+            key: 2,
+            name: '上传'
+        },
+        {
+            key: 3,
+            name: '打包'
         }
     ]
 } 

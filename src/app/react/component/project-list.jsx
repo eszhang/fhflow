@@ -20,21 +20,32 @@ export default function projectList(props) {
                         <li className={m.class + ((selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
                             <Icon type="folder" />
                             <div className="project-info">
-                                <div title={m.name}>{m.name}</div>
-                                {(selectedIndex === index) && <div title={m.path}>{m.path}</div>}
+                                <div className="folderName" title={m.name}>{m.name}</div>
+                                {(selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
                             </div>
                         </li>
                     ))
                 }
             </ul>
-            <div className="project-list-footer">
+            <div className="project-list-footer clearfix">
+                <div className="plf-left">
                     {
-                        data.projectOperateData.map((n, index) => (
+                        data.projectLeftOperateData.map((n, index) => (
                             <a key={index}>
                                 <Icon type={n.icon} title={n.title} />
                             </a>
                         ))
                     }
+                </div>
+                <div className="plf-right">        
+                     {
+                        data.projectRightOperateData.map((n, index) => (
+                            <a key={index}>
+                                {n.name}
+                            </a>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )

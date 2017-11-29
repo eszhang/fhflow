@@ -20,6 +20,14 @@
                     height: 18px;
                     line-height: 1.2;
                     color: #dfdbdb;
+                    &.folderName{
+                        color: #fff;
+                        font-size: 16px;
+                    }
+                    &.folderPath{
+                        color: #c7c6c6;
+                        font-size: 12px;
+                    }
                 }   
             }
         }
@@ -31,6 +39,7 @@
     .project-info{
         padding-left: 10px;
         >div{
+            font-size: 16px;
             max-width: 220px;
             height: 36px;
             line-height: 36px;
@@ -50,13 +59,25 @@
         height: 22px;
         line-height: 22px;
         background-color: #007acc;
-        >a{
-            color: #f9fcfe;
-            margin-right: 5px;
-            padding: 0 3px;
-            font-size: 16px;
-            &:hover{
-                background-color: #1e8ad2;
+        >div{
+            height: 22px; 
+            >a{
+                color: #f9fcfe;
+                margin-right: 5px;
+                padding: 0 3px;
+                font-size: 16px;
+                &:hover{
+                    background-color: #1e8ad2;
+                }
+            }
+            &.plf-left{
+                float: left;
+            }
+            &.plf-right{
+                float: right;
+                >a{
+                    font-size: 14px;
+                }
             }
         }
     }
