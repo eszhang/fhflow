@@ -55,7 +55,7 @@ export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
 export const docList = (state = {}, action = {}) => {
     switch (action.type) {
         case UPDATE_DOC_LIST:
-            return { ...action.payload };
+            return action.payload
         default:
             return state;
     }
@@ -80,10 +80,14 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 };
 
 //project state
-export const projectList = (state = 0, action = {}) => {
+export const projectList = (state = {status:{}}, action = {}) => {
     switch (action.type) {
         case CHANGE_ACTION_PROJECT:
-            return action.payload;
+            return Object.assign({}, state, {
+                status: {
+                    selectedIndex: action.payload.index
+                }
+            });
         case DEl_ACTION_PROJECT: 
             return action.payload;
         default:

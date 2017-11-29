@@ -73,18 +73,19 @@ export default class projectList extends React.Component {
     }
 
     render() {
-        const {data= {}, selectedIndex = 0, onClickHandler = function () { } } = this.props;
+        const {data= {}, projectList = {} ,onClickHandler = function () { } } = this.props;
+        console.log(projectList);
         // this.state = data;
         return (
             <div className="project-list">
                 <ul className="project-list-ul">
                     {
                         data.projectListData.map((m, index) => (
-                            <li className={m.class + ((selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
+                            <li className={m.class + ((projectList.status.selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
                                 <Icon type="folder" />
                                 <div className="project-info">
                                     <div className="folderName" title={m.name}>{m.name}</div>
-                                    {(selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
+                                    {(projectList.status.selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
                                 </div>
                             </li>
                         ))
@@ -94,7 +95,7 @@ export default class projectList extends React.Component {
                     <div className="plf-left">
                         {
                             data.projectLeftOperateData.map((n, index) => (
-                                <a key={index} onClick={() => this.plfLeftClickHandler(n.type,selectedIndex)}>
+                                <a key={index} onClick={() => this.plfLeftClickHandler(n.type,projectList.status.selectedIndex)}>
                                     <Icon type={n.icon} title={n.title} />
                                 </a>
                             ))

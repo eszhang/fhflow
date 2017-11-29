@@ -103,7 +103,7 @@ export const updateInstallToolsList = (data, pageNo, pageSize) => ({
 //切换文件夹
 export const changeActionProject = index => ({
     type: CHANGE_ACTION_PROJECT,
-    payload: index,
+    payload: {index},
 });
 
 //新增文件夹
