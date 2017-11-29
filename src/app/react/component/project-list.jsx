@@ -4,7 +4,6 @@ import { Button, Icon} from 'antd';
 import '../style/project-list.scss';
 
 
-
 /**
  * 
  * projectList
@@ -33,7 +32,7 @@ export default class projectList extends React.Component {
                 this.add();
                 break;
             case 'del': 
-                this.del(this.props.data.projectListData[selectedIndex]);
+                this.del(selectedIndex);
                 break;
             case 'open': 
 
@@ -48,7 +47,7 @@ export default class projectList extends React.Component {
     }
     
     add = () => {
-        const projectListData = Object.assign([], this.state.projectListData);  
+        const projectListData = this.props.data.data;  
         const newKey = projectListData[projectListData.length - 1].key + 1;
         const targetData = {
             key: newKey,
@@ -56,16 +55,16 @@ export default class projectList extends React.Component {
             name: 'newProject' + newKey,
             path: 'E://test/newProject' + newKey
         };
-        projectListData.push(targetData);  
+        // projectListData.push(targetData);  
         // this.state.projectListData = projectListData;
         // this.setState( { projectListData: projectListData } );
+        const { addProjectHandler } = this.props;
+        addProjectHandler(targetData);
     }
 
-    del = (delProject) => {
-        const obj = Object.assign([], this.state.projectListData);  
-        const targetData = obj.filter(item => delProject.key !== item.key);
-        this.state.projectListData = targetData;
-        this.setState({ projectListData: this.state.projectListData });
+    del = (index) => {
+        const { delProjectHandler } = this.props;
+        delProjectHandler(index);
     }
 
     open = () => {
@@ -73,19 +72,18 @@ export default class projectList extends React.Component {
     }
 
     render() {
-        const {data= {}, projectList = {} ,onClickHandler = function () { } } = this.props;
-        console.log(projectList);
+        const {data= {},onClickHandler = function () { } } = this.props;
         // this.state = data;
         return (
             <div className="project-list">
                 <ul className="project-list-ul">
                     {
-                        data.projectListData.map((m, index) => (
-                            <li className={m.class + ((projectList.status.selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
+                        data.data.map((m, index) => (
+                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
                                 <Icon type="folder" />
                                 <div className="project-info">
                                     <div className="folderName" title={m.name}>{m.name}</div>
-                                    {(projectList.status.selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
+                                    {(data.selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
                                 </div>
                             </li>
                         ))
@@ -94,8 +92,8 @@ export default class projectList extends React.Component {
                 <div className="project-list-footer clearfix" >
                     <div className="plf-left">
                         {
-                            data.projectLeftOperateData.map((n, index) => (
-                                <a key={index} onClick={() => this.plfLeftClickHandler(n.type,projectList.status.selectedIndex)}>
+                            data.leftOperateData.map((n, index) => (
+                                <a key={index} onClick={() => this.plfLeftClickHandler(n.type,data.selectedIndex)}>
                                     <Icon type={n.icon} title={n.title} />
                                 </a>
                             ))
@@ -103,7 +101,7 @@ export default class projectList extends React.Component {
                     </div>
                     <div className="plf-right">        
                         {
-                            data.projectRightOperateData.map((n, index) => (
+                            data.rightOperateData.map((n, index) => (
                                 <a key={index} >
                                     {n.name}
                                 </a>

@@ -4,7 +4,7 @@
  */
 
 const projectManageData ={
-    projectListData : [
+    data : [
         {
             key: 0,
             class: 'project-floader',
@@ -37,7 +37,7 @@ const projectManageData ={
             path: 'E://test/ued5'
         }
     ],
-    projectLeftOperateData: [
+    leftOperateData: [
         {
             key: 0,
             title: '增加项目',
@@ -57,7 +57,7 @@ const projectManageData ={
             type: 'open'
         }
     ],
-    projectRightOperateData: [
+    rightOperateData: [
         {
             key: 0,
             name: '开发',

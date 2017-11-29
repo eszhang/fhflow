@@ -3,7 +3,7 @@ import { CHANGE_ACTION_MENU } from '../action/index'
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
-import { CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT } from '../action/index'
+import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, ADD_ACTION_PROJECT } from '../action/index'
 
 //actionMenu state
 export const actionMenuSelectedIndex = (state = 0, action = {}) => {
@@ -79,17 +79,27 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
     }
 };
 
-//project state
-export const projectList = (state = {status:{}}, action = {}) => {
+//projectList state
+export const projectList = (state = { selectedIndex: 0 ,data: [],leftOperateData: [],rightOperateData: [] }, action = {}) => {
     switch (action.type) {
+        case SET_PROJECT_DATA:
+            return Object.assign({}, state,   
+                    { ...action.payload.data}
+            );
         case CHANGE_ACTION_PROJECT:
-            return Object.assign({}, state, {
-                status: {
+            return Object.assign({}, state, {  
                     selectedIndex: action.payload.index
-                }
             });
         case DEl_ACTION_PROJECT: 
-            return action.payload;
+            return Object.assign({}, state, {
+                data: state.data.filter((value, index) => {
+                    return value.key !== action.payload.index;
+                })
+            })
+        case ADD_ACTION_PROJECT: 
+            return Object.assign({}, state, {
+                data: [...state.data, action.payload.data]
+            })
         default:
             return state;
     }
