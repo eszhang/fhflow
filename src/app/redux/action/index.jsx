@@ -13,6 +13,8 @@ export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
+export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
+export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
 
 
 /*
@@ -98,6 +100,22 @@ export const updateInstallToolsList = (data, pageNo, pageSize) => ({
 export const changeActionProject = index => ({
     type: CHANGE_ACTION_PROJECT,
     payload: index,
+});
+
+//新增文件夹
+export const addProject = index => ({
+    type: ADD_ACTION_PROJECT,
+    payload: {
+        data
+    }
+});
+
+//删除文件夹
+export const delProject = id => ({
+    type: DEl_ACTION_PROJECT,
+    payload: {
+        id
+    }
 });
 
 /*==============*/

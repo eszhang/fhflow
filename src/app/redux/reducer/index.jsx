@@ -3,7 +3,7 @@ import { CHANGE_ACTION_MENU } from '../action/index'
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
-import { CHANGE_ACTION_PROJECT } from '../action/index'
+import { CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT } from '../action/index'
 
 //actionMenu state
 export const actionMenuSelectedIndex = (state = 0, action = {}) => {
@@ -72,9 +72,11 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 };
 
 //project state
-export const actionProjectSelectedIndex = (state = 0, action = {}) => {
+export const projectList = (state = 0, action = {}) => {
     switch (action.type) {
         case CHANGE_ACTION_PROJECT:
+            return action.payload;
+        case DEl_ACTION_PROJECT: 
             return action.payload;
         default:
             return state;
