@@ -36,13 +36,17 @@ export const updateProxyHost = (data) => ({
 })
 
 //新增转发代理
-export const addProxyItem = (data) => ({
-    type: ADD_PROXY_ITEM,
-    payload: {
-        id: Date.now(),
-        ...data
+export const addProxyItem = (data) => {
+    let uniqueID = Date.now();
+    return {
+        type: ADD_PROXY_ITEM,
+        payload: {
+            id: uniqueID,
+            key: uniqueID,
+            ...data
+        }
     }
-})
+}
 
 //修改转发代理
 export const updateProxyItem = (data) => ({

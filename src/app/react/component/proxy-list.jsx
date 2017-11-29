@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { Button, Icon, Table, Input, Popconfirm, Form } from 'antd';
+import { Button, Icon, Table, Input, Popconfirm, Form, message, Modal } from 'antd';
 
 import '../style/proxy-list.scss';
 
@@ -13,18 +13,9 @@ import '../style/proxy-list.scss';
  */
 
 const FormItem = Form.Item;
+const confirm = Modal.confirm;
 
-const data = [];
-
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        ip: `172.16.10.${i}`,
-        port: i,
-        project: `London-${i}`,
-    });
-}
-
+//host 表单
 class IpPortForm extends React.Component {
 
     constructor(props) {
@@ -36,11 +27,12 @@ class IpPortForm extends React.Component {
     }
 
     handleSubmit = (e) => {
-        const { form, updateHander } = this.props;
+        const { form, submitHandler } = this.props;
         e.preventDefault();
         form.validateFields((err, values) => {
             if (!err) {
-                updateHander(values)
+                submitHandler(values);
+                message.success('访问主机名更新成功');
             }
         });
     }
@@ -57,7 +49,7 @@ class IpPortForm extends React.Component {
         const portError = isFieldTouched('port') && getFieldError('port');
         return (
             <Form layout="inline" onSubmit={this.handleSubmit}>
-                <FormItem validateStatus={ipError ? 'error' : ''} help={ipError || ''}>
+                <FormItem validateStatus={ipError ? 'error' : ''} help={ipError || ''} label="ip">
                     {
                         getFieldDecorator('ip', {
                             initialValue: ip,
@@ -65,7 +57,7 @@ class IpPortForm extends React.Component {
                         })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" />)
                     }
                 </FormItem>
-                <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} >
+                <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} label="port">
                     {
                         getFieldDecorator('port', {
                             initialValue: port,
@@ -82,6 +74,59 @@ class IpPortForm extends React.Component {
 }
 
 const WrappedIpPortForm = Form.create()(IpPortForm);
+;
+
+//proxyItem 表单
+class ProxItemForm extends React.Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const { visible, onCancel, onCreate, form } = this.props;
+        const { getFieldDecorator } = form;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 5 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 12 },
+            }
+        }
+        return (
+            <Modal title="新增代理请求" visible={visible} onOk={onCreate} onCancel={onCancel}>
+                <Form>
+                    <FormItem {...formItemLayout} label="ip">
+                        {
+                            getFieldDecorator('ip', {
+                                rules: [{ required: true, message: 'Please input your ip!' }]
+                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" />)
+                        }
+                    </FormItem>
+                    <FormItem  {...formItemLayout} label="port">
+                        {
+                            getFieldDecorator('port', {
+                                rules: [{ required: true, message: 'Please input your port!' }]
+                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="port" />)
+                        }
+                    </FormItem>
+                    <FormItem  {...formItemLayout} label="project">
+                        {
+                            getFieldDecorator('project', {
+                                rules: [{ required: true, message: 'Please input your project!' }]
+                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="project" />)
+                        }
+                    </FormItem>
+                </Form>
+            </Modal>
+        )
+    }
+
+}
+const WrappedProxItemForm = Form.create()(ProxItemForm);
 
 const EditableCell = ({ editable, value, onChange }) => (
     <div>
@@ -122,7 +167,7 @@ export default class ProxyList extends React.Component {
                             editable ?
                                 <span>
                                     <a onClick={() => this.save(record.key)}>保存</a>
-                                    <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
+                                    <Popconfirm title="确认取消 ?" onConfirm={() => this.cancel(record.key)}>
                                         <a>取消</a>
                                     </Popconfirm>
                                 </span>
@@ -134,8 +179,11 @@ export default class ProxyList extends React.Component {
             },
         }];
 
-        this.state = { data };
-        this.cacheData = data.map(item => ({ ...item }));
+        this.cacheData = this.props.data.map(item => ({ ...item }));
+
+        this.state = {
+            modalVisible: false
+        }
 
     }
 
@@ -150,63 +198,102 @@ export default class ProxyList extends React.Component {
     }
 
     handleChange(value, key, column) {
-        const newData = [...this.state.data];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target[column] = value;
-            this.setState({ data: newData });
+            updateProxyItemHandler(newData);
         }
     }
 
     add() {
-
+        this.setState({ modalVisible: true });
     }
 
     edit(key) {
-        const newData = [...this.state.data];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target.editable = true;
-            this.setState({ data: newData });
+            updateProxyItemHandler(newData);
         }
     }
 
     delete(key) {
-        const newData = [...this.state.data];
-        const target = newData.filter(item => key === item.key)[0];
-        if (target) {
-            this.setState({ data: newData.filter(item => item.key !== key) });
-        }
+        let that = this;
+        confirm({
+            title: '您确认删除该条代理请求么？',
+            onOk() {
+                const { data, deleteProxyItemHandler } = that.props;
+                const newData = [...data];
+                const target = newData.filter(item => key === item.key)[0];
+                if (target) {
+                    deleteProxyItemHandler(key);
+                    that.cacheData = newData.map(item => ({ ...item }));
+                    message.success('删除成功');
+                }
+            }
+        });
+
     }
 
     save(key) {
-        const newData = [...this.state.data];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             delete target.editable;
-            this.setState({ data: newData });
+            updateProxyItemHandler(newData);
             this.cacheData = newData.map(item => ({ ...item }));
+            message.success('更新成功');
         }
     }
 
     cancel(key) {
-        const newData = [...this.state.data];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...this.props.data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
             delete target.editable;
-            this.setState({ data: newData });
+            updateProxyItemHandler({ newData });
         }
     }
 
+    handleModalCreate() {
+        const { addProxyItemHandler } = this.props;
+        const form = this.form;
+        form.validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            form.resetFields();
+            addProxyItemHandler(values);
+            this.setState({ modalVisible: false });
+            message.success('添加成功');
+        });
+    }
+
+    handleModalCancel() {
+        this.setState({ modalVisible: false });
+    }
+
+    saveFormRef = (form) => {
+        this.form = form;
+    }
+
     render() {
-        const { host = {}, updateHostHandler } = this.props;
+        const { host = {}, data = [], updateHostHandler } = this.props;
         const { ip, port } = host;
+
         return (
             <div className="proxy-list">
-                <WrappedIpPortForm ip={ip} port={port} updateHander={updateHostHandler} />
-                <Button className="editable-add-btn" onClick={this.handleAdd}>新增</Button>
-                <Table bordered dataSource={this.state.data} columns={this.columns} />
+                <WrappedIpPortForm ip={ip} port={port} submitHandler={updateHostHandler} />
+                <Button className="editable-add-btn" onClick={() => this.add()}>新增</Button>
+                <Table bordered dataSource={data} columns={this.columns} />
+                <WrappedProxItemForm ref={this.saveFormRef} visible={this.state.modalVisible} onCancel={() => this.handleModalCancel()} onCreate={() => this.handleModalCreate()} />
             </div>
         )
     }

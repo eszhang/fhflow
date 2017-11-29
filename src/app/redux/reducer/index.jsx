@@ -15,24 +15,32 @@ export const actionMenuSelectedIndex = (state = 0, action = {}) => {
     }
 };
 
-//proxyList state Immutable.js
+//proxyList state
 export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
     switch (action.type) {
         case UPDATE_PROXY_HOST:
             return Object.assign({}, state, {
-                host: { ...action.payload }
-            })
+                host: action.payload
+            });
         case ADD_PROXY_ITEM:
             return Object.assign({}, state, {
-                data: [action.payload, ...state]
-            })
+                data: [action.payload, ...state.data]
+            });
         case UPDATE_PROXY_ITEM:
             return Object.assign({}, state, {
-                data: [action.payload, ...state]
+                data: state.data.map((value, index) => {
+                    if (value.id === action.payload.id) {
+                        return action.payload
+                    } else {
+                        return value
+                    }
+                })
             })
         case DELETE_PROXY_ITEM:
             return Object.assign({}, state, {
-                data: [action.payload, ...state]
+                data: state.data.filter((value, index) => {
+                    return value.id !== action.payload.id;
+                })
             })
         case SET_PROXY_DATA:
             return Object.assign({}, state, {

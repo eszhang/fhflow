@@ -12,6 +12,7 @@ const proxyListData = {
         let data = [];
         for (let i = 0; i < 46; i++) {
             data.push({
+                id: i,
                 key: i,
                 ip: `172.16.10.${i}`,
                 port: i,
