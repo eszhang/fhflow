@@ -4,7 +4,7 @@
  */
 
 const projectManageData ={
-    projectListData : [
+    data : [
         {
             key: 0,
             class: 'project-floader',
@@ -37,39 +37,26 @@ const projectManageData ={
             path: 'E://test/ued5'
         }
     ],
-    projectLeftOperateData: [
+    rightOperateData: [
         {
             key: 0,
-            title: '增加项目',
-            icon: 'folder-add',
+            name: '开发',
+            type: 'dev'
         },
         {
             key: 1,
-            title: '删除项目',
-            icon: 'delete',
+            name: '编译',
+            type: 'compile'
         },
         {
             key: 2,
-            title: '打开项目',
-            icon: 'folder-open',
-        }
-    ],
-    projectRightOperateData: [
-        {
-            key: 0,
-            name: '开发'
-        },
-        {
-            key: 1,
-            name: '编译'
-        },
-        {
-            key: 2,
-            name: '上传'
+            name: '上传',
+            type: 'upload'
         },
         {
             key: 3,
-            name: '打包'
+            name: '打包',
+            type: 'package'
         }
     ]
 } 

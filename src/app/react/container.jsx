@@ -36,9 +36,15 @@ class Container extends React.Component {
     constructor(props) {
         super(props);
     }
+    componentWillMount(){
+        const { setProjectData } = this.props;
+        setProjectData(projectManageData);
+        // console.log(33333333)
+        // console.log(projectManageData)
+    }
 
     componentDidMount() {
-        const { updateProxyHost, setProxyData, updateDocList, updateInstallToolsList } = this.props
+        const { updateProxyHost, setProxyData, updateDocList, updateInstallToolsList } = this.props;
         updateProxyHost(proxyListData.host);
         setProxyData(proxyListData.data);
         updateDocList(docListData, 1, pageSize);
@@ -69,19 +75,19 @@ class Container extends React.Component {
     }
 
     render() {
-        const { actionMenuSelectedIndex, proxyList, docList, installList, actionProjectSelectedIndex, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
-        const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
 
-        console.log(this.props);
-        console.log(projectManageData);
+        const { actionMenuSelectedIndex, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
+        const { projectList, delProject, addProject, changeActionProject} = this.props;
+        const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-layout-type={layoutType}>
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList data={projectManageData} selectedIndex={actionProjectSelectedIndex} onClickHandler={this.handleActionProjectClick} />}
+                    {EN === "resource-management" && <ProjectList data={projectList} delProjectHandler={delProject}  addProjectHandler={addProject} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
+
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
                     {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />}

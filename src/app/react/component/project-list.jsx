@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, Icon} from 'antd';
+import { Button, Icon, Modal} from 'antd';
+
 import '../style/project-list.scss';
 
+const confirm = Modal.confirm;
 /**
  * 
  * projectList
@@ -9,44 +11,110 @@ import '../style/project-list.scss';
  * @param {any} props 
  * @returns 
  */
-export default function projectList(props) {
-    const {data= {}, selectedIndex = 0, onClickHandler = function () { } } = props;
+// export default function projectList(props) {
+export default class projectList extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    //底部左侧操作区点击事件 
+    /**
+     * 
+     * 
+     * @memberof projectList
+     * @param {type} 操作类型
+     * @param {selectedIndex} 选中的项目
+     */
+    plfLeftClickHandler = (type, data) => {
+        switch(type){
+            case 'add': 
+                this.add();
+                break;
+            case 'del': 
+                this.del(data);
+                break;
+            case 'open': 
+                this.open();
+                break;
+
+        }
+    }
+
+
+    plfRightClickHandler = (e) => {
+       
+    }
     
-    return (
-        <div className="project-list">
-            <ul className="project-list-ul">
-                {
-                    data.projectListData.map((m, index) => (
-                        <li className={m.class + ((selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
-                            <Icon type="folder" />
-                            <div className="project-info">
-                                <div className="folderName" title={m.name}>{m.name}</div>
-                                {(selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
-                            </div>
-                        </li>
-                    ))
-                }
-            </ul>
-            <div className="project-list-footer clearfix">
-                <div className="plf-left">
+    add = () => {
+        const projectListData = this.props.data.data;  
+        const newKey = projectListData[projectListData.length - 1].key + 1;
+        const targetData = {
+            key: newKey,
+            class: 'project-floader',
+            name: 'newProject' + newKey,
+            path: 'E://test/newProject' + newKey
+        };
+        this.props.addProjectHandler(targetData);
+    }
+
+    del = (data) => {
+        var that = this;
+        confirm({
+            title: '您确认删除该项目吗？',
+            onOk() {
+                that.props.delProjectHandler(data.selectedIndex);
+            }
+        });
+    }
+
+    open = () => {
+        alert('打开目标文件夹');
+    }
+
+    render() {
+        const {data= {},onClickHandler = function () { } } = this.props;
+        // this.state = data;
+        return (
+            <div className="project-list">
+                <ul className="project-list-ul">
                     {
-                        data.projectLeftOperateData.map((n, index) => (
-                            <a key={index}>
-                                <Icon type={n.icon} title={n.title} />
-                            </a>
+                        data.data.map((m, index) => (
+                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
+                                <Icon type="folder" />
+                                <div className="project-info">
+                                    <div className="folderName" title={m.name}>{m.name}</div>
+                                    {(data.selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
+                                </div>
+                            </li>
                         ))
                     }
-                </div>
-                <div className="plf-right">        
-                     {
-                        data.projectRightOperateData.map((n, index) => (
-                            <a key={index}>
-                                {n.name}
-                            </a>
-                        ))
-                    }
+                </ul>
+                <div className="project-list-footer clearfix" >
+                    <div className="plf-left">
+                        <a  onClick={() => this.plfLeftClickHandler('add',data)}>
+                            <Icon type="folder-add" title="增加项目" />
+                        </a>
+                        
+                        <a onClick={() => this.plfLeftClickHandler("del",data)}>
+                            <Icon type="delete" title="删除项目" />
+                        </a>
+                        
+                        <a onClick={() => this.plfLeftClickHandler("open",data)}>
+                            <Icon type="folder-open" title="打开项目" />
+                        </a>
+                    </div>
+                    <div className="plf-right">        
+                        {
+                            data.rightOperateData.map((n, index) => (
+                                <a key={index} >
+                                    {n.name}
+                                </a>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
