@@ -37,26 +37,6 @@ const projectManageData ={
             path: 'E://test/ued5'
         }
     ],
-    leftOperateData: [
-        {
-            key: 0,
-            title: '增加项目',
-            icon: 'folder-add',
-            type: 'add'
-        },
-        {
-            key: 1,
-            title: '删除项目',
-            icon: 'delete',
-            type: 'del'
-        },
-        {
-            key: 2,
-            title: '打开项目',
-            icon: 'folder-open',
-            type: 'open'
-        }
-    ],
     rightOperateData: [
         {
             key: 0,

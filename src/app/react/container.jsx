@@ -77,7 +77,7 @@ class Container extends React.Component {
     render() {
 
         const { actionMenuSelectedIndex, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
-        const { projectList, delProject, addProject } = this.props;
+        const { projectList, delProject, addProject, changeActionProject} = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-layout-type={layoutType}>
@@ -85,7 +85,7 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList data={projectList} delProjectHandler={delProject}  addProjectHandler={addProject}onClickHandler={this.handleActionProjectClick} />}
+                    {EN === "resource-management" && <ProjectList data={projectList} delProjectHandler={delProject}  addProjectHandler={addProject} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
 
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}

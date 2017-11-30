@@ -80,7 +80,7 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 };
 
 //projectList state
-export const projectList = (state = { selectedIndex: 0 ,data: [],leftOperateData: [],rightOperateData: [] }, action = {}) => {
+export const projectList = (state = { selectedIndex: 0 ,data: [], rightOperateData: [] }, action = {}) => {
     switch (action.type) {
         case SET_PROJECT_DATA:
             return Object.assign({}, state,   
@@ -93,12 +93,14 @@ export const projectList = (state = { selectedIndex: 0 ,data: [],leftOperateData
         case DEl_ACTION_PROJECT: 
             return Object.assign({}, state, {
                 data: state.data.filter((value, index) => {
-                    return value.key !== action.payload.index;
-                })
+                    return index !== action.payload.index;
+                }),
+                selectedIndex: action.payload.index-1
             })
         case ADD_ACTION_PROJECT: 
             return Object.assign({}, state, {
-                data: [...state.data, action.payload.data]
+                data: [...state.data, action.payload.data],
+                selectedIndex: state.data.length
             })
         default:
             return state;

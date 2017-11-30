@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Icon} from 'antd';
+import { Button, Icon, Modal} from 'antd';
 
 import '../style/project-list.scss';
 
-
+const confirm = Modal.confirm;
 /**
  * 
  * projectList
@@ -26,16 +26,16 @@ export default class projectList extends React.Component {
      * @param {type} 操作类型
      * @param {selectedIndex} 选中的项目
      */
-    plfLeftClickHandler = (type, selectedIndex) => {
+    plfLeftClickHandler = (type, data) => {
         switch(type){
             case 'add': 
                 this.add();
                 break;
             case 'del': 
-                this.del(selectedIndex);
+                this.del(data);
                 break;
             case 'open': 
-
+                this.open();
                 break;
 
         }
@@ -55,16 +55,17 @@ export default class projectList extends React.Component {
             name: 'newProject' + newKey,
             path: 'E://test/newProject' + newKey
         };
-        // projectListData.push(targetData);  
-        // this.state.projectListData = projectListData;
-        // this.setState( { projectListData: projectListData } );
-        const { addProjectHandler } = this.props;
-        addProjectHandler(targetData);
+        this.props.addProjectHandler(targetData);
     }
 
-    del = (index) => {
-        const { delProjectHandler } = this.props;
-        delProjectHandler(index);
+    del = (data) => {
+        var that = this;
+        confirm({
+            title: '您确认删除该项目吗？',
+            onOk() {
+                that.props.delProjectHandler(data.selectedIndex);
+            }
+        });
     }
 
     open = () => {
@@ -91,13 +92,17 @@ export default class projectList extends React.Component {
                 </ul>
                 <div className="project-list-footer clearfix" >
                     <div className="plf-left">
-                        {
-                            data.leftOperateData.map((n, index) => (
-                                <a key={index} onClick={() => this.plfLeftClickHandler(n.type,data.selectedIndex)}>
-                                    <Icon type={n.icon} title={n.title} />
-                                </a>
-                            ))
-                        }
+                        <a  onClick={() => this.plfLeftClickHandler('add',data)}>
+                            <Icon type="folder-add" title="增加项目" />
+                        </a>
+                        
+                        <a onClick={() => this.plfLeftClickHandler("del",data)}>
+                            <Icon type="delete" title="删除项目" />
+                        </a>
+                        
+                        <a onClick={() => this.plfLeftClickHandler("open",data)}>
+                            <Icon type="folder-open" title="打开项目" />
+                        </a>
                     </div>
                     <div className="plf-right">        
                         {
