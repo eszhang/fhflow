@@ -4,6 +4,7 @@ import '../style/action-setting.scss';
 const FormItem = Form.Item;
 const CheckboxGroup  = Checkbox.Group;
 const RadioGroup  = Radio.Group;
+const InputGroup  = Input.Group;
 
 class ActionSettingForm extends React.Component{
     constructor(props) {
@@ -29,7 +30,7 @@ class ActionSettingForm extends React.Component{
         ];
         const radioValue = 1;
         const packageValue = 1;
-
+    const { getFieldDecorator } = this.props.form;
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
                 <FormItem label="工作区路径">
@@ -38,18 +39,40 @@ class ActionSettingForm extends React.Component{
                 <FormItem label="功能">
                     <CheckboxGroup className="functionGroup" options={functionOptions} defaultValue={['Apple']}  />
                 </FormItem>
-                <FormItem label="上传模式配置">
-                    <Input placeholder="服务器地址" size="small" />
-                    <Input placeholder="用户名" size="small" />
-                    <Input placeholder="密码" size="small" />
-                    <Input placeholder="端口" size="small" />
-                    <Input placeholder="远程路径" size="small" />
-                    <Input placeholder="过滤上传文件(支持正则匹配)" size="small" />
-                    <RadioGroup value={radioValue}>
-                        <Radio value={1}>FTP</Radio>
-                        <Radio value={2}>SFTP</Radio>
-                    </RadioGroup>
-                </FormItem>
+                <div className="modulName">上传模式配置</div>
+                <InputGroup size="small" >
+                    <FormItem >
+                        {getFieldDecorator('email', {
+                            rules: [{
+                            type: 'email', message: 'The input is not valid E-mail!',
+                            }, {
+                            required: true, message: 'Please input your E-mail!',
+                            }],
+                        })(
+                        <Input placeholder="服务器地址" size="small" />
+                        )}
+                    </FormItem>
+                    <FormItem >
+                        <Input placeholder="用户名" size="small" />
+                    </FormItem>
+                    <FormItem >
+                        <Input placeholder="密码" type="password" size="small" />
+                    </FormItem>
+                    <FormItem >
+                        <Input placeholder="端口" size="small" />
+                    </FormItem>
+                    <FormItem >
+                        <Input placeholder="远程路径" size="small" />
+                    </FormItem>
+                    <FormItem >
+                        <Input placeholder="过滤上传文件(支持正则匹配)" size="small" />
+                    </FormItem>
+
+                </InputGroup>
+                <RadioGroup value={radioValue}>
+                    <Radio value={1}>FTP</Radio>
+                    <Radio value={2}>SFTP</Radio>
+                </RadioGroup>
                 <FormItem label="打包">
                     <Input placeholder="打包名称" size="small" />
                     <Input placeholder="版本号" size="small" />
