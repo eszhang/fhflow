@@ -15,6 +15,13 @@
 
 <body>
     <div id="root"></div>
+    <script type="text/javascript">
+        //test
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.on('openProject', (event, arg) => {
+            console.log(arg) // prints "pong"
+        })
+    </script>
 </body>
 
 </html>

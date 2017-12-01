@@ -3,7 +3,8 @@
  *  electron menu 菜单定制
  */
 
-const { app, Menu } = require('electron')
+const { app, Menu } = require('electron');
+const action = require('./action');
 
 var template = [
     {
@@ -13,21 +14,20 @@ var template = [
                 label: '新建项目',
                 accelerator: 'CmdOrCtrl+N',
                 click: function (item, focusedWindow) {
+                    action.createProject();
                 }
             },
             {
-                label: '打开项目…',
+                label: '打开项目',
                 accelerator: 'CmdOrCtrl+O',
                 click: function (item, focusedWindow) {
+                    action.openProject();
                 }
             },
             {
                 label: '刷新',
                 accelerator: 'CmdOrCtrl+R',
-                click: function (item, focusedWindow) {
-                    if (focusedWindow)
-                        focusedWindow.reload();
-                }
+                role: 'reload'
             }
         ]
     },
@@ -73,31 +73,31 @@ var template = [
         label: '运行',
         submenu: [
             {
-                label: '执行 开发流程',
+                label: 'Run 开发流程',
                 accelerator: 'CmdOrCtrl+1',
                 click: function (item, focusedWindow) {
-                    runTask('dev');
+                    action.runTask('dev');
                 }
             },
             {
-                label: '执行 生产流程',
+                label: 'Run 生产流程',
                 accelerator: 'CmdOrCtrl+2',
                 click: function (item, focusedWindow) {
-                    runTask('dist');
+                    action.runTask('dist');
                 }
             },
             {
-                label: 'FTP 发布部署',
+                label: 'Ftp 发布部署',
                 accelerator: 'CmdOrCtrl+3',
                 click: function (item, focusedWindow) {
-                    runTask('ftp');
+                    action.runTask('upload');
                 }
             },
             {
-                label: 'Zip 打包',
+                label: 'Pack 项目打包',
                 accelerator: 'CmdOrCtrl+4',
                 click: function (item, focusedWindow) {
-                    runTask('zip');
+                    action.runTask('pack');
                 }
             }
         ]
@@ -106,17 +106,10 @@ var template = [
         label: '项目',
         submenu: [
             {
-                label: '进入当前项目配置',
-                accelerator: 'CmdOrCtrl+/',
-                click: function (item, focusedWindow) {
-                    settingCurrentProject();
-                }
-            },
-            {
-                label: '删除当前选中项目',
+                label: '删除当前项目',
                 accelerator: 'CmdOrCtrl+shift+D',
                 click: function (item, focusedWindow) {
-                    delProject();
+                    action.delProject();
                 }
             }
         ]
@@ -147,21 +140,21 @@ var template = [
         role: 'help',
         submenu: [
             {
-                label: 'WeFlow 使用帮助',
+                label: 'FhFlow 官网',
                 click: function () {
-                    electron.shell.openExternal('https://github.com/weixin/weflow');
+                    action.viewHomeWebsite();
                 }
             },
             {
-                label: 'WeFlow 官网',
+                label: 'FhFlow 使用帮助',
                 click: function () {
-                    electron.shell.openExternal('https://weflow.io');
+                    action.useHelp();
                 }
             },
             {
-                label: '建议 或 反馈…',
+                label: '报告问题',
                 click: function () {
-                    electron.shell.openExternal('https://github.com/weixin/weflow/issues');
+                    action.reportProblems();
                 }
             }
         ]
@@ -169,31 +162,24 @@ var template = [
 ];
 
 if (process.platform === 'darwin') {
-    var name = remote.app.getName();
+    var name = app.getName();
     template.unshift({
         label: name,
         submenu: [
             {
-                label: '关于 WeFlow',
+                label: '关于 FhFlow',
                 click: function (item, focusedWindow) {
-                    showAbout();
+                    action.showAbout();
                 }
             },
             {
                 type: 'separator'
             },
             {
-                label: '偏好设置',
-                accelerator: 'CmdOrCtrl+,',
-                click: function () {
-                    settingFn();
-                }
-            },
-            {
                 label: '检查更新…',
                 accelerator: '',
                 click: function () {
-                    checkForUpdate(true);
+                    action.checkUpdate();
                 }
             },
             {
@@ -201,8 +187,7 @@ if (process.platform === 'darwin') {
             },
             {
                 label: 'Services',
-                role: 'services',
-                submenu: []
+                role: 'services'
             },
             {
                 type: 'separator'
@@ -227,28 +212,25 @@ if (process.platform === 'darwin') {
             {
                 label: '退出',
                 accelerator: 'Command+Q',
-                click: function () {
-                    stopWatch();
-                    remote.app.quit();
-                }
+                role: 'quit'
             }
         ]
     });
 } else if (process.platform === 'win32') {
     let helpItem = template[template.length - 1];
 
-    helpItem.submenu.unshift({
-        label: '检查更新…',
+    helpItem.submenu.push({
+        label: '检查更新',
         accelerator: '',
         click: function () {
-            checkForUpdate(true);
+            action.checkUpdate();
         }
     });
 
-    helpItem.submenu.unshift({
-        label: '关于 WeFlow',
+    helpItem.submenu.push({
+        label: '关于',
         click: function (item, focusedWindow) {
-            showAbout();
+            action.showAbout();
         }
     });
 }
