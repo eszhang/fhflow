@@ -1,0 +1,27 @@
+.action-setting-area{
+    padding: 2px;
+    overflow: auto;
+    .ant-form-item-label{
+        >label{
+            color: #fff;
+            font-size: 14px;
+        }
+    }
+    input{
+        margin-left: 20px;
+        width: calc(100% - 40px);
+    }
+    .functionGroup{
+        padding-left: 20px;
+        color: #fff;
+        >label{
+            display: block;
+        }
+    }
+    .ant-radio-group{
+        padding-left: 20px;
+        span{
+            color: #fff;
+        }
+    }
+}

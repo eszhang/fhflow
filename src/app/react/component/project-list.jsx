@@ -12,7 +12,7 @@ const confirm = Modal.confirm;
  * @returns 
  */
 // export default function projectList(props) {
-export default class projectList extends React.Component {
+export default class ProjectList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ export default class projectList extends React.Component {
     /**
      * 
      * 
-     * @memberof projectList
+     * @memberof ProjectList
      * @param {type} 操作类型
      * @param {selectedIndex} 选中的项目
      */
@@ -80,11 +80,10 @@ export default class projectList extends React.Component {
                 <ul className="project-list-ul">
                     {
                         data.data.map((m, index) => (
-                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")}  onClick={onClickHandler.bind(this, index)} key={index}>
+                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
                                 <Icon type="folder" />
                                 <div className="project-info">
-                                    <div className="folderName" title={m.name}>{m.name}</div>
-                                    {(data.selectedIndex === index) && <div className="folderPath" title={m.path}>{m.path}</div>}
+                                    <div className="folderName" >{m.name}</div>
                                 </div>
                             </li>
                         ))
@@ -103,6 +102,10 @@ export default class projectList extends React.Component {
                         <a onClick={() => this.plfLeftClickHandler("open",data)}>
                             <Icon type="folder-open" title="打开项目" />
                         </a>
+
+                        <a >
+                            <Icon type="setting" title="全局设置" />
+                        </a>
                     </div>
                     <div className="plf-right">        
                         {
@@ -118,3 +121,5 @@ export default class projectList extends React.Component {
         )
     }
 }
+
+
