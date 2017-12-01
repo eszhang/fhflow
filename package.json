@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.config.js",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "electron": "electron src/electron/app.js"
   },
   "keywords": [
     "fhflow",
@@ -44,6 +45,7 @@
     "async": "^2.6.0",
     "browser-sync": "^2.18.13",
     "del": "^3.0.0",
+    "electron": "^1.7.9",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-clean": "^0.3.2",
