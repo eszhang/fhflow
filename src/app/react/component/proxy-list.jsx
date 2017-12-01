@@ -287,12 +287,12 @@ export default class ProxyList extends React.Component {
     render() {
         const { host = {}, data = [], updateHostHandler } = this.props;
         const { ip, port } = host;
-        const pagination = { pageSize: 5 }
+        const pagination = { pageSize: 10 }
         return (
             <div className="proxy-list">
                 <WrappedIpPortForm ip={ip} port={port} submitHandler={updateHostHandler} />
                 <Button className="editable-add-btn" onClick={() => this.add()}>新增</Button>
-                <Table bordered dataSource={data} columns={this.columns} pagination={pagination} />
+                <Table bordered size="small" dataSource={data} columns={this.columns} pagination={pagination} />
                 <WrappedProxItemForm ref={this.saveFormRef} visible={this.state.modalVisible} onCancel={() => this.handleModalCancel()} onCreate={() => this.handleModalCreate()} />
             </div>
         )

@@ -1,24 +1,23 @@
 
 /*
  *  electron app
+ *  暴露全局对象mainWindow
  */
 
-const { electron, app, BrowserWindow } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const url = require('url')
-
-require("./menu");
+const url = require('url');
 
 let mainWindow,
     willClose,
     logo;
 
 
-logo = path.join(__dirname, 'assets/img/WeFlow.png');
+logo = path.join(__dirname, 'assets/img/FhFlow.png');
 
 function createMainWindow() {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({
+
+    mainWindow = global.mainWindow =  new BrowserWindow({
         title: 'Fhflow前端集成开发环境',
         width: 982,
         minHeight: 545,
@@ -26,7 +25,6 @@ function createMainWindow() {
         // icon: logo
     });
 
-    // and load the index.html of the app.
     mainWindow.loadURL('http:127.0.0.1:8080');
 
     mainWindow.on('close', function (event) {
@@ -40,9 +38,9 @@ function createMainWindow() {
         mainWindow = null;
     });
 
-    //Open the DevTools.
     mainWindow.webContents.openDevTools();
 
+    require("./menu");
 
 };
 
