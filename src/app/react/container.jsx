@@ -10,6 +10,7 @@ import DigitalList from './component/digital-list';
 import DocList from './component/doc-list';
 import InstallList from './component/install-list';
 import ProjectList from './component/project-list';
+import ActionSetting from './component/action-setting';
 
 
 import actionMenuData from '../redux/data/action-menu';
@@ -98,6 +99,7 @@ class Container extends React.Component {
                     </div>
                 </div>
                 <div className="action-setting-area">
+                    <ActionSetting />
                 </div>
 
             </div>
