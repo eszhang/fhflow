@@ -21,6 +21,10 @@ let action = {
         console.log('pack ...')
     },
 
+    setProxy: function(config) {
+        console.log('set proxy ...')
+    }
+
 }
 
 module.exports = action;

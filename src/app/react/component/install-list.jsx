@@ -34,23 +34,18 @@ class InstallList extends React.Component {
         this.setState({
             installPending: true
         });
-        let trggerInstall = (index, delay) => {
-            setTimeout(() => {
-                this.props.updateProgressHandler(index);
-            }, delay)
-        };
-        trggerInstall(1, 1500);
-        trggerInstall(2, 2500);
-        trggerInstall(3, 3500);
-        trggerInstall(4, 4500);
-
-        setTimeout(() => {
-            this.setState({
-                installPending: false
-            })
-        }, 5000)
+        this.props.updateProgressHandler(0);
     }
 
+    componentWillReceiveProps(nextProps) {
+        let { devData = [], data } = nextProps,
+            { progressIndex: devProgressIndex = 0 } = data.dev;
+        if (devProgressIndex === devData.length-1) {
+            this.setState({
+                installPending: false
+            });
+        }
+    }
 
     render() {
 
