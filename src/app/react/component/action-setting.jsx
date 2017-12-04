@@ -125,6 +125,12 @@ class SeniorDevelopSetting extends React.Component{
                 <FormItem label="模块设置">
                     <CheckboxGroup options={functionOptions} defaultValue={['module1','module2','module3','module4','module5']}  />
                 </FormItem>
+                <div className="operator">
+                    <Button>开发</Button>
+                    <Button>编译</Button>
+                    <Button>上传</Button>
+                    <Button>打包</Button>
+                </div>
             </Form>
         )
     }
