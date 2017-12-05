@@ -1,5 +1,11 @@
-const gulp = require('gulp'),
-      Copy = require('./util').copy;
-module.exports = function(fontObj,cb){
-    Copy(fontObj,cb);
-}
+
+/**
+ * font 操作
+ */
+
+const copy = require('./copy');
+
+module.exports = function (config = {}, cb) {
+
+    return copy(config, cb)
+} 
