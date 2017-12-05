@@ -2,17 +2,19 @@ const gulp = require('gulp'),
       fileinclude = require('gulp-file-include'),
       reload = require('./util').reload;
 
-module.exports = function(htmlObj,cb){
-    gulp.src(htmlObj.src)
+module.exports = function(config = {},cb){
+    const { src, baseSrc, dest }
+    gulp.src(htmlObj.src,{
+        base: htmlObj.baseSrc
+    })
     .pipe(fileinclude({
         prefix: '@@',
         basepath: '@file'
     }))
     .pipe(gulp.dest(htmlObj.dest))
     .on('end',function(){
-        console.log(htmlObj.logInfo || `拷贝成功`);
-        cb ? cb(): undefined;
-        reload? reload() : undefined;
+        cb && cb();
+        reload && reload();
     });
 }
 

@@ -128,6 +128,13 @@ function dist(path,packageModules,projectName){
         }
     ])
 }
-// CompileHtml();
+
+// var htmlObj = {
+//             src: ['D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/view/hero/**/*.html','D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/view/backflow/**/*.html'],
+//             baseSrc: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/view',
+//             dest: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/build',
+//             logInfo: 'html编译成功'
+//         };
+// CompileHtml(htmlObj);
 module.exports = {dev,dist};
 

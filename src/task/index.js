@@ -23,7 +23,7 @@ let action = {
 
     pack: function (projectPath) {
         console.log('pack ...')
-    }
+    },
 
     setProxy: function(config) {
         console.log('set proxy ...')

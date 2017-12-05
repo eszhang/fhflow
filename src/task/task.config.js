@@ -12,8 +12,8 @@ function getDevObj(projectPath,packageModule,projectName){
     var devObj = {
         htmlObj: {
             src: [projectPath + 'src/view' + addModulePath +'/**/*.html'],
-            dest: projectPath + 'build' + addModulePath,
-            logInfo: 'html编译成功'
+            baseSrc: projectPath + 'src/view',
+            dest: projectPath + 'build'
         },
         compileSassObj: {
             src: projectPath + 'src/scss' + addModulePath +'/**/*.scss',
@@ -160,6 +160,8 @@ function getDistObj(projectPath,packageModule,projectName){
     }
     return distObj;
 }
+
+
 
 module.exports = {getDevObj,getDistObj};
 
