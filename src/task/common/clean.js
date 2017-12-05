@@ -1,8 +1,19 @@
-const gulp = require('gulp'),
-      del = require('del');
-module.exports = function(cleanObj,cb){
-    del(cleanObj.src,{force: true}).then(function(){
-        console.log( cleanObj.logInfo || `删除成功`);
-        cb ? cb(): undefined;
+
+/**
+ * clean 操作
+ */
+
+const del = require('del');
+
+module.exports = function (config = {}, cb) {
+
+    const { src, force = true } = config;
+
+    let stream = del(src, {
+        force: true
+    }).then(function () {
+        cb && cb();
     })
-}
+
+    return stream;
+}   
