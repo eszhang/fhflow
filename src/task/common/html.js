@@ -6,9 +6,9 @@ const fileinclude = require('gulp-file-include');
 
 module.exports = function (config = {}, cb) {
 
-    const { src, baseSrc, dest } = config;
+    const { src, srcBase, dest } = config;
 
-    let stream = gulp.src(src, { base: baseSrc })
+    let stream = gulp.src(src, { base: srcBase })
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file'

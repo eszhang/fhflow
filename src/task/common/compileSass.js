@@ -1,82 +1,31 @@
-const gulp = require('gulp'),
-    plumber = require('gulp-plumber'),
-    sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    sourceMap = require('gulp-sourcemaps'),
-    compass = require('gulp-compass'),
-    minifyCss = require('gulp-clean-css'),
-    reload = require('./util').reload;
+/**
+ * sass 操作
+ */
+const gulp = require('gulp');
+const plumber = require('gulp-plumber');
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const sourceMap = require('gulp-sourcemaps');
+const compass = require('gulp-compass');
+const minifyCss = require('gulp-clean-css');
 
-module.exports = function(compileSassObj,cb){
-    var stream = gulp.src(compileSassObj.src)
+module.exports = function (config, cb) {
 
-    if(compileSassObj.compassSetting){ //compass编译
-        stream = stream.pipe(compass({
-            css: compileSassObj.dest,
-            sass: compileSassObj.srcBase,
-            image: compileSassObj.compassSetting.imageDest,
-            font:  compileSassObj.compassSetting.fontSrc,
-            style: compileSassObj.isCompress ? 'compressed' : 'compact',
-            sourcemap: compileSassObj.isOpenSourceMap ? true : false
+    const { src, srcBase, dest, compassSetting, isCompress, isOpenSourceMap } = config;
+
+    let stream = gulp.src(src)
+        .pipe(compass({
+            css: dest,
+            sass: srcBase,
+            image: compassSetting.imageDest,
+            font: compassSetting.fontSrc,
+            style: isCompress ? 'compressed' : 'compact',
+            sourcemap: isOpenSourceMap ? true : false
         }))
-    }else{ // 非compass
-        // 是否开启sourceMap
-        if(compileSassObj.isOpenSourceMap){
-            stream = stream.pipe(sourceMap.init({loadMaps:true}))
-        }
-        
-        stream = stream.pipe(plumber())
-        .pipe(sass())
-        .pipe(autoprefixer())
-
-        // 设置是否压缩
-        if(compileSassObj.isCompress){
-            stream = stream.pipe(minifyCss({
-                compativility: 'ie8',
-                level: 2
-            }))
-        }
-
-        // 设置sourceMaps生成路径
-        if(compileSassObj.isOpenSourceMap){
-            stream = stream.pipe(sourceMap.write('./maps'))
-        }
-    }
-        stream = stream.pipe(gulp.dest(compileSassObj.dest))
-        .on('end',function(){
-            console.log( compileSassObj.logInfo || `编译成功`);
-            cb ? cb() : undefined;
-            reload ? reload() : undefined;
+        .pipe(gulp.dest(dest))
+        .on('end', function () {
+            cb && cb();
         });
-}
-// module.exports = function(compileSassObj,cb){
-//     var stream = gulp.src(compileSassObj.src);
-
-//     // 是否开启sourceMap
-//     if(compileSassObj.isOpenSourceMap){
-//         stream = stream.pipe(sourceMap.init({loadMaps:true}))
-//     }
     
-//     stream = stream.pipe(plumber())
-//     .pipe(sass())
-//     .pipe(autoprefixer())
-
-//     // 设置是否压缩
-//     if(compileSassObj.isCompress){
-//         stream = stream.pipe(minifyCss({
-//             compativility: 'ie8',
-//             level: 2
-//         }))
-//     }
-
-//     // 设置sourceMaps生成路径
-//     if(compileSassObj.isOpenSourceMap){
-//         stream = stream.pipe(sourceMap.write('./maps'))
-//     }
-
-//     stream = stream.pipe(gulp.dest(compileSassObj.dest))
-//     .on('end',function(){
-//         console.log( compileSassObj.logInfo || `编译成功`);
-//         cb ? cb(): undefined;
-//     });
-// }
+    return stream;
+}

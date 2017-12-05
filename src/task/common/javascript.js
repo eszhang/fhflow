@@ -1,25 +1,30 @@
-const gulp = require('gulp'),
-      uglify = require('gulp-uglify'),
-      rap  = require('./rap.js'),
-      reload = require('./util').reload;
+/**
+ * javascript 操作
+ */
+const gulp = require('gulp');
+const uglify = require('gulp-uglify');
+const rap  = require('./rap.js');
 
-module.exports = function(jsObj,cb){
-    var stream = gulp.src(jsObj.src);
-    if(jsObj.isDelRap){
+module.exports = function(config,cb){
+
+    const { src, srcBase, dest, isDelRap, isMinify } = config;
+
+    let stream = gulp.src(src, { base: srcBase })
+
+    if(isDelRap){
        stream = stream.pipe(rap())
     }
 
-    if(jsObj.isMinify){
+    if(isMinify){
        stream = stream.pipe(uglify())
     }
-    
 
-    stream = stream.pipe(gulp.dest(jsObj.dest))
+    stream = stream.pipe(gulp.dest(dest))
     .on('end',function(){
-        console.log(jsObj.logInfo || `编译js成功`);
-        cb ? cb(): undefined;
-        reload? reload() : undefined;
+        cb && cb();
     });
+
+    return stream;
 }
 
 

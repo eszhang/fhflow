@@ -8,9 +8,9 @@ const readFhflowJson = require('./common/readFhflowJson');
 let action = {
 
     dev: function (projectPath,packageModules) {
-        readFhflowJson(projectPath + '/fhflow.config.json',packageModules,dev)
-        // dev();
+        dev( projectPath + '/fhflow.config.json',packageModules );
         console.log('dev ...')
+        
     },
 
     dist: function (projectPath) {
