@@ -25,6 +25,10 @@ let action = {
         console.log('pack ...')
     }
 
+    setProxy: function(config) {
+        console.log('set proxy ...')
+    }
+
 }
 action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
 module.exports = action;

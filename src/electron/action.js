@@ -3,11 +3,13 @@
  *  electron action 动作
  */
 
-const { app, dialog, shell } = require('electron');
+const { app, dialog, shell, ipcMain } = require('electron');
+const { exec, execSync } = require('child_process');
 const task = require('../task/index');
 
 let mainWindow = global.mainWindow,
     webContents = mainWindow.webContents;
+
 
 let action = {
 
@@ -22,14 +24,14 @@ let action = {
             properties: ['openDirectory']
         });
         if (projectPath && projectPath.length) {
-            webContents.send("openProject",projectPath[0]);
+            webContents.send("openProject", projectPath[0]);
         }
     },
 
     //删除项目
     delProject: function () {
         let projectPath = "";
-        webContents.send("delProject",projectPath);
+        webContents.send("delProject", projectPath);
     },
 
     // 运行任务
@@ -61,7 +63,61 @@ let action = {
     //关于
     showAbout: function () {
         shell.openExternal('https://github.com/eszhang');
+    },
+
+    //更新请求代理
+    setProxy: function (config) {
+
+    },
+
+    //安装环境
+    installEnvironment: function () {
+
+        exec(`"src/electron/bat/node-install.bat" ${process.cwd()}/dev-environment`, {
+            cwd: process.cwd()
+        }, function (err, stdout, stderr) {
+            if (err || stdout.indexOf("i-error") !== -1) {
+                webContents.send("installProgress", 1, 0);
+            } else {
+                webContents.send("installProgress", 1, 0);
+                exec(`"src/electron/bat/compass-install.bat" ${process.cwd()}/dev-environment`, {
+                    cwd: process.cwd()
+                }, function (err, stdout, stderr) {
+                    if (err || stdout.indexOf("i-error") !== -1) {
+                        webContents.send("installProgress", 2, 1);
+                    } else {
+                        webContents.send("installProgress", 2, 0);
+
+                        setTimeout(function () {
+                            webContents.send("installProgress", 3, 0);
+                        }, 1000)
+                    }
+                })
+            }
+        });
+
     }
-}
+};
+
+//== 接收列表
+
+//运行任务
+ipcMain.on("runTask", function (event, taskName) {
+    action.runTask(taskName)
+})
+
+//更新请求代理
+ipcMain.on("setProxy", function (event, config) {
+    action.setProxy(config)
+})
+
+//安装环境
+ipcMain.on("installEnvironment", function (event) {
+    console.log("开始安装...")
+    action.installEnvironment()
+})
+
+
+
 
 module.exports = action;

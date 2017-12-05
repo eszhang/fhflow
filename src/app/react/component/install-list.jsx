@@ -34,45 +34,45 @@ class InstallList extends React.Component {
         this.setState({
             installPending: true
         });
-        let trggerInstall = (index, delay) => {
-            setTimeout(() => {
-                this.props.updateProgressHandler(index);
-            }, delay)
-        };
-        trggerInstall(1, 1500);
-        trggerInstall(2, 2500);
-        trggerInstall(3, 3500);
-        trggerInstall(4, 4500);
-
-        setTimeout(() => {
-            this.setState({
-                installPending: false
-            })
-        }, 5000)
+        this.props.updateProgressHandler(0);
     }
 
+    componentWillReceiveProps(nextProps) {
+        let { devData = [], data } = nextProps,
+            { progressIndex: devProgressIndex, progressStatus: devProgressStatus } = data.dev;
+        if (devProgressIndex === devData.length-1 || devProgressStatus===1) {
+            this.setState({
+                installPending: false
+            });
+        }
+    }
 
     render() {
 
         let { devData = [], data, updateListHandler, updateProgressHandler } = this.props,
             { dev, tools } = data,
-            { progressIndex: devProgressIndex = 0 } = dev,
+            { progressIndex: devProgressIndex = 0,progressStatus: devProgressStatus = 0 } = dev,
             { data: toolsData = [], page: toolsPage = {} } = tools,
             { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = toolsPage;
 
         let { installPending } = this.state;
 
+        let statusMap = {
+            0: "finish",
+            1: "error"
+        }
+        console.log(2222,dev,devProgressStatus)
         return (
             <div className="install-list">
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={<span><Icon type="apple" />开发环境安装</span>} key="1">
+                    <TabPane tab={<span><Icon type="apple" />开发环境检测安装</span>} key="1">
                         <div className="dev-wrap">
-                            <Steps current={devProgressIndex}>
+                            <Steps current={devProgressIndex} status={statusMap[devProgressStatus]}>
                                 {devData.map(m => <Step key={m.title} title={m.title} />)}
                             </Steps>
                             <div className="opt-area">
                                 <Button type="primary" size="large" loading={installPending} onClick={this.enterLoading}>
-                                    INSTALL
+                                    CHECK&INSTALL
                                 </Button>
                             </div>
                         </div>
