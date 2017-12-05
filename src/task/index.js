@@ -1,9 +1,22 @@
-const {dev} = require('./sequence'); 
-const readFhflowJson = require('./common/readFhflowJson'); 
-
+ 
 /*
  *  task 对外接口
  */
+
+const {dev} = require('./sequence'); 
+const readFhflowJson = require('./common/readFhflowJson');
+const path = require('path');
+
+let FHFLOWTASK = {};
+
+const {
+    NAME = 'FhFlow',
+    ROOT = path.join(__dirname,'../'),
+    WORKSPACE = 'FhFlow_workspace',
+    CONFIGNAME = 'FhFLow.config.json',
+    CONFIGPATH = ''
+
+} = FHFLOWTASK;
 
 let action = {
 
@@ -25,6 +38,17 @@ let action = {
         console.log('pack ...')
     },
 
+    // 更新任务配置
+    setTaskModule: function(config){
+
+    },
+
+    // 更新任务配置
+    setTaskConfig: function(proconfig){
+
+    },
+
+    // 更新请求代理
     setProxy: function(config) {
         console.log('set proxy ...')
     }

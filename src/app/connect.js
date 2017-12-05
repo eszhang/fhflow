@@ -43,16 +43,34 @@ ipcRenderer.on('installProgress', (event, step, status) => {
 globalStore.subscribe(
     () => {
         let state = globalStore.getState(),
-            action = window.preAction,       
-            { UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST,ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } = globalAction;
+            action = window.preAction,
+            { UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } = globalAction;
         switch (action.type) {
-
-            //安装环境
-            case UPDATE_INSTALL_PROGRESS:
-                if (action.payload.index === 0)
-                    ipcRenderer.send('installEnvironment');
+            // 更新工作空间
+            case "UPDATEWORKSPACE":
+                ipcRenderer.send('updateWorkSpace');
                 break;
-            //更新请求代理
+            // 更新任务模块
+            case "UPDATETASKMODULE":
+                ipcRenderer.send('updateTaskModule');
+            // 更新任务配置
+            case "UPDATETASKCONFIG":
+                ipcRenderer.send('updateTaskConfig');
+                break;
+            // 自定义任务(dev、dist、upload、pack)
+            case "CUSTOMDEVTASK":
+                ipcRenderer.send('customDevTask');
+                break;
+            case "CUSTOMDISTTASK":
+                ipcRenderer.send('customDevTask');
+                break;
+            case "CUSTOMUPLOADTASK":
+                ipcRenderer.send('customUploadTask');
+                break
+            case "CUSTOMPACKTASK":
+                ipcRenderer.send('customPackTask');
+                break
+            // 更新请求代理
             case UPDATE_PROXY_HOST:
             case ADD_PROXY_ITEM:
             case UPDATE_PROXY_ITEM:
@@ -60,7 +78,11 @@ globalStore.subscribe(
             case SET_PROXY_DATA:
                 ipcRenderer.send('setProxy', state.proxyList);
                 break;
-
+            // 安装环境
+            case UPDATE_INSTALL_PROGRESS:
+                if (action.payload.index === 0)
+                    ipcRenderer.send('installEnvironment');
+                break;
         }
     }
 )

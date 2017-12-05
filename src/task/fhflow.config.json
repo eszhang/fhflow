@@ -1,0 +1,29 @@
+{
+    
+    "supportREM": true,
+    "supportChanged": false,
+    "reversion": false,
+
+    "modules": "ALL",
+    "server": {
+        "host": "localhost",
+        "port": 8089,
+        "liverload": true,
+        "proxy": []
+    },
+    "ftp": {
+        "host": "",
+        "port": "",
+        "user": "",
+        "pass": "",
+        "remotePath": "",
+        "ignoreFileRegExp": "",
+        "ssh": false
+    },
+    "package": {
+        "type": "zip",
+        "version": "0.0.1",
+        "fileRegExp": "${name}-${version}-${time}"
+    }
+
+}
