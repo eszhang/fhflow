@@ -5,6 +5,7 @@
  */
 
 const { app, BrowserWindow } = require('electron');
+const { exec, execSync, spawnSync } = require('child_process');
 const path = require('path');
 const url = require('url');
 
@@ -17,7 +18,7 @@ logo = path.join(__dirname, 'assets/img/FhFlow.png');
 
 function createMainWindow() {
 
-    mainWindow = global.mainWindow =  new BrowserWindow({
+    mainWindow = global.mainWindow = new BrowserWindow({
         title: 'Fhflow前端集成开发环境',
         width: 982,
         minHeight: 545,

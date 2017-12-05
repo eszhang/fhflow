@@ -29,11 +29,12 @@ ipcRenderer.on('delProject', (event, arg) => {
 });
 
 //更新安装进程
-ipcRenderer.on('installProgress', (event, step) => {
+ipcRenderer.on('installProgress', (event, step, status) => {
     globalDispatch({
         type: 'UPDATE_INSTALL_PROGRESS',
         payload: {
-            index: step
+            index: step,
+            status: status
         }
     })
 });

@@ -10,9 +10,8 @@ const installListData = {
         },
         {
             title: "NODEJS-INSTALL"
-        }, {
-            title: "RUBY-INSTALL"
-        }, {
+        },  
+        {
             title: "COMPASS-INSTALL"
         },
         {

@@ -88,7 +88,8 @@ export const updateDocList = (data, pageNo, pageSize) => ({
 export const updateInstallProgress = index => ({
     type: UPDATE_INSTALL_PROGRESS,
     payload: {
-        index
+        index,
+        status
     }
 });
 
