@@ -1,17 +1,24 @@
+/**
+ * startServer 操作
+ */
+
 const bs = require('browser-sync').create();
-let startServer = function(startServerObj,cb){
+
+let startServer = function(config,cb){
+
+    const { srcBase, startPath, port } = config;
+
     bs.init({
         server:{
-            baseDir: startServerObj.baseDir,
+            baseDir: srcBase,
             directory: true
         },
-        startPath: startServerObj.startPath,
-        port: startServerObj.port,
+        startPath: startPath,
+        port: port,
         reloadDelay: 0,
         timestamps: true
     });
-    console.log(startServerObj.logInfo || `服务启动成功`);
-    cb ? cb(): undefined;
+    cb && cb();
 }
 
 module.exports = {bs,startServer}

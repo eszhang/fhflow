@@ -1,19 +1,23 @@
-const gulp = require('gulp'),
-      tmodjs = require('gulp-tmod'),
-      reload = require('./util').reload;
-module.exports  = function(tplObj,cb){
-    gulp.src(tplObj.src)
+/**
+ * tpl 操作
+ */
+const gulp = require('gulp');
+const tmodjs = require('gulp-tmod');
+
+module.exports  = function(config,cb){
+
+    const { src, srcBase, dest, helperJs } = config;
+
+    gulp.src(src)
     .pipe(tmodjs({
-        templateBase: tplObj.basePath,
+        templateBase: srcBase,
         combo: true,
         type: 'amd',
         // output: tplObj.dest,
-        helpers: tplObj.helperJs || ''
+        helpers: helperJs || ''
     }))
-    .pipe(gulp.dest(tplObj.dest))
+    .pipe(gulp.dest(dest))
     .on('end',function(){
-        console.log(tplObj.logInfo || `tpl编译成功`);
-        cb ? cb(): undefined;
-        reload ? reload() : undefined;
+        cb && cb();
     });
 }

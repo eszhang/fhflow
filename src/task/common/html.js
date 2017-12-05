@@ -1,18 +1,23 @@
-const gulp = require('gulp'),
-      fileinclude = require('gulp-file-include'),
-      reload = require('./util').reload;
+/**
+ * html 操作
+ */
+const gulp = require('gulp');
+const fileinclude = require('gulp-file-include');
 
-module.exports = function(htmlObj,cb){
-    gulp.src(htmlObj.src)
-    .pipe(fileinclude({
-        prefix: '@@',
-        basepath: '@file'
-    }))
-    .pipe(gulp.dest(htmlObj.dest))
-    .on('end',function(){
-        console.log(htmlObj.logInfo || `拷贝成功`);
-        cb ? cb(): undefined;
-        reload? reload() : undefined;
-    });
+module.exports = function (config = {}, cb) {
+
+    const { src, srcBase, dest } = config;
+
+    let stream = gulp.src(src, { base: srcBase })
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(gulp.dest(dest))
+        .on('end', function () {
+            cb && cb();
+        });
+
+    return stream;
 }
 

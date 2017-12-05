@@ -1,5 +1,10 @@
-const gulp = require('gulp'),
-      Copy = require('./util').copy;
-module.exports = function(imgObj,cb){
-    Copy(imgObj,cb);
-}
+/**
+ * image 操作
+ */
+
+const copy = require('./copy');
+
+module.exports = function (config = {}, cb) {
+
+    return copy(config, cb)
+} 
