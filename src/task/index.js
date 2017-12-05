@@ -1,5 +1,4 @@
 const {dev} = require('./sequence'); 
-const readFhflowJson = require('./common/readFhflowJson'); 
 
 /*
  *  task 对外接口
@@ -8,7 +7,7 @@ const readFhflowJson = require('./common/readFhflowJson');
 let action = {
 
     dev: function (projectPath,packageModules) {
-        dev( projectPath + '/fhflow.config.json',packageModules );
+        dev( projectPath, packageModules );
         console.log('dev ...')
         
     },

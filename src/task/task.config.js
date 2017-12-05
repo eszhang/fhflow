@@ -3,11 +3,16 @@
  * 
  * @param {any} projectPath 
  * @param {any} packageModule 
- * @param {any} projectName  此处项目名为模块化中项目名称(业务名称)
+ * @param {any} setting 配置文件的内容
  * @returns 
  */
-function getDevObj(projectPath,packageModules,projectName){
-    var projectPath = projectPath + '/',
+function getDevObj(config){
+
+    var { path, packageModules, setting } = config;
+    var projectPath = path + '/';
+
+        // 此处项目名为模块化中项目业务名称.如fk
+    var projectName = setting.businessName,
         dev = {},
         cleanSrcArray = [],
         htmlSrcArray = [],
@@ -16,31 +21,28 @@ function getDevObj(projectPath,packageModules,projectName){
         tplSrcArray = [],
         imageSrcArray = [],
         fontSrcArray = [];
-    for( var i = 0 ; i < packageModules.lenght ; i++ ){
-        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModule[i] ? ( '/' + packageModule[i]) : '' );
 
-        htmlSrcArray.add(projectPath + 'build/assets/*' + modulePathAdd);
-        htmlSrcArray.add(projectPath + 'build/' + modulePathAdd);
-        htmlSrcArray.add(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
-        sassSrcArray.add(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
-        jsSrcArray.add(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
-        tplSrcArray.add(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
-        imageSrcArray.add(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
-        fontSrcArray.add(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
+    // 获取模块化后的源目录
+    for( var i = 0 ; i < packageModules.length ; i++ ){
+        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
+        cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
+        htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
+        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
+        jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
+        tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
+        imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
+        fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
     }
 
-
-
-
-
-    var devObj = {
-        htmlObj: {
+    var dev = {
+        html: {
             src: htmlSrcArray,
             srcBase: projectPath + 'src/view',
             dest: projectPath + 'build',
             logInfo: '编译html成功'
         },
-         compileSassObj: {
+        compileSass: {
             src: sassSrcArray,
             srcBase: projectPath + 'src/scss' ,
             dest: projectPath + 'build/assets/css',
@@ -52,11 +54,11 @@ function getDevObj(projectPath,packageModules,projectName){
             },
             logInfo: '编译sass成功'
         },
-        cleanObj: {
-            src: [projectPath + 'build'],
+        clean: {
+            src: cleanSrcArray,
             logInfo: '删除成功'
         },
-        jsObj: {
+        js: {
             src: jsSrcArray,
             srcBase: projectPath + 'src/js' ,
             dest: projectPath + 'build/assets/js',
@@ -64,7 +66,7 @@ function getDevObj(projectPath,packageModules,projectName){
             isMinify: false,
             logInfo: '编译js成功'
         },
-        tplObj: {
+        tpl: {
             src: tplSrcArray,
             // basePath: 'src/tpl' + addModulePath,
             srcBase: projectPath + 'src/tpl',
@@ -72,30 +74,30 @@ function getDevObj(projectPath,packageModules,projectName){
             helperJs: projectPath + 'src/js/template/helper.js',
             logInfo: 'tpl编译成功'
         },
-        imgObj: {
+        img: {
             src: imageSrcArray,
             srcBase: projectPath + 'src/images',
             dest: projectPath + 'build/assets/images',
             logInfo: '图片处理成功'
         },
-        fontObj: {
+        font: {
             src: fontSrcArray,
             srcBase: projectPath + 'src/fonts',
             dest: projectPath + 'build/assets/fonts',
             logInfo: '字体处理成功'
         },
-        startServerObj: {
+        startServer: {
             srcBase: projectPath + 'build',
             startPath: '',
             port: 8089,
             logInfo: '服务打开成功'
         },
-        watchObj: {
-            baseSrc: projectPath + 'src',
+        watch: {
+            srcBase: 'src',
             watchPath: [projectPath + 'src/**/*.*']
         }
     }
-    return devObj;
+    return dev;
 }
 
 /**

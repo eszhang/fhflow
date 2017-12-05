@@ -1,19 +1,21 @@
-const gulp = require('gulp'),
-      watch = require('gulp-watch'),
-      del = require('del'),
-      CompileHtml = require('./html'),
-      CompileSass = require('./compileSass'),
-      CompileJavaSript = require('./javascript'),
-      CompileTpl = require('./tpl'),
-      CompileImage = require('./image'),
-      CompileFont = require('./font'),
-      reload = require('./util').reload;
+const gulp = require('gulp');
+const watch = require('gulp-watch');
+const del = require('del');
+const CompileHtml = require('./html');
+const CompileSass = require('./compileSass');
+const CompileJavaSript = require('./javascript');
+const CompileTpl = require('./tpl');
+const CompileImage = require('./image');
+const CompileFont = require('./font');
+const reload = require('./util').reload;
       
 
-module.exports = function(watchObj,path,packageModules,cb){
-    const {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj} = require('../task.config.js').getDevObj(path,packageModules);
+module.exports = function(config, devObj, cb){
+
+    const {srcBase, watchPath} = config;
+    const {html, compileSass, clean, js, tpl, img, font} = devObj;
     
-    var watcher = watch(watchObj.watchPath,{ignored: /[\/\\]\./});
+    var watcher = watch(watchPath,{ignored: /[\/\\]\./});
     watcher.on('change',function(file){// 修改
         console.log(file + "has been changed");
         watchHandler('changed', file);
@@ -27,70 +29,70 @@ module.exports = function(watchObj,path,packageModules,cb){
     cb();
 
     function watchHandler(type, file){
-        let target = file.split(watchObj.baseSrc)[1].match(/[\/\\](\w+)[\/\\]/);
+        let target = file.split(srcBase)[1].match(/[\/\\](\w+)[\/\\]/);
         if(target.length && target[1]){
             target = target[1];
         }
         switch(target){
             case 'images': 
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc,'build\\assets')
+                    let tmp = file.replace(srcBase,'build\\assets')
                     del([tmp],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileImage(imgObj);
+                    CompileImage(img);
                 }
                 break;
             case 'js':
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc,'build\\assets')
+                    let tmp = file.replace(srcBase,'build\\assets')
                     del([tmp],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileJavaSript(jsObj);
+                    CompileJavaSript(js);
                 }
                 break;
             case 'scss':
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc + '\\scss','build\\assets\\css').replace(".scss",'.css')
+                    let tmp = file.replace(srcBase + '\\scss','build\\assets\\css').replace(".scss",'.css')
                     let tmp2 = tmp.replace(".css",'.css.map')
                     del([tmp,tmp2],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileSass(compileSassObj);
+                    CompileSass(compileSass);
                 }
                 break;
             case 'view':
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc,'build' );
+                    let tmp = file.replace(srcBase,'build' );
                     del([tmp],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileHtml(htmlObj);
+                    CompileHtml(html);
                 }
                 break;
             case 'tpl':
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc + '\\tpl','build\\assets\\template').replace(".tpl",'.js');
+                    let tmp = file.replace(srcBase + '\\tpl','build\\assets\\template').replace(".tpl",'.js');
                     del([tmp],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileTpl(tplObj);
+                    CompileTpl(tpl);
                 }
                 break;
             case 'font':
                 if(type === 'removed'){
-                    let tmp = file.replace(watchObj.baseSrc,'build\\assets');
+                    let tmp = file.replace(srcBase,'build\\assets');
                     del([tmp],{force:true}).then(function(){
-                        reload ? reload() : undefined;
+                        reload && reload();
                     })
                 }else{
-                    CompileFont(fontObj);
+                    CompileFont(font);
                 }
                 break;
         }
