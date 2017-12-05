@@ -6,7 +6,7 @@
 const { app, Menu } = require('electron');
 const action = require('./action');
 
-var template = [
+let template = [
     {
         label: '文件',
         submenu: [
