@@ -37,13 +37,13 @@ function getDevObj(config){
 
     var dev = {
         html: {
-            src: htmlSrcArray,
+            src: htmlSrcArray.length > 0 ? htmlSrcArray : projectPath + 'src/view/**/*.html',
             srcBase: projectPath + 'src/view',
             dest: projectPath + 'build',
             logInfo: '编译html成功'
         },
         compileSass: {
-            src: sassSrcArray,
+            src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
             srcBase: projectPath + 'src/scss' ,
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
@@ -55,11 +55,11 @@ function getDevObj(config){
             logInfo: '编译sass成功'
         },
         clean: {
-            src: cleanSrcArray,
+            src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
             logInfo: '删除成功'
         },
         js: {
-            src: jsSrcArray,
+            src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
             srcBase: projectPath + 'src/js' ,
             dest: projectPath + 'build/assets/js',
             isDelRap: false,
@@ -67,7 +67,7 @@ function getDevObj(config){
             logInfo: '编译js成功'
         },
         tpl: {
-            src: tplSrcArray,
+            src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',
             // basePath: 'src/tpl' + addModulePath,
             srcBase: projectPath + 'src/tpl',
             dest: projectPath + 'build/assets/template',
@@ -75,13 +75,13 @@ function getDevObj(config){
             logInfo: 'tpl编译成功'
         },
         img: {
-            src: imageSrcArray,
+            src: imageSrcArray.length > 0 ? imageSrcArray : projectPath + 'src/images/**/*.*',
             srcBase: projectPath + 'src/images',
             dest: projectPath + 'build/assets/images',
             logInfo: '图片处理成功'
         },
         font: {
-            src: fontSrcArray,
+            src: fontSrcArray.length > 0 ? fontSrcArray : projectPath + 'src/fonts/**/*.*',
             srcBase: projectPath + 'src/fonts',
             dest: projectPath + 'build/assets/fonts',
             logInfo: '字体处理成功'
@@ -97,6 +97,8 @@ function getDevObj(config){
             watchPath: [projectPath + 'src/**/*.*']
         }
     }
+    console.log(dev.js)
+    console.log(dev.tpl)
     return dev;
 }
 

@@ -53,5 +53,6 @@ let action = {
     }
 
 }
-action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+action.dev('F:/ourResposity/fhflowWorkspace/fk',[]);
 module.exports = action;
