@@ -7,7 +7,7 @@ module.exports  = function(tplObj,cb){
         templateBase: tplObj.basePath,
         combo: true,
         type: 'amd',
-        output: tplObj.dest,
+        // output: tplObj.dest,
         helpers: tplObj.helperJs || ''
     }))
     .pipe(gulp.dest(tplObj.dest))

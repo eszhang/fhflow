@@ -1,3 +1,5 @@
+const {dev} = require('./sequence'); 
+const readFhflowJson = require('./common/readFhflowJson'); 
 
 /*
  *  task 对外接口
@@ -5,7 +7,9 @@
 
 let action = {
 
-    dev: function (projectPath) {
+    dev: function (projectPath,packageModules) {
+        readFhflowJson(projectPath + '/fhflow.config.json',packageModules,dev)
+        // dev();
         console.log('dev ...')
     },
 
@@ -19,8 +23,8 @@ let action = {
 
     pack: function (projectPath) {
         console.log('pack ...')
-    },
+    }
 
 }
-
+action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
 module.exports = action;

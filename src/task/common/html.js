@@ -3,15 +3,16 @@ const gulp = require('gulp'),
       reload = require('./util').reload;
 
 module.exports = function(htmlObj,cb){
-    gulp.src('oasisl/view/hero/backflow/**/*.html')
+    gulp.src(htmlObj.src)
     .pipe(fileinclude({
         prefix: '@@',
         basepath: '@file'
     }))
-    .pipe(gulp.dest('build/hero/backflow'))
+    .pipe(gulp.dest(htmlObj.dest))
     .on('end',function(){
         console.log(htmlObj.logInfo || `拷贝成功`);
         cb ? cb(): undefined;
         reload? reload() : undefined;
     });
 }
+

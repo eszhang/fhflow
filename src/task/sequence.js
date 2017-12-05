@@ -12,24 +12,30 @@ const CompileHtml = require('./common/html'),
       Ssh = require('./common/ssh'),
       async = require('async');
 
-var chosen = 'dist';
 
-    if( chosen === 'dev'){       
-        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').devObj;
-        dev();
-    }else if(chosen === 'dist'){
-        var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').distObj;
-        dist();
+function dev(path,packageModules,projectName){
+    for( var i = 0; i < packageModules.length; i++ ){
+        var isOpenStartServer,
+            isClean;
+        isOpenStartServer = (i === packageModules.length-1 ? true : false);
+        isClean = ( i === 0 ? true : false);
+        singleDev(path,packageModules[i],projectName,isClean,isOpenStartServer);
     }
+    
+}
 
-
-function dev(){
+function singleDev( path, packageModule, projectName, isClean, isOpenStartServer ){
+    var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').getDevObj(path,packageModule,projectName);
     async.series([
         /**
          *  先删除
          */
         function(next){
-            Clean(cleanObj,next);
+            if(isClean){
+                Clean(cleanObj,next);
+            }else{
+                next();
+            }
         },
         function(next){
             /**
@@ -63,15 +69,19 @@ function dev(){
             })
         },
         function (cb){
-            Watch(watchObj,cb);
+            Watch(watchObj,path,packageModule,cb);
         },
         function (cb){
-            StartServer(startServerObj,cb);
+            if(isOpenStartServer){
+                StartServer(startServerObj,cb);
+            }
         }
     ])
 }
 
-function dist(){
+
+function dist(path,packageModules,projectName){
+    var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').getDistObj(path,packageModules,projectName);
     async.series([
         /**
          *  先删除
@@ -118,6 +128,6 @@ function dist(){
         }
     ])
 }
-
-
+// CompileHtml();
+module.exports = {dev,dist};
 

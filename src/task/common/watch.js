@@ -7,11 +7,11 @@ const gulp = require('gulp'),
       CompileTpl = require('./tpl'),
       CompileImage = require('./image'),
       CompileFont = require('./font'),
-      reload = require('./util').reload,
-      {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj} = require('../task.config.js').devObj;
+      reload = require('./util').reload;
       
 
-module.exports = function(watchObj,cb){
+module.exports = function(watchObj,path,packageModules,cb){
+    const {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj} = require('../task.config.js').getDevObj(path,packageModules);
     
     var watcher = watch(watchObj.watchPath,{ignored: /[\/\\]\./});
     watcher.on('change',function(file){// 修改
