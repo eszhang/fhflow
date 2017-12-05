@@ -43,22 +43,34 @@ function singleDev( path, packageModule, projectName, isClean, isOpenStartServer
              */
             async.parallel([
                 function (cb) {
-                    CompileHtml(htmlObj,cb);
+                    CompileHtml(htmlObj,function(){
+                        cb();
+                    });
                 },
                 function (cb){
-                    CompileSass(compileSassObj,cb);
+                    CompileSass(compileSassObj,function(){
+                        cb();
+                    });
                 },
                 function (cb){
-                    CompileJavaSript(jsObj,cb);
+                    CompileJavaSript(jsObj,function(){
+                        cb();
+                    });
                 },
                 function (cb){
-                    CompileTpl(tplObj,cb);
+                    CompileTpl(tplObj,function(){
+                        cb();
+                    });
                 },
                 function (cb){
-                    CompileImage(imgObj,cb);
+                    CompileImage(imgObj,function(){
+                        cb();
+                    });
                 },
                 function (cb){
-                    CompileFont(fontObj,cb);
+                    CompileFont(fontObj,function(){
+                        cb();
+                    });
                 }
                 
             ],function(error){
@@ -69,11 +81,15 @@ function singleDev( path, packageModule, projectName, isClean, isOpenStartServer
             })
         },
         function (cb){
-            Watch(watchObj,path,packageModule,cb);
+            Watch(watchObj,path,packageModule,function(){
+                cb();
+            });
         },
         function (cb){
             if(isOpenStartServer){
-                StartServer(startServerObj,cb);
+                StartServer(startServerObj,function(){
+                    cb();
+                });
             }
         }
     ])
@@ -136,5 +152,6 @@ function dist(path,packageModules,projectName){
 //             logInfo: 'html编译成功'
 //         };
 // CompileHtml(htmlObj);
+
 module.exports = {dev,dist};
 
