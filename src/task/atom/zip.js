@@ -6,7 +6,7 @@ const gulp = require('gulp')
 const zip = require('gulp-zip');
 module.exports = function(config, cb){
 
-    const { projectName, version, srcArray, srcBase, dist } = config;
+    const { projectName, version, srcArray, srcBase, dist, type, fileRegExp, packageModules } = config;
 
     let date = new Date();
         year = date.getFullYear(),
@@ -14,14 +14,15 @@ module.exports = function(config, cb){
         day = date.getDate(),
         month = month > 9 ? month : '0' + month,
         day = day > 9 ? day : '0' + day,
-        name = projectName + '-frontend-install-runtime-' + version + '-as6u3-x86_64-' + year + month + day + '.zip';
+        time = ''+year + month + day;
+
         for(var i = 0; i < srcArray.length; i++){
-            name = i + name;
-            console.log(name)
+            let name = fileRegExp.replace( /\${name}/g, projectName ).replace( /\${moduleName}/g, packageModules[i] )
+                        .replace( /\${version}/g, version ).replace( /\${time}/g, time );
+            name = name + '.' + type;
             gulp.src(srcArray[i], { base: srcBase })
                 .pipe(zip(name))
                 .pipe(gulp.dest(dist)) .on('end',function(){
-                    // cb && cb();
                 });
         }    
     }

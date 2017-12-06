@@ -4,40 +4,38 @@ const rap = require('./rap');
 const sftp = require('gulp-sftp');
 const async = require('async');
 
-function upload2TestJs(sshObj,cb){
-    gulp.src(sshObj.srcBase + '/**/*.js')
+function upload2TestJs(config,cb){
+    gulp.src(config.srcBase + '/**/*.js')
         .pipe(rap())
-        .pipe(gulp.dest(sshObj.destBase)).on('end',function(){
+        .pipe(gulp.dest(config.destBase)).on('end',function(){
             cb ? cb() : undefined;
         });
 }
-function upload2TestOther(sshObj,cb){
-    gulp.src([sshObj.srcBase + '/**/**','!' + sshObj.srcBase + '/**/*.js'])
-        .pipe(gulp.dest(sshObj.destBase)).on('end',function(){
+function upload2TestOther(config,cb){
+    gulp.src([config.srcBase + '/**/**','!' + config.srcBase + '/**/*.js'])
+        .pipe(gulp.dest(config.destBase)).on('end',function(){
             cb ? cb() : undefined;
         });
 }
-function upload2T(sshObj,cb){
+function upload2T(config,cb){
     gulp.src(['release/**/**'])
-        .pipe(sftp(sshObj.sftOpt)).on('end',function(){
+        .pipe(sftp(config.sft)).on('end',function(){
             cb ? cb() : undefined;
         });
 }
-module.exports = function(sshObj,cb){
+module.exports = function(config,cb){
+
     async.series([
-        /**
-         *  先删除
-         */
         function(next){
-            upload2TestOther(sshObj,next);
+            upload2TestOther(config,next);
         },
         
         function (next){
-            upload2TestJs(sshObj,next);
+            upload2TestJs(config,next);
         },
-        // function (cb){
-        //     upload2T(sshObj,cb);
-        // },
+        function (cb){
+            upload2T(config,cb);
+        },
         function(next){
             cb ? cb() : undefined;
         }

@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const extract =require('./atom/extract');
 const copy = require('./atom/copy');
+const {bs} = require('./atom/startServer');
 const { dev, dist, upload, pack } = require('./sequence');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
@@ -28,23 +29,27 @@ let action = {
     },
     
     // 开发
-    dev: function (projectPath, packageModules, callback) {
-        dev(projectPath, packageModules, callback);
+    dev: function (projectPath,  callback) {
+        dev(projectPath,  callback);
     },
 
     // 编译
-    dist: function (projectPath,packageModules, callback) {
-        dist(projectPath, packageModules, callback);
+    dist: function (projectPath, callback) {
+        dist(projectPath, callback);
     },
 
     // 上传
     upload: function (projectPath, callback) {
-        upload(projectPath, packageModules, callback);
+        upload(projectPath, callback);
     },
 
     // 打包
-    pack: function (projectPath, packageModules, callback) {
-        pack(projectPath, packageModules, callback)
+    pack: function (projectPath, callback) {
+        pack(projectPath, callback)
+    },
+
+    close: function(){
+        bs.exit();
     },
     
     // 初次初始化config
@@ -88,20 +93,16 @@ let action = {
 //     console.log(config)
 // });
 action.updateConfig('D:/mygit/fhFlowWorkspaceTest/fhflowTest', {
-    
     "supportREM": true,
     "supportChanged": false,
     "reversion": false,
+    "modules": ["backflow","FBI"],
     "businessName": "hero",
-    "modules": "ALL22",
     "server": {
         "host": "localhost",
-        "port": 3333,
+        "port": 8089,
         "liverload": true,
-        "proxy": [{
-            rule: '/',
-            target: 'http://localhost:8080'
-        }]
+        "proxys": []
     },
     "ftp": {
         "host": "",
@@ -114,16 +115,15 @@ action.updateConfig('D:/mygit/fhFlowWorkspaceTest/fhflowTest', {
     },
     "package": {
         "type": "zip",
-        "version": "0.0.2",
-        "fileRegExp": "${name}-${version}-${time}"
+        "version": "0.0.1",
+        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
     }
-
 });
 
-// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',[]);
-// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',[]);
-// action.upload('E:/eszhang-git/fhflow/test/fk',[]);
-action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-// action.pack('D:/mygit/fhFlowWorkspaceTest/fk',[]);
+// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// action.upload('E:/eszhang-git/fhflow/test/fk');
+action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fk');
 module.exports = action;
 

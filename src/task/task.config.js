@@ -12,7 +12,7 @@ function getDevObj(config){
     var projectPath = path + '/';
 
         // 此处项目名为模块化中项目业务名称.如fk
-    var projectName = setting.businessName,
+    var buinessName = setting.businessName,
         dev = {},
         cleanSrcArray = [],
         htmlSrcArray = [],
@@ -24,7 +24,7 @@ function getDevObj(config){
 
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
-        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
         cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
         cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
@@ -89,9 +89,9 @@ function getDevObj(config){
         startServer: {
             srcBase: projectPath + 'build',
             startPath: '',
-            port: 8089,
-            logInfo: '服务打开成功',
-            proxy: setting.server.proxy
+            port: setting.server.port,
+            proxys: setting.server.proxys,
+            logInfo: '服务打开成功'
         },
         watch: {
             srcBase: 'src',
@@ -112,8 +112,11 @@ function getPackObj(config){
     var { path, packageModules, setting } = config;
     var projectPath = path + '/';
 
+    var tempArray = path.split('/');
+    var projectName = tempArray[tempArray.length-1]
+
         // 此处项目名为模块化中项目业务名称.如fk
-    var projectName = setting.businessName,
+    var buinessName = setting.businessName,
         dev = {},
         cleanSrcArray = [],
         htmlSrcArray = [],
@@ -125,7 +128,7 @@ function getPackObj(config){
 
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
-        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
         cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
         cleanSrcArray.push(projectPath + 'build' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
@@ -140,7 +143,7 @@ function getPackObj(config){
     var packSrcArray = [];
     for( var i = 0 ; i < packageModules.length ; i++ ){
         var src = [];
-        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
         src.push(projectPath + 'build'+ modulePathAdd + '/**/*.*');
         src.push(projectPath + 'build/assets/css'+ modulePathAdd + '/**/*.*');
         src.push(projectPath + 'build/assets/fonts'+ modulePathAdd + '/**/*.*');
@@ -150,7 +153,7 @@ function getPackObj(config){
         packSrcArray.push(src);
     }
 
-    var distObj = {
+    var packObj = {
         clean: {
             src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
             logInfo: '删除成功'
@@ -204,27 +207,32 @@ function getPackObj(config){
             srcArray: packSrcArray,
             srcBase: projectPath + 'build',
             dist: projectPath,
-            projectName: 'fh',
-            version: '2.0',
+            projectName: projectName,
+            packageModules: packageModules,
+            type: setting.package.type,
+            version: setting.package.version,
+            fileRegExp: setting.package.fileRegExp,
             logInfo: 'zip打包完成'
         }
     }
-    return distObj;
+    return packObj;
 }
 
 function getUploadObj( config ){
-    var sshObj = {
+
+    let setting = config;
+    var ssh = {
         srcBase: projectPath + 'build',
         destBase: projectPath + 'release',
-        sftOpt: {
-            host: '172.16.113.125',
-            port: 22,
-            user: 'root',
-            pass: 'hero@125',
-            remotePath: '/home/godway/web/frontend'
+        sft: {
+            host: setting.host,
+            port: setting.port,
+            user: setting.user,
+            pass: setting.pass,
+            remotePath: setting.remotePath
         }
     }
-    return sshObj;
+    return ssh;
 }
 
 module.exports = {getDevObj,getPackObj, getUploadObj};

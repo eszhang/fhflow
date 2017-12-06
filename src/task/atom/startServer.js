@@ -8,7 +8,7 @@ const proxyMiddleware = require('http-proxy-middleware');
 
 let startServer = function (config = {}, cb) {
 
-    const { srcBase, startPath, port, proxy } = config;
+    const { srcBase, startPath, port, proxys } = config;
 
 
     var bsInit = {
@@ -23,10 +23,10 @@ let startServer = function (config = {}, cb) {
     }
 
     // 代理 规则-代理地址(target默认为空不起代理)
-    if( proxy.length > 0 ){
+    if( proxys.length > 0 ){
         var middleware = [];
-        for( var i = 0; i < proxy.length; i++ ){
-            middleware.push(proxyMiddleware(proxy[i].rule, {target: proxy[i].target, changeOrigin: true}))
+        for( var i = 0; i < proxys.length; i++ ){
+            middleware.push(proxyMiddleware(proxys[i].rule, {target: proxys[i].target, changeOrigin: true}))
         }
         bsInit.server.middleware = middleware;
     }

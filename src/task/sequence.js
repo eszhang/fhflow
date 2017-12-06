@@ -23,14 +23,15 @@ let { constantConfig , cacheConfig} = require('./common/index'),
 /*
  * dev task
  */
-function dev( projectPath, packageModules){
+function dev( projectPath){
     
     curConfigPath = path.join(projectPath, CONFIGNAME);
+    let setting = requireUncached(curConfigPath);
 
     let devConfig = getDevObj({
         path: projectPath, 
-        packageModules: packageModules, 
-        setting: requireUncached(curConfigPath)
+        packageModules: setting.modules, 
+        setting: setting
     });
 
     let { clean, sass, font, html, img, js, tpl, startServer, watch} = devConfig;
@@ -104,17 +105,20 @@ function dist(){
 }
 
 function upload(){
-    let sshObj = getUploadObj();
+    let setting = requireUncached(curConfigPath);
+    let sshObj = getUploadObj(setting);
     Ssh(sshObj);
 }
 
-function pack(projectPath,packageModules){
+function pack(projectPath){
     curConfigPath = path.join(projectPath, CONFIGNAME);
+
+    let setting = requireUncached(curConfigPath);
 
     let packConfig = getPackObj({
         path: projectPath, 
-        packageModules: packageModules, 
-        setting: requireUncached(curConfigPath)
+        packageModules: setting.modules, 
+        setting: setting
     });
 
     let { clean, sass, font, html, img, js, tpl, zip} = packConfig;
