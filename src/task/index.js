@@ -43,7 +43,7 @@ let action = {
     },
 
     // 打包
-    pack: function (projectPath, callback) {
+    pack: function (projectPath, packageModules, callback) {
         pack(projectPath, packageModules, callback)
     },
     
@@ -120,5 +120,5 @@ module.exports = action;
 // action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
 // action.dev('D:/mygit/fhFlowWorkspaceTest/fk',[]);
 
-// action.dist('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-action.dist('D:/mygit/fhFlowWorkspaceTest/fk',[]);
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+action.pack('D:/mygit/fhFlowWorkspaceTest/fk',[]);

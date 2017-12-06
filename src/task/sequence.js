@@ -7,6 +7,7 @@ const Clean = require('./atom/clean');
 const JavaSript = require('./atom/javascript');
 const Tpl = require('./atom/tpl');
 const Image = require('./atom/image');
+const Image = require('./atom/image');
 const Font = require('./atom/font');
 const StartServer = require('./atom/startServer').startServer;
 const Watch = require('./atom/watch');
@@ -97,18 +98,23 @@ function dev( projectPath, packageModules){
     ])
 }
 
-function dist(path,packageModules){
-    var setting = readFile({
-        path: path + '/fhflow.config.json'
-    });
-    setting = JSON.parse(setting);
+function dist(){
+    
+}
 
-    var devObj = require('./task.config.js').getDistObj({
-        path: path, 
+function upload(){
+
+}
+
+function pack(path,packageModules){
+    curConfigPath = path.join(projectPath, CONFIGNAME);
+
+    let devConfig = getDevObj({
+        path: projectPath, 
         packageModules: packageModules, 
-        setting: setting
+        setting: requireUncached(curConfigPath)
     });
-    var { clean, sass, font, html, img, js, tpl, zip} = devObj;
+    let { clean, sass, font, html, img, js, tpl, zip} = devObj;
 
     async.series([
         /*
@@ -152,14 +158,6 @@ function dist(path,packageModules){
             Zip(zip,cb);
         }
     ])
-}
-
-function upload(){
-
-}
-
-function pack(){
-
 }
 
 module.exports = {dev,dist,upload,pack};
