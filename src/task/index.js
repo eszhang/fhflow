@@ -17,29 +17,8 @@ let { constantConfig , cacheConfig} = require('./common/index'),
 
 let action = {
     
-    // 新建项目（自动生成脚手架）
-    createProject: function(projectPath, callback){
-        
-        let workspace = path.dirname(projectPath);
-        // 先判断工作区是否存在
-        if(isDirExist(workspace)){
-            try {
-                fs.mkdirSync(path.join(workspace));
-            } catch (err) {
-                throw new Error(err);
-            }
-        }
-        // 创建项目目录
-        if (Common.dirExist(projectPath)) {
-            throw new Error('project already exists');
-        } else {
-            try {
-                fs.mkdirSync(path.join(projectPath));
-            } catch (err) {
-                throw new Error(err);
-            }
-        } 
-        //拷贝开发规范脚手架
+    // 生成脚手架
+    copyProjectExample: function(projectPath, callback){
         extract({
             src: TEMPLAGE_PROJECT,
             dest: projectPath
@@ -87,8 +66,6 @@ let action = {
 
     // 更新config 全量
     updateConfig: function (projectPath, config, callback) {
-
-
         fs.writeFile(curConfigPath, JSON.stringify(config, null, 4), function (err) {
             if (err) {
                 throw new Error(err);
@@ -101,6 +78,9 @@ let action = {
 
 
 //test
+action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
+    console.log("create project success....")
+});
 action.initConfig('E:/eszhang-git/fhflow/test',function(config){
     console.log(config)
 });
