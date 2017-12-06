@@ -2,7 +2,7 @@
 /**
  * 
  * @param {any} projectPath 
- * @param {any} packageModule 
+ * @param {any} packageModules 
  * @param {any} setting 配置文件的内容
  * @returns 
  */
@@ -36,6 +36,10 @@ function getDevObj(config){
     }
 
     var dev = {
+        clean: {
+            src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
+            logInfo: '删除成功'
+        },
         html: {
             src: htmlSrcArray.length > 0 ? htmlSrcArray : projectPath + 'src/view/**/*.html',
             srcBase: projectPath + 'src/view',
@@ -53,10 +57,6 @@ function getDevObj(config){
                 fontSrc: projectPath + 'src/fonts',
             },
             logInfo: '编译sass成功'
-        },
-        clean: {
-            src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
-            logInfo: '删除成功'
         },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
@@ -90,7 +90,12 @@ function getDevObj(config){
             srcBase: projectPath + 'build',
             startPath: '',
             port: 8089,
-            logInfo: '服务打开成功'
+            logInfo: '服务打开成功',
+            proxy: {
+                rule: '/',
+                target: '',
+                // target: 'http://localhost:8080',
+            }
         },
         watch: {
             srcBase: 'src',
@@ -103,22 +108,51 @@ function getDevObj(config){
 /**
  * 
  * @param {any} projectPath 
- * @param {any} packageModule 
- * @param {any} projectName  此处项目名为模块化中项目名称
+ * @param {any} packageModules 
+ * @param {any} setting 配置文件的内容
  * @returns 
  */
-function getDistObj(projectPath,packageModule,projectName){
-    var addModulePath = ( projectName ? ( '/' + projectName) : '' ) + ( packageModule ? ( '/' + packageModule) : '' );
-    projectPath = projectPath + '/';
+function getDistObj(config){
+    var { path, packageModules, setting } = config;
+    var projectPath = path + '/';
+
+        // 此处项目名为模块化中项目业务名称.如fk
+    var projectName = setting.businessName,
+        dev = {},
+        cleanSrcArray = [],
+        htmlSrcArray = [],
+        sassSrcArray = [],
+        jsSrcArray = [],
+        tplSrcArray = [],
+        imageSrcArray = [],
+        fontSrcArray = [];
+
+    // 获取模块化后的源目录
+    for( var i = 0 ; i < packageModules.length ; i++ ){
+        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
+        cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
+        htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
+        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
+        jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
+        tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
+        imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
+        fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
+    }
     var distObj = {
-        htmlObj: {
-            src: [projectPath + 'src/view' + addModulePath +'/**/*.*'],
-            dest: projectPath + 'build' + addModulePath,
-            logInfo: 'html编译成功'
+        clean: {
+            src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
+            logInfo: '删除成功'
         },
-        compileSassObj: {
-            src: [projectPath + 'src/scss' + addModulePath +'/**/*.scss'],
-            srcBase: projectPath + 'src/scss' + addModulePath ,
+        html: {
+            src: htmlSrcArray.length > 0 ? htmlSrcArray : projectPath + 'src/view/**/*.html',
+            srcBase: projectPath + 'src/view',
+            dest: projectPath + 'build',
+            logInfo: '编译html成功'
+        },
+        sass: {
+            src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
+            srcBase: projectPath + 'src/scss' ,
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
             isCompress: false,
@@ -128,67 +162,58 @@ function getDistObj(projectPath,packageModule,projectName){
             },
             logInfo: '编译sass成功'
         },
-        cleanObj: {
-            src: [projectPath + 'build'],
-            logInfo: '删除成功'
-        },
-        jsObj: {
-            src: [projectPath + 'src/js' + addModulePath +'/**/*.js'],
-            dest: projectPath + 'build/assets/js' + addModulePath,
-            isDelRap: false,
-            isMinify: false,
+        js: {
+            src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
+            srcBase: projectPath + 'src/js' ,
+            dest: projectPath + 'build/assets/js',
+            isDelRap: true,
+            isMinify: true,
             logInfo: '编译js成功'
         },
-        tplObj: {
-            src: projectPath + 'src/tpl' + addModulePath +'/**/*.tpl',
-            basePath: 'src/tpl' + addModulePath,
-            dest: projectPath + 'build/assets/template' + addModulePath,
+        tpl: {
+            src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',
+            srcBase: projectPath + 'src/tpl',
+            dest: projectPath + 'build/assets/template',
             helperJs: projectPath + 'src/js/template/helper.js',
             logInfo: 'tpl编译成功'
         },
-        imgObj: {
-            src: [projectPath + 'src/images' + addModulePath +'/**/*.*'],
-            dest: projectPath + 'build/assets/images' + addModulePath,
+        img: {
+            src: imageSrcArray.length > 0 ? imageSrcArray : projectPath + 'src/images/**/*.*',
+            srcBase: projectPath + 'src/images',
+            dest: projectPath + 'build/assets/images',
             logInfo: '图片处理成功'
         },
-        fontObj: {
-            src: [projectPath + 'src/fonts' + addModulePath + '/**/*.*'],
-            dest: projectPath + 'build/assets/fonts' + addModulePath,
+        font: {
+            src: fontSrcArray.length > 0 ? fontSrcArray : projectPath + 'src/fonts/**/*.*',
+            srcBase: projectPath + 'src/fonts',
+            dest: projectPath + 'build/assets/fonts',
             logInfo: '字体处理成功'
         },
-        startServerObj: {
-            baseDir: projectPath + 'build',
-            startPath: addModulePath + '/index.html',
-            port: 8089,
-            logInfo: '服务打开成功'
-        },
-        watchObj: {
-            baseSrc: projectPath + 'src',
-            watchPath: [projectPath + 'src/**/*.*']
-        },
-        zipObj:{
-            src: [projectPath + 'release/**/*.*'],
+        zip:{
+            src: [projectPath + 'build/**/*.*'],
+            dist: projectPath,
             projectName: 'fh',
             version: '2.0',
             logInfo: 'zip打包完成'
-        },
-        sshObj: {
-            srcBase: projectPath + 'build',
-            destBase: projectPath + 'release',
-            sftOpt: {
-                host: '172.16.113.125',
-                port: 22,
-                user: 'root',
-                pass: 'hero@125',
-                remotePath: '/home/godway/web/frontend'
-            }
-
         }
     }
     return distObj;
 }
 
-
+function getUploadObj( config ){
+    var sshObj = {
+        srcBase: projectPath + 'build',
+        destBase: projectPath + 'release',
+        sftOpt: {
+            host: '172.16.113.125',
+            port: 22,
+            user: 'root',
+            pass: 'hero@125',
+            remotePath: '/home/godway/web/frontend'
+        }
+    }
+    return sshObj;
+}
 
 module.exports = {getDevObj,getDistObj};
 

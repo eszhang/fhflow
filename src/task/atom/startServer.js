@@ -4,12 +4,14 @@
  */
 
 const bs = require('browser-sync').create();
+const proxyMiddleware = require('http-proxy-middleware');
 
 let startServer = function (config = {}, cb) {
 
-    const { srcBase, startPath, port } = config;
+    const { srcBase, startPath, port, proxy } = config;
 
-    bs.init({
+
+    var bsInit = {
         server: {
             baseDir: srcBase,
             directory: true
@@ -18,7 +20,16 @@ let startServer = function (config = {}, cb) {
         port: port,
         reloadDelay: 0,
         timestamps: true
-    });
+    }
+
+    // 代理 规则-代理地址(target默认为空不起代理)
+    if( proxy.target !== '' ){
+        var middleware = proxyMiddleware(proxy.rule, {target: proxy.target, changeOrigin: true});
+        bsInit.server.middleware = middleware;
+    }
+
+    bs.init(bsInit);
+
     cb && cb();
 }
 
