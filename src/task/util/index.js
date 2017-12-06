@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 
-export isFileExist => (filePath) {
+function isFileExist(filePath) {
     try {
         var stat = fs.statSync(filePath);
         if (stat.isFile()) {
@@ -22,7 +22,7 @@ export isFileExist => (filePath) {
     }
 }
 
-export isDirExist => (dirPath) {
+function isDirExist(dirPath) {
     try {
         var stat = fs.statSync(dirPath);
         if (stat.isDirectory()) {
@@ -37,4 +37,9 @@ export isDirExist => (dirPath) {
             throw new Error(err);
         }
     }
+}
+
+module.exports = {
+    isFileExist,
+    isDirExist
 }
