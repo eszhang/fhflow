@@ -1,11 +1,11 @@
 
-const CompileHtml = require('./common/html');
+const Html = require('./common/html');
 const Sass = require('./common/sass');
 const Clean = require('./common/clean');
-const CompileJavaSript = require('./common/javascript');
-const CompileTpl = require('./common/tpl');
-const CompileImage = require('./common/image');
-const CompileFont = require('./common/font');
+const JavaSript = require('./common/javascript');
+const Tpl = require('./common/tpl');
+const Image = require('./common/image');
+const Font = require('./common/font');
 const StartServer = require('./common/startServer').startServer;
 const Watch = require('./common/watch');
 const Zip = require('./common/zip');
@@ -38,7 +38,7 @@ function dev( path, packageModules){
              */
             async.parallel([
                 function (cb) {
-                    CompileHtml(html,function(){
+                    Html(html,function(){
                         cb();
                     });
                 },
@@ -48,22 +48,22 @@ function dev( path, packageModules){
                     });
                 },
                 function (cb){
-                    CompileJavaSript(js,function(){
+                    JavaSript(js,function(){
                         cb();
                     });
                 },
                 function (cb){
-                    CompileTpl(tpl,function(){
+                    Tpl(tpl,function(){
                         cb();
                     });
                 },
                 function (cb){
-                    CompileImage(img,function(){
+                    Image(img,function(){
                         cb();
                     });
                 },
                 function (cb){
-                    CompileFont(font,function(){
+                    Font(font,function(){
                         cb();
                     });
                 }
@@ -89,14 +89,24 @@ function dev( path, packageModules){
 }
 
 
-function dist(path,packageModules,projectName){
-    var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').getDistObj(path,packageModules,projectName);
+function dist(path,packageModules){
+    var setting = readFile({
+        path: path + '/fhflow.config.json'
+    });
+    setting = JSON.parse(setting);
+
+    var devObj = require('./task.config.js').getDistObj({
+        path: path, 
+        packageModules: packageModules, 
+        setting: setting
+    });
+    var { clean, sass, font, html, img, js, tpl, zip} = devObj;
     async.series([
         /**
          *  先删除
          */
         function(next){
-            Clean(cleanObj,next);
+            Clean(clean,next);
         },
         function(next){
             /**
@@ -104,22 +114,22 @@ function dist(path,packageModules,projectName){
              */
             async.parallel([
                 function (cb) {
-                    CompileHtml(htmlObj,cb);
+                    Html(html,cb);
                 },
                 function (cb){
-                    CompileSass(compileSassObj,cb);
+                    Sass(sass,cb);
                 },
                 function (cb){
-                    CompileJavaSript(jsObj,cb);
+                    JavaSript(js,cb);
                 },
                 function (cb){
-                    CompileTpl(tplObj,cb);
+                    Tpl(tpl,cb);
                 },
                 function (cb){
-                    CompileImage(imgObj,cb);
+                    Image(img,cb);
                 },
                 function (cb){
-                    CompileFont(fontObj,cb);
+                    Font(font,cb);
                 }
                 
             ],function(error){
@@ -130,10 +140,7 @@ function dist(path,packageModules,projectName){
             })
         },
         function (cb){
-            Ssh(sshObj,cb);
-        },
-        function (cb){
-            Zip(zipObj,cb);
+            Zip(zip,cb);
         }
     ])
 }

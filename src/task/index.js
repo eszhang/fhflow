@@ -3,7 +3,7 @@
  *  task 对外接口
  */
 
-const {dev} = require('./sequence'); 
+const {dev,dist} = require('./sequence'); 
 const path = require('path');
 
 let FHFLOWTASK = {};
@@ -25,7 +25,8 @@ let action = {
         
     },
 
-    dist: function (projectPath) {
+    dist: function (projectPath,packageModules) {
+        dist( projectPath, packageModules );
         console.log('dist ...')
     },
 
@@ -54,5 +55,8 @@ let action = {
 
 }
 // action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-action.dev('D:/mygit/fhFlowWorkspaceTest/fk',[]);
+// action.dev('D:/mygit/fhFlowWorkspaceTest/fk',[]);
+
+// action.dist('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+action.dist('D:/mygit/fhFlowWorkspaceTest/fk',[]);
 module.exports = action;
