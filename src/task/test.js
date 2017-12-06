@@ -25,6 +25,7 @@ const CompileHtml = require('./common/html'),
 //         };
 // CompileHtml(htmlObj);
 
+
 // var javaObj = {
 //     src: ['D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/js/hero/FBI/**/*.js','D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/js/hero/backflow/**/*.js'],
 //     srcBase: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/js',
@@ -45,13 +46,13 @@ const CompileHtml = require('./common/html'),
 // };
 // CompileTpl(tplObj);
 
-var imageObj = {
-    src: ['D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images/hero/FBI/**/*.*','D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images/backflow/**/*.*'],
-    srcBase: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images',
-    dest: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/build/assets/images',
-    logInfo: 'html编译成功'
-};
-CompileImage(imageObj);
+// var imageObj = {
+//     src: ['D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images/hero/FBI/**/*.*','D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images/backflow/**/*.*'],
+//     srcBase: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/images',
+//     dest: 'D:/mygit/fhFlowWorkspaceTest/fhflowTest/build/assets/images',
+//     logInfo: 'html编译成功'
+// };
+// CompileImage(imageObj);
 
 // var fontsObj = {
 //     src: ['D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/fonts/hero/FBI/**/*.*','D:/mygit/fhFlowWorkspaceTest/fhflowTest/src/fonts/backflow/**/*.*'],
@@ -82,3 +83,40 @@ CompileImage(imageObj);
 //             logInfo: '编译sass成功'
 //         };
 // CompileSass(compileSassObj);
+
+
+// 无模块项目测试
+// var htmlObj = { src: 'F:/ourResposity/fhflowWorkspace/fk/src/view/**/*.html',
+//   srcBase: 'F:/ourResposity/fhflowWorkspace/fk/src/view',
+//   dest: 'F:/ourResposity/fhflowWorkspace/fk/build',
+//   logInfo: '编译html成功' }
+// CompileHtml(htmlObj);
+
+
+
+//   var compileSassObj = { src: 'F:/ourResposity/fhflowWorkspace/fk/src/scss/**/*.scss',
+//   srcBase: 'F:/ourResposity/fhflowWorkspace/fk/src/scss',
+//   dest: 'F:/ourResposity/fhflowWorkspace/fk/build/assets/css',
+//   isOpenSourceMap: true,
+//   isCompress: false,
+//   compassSetting:
+//    { imageDest: 'F:/ourResposity/fhflowWorkspace/fk/build/assets/images',
+//      fontSrc: 'F:/ourResposity/fhflowWorkspace/fk/src/fonts' },
+//   logInfo: '编译sass成功' }
+// CompileSass(compileSassObj);
+
+// var javaObj = { src: 'F:/ourResposity/fhflowWorkspace/fk/src/js/**/*.js',
+//   srcBase: 'F:/ourResposity/fhflowWorkspace/fk/src/js',
+//   dest: 'F:/ourResposity/fhflowWorkspace/fk/build/assets/js',
+//   isDelRap: false,
+//   isMinify: false,
+//   logInfo: '编译js成功' }
+// CompileJavaSript(javaObj);
+
+
+var tplObj = { src: 'F:/ourResposity/fhflowWorkspace/fk/src/tpl/**/*.tpl',
+  srcBase: 'F:/ourResposity/fhflowWorkspace/fk/src/tpl',
+  dest: 'F:/ourResposity/fhflowWorkspace/fk/build/assets/template',
+  helperJs: 'F:/ourResposity/fhflowWorkspace/fk/src/js/template/helper.js',
+  logInfo: 'tpl编译成功' }
+CompileTpl(tplObj);

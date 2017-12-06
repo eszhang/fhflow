@@ -13,19 +13,6 @@ const Ssh = require('./common/ssh');
 const async = require('async');
 const readJson = require('./common/readJson');;
 
-
-// function dev(path,packageModules){
-//     readFhflowJson(projectPath + '/fhflow.config.json',packageModules,dev);
-//     for( var i = 0; i < packageModules.length; i++ ){
-//         var isOpenStartServer,
-//             isClean;
-//         isOpenStartServer = (i === packageModules.length-1 ? true : false);
-//         isClean = ( i === 0 ? true : false);
-//         singleDev(path,packageModules[i],projectName,isClean,isOpenStartServer);
-//     }
-    
-// }
-
 function dev( path, packageModules){
     var setting = readJson({
         path: path + '/fhflow.config.json'
