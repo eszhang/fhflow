@@ -1,32 +1,42 @@
 
-const Html = require('./common/html');
-const Sass = require('./common/sass');
-const Clean = require('./common/clean');
-const JavaSript = require('./common/javascript');
-const Tpl = require('./common/tpl');
-const Image = require('./common/image');
-const Font = require('./common/font');
-const StartServer = require('./common/startServer').startServer;
-const Watch = require('./common/watch');
-const Zip = require('./common/zip');
-const Ssh = require('./common/ssh');
+const path = require('path');
+const { requireUncached, isFileExist, isDirExist } = require('./util/index');
+const Html = require('./atom/html');
+const Sass = require('./atom/sass');
+const Clean = require('./atom/clean');
+const JavaSript = require('./atom/javascript');
+const Tpl = require('./atom/tpl');
+const Image = require('./atom/image');
+const Font = require('./atom/font');
+const StartServer = require('./atom/startServer').startServer;
+const Watch = require('./atom/watch');
+const Zip = require('./atom/zip');
+const Ssh = require('./atom/ssh');
 const async = require('async');
-const readFile = require('./common/readFile');;
 
-function dev( path, packageModules){
-    var setting = readFile({
-        path: path + '/fhflow.config.json'
-    });
-    setting = JSON.parse(setting);
+let { getDevObj } = require('./task.config.js');
 
-    var devObj = require('./task.config.js').getDevObj({
-        path: path, 
+let { constantConfig , cacheConfig} = require('./common/index'),
+    { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
+    { curConfigPath } = cacheConfig;
+
+/*
+ * dev task
+ */
+function dev( projectPath, packageModules){
+    
+    curConfigPath = path.join(projectPath, CONFIGNAME);
+
+    let devConfig = getDevObj({
+        path: projectPath, 
         packageModules: packageModules, 
-        setting: setting
+        setting: requireUncached(curConfigPath)
     });
-    var { clean, sass, font, html, img, js, tpl, startServer, watch} = devObj;
+
+    let { clean, sass, font, html, img, js, tpl, startServer, watch} = devConfig;
+    
     async.series([
-        /**
+        /*
          *  先删除
          */
         function(next){
@@ -66,8 +76,7 @@ function dev( path, packageModules){
                     Font(font,function(){
                         cb();
                     });
-                }
-                
+                }             
             ],function(error){
                 if(error){
                     throw new Error(error);
@@ -75,19 +84,18 @@ function dev( path, packageModules){
                 next();
             })
         },
-        function (cb){
-            Watch(watch,devObj,function(){
-                cb();
+        function (next){
+            Watch(watch,devConfig,function(){
+                next();
             });
         },
-        function (cb){
+        function (next){
             StartServer(startServer,function(){
-                cb();
+                next();
             });
         }
     ])
 }
-
 
 function dist(path,packageModules){
     var setting = readFile({
@@ -101,15 +109,16 @@ function dist(path,packageModules){
         setting: setting
     });
     var { clean, sass, font, html, img, js, tpl, zip} = devObj;
+
     async.series([
-        /**
+        /*
          *  先删除
          */
         function(next){
             Clean(clean,next);
         },
         function(next){
-            /**
+            /*
              * 进行一些同步操作
              */
             async.parallel([
@@ -145,7 +154,13 @@ function dist(path,packageModules){
     ])
 }
 
+function upload(){
 
+}
 
-module.exports = {dev,dist};
+function pack(){
+
+}
+
+module.exports = {dev,dist,upload,pack};
 
