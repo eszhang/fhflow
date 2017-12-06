@@ -1,6 +1,6 @@
 
 const CompileHtml = require('./common/html');
-const CompileSass = require('./common/compileSass');
+const Sass = require('./common/sass');
 const Clean = require('./common/clean');
 const CompileJavaSript = require('./common/javascript');
 const CompileTpl = require('./common/tpl');
@@ -22,7 +22,7 @@ function dev( path, packageModules){
         packageModules: packageModules, 
         setting: setting
     });
-    var { clean, compileSass, font, html, img, js, tpl, startServer, watch} = devObj;
+    var { clean, sass, font, html, img, js, tpl, startServer, watch} = devObj;
     async.series([
         /**
          *  先删除
@@ -41,7 +41,7 @@ function dev( path, packageModules){
                     });
                 },
                 function (cb){
-                    CompileSass(compileSass,function(){
+                    Sass(sass,function(){
                         cb();
                     });
                 },

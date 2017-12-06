@@ -2,18 +2,17 @@ const gulp = require('gulp');
 const watch = require('gulp-watch');
 const del = require('del');
 const CompileHtml = require('./html');
-const CompileSass = require('./compileSass');
+const Sass = require('./sass');
 const CompileJavaSript = require('./javascript');
 const CompileTpl = require('./tpl');
 const CompileImage = require('./image');
 const CompileFont = require('./font');
-const reload = require('./util').reload;
       
 
 module.exports = function(config, devObj, cb){
 
     const {srcBase, watchPath} = config;
-    const {html, compileSass, clean, js, tpl, img, font} = devObj;
+    const {html, sass, clean, js, tpl, img, font} = devObj;
     
     var watcher = watch(watchPath,{ignored: /[\/\\]\./});
     watcher.on('change',function(file){// 修改
@@ -38,7 +37,6 @@ module.exports = function(config, devObj, cb){
                 if(type === 'removed'){
                     let tmp = file.replace(srcBase,'build\\assets')
                     del([tmp],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
                     CompileImage(img);
@@ -48,7 +46,6 @@ module.exports = function(config, devObj, cb){
                 if(type === 'removed'){
                     let tmp = file.replace(srcBase,'build\\assets')
                     del([tmp],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
                     CompileJavaSript(js);
@@ -59,17 +56,15 @@ module.exports = function(config, devObj, cb){
                     let tmp = file.replace(srcBase + '\\scss','build\\assets\\css').replace(".scss",'.css')
                     let tmp2 = tmp.replace(".css",'.css.map')
                     del([tmp,tmp2],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
-                    CompileSass(compileSass);
+                    Sass(sass);
                 }
                 break;
             case 'view':
                 if(type === 'removed'){
                     let tmp = file.replace(srcBase,'build' );
                     del([tmp],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
                     CompileHtml(html);
@@ -79,7 +74,6 @@ module.exports = function(config, devObj, cb){
                 if(type === 'removed'){
                     let tmp = file.replace(srcBase + '\\tpl','build\\assets\\template').replace(".tpl",'.js');
                     del([tmp],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
                     CompileTpl(tpl);
@@ -89,7 +83,6 @@ module.exports = function(config, devObj, cb){
                 if(type === 'removed'){
                     let tmp = file.replace(srcBase,'build\\assets');
                     del([tmp],{force:true}).then(function(){
-                        reload && reload();
                     })
                 }else{
                     CompileFont(font);

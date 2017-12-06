@@ -42,7 +42,7 @@ function getDevObj(config){
             dest: projectPath + 'build',
             logInfo: '编译html成功'
         },
-        compileSass: {
+        sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
             srcBase: projectPath + 'src/scss' ,
             dest: projectPath + 'build/assets/css',
@@ -97,8 +97,6 @@ function getDevObj(config){
             watchPath: [projectPath + 'src/**/*.*']
         }
     }
-    console.log(dev.js)
-    console.log(dev.tpl)
     return dev;
 }
 
