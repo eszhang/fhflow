@@ -91,11 +91,7 @@ function getDevObj(config){
             startPath: '',
             port: 8089,
             logInfo: '服务打开成功',
-            proxy: {
-                rule: '/',
-                target: '',
-                // target: 'http://localhost:8080',
-            }
+            proxy: setting.server.proxy
         },
         watch: {
             srcBase: 'src',
@@ -112,7 +108,7 @@ function getDevObj(config){
  * @param {any} setting 配置文件的内容
  * @returns 
  */
-function getDistObj(config){
+function getPackObj(config){
     var { path, packageModules, setting } = config;
     var projectPath = path + '/';
 
@@ -131,7 +127,7 @@ function getDistObj(config){
     for( var i = 0 ; i < packageModules.length ; i++ ){
         var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
         cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
-        cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
+        cleanSrcArray.push(projectPath + 'build' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
         sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
         jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
@@ -139,6 +135,21 @@ function getDistObj(config){
         imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
         fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
     }
+
+    // 存放多模块的打包路径
+    var packSrcArray = [];
+    for( var i = 0 ; i < packageModules.length ; i++ ){
+        var src = [];
+        var modulePathAdd = ( projectName ? ( '/' + projectName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
+        src.push(projectPath + 'build'+ modulePathAdd + '/**/*.*');
+        src.push(projectPath + 'build/assets/css'+ modulePathAdd + '/**/*.*');
+        src.push(projectPath + 'build/assets/fonts'+ modulePathAdd + '/**/*.*');
+        src.push(projectPath + 'build/assets/images'+ modulePathAdd + '/**/*.*');
+        src.push(projectPath + 'build/assets/js'+ modulePathAdd + '/**/*.*');
+        src.push(projectPath + 'build/assets/template'+ modulePathAdd + '/**/*.*');
+        packSrcArray.push(src);
+    }
+
     var distObj = {
         clean: {
             src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
@@ -190,7 +201,8 @@ function getDistObj(config){
             logInfo: '字体处理成功'
         },
         zip:{
-            src: [projectPath + 'build/**/*.*'],
+            srcArray: packSrcArray,
+            srcBase: projectPath + 'build',
             dist: projectPath,
             projectName: 'fh',
             version: '2.0',
@@ -215,7 +227,7 @@ function getUploadObj( config ){
     return sshObj;
 }
 
-module.exports = {getDevObj,getDistObj};
+module.exports = {getDevObj,getPackObj, getUploadObj};
 
 
 

@@ -23,8 +23,11 @@ let startServer = function (config = {}, cb) {
     }
 
     // 代理 规则-代理地址(target默认为空不起代理)
-    if( proxy.target !== '' ){
-        var middleware = proxyMiddleware(proxy.rule, {target: proxy.target, changeOrigin: true});
+    if( proxy.length > 0 ){
+        var middleware = [];
+        for( var i = 0; i < proxy.length; i++ ){
+            middleware.push(proxyMiddleware(proxy[i].rule, {target: proxy[i].target, changeOrigin: true}))
+        }
         bsInit.server.middleware = middleware;
     }
 

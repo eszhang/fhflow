@@ -7,7 +7,6 @@ const Clean = require('./atom/clean');
 const JavaSript = require('./atom/javascript');
 const Tpl = require('./atom/tpl');
 const Image = require('./atom/image');
-const Image = require('./atom/image');
 const Font = require('./atom/font');
 const StartServer = require('./atom/startServer').startServer;
 const Watch = require('./atom/watch');
@@ -15,7 +14,7 @@ const Zip = require('./atom/zip');
 const Ssh = require('./atom/ssh');
 const async = require('async');
 
-let { getDevObj } = require('./task.config.js');
+let { getDevObj , getPackObj } = require('./task.config.js');
 
 let { constantConfig , cacheConfig} = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
@@ -36,6 +35,8 @@ function dev( projectPath, packageModules){
 
     let { clean, sass, font, html, img, js, tpl, startServer, watch} = devConfig;
     
+    
+
     async.series([
         /*
          *  先删除
@@ -103,18 +104,20 @@ function dist(){
 }
 
 function upload(){
-
+    let sshObj = getUploadObj();
+    Ssh(sshObj);
 }
 
-function pack(path,packageModules){
+function pack(projectPath,packageModules){
     curConfigPath = path.join(projectPath, CONFIGNAME);
 
-    let devConfig = getDevObj({
+    let packConfig = getPackObj({
         path: projectPath, 
         packageModules: packageModules, 
         setting: requireUncached(curConfigPath)
     });
-    let { clean, sass, font, html, img, js, tpl, zip} = devObj;
+
+    let { clean, sass, font, html, img, js, tpl, zip} = packConfig;
 
     async.series([
         /*

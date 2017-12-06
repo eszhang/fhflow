@@ -66,6 +66,9 @@ let action = {
 
     // 更新config 全量
     updateConfig: function (projectPath, config, callback) {
+
+        curConfigPath = path.join(projectPath, CONFIGNAME);
+
         fs.writeFile(curConfigPath, JSON.stringify(config, null, 4), function (err) {
             if (err) {
                 throw new Error(err);
@@ -78,24 +81,27 @@ let action = {
 
 
 //test
-action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
-    console.log("create project success....")
-});
-action.initConfig('E:/eszhang-git/fhflow/test',function(config){
-    console.log(config)
-});
-action.updateConfig('E:/eszhang-git/fhflow/test', {
+// action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
+//     console.log("create project success....")
+// });
+// action.initConfig('E:/eszhang-git/fhflow/test',function(config){
+//     console.log(config)
+// });
+action.updateConfig('D:/mygit/fhFlowWorkspaceTest/fhflowTest', {
     
     "supportREM": true,
     "supportChanged": false,
     "reversion": false,
-
+    "businessName": "hero",
     "modules": "ALL22",
     "server": {
         "host": "localhost",
         "port": 3333,
         "liverload": true,
-        "proxy": []
+        "proxy": [{
+            rule: '/',
+            target: 'http://localhost:8080'
+        }]
     },
     "ftp": {
         "host": "",
@@ -113,12 +119,11 @@ action.updateConfig('E:/eszhang-git/fhflow/test', {
     }
 
 });
+
+// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',[]);
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',[]);
+// action.upload('E:/eszhang-git/fhflow/test/fk',[]);
+action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fk',[]);
 module.exports = action;
 
-
-// test
-// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-// action.dev('D:/mygit/fhFlowWorkspaceTest/fk',[]);
-
-// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-action.pack('D:/mygit/fhFlowWorkspaceTest/fk',[]);
