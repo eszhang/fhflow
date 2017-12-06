@@ -115,5 +115,5 @@ action.updateConfig('E:/eszhang-git/fhflow/test', {
 action.dev('E:/eszhang-git/fhflow/test/fk',[]);
 // action.dist('E:/eszhang-git/fhflow/test/fk',[]);
 // action.upload('E:/eszhang-git/fhflow/test/fk',[]);
-// action.pacp('E:/eszhang-git/fhflow/test/fk',[]);
+// action.pack('E:/eszhang-git/fhflow/test/fk',[]);
 module.exports = action;
