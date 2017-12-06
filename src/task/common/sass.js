@@ -1,6 +1,8 @@
+
 /**
  * sass 操作
  */
+
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
@@ -9,7 +11,7 @@ const sourceMap = require('gulp-sourcemaps');
 const compass = require('gulp-compass');
 const minifyCss = require('gulp-clean-css');
 
-module.exports = function (config, cb) {
+module.exports = function (config = {}, cb) {
 
     const { src, srcBase, dest, compassSetting, isCompress, isOpenSourceMap } = config;
 
@@ -26,6 +28,6 @@ module.exports = function (config, cb) {
         .on('end', function () {
             cb && cb();
         });
-    
+
     return stream;
 }

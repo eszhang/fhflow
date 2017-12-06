@@ -1,15 +1,16 @@
+
 /**
  * startServer 操作
  */
 
 const bs = require('browser-sync').create();
 
-let startServer = function(config,cb){
+let startServer = function (config = {}, cb) {
 
     const { srcBase, startPath, port } = config;
 
     bs.init({
-        server:{
+        server: {
             baseDir: srcBase,
             directory: true
         },
@@ -21,4 +22,4 @@ let startServer = function(config,cb){
     cb && cb();
 }
 
-module.exports = {bs,startServer}
+module.exports = { bs, startServer }
