@@ -91,6 +91,7 @@ function getDevObj(config){
             startPath: '',
             port: setting.server.port,
             proxys: setting.server.proxys,
+            path: path,
             logInfo: '服务打开成功'
         },
         watch: {

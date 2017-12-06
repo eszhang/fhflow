@@ -48,8 +48,8 @@ let action = {
         pack(projectPath, callback)
     },
 
-    close: function(){
-        bs.exit();
+    close: function(projectPath){
+        require("browser-sync").get(projectPath).exit();
     },
     
     // 初次初始化config
@@ -89,43 +89,48 @@ let action = {
 // action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
 //     console.log("create project success....")
 // });
-action.initConfig('E:/eszhang-git/fhflow/test',function(config){
+action.initConfig('D:/mygit/fhFlowWorkspaceTest/fhflowTest',function(config){
     console.log(config)
 });
-action.updateConfig('E:/eszhang-git/fhflow/test', {
-
-    "supportREM": true,
-    "supportChanged": false,
-    "reversion": false,
-    "modules": ["backflow","FBI"],
-    "businessName": "hero",
-    "server": {
-        "host": "localhost",
-        "port": 8089,
-        "liverload": true,
-        "proxys": []
-    },
-    "ftp": {
-        "host": "",
-        "port": "",
-        "user": "",
-        "pass": "",
-        "remotePath": "",
-        "ignoreFileRegExp": "",
-        "ssh": false
-    },
-    "package": {
-        "type": "zip",
-        "version": "0.0.1",
-        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
-    }
-});
 
 
-// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// action.updateConfig('E:/eszhang-git/fhflow/test', {
+
+//     "supportREM": true,
+//     "supportChanged": false,
+//     "reversion": false,
+//     "modules": ["backflow","FBI"],
+//     "businessName": "hero",
+//     "server": {
+//         "host": "localhost",
+//         "port": 8089,
+//         "liverload": true,
+//         "proxys": []
+//     },
+//     "ftp": {
+//         "host": "",
+//         "port": "",
+//         "user": "",
+//         "pass": "",
+//         "remotePath": "",
+//         "ignoreFileRegExp": "",
+//         "ssh": false
+//     },
+//     "package": {
+//         "type": "zip",
+//         "version": "0.0.1",
+//         "fileRegExp": "${name}-${moduleName}-${version}-${time}"
+//     }
+// });
+
+
+action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// 测试关闭服务
+setTimeout(function(){action.close('D:/mygit/fhFlowWorkspaceTest/fhflowTest')},5000);
+
 // action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
 // action.upload('E:/eszhang-git/fhflow/test/fk');
-action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest');
 // action.pack('D:/mygit/fhFlowWorkspaceTest/fk');
 
 // action.dev('E:/eszhang-git/fhflow/test/fk',[]);

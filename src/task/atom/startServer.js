@@ -3,13 +3,14 @@
  * startServer 操作
  */
 
-const bs = require('browser-sync').create();
+
 const proxyMiddleware = require('http-proxy-middleware');
 
 let startServer = function (config = {}, cb) {
+    // path 用于判断哪个项目启的服务
+    const { srcBase, startPath, port, proxys, path } = config;
 
-    const { srcBase, startPath, port, proxys } = config;
-
+    const bs = require('browser-sync').create(path);
 
     var bsInit = {
         server: {
@@ -36,4 +37,4 @@ let startServer = function (config = {}, cb) {
     cb && cb();
 }
 
-module.exports = { bs, startServer }
+module.exports = { startServer }
