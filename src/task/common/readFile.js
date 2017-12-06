@@ -10,9 +10,8 @@ module.exports = function (config, cb) {
     const { path } = config;
 
     let data = fs.readFileSync(path, 'utf-8');
-    let setting = JSON.parse(data);
     cb && cb();
 
-    return setting;
+    return data;
 
 }

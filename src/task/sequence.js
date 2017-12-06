@@ -11,12 +11,14 @@ const Watch = require('./common/watch');
 const Zip = require('./common/zip');
 const Ssh = require('./common/ssh');
 const async = require('async');
-const readJson = require('./common/readJson');;
+const readFile = require('./common/readFile');;
 
 function dev( path, packageModules){
-    var setting = readJson({
+    var setting = readFile({
         path: path + '/fhflow.config.json'
     });
+    setting = JSON.parse(setting);
+
     var devObj = require('./task.config.js').getDevObj({
         path: path, 
         packageModules: packageModules, 
