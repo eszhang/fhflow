@@ -2,7 +2,7 @@
     "supportREM": true,
     "supportChanged": false,
     "reversion": false,
-    "modules": "ALL",
+    "modules": [],
     "server": {
         "host": "localhost",
         "port": 8089,

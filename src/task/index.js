@@ -78,9 +78,9 @@ let action = {
 
 
 //test
-action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
-    console.log("create project success....")
-});
+// action.copyProjectExample('E:/eszhang-git/fhflow/test/fk-01', function(){
+//     console.log("create project success....")
+// });
 action.initConfig('E:/eszhang-git/fhflow/test',function(config){
     console.log(config)
 });
@@ -114,8 +114,8 @@ action.updateConfig('E:/eszhang-git/fhflow/test', {
 
 });
 
-action.dev('E:/eszhang-git/fhflow/test/fk',[]);
-action.dist('E:/eszhang-git/fhflow/test/fk',[]);
+// action.dev('E:/eszhang-git/fhflow/test/fk',[]);
+// action.dist('E:/eszhang-git/fhflow/test/fk',[]);
 // action.upload('E:/eszhang-git/fhflow/test/fk',[]);
 // action.pack('E:/eszhang-git/fhflow/test/fk',[]);
 module.exports = action;
