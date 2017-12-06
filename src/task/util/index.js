@@ -44,8 +44,32 @@ function isDirExist(dirPath) {
     }
 }
 
+function readFile(config, cb) {
+    
+    const { path } = config;
+
+    let data = fs.readFileSync(path, 'utf-8');
+    cb && cb();
+
+    return data;
+
+}
+
+function writeFile(config, cb) {
+    
+    const { path } = config;
+
+    let data = fs.writeFileSync(path, 'utf-8');
+    cb && cb();
+
+    return data;
+
+}
+
 module.exports = {
     requireUncached,
     isFileExist,
-    isDirExist
+    isDirExist,
+    readFile,
+    writeFile
 }

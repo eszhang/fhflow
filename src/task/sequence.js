@@ -13,7 +13,6 @@ const Watch = require('./atom/watch');
 const Zip = require('./atom/zip');
 const Ssh = require('./atom/ssh');
 const async = require('async');
-const readJson = require('./atom/readJson');
 
 let { getDevObj } = require('./task.config.js');
 
