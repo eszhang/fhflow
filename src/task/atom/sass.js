@@ -5,7 +5,6 @@
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const sourceMap = require('gulp-sourcemaps');
 const compass = require('gulp-compass');

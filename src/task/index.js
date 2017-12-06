@@ -3,104 +3,103 @@
  *  task 对外接口
  */
 
+const fs = require('fs');
 const path = require('path');
-const { dev } = require('./sequence');
-const { isFileExist, isDirExist } = require('./util/index');
-const copy = require('common/copy');
+const { dev, dist, upload, pack } = require('./sequence');
+const { requireUncached, isFileExist, isDirExist } = require('./util/index');
+const copy = require('./atom/copy');
 
-const FHFLOWTASK = {};
+let { constantConfig , cacheConfig} = require('./common/index'),
+    { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
+    { curConfigPath } = cacheConfig;
 
-const {
-    NAME = 'FhFlow',
-    ROOT = path.join(__dirname, '../'),
-    WORKSPACE = 'FhFlow_workspace',
-    CONFIGNAME = 'FhFLow.config.json',
-    CONFIGPATH = path.join(__dirname, '../', Common.CONFIGNAME),
-    PLATFORM = process.platform,
-    DEFAULT_PATH = process.platform === 'win32' ? 'desktop' : 'home',
-    TEMPLAGE_PROJECT = path.resolve(path.join(__dirname, '../templates/project.zip')),
-    TEMPLAGE_EXAMPLE = path.resolve(path.join(__dirname, '../templates/example.zip')),
-    EXAMPLE_NAME = 'WeFlow-example',
-
-} = FHFLOWTASK;
-
-let currentConfigPath;
-
-
-
-let commonMethod = (function () {
-
-    let methods = {
-
-        // 初始化配置项
-        initConfig: function (projectPath, cb) {
-
-            let configPath = path.join(projectPath, CONFIGNAME);
-
-            if (!isFileExist(configPath)) {
-                copy({
-                    src: CONFIGPATH,
-                    dest: projectPath,
-                }, function(){
-                    cb();
-                })
-            }else{
-                cb();
-            }
-        },
-
-        // 更新提交配置项
-        updateConfig: function(config, cb){
-            fs.writeFile(curConfigPath, JSON.stringify(config, null, 4), function (err) {
-                if (err) {
-                    throw new Error(err);
-                }
-                cb();
-            })
-        }
-    }
-
-    return methods;
-});
 
 let action = {
-
+    
+    // 开发
     dev: function (projectPath, packageModules) {
         dev(projectPath, packageModules);
-        console.log('dev ...')
-
     },
 
+    // 编译
     dist: function (projectPath) {
-        console.log('dist ...')
+        dist(projectPath, packageModules);
     },
 
+    // 上传
     upload: function (projectPath) {
-        console.log('upload ...')
+        upload(projectPath, packageModules);
     },
 
+    // 打包
     pack: function (projectPath) {
-        console.log('pack ...')
+        pack(projectPath, packageModules)
     },
     
+    // 初次初始化config
+    initConfig: function(projectPath, cb){
 
-    // 更新任务配置
-    setTaskModule: function (config) {
-
+        curConfigPath = path.join(projectPath, CONFIGNAME);
+        
+        if (!isFileExist(curConfigPath)) {
+            copy({
+                src: CONFIGPATH,
+                dest: projectPath,
+            }, function(){
+                cb&&cb(requireUncached(curConfigPath));
+            })
+        }else{
+            cb&&cb(requireUncached(curConfigPath));
+        }
     },
 
-    // 更新任务配置
-    setTaskConfig: function (proconfig) {
+    // 更新config 全量
+    updateConfig: function (projectPath, config, cb) {
 
-    },
 
-    // 更新请求代理
-    setProxy: function (config) {
-        console.log('set proxy ...')
-        updateConfig(config)
+        fs.writeFile(curConfigPath, JSON.stringify(config, null, 4), function (err) {
+            if (err) {
+                throw new Error(err);
+            }
+            cb&&cb(requireUncached(config));
+        })
     }
 
 }
-// action.dev('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
-action.dev('F:/ourResposity/fhflowWorkspace/fk', []);
+
+//test
+action.initConfig('E:/eszhang-git/fhflow/test',function(config){
+    console.log(config)
+});
+action.updateConfig('E:/eszhang-git/fhflow/test', {
+    
+    "supportREM": true,
+    "supportChanged": false,
+    "reversion": false,
+
+    "modules": "ALL22",
+    "server": {
+        "host": "localhost",
+        "port": 3333,
+        "liverload": true,
+        "proxy": []
+    },
+    "ftp": {
+        "host": "",
+        "port": "",
+        "user": "",
+        "pass": "",
+        "remotePath": "",
+        "ignoreFileRegExp": "",
+        "ssh": false
+    },
+    "package": {
+        "type": "zip",
+        "version": "0.0.2",
+        "fileRegExp": "${name}-${version}-${time}"
+    }
+
+});
+action.dev('E:/eszhang-git/fhflow/test/fk',[]);
+
 module.exports = action;

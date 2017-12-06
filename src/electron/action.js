@@ -36,7 +36,8 @@ let action = {
 
     // 运行任务
     runTask: function (taskName) {
-        let projectPath = "";
+        let projectPath = "",
+            logHander = function(){};
         task[taskName](projectPath, logHander);
     },
 
@@ -106,9 +107,9 @@ ipcMain.on("runTask", function (event, taskName) {
     action.runTask(taskName)
 })
 
-//更新请求代理
-ipcMain.on("setProxy", function (event, config) {
-    action.setProxy(config)
+//更新任务配置项
+ipcMain.on("updateTaskConfig", function (event, config) {
+    action.updateTaskConfig(config)
 })
 
 //安装环境

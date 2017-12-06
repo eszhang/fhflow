@@ -1,30 +1,43 @@
 
-const CompileHtml = require('./common/html');
-const CompileSass = require('./common/compileSass');
-const Clean = require('./common/clean');
-const CompileJavaSript = require('./common/javascript');
-const CompileTpl = require('./common/tpl');
-const CompileImage = require('./common/image');
-const CompileFont = require('./common/font');
-const StartServer = require('./common/startServer').startServer;
-const Watch = require('./common/watch');
-const Zip = require('./common/zip');
-const Ssh = require('./common/ssh');
+const path = require('path');
+const { requireUncached, isFileExist, isDirExist } = require('./util/index');
+const CompileHtml = require('./atom/html');
+const Sass = require('./atom/sass');
+const Clean = require('./atom/clean');
+const CompileJavaSript = require('./atom/javascript');
+const CompileTpl = require('./atom/tpl');
+const CompileImage = require('./atom/image');
+const CompileFont = require('./atom/font');
+const StartServer = require('./atom/startServer').startServer;
+const Watch = require('./atom/watch');
+const Zip = require('./atom/zip');
+const Ssh = require('./atom/ssh');
 const async = require('async');
-const readJson = require('./common/readJson');;
+const readJson = require('./atom/readJson');
 
-function dev( path, packageModules){
-    var setting = readJson({
-        path: path + '/fhflow.config.json'
-    });
-    var devObj = require('./task.config.js').getDevObj({
-        path: path, 
+let { getDevObj } = require('./task.config.js');
+
+let { constantConfig , cacheConfig} = require('./common/index'),
+    { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
+    { curConfigPath } = cacheConfig;
+
+/*
+ * dev task
+ */
+function dev( projectPath, packageModules){
+    
+    curConfigPath = path.join(projectPath, CONFIGNAME);
+
+    let devConfig = getDevObj({
+        path: projectPath, 
         packageModules: packageModules, 
-        setting: setting
+        setting: requireUncached(curConfigPath)
     });
-    var { clean, compileSass, font, html, img, js, tpl, startServer, watch} = devObj;
+
+    let { clean, sass, font, html, img, js, tpl, startServer, watch} = devConfig;
+    
     async.series([
-        /**
+        /*
          *  先删除
          */
         function(next){
@@ -41,7 +54,7 @@ function dev( path, packageModules){
                     });
                 },
                 function (cb){
-                    CompileSass(compileSass,function(){
+                    Sass(sass,function(){
                         cb();
                     });
                 },
@@ -64,8 +77,7 @@ function dev( path, packageModules){
                     CompileFont(font,function(){
                         cb();
                     });
-                }
-                
+                }             
             ],function(error){
                 if(error){
                     throw new Error(error);
@@ -73,31 +85,34 @@ function dev( path, packageModules){
                 next();
             })
         },
-        function (cb){
-            Watch(watch,devObj,function(){
-                cb();
+        function (next){
+            Watch(watch,devConfig,function(){
+                next();
             });
         },
-        function (cb){
+        function (next){
             StartServer(startServer,function(){
-                cb();
+                next();
             });
         }
     ])
 }
 
 
+/*
+ * dist task
+ */
 function dist(path,packageModules,projectName){
     var {htmlObj, compileSassObj, cleanObj, jsObj, tplObj, imgObj, fontObj, startServerObj, watchObj, zipObj, sshObj} = require('./task.config.js').getDistObj(path,packageModules,projectName);
     async.series([
-        /**
+        /*
          *  先删除
          */
         function(next){
             Clean(cleanObj,next);
         },
         function(next){
-            /**
+            /*
              * 进行一些同步操作
              */
             async.parallel([

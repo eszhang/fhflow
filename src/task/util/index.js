@@ -5,6 +5,11 @@
 
 const fs = require('fs');
 
+function requireUncached(module) {
+    delete require.cache[require.resolve(module)];
+    return require(module);
+}
+
 function isFileExist(filePath) {
     try {
         var stat = fs.statSync(filePath);
@@ -40,6 +45,7 @@ function isDirExist(dirPath) {
 }
 
 module.exports = {
+    requireUncached,
     isFileExist,
     isDirExist
 }

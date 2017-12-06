@@ -53,7 +53,6 @@
     "gulp-compass": "^2.1.0",
     "gulp-file-include": "^1.2.0",
     "gulp-plumber": "^1.1.0",
-    "gulp-sass": "^3.1.0",
     "gulp-sftp": "^0.1.5",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-ssh": "^0.6.0",
