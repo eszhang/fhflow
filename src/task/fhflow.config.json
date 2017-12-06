@@ -3,6 +3,7 @@
     "supportChanged": false,
     "reversion": false,
     "modules": [],
+    "businessName": "hero",
     "server": {
         "host": "localhost",
         "port": 8089,
@@ -21,6 +22,6 @@
     "package": {
         "type": "zip",
         "version": "0.0.1",
-        "fileRegExp": "${name}-${version}-${time}"
+        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
     }
 }

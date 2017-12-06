@@ -1,8 +1,8 @@
-var gulp = require('gulp'),
-    gulpSSH = require('gulp-ssh'),
-    rap = require('./rap'),
-    sftp = require('gulp-sftp'),
-    async = require('async');
+const gulp = require('gulp');
+const gulpSSH = require('gulp-ssh');
+const rap = require('./rap');
+const sftp = require('gulp-sftp');
+const async = require('async');
 
 function upload2TestJs(sshObj,cb){
     gulp.src(sshObj.srcBase + '/**/*.js')

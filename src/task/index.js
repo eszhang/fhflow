@@ -43,7 +43,7 @@ let action = {
     },
 
     // 打包
-    pack: function (projectPath, callback) {
+    pack: function (projectPath, packageModules, callback) {
         pack(projectPath, packageModules, callback)
     },
     
@@ -66,6 +66,9 @@ let action = {
 
     // 更新config 全量
     updateConfig: function (projectPath, config, callback) {
+
+        curConfigPath = path.join(projectPath, CONFIGNAME);
+
         fs.writeFile(curConfigPath, JSON.stringify(config, null, 4), function (err) {
             if (err) {
                 throw new Error(err);
@@ -85,17 +88,19 @@ action.initConfig('E:/eszhang-git/fhflow/test',function(config){
     console.log(config)
 });
 action.updateConfig('E:/eszhang-git/fhflow/test', {
-    
     "supportREM": true,
     "supportChanged": false,
     "reversion": false,
-
+    "businessName": "hero",
     "modules": "ALL22",
     "server": {
         "host": "localhost",
         "port": 3333,
         "liverload": true,
-        "proxy": []
+        "proxy": [{
+            rule: '/',
+            target: 'http://localhost:8080'
+        }]
     },
     "ftp": {
         "host": "",
@@ -117,6 +122,7 @@ action.updateConfig('E:/eszhang-git/fhflow/test', {
 // action.dev('E:/eszhang-git/fhflow/test/fk',[]);
 // action.dist('E:/eszhang-git/fhflow/test/fk',[]);
 // action.upload('E:/eszhang-git/fhflow/test/fk',[]);
-// action.pack('E:/eszhang-git/fhflow/test/fk',[]);
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fhflowTest',['backflow','FBI']);
+// action.pack('D:/mygit/fhFlowWorkspaceTest/fk',[]);
 module.exports = action;
 
