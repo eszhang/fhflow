@@ -80,13 +80,6 @@ let template = [
                 }
             },
             {
-                label: 'Run 生产流程',
-                accelerator: 'CmdOrCtrl+2',
-                click: function (item, focusedWindow) {
-                    action.runTask('dist');
-                }
-            },
-            {
                 label: 'Ftp 发布部署',
                 accelerator: 'CmdOrCtrl+3',
                 click: function (item, focusedWindow) {

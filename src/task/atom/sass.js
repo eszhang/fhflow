@@ -10,9 +10,11 @@ const sourceMap = require('gulp-sourcemaps');
 const compass = require('gulp-compass');
 const minifyCss = require('gulp-clean-css');
 
-module.exports = function (config = {}, cb) {
+module.exports = function (config = {}, startCb, endCb) {
 
     const { src, srcBase, dest, compassSetting, isCompress, isOpenSourceMap } = config;
+
+    startCb && startCb();
 
     let stream = gulp.src(src)
         .pipe(compass({
@@ -25,7 +27,7 @@ module.exports = function (config = {}, cb) {
         }))
         .pipe(gulp.dest(dest))
         .on('end', function () {
-            cb && cb();
+            endCb && endCb();
         });
 
     return stream;

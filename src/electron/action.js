@@ -10,35 +10,45 @@ const { exec, execSync } = require('child_process');
 const { requireUncached, isFileExist, isDirExist } = require('../task/util/index');
 const task = require('../task/index');
 
-let mainWindow = global.mainWindow,
-    webContents = mainWindow.webContents;
+let { webContents } = global.mainWindow;
 
-let STORAGE = (function(){
+let STORAGE = (function () {
     let cache = {
         name: "fhflow",
         workspace: "E:/eszhang-git/fhflow",
+        curProjectPath: "E:/eszhang-git/fhflow/test/fk-04",
         projects: {}
     };
-    function get(data) {
-        cache = data;
-    }
-    function set(){
+    function get() {
         return cache;
+    }
+    function set(data) {
+        cache = data;
     }
     return { set, get }
 })();
 
 let action = {
 
+    //启动需要的数据
+    init: function () {
+        let storage = STORAGE.get();
+
+        if (storage) {
+            webContents.send("getInitData-success", storage);
+        }
+
+    },
+
     //新建项目
     createProject: function (projectPath) {
 
-        let storge = STORAGE.get(),
+        let storage = STORAGE.get(),
             workspace;
 
-        if(storge&&(workspace=storge.workspace)){
-            
-            projectPath = `${workspace}/fk-03`;
+        if (storage && (workspace = storage.workspace)) {
+
+            projectPath = `${workspace}/test/fk-04`;
 
             //先判断一下工作区是否存在
             if (!isDirExist(workspace)) {
@@ -59,21 +69,23 @@ let action = {
                 }
             }
 
-            task.copyProjectExample(projectPath, function(){
+            task.copyProjectExample(projectPath, function () {
                 console.log("create project success....")
             });
 
-            webContents.send("createProject", projectPath);
+            storage.curProjectPath = projectPath;
+            STORAGE.set(storage);
+            webContents.send("createProject-success", projectPath);
         }
     },
 
     //打开项目
     openProject: function () {
- 
+
         let projectPaths = dialog.showOpenDialog({
             properties: ['openDirectory']
         }),
-        projectPath;
+            projectPath;
 
         if (projectPaths && projectPaths.length) {
 
@@ -81,46 +93,84 @@ let action = {
 
             let storage = STORAGE.get(),
                 projectName = path.basename(projectPath);
-            
-            if(storage&&storage.workspace){
+
+            if (storage && storage.workspace) {
                 if (!storage['projects']) {
                     storage['projects'] = {};
                 }
             }
             if (storage['projects'][projectName]) {
                 console.log('项目已存在');
-            }else{
+            } else {
+                storage.curProjectPath = projectPath;
                 storage['projects'][projectName] = {};
                 storage['projects'][projectName]['path'] = projectPath;
-                STORAGE.set(projectName);
-                webContents.send("openProject", projectPath);
-            }           
+                STORAGE.set(storage);
+                webContents.send("openProject-success", projectPath);
+            }
         }
     },
 
     //删除项目
-    delProject: function (projectName) {
-        
-        let storage = STORAGE.get();
+    delProject: function () {
 
+        let storage = STORAGE.get(),
+            curProjectPath = storage.curProjectPath;
+        projectName = path.basename(curProjectPath);
         if (storage && storage['projects'] && storage['projects'][projectName]) {
             delete storage['projects'][projectName];
             STORAGE.set(storage);
+            //关闭监听等任务(要有容错判断)
+            // task.close(projectName);
+            storage.curProjectPath = "";
+            STORAGE.set(storage);
+            webContents.send("delProject-success", projectName);
         }
 
-        //关闭监听等任务
-   
-        webContents.send("delProject", projectName);
+    },
+
+    //更新工作空间
+    updateWorkspace: function (path) {
+        let storage = STORAGE.get();
+        storage.workspace = patj;
+        storage.set(storage)
+    },
+
+    //更新当前活跃项目
+    changeSelectedProject: function(projectPath){
+        let storage = STORAGE.get();
+        storage.curProjectPath = projectPath;
+        STORAGE.set(storage);
     },
 
     //运行任务
-    runTask: function (projectPath, taskName) {
-        task[taskName](projectPath);
+    runTask: function (taskName) {
+
+        let storage = STORAGE.get(),
+            projectPath = storage.curProjectPath;
+
+        if (projectPath) {
+            task[taskName](projectPath, action.sendLogMessage);
+        }
+    },
+
+    //关闭任务
+    closeTask: function (taskName) {
+
+    },
+
+    //更新配置项
+    updateConfig: function (config) {
+
+        let storage = STORAGE.get(),
+            projectPath = storage.curProjectPath;
+
+        task.updateConfig(projectPath, config);
     },
 
     //检查更新
     checkUpdate: function () {
-        console.log('check update ...')
+        console.log('check update ...');
     },
 
     //查看官网主页
@@ -169,14 +219,53 @@ let action = {
             }
         });
 
+    },
+
+    sendLogMessage: function(logs) {
+        webContents.send("print-log", logs);
     }
 };
 
 //== 接收列表
 
+//获取初始化数据
+ipcMain.on("init", function (event) {
+    action.init();
+})
+
+//更新工作空间
+ipcMain.on("updateWorkspace", function (event, path) {
+    action.updateWorkspace(path)
+})
+
+//更新当前活跃项目
+ipcMain.on("changeSelectedProject", function (event, path) {
+    action.changeSelectedProject(path)
+})
+
 //运行任务
 ipcMain.on("runTask", function (event, taskName) {
     action.runTask(taskName)
+})
+
+//关闭任务
+ipcMain.on("closeTask", function (event, taskName) {
+    action.closeTask(taskName)
+})
+
+//自定义dev任务
+ipcMain.on("customDevTask", function (event, taskTest) {
+
+})
+
+//自定义upload任务
+ipcMain.on("customUploadTask", function (event, taskTest) {
+
+})
+
+//自定义pack任务
+ipcMain.on("customPackTask", function (event, taskTest) {
+
 })
 
 //更新任务配置项
@@ -185,7 +274,7 @@ ipcMain.on("updateTaskConfig", function (event, config) {
 })
 
 //安装环境
-ipcMain.on("installEnvironment", function (event) { 
+ipcMain.on("installEnvironment", function (event) {
     action.installEnvironment()
 })
 

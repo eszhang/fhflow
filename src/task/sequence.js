@@ -14,158 +14,294 @@ const Zip = require('./atom/zip');
 const Ssh = require('./atom/ssh');
 const async = require('async');
 
-let { getDevObj , getPackObj } = require('./task.config.js');
+let { getDevObj, getPackObj } = require('./task.config.js');
 
-let { constantConfig , cacheConfig} = require('./common/index'),
+let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
     { curConfigPath } = cacheConfig;
 
 /*
  * dev task
  */
-function dev( projectPath){
-    
+function dev(projectPath, loggerhandler) {
+
     curConfigPath = path.join(projectPath, CONFIGNAME);
     let setting = requireUncached(curConfigPath);
 
     let devConfig = getDevObj({
-        path: projectPath, 
-        packageModules: setting.modules, 
+        path: projectPath,
+        packageModules: setting.modules,
         setting: setting
     });
 
-    let { clean, sass, font, html, img, js, tpl, startServer, watch} = devConfig;
-    
-    
+    let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
+
+    loggerhandler({
+        desc: "dev 模式已打开...",
+        type: "warning"
+    });
 
     async.series([
-        /*
-         *  先删除
-         */
-        function(next){
-            Clean(clean,next);
-        },
-        function(next){
-            /**
-             * 进行一些同步操作
-             */
-            async.parallel([
-                function (cb) {
-                    Html(html,function(){
-                        cb();
-                    });
-                },
-                function (cb){
-                    Sass(sass,function(){
-                        cb();
-                    });
-                },
-                function (cb){
-                    JavaSript(js,function(){
-                        cb();
-                    });
-                },
-                function (cb){
-                    Tpl(tpl,function(){
-                        cb();
-                    });
-                },
-                function (cb){
-                    Image(img,function(){
-                        cb();
-                    });
-                },
-                function (cb){
-                    Font(font,function(){
-                        cb();
-                    });
-                }             
-            ],function(error){
-                if(error){
-                    throw new Error(error);
-                }
-                next();
-            })
-        },
-        function (next){
-            Watch(watch,devConfig,function(){
+        function (next) {
+            Clean(clean, function () {
+                loggerhandler({
+                    desc: clean.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: clean.endLog,
+                    type: "success"
+                });
                 next();
             });
         },
-        function (next){
-            StartServer(startServer,function(){
+        function (next) {
+            Font(font, function () {
+                loggerhandler({
+                    desc: font.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: font.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Html(html, function () {
+                loggerhandler({
+                    desc: html.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: html.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Image(img, function () {
+                loggerhandler({
+                    desc: img.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: img.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Sass(sass, function () {
+                loggerhandler({
+                    desc: sass.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: sass.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Tpl(tpl, function () {
+                loggerhandler({
+                    desc: tpl.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: tpl.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            JavaSript(js, function () {
+                loggerhandler({
+                    desc: js.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: js.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Watch(watch, devConfig, function () {
+
+            }, function () {
+                loggerhandler({
+                    desc: watch.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            StartServer(startServer, function () {
+
+            }, function () {
+                loggerhandler({
+                    desc: startServer.endLog,
+                    type: "success"
+                });
                 next();
             });
         }
     ])
 }
 
-function dist(){
-    
-}
-
-function upload(){
+function upload(projectPath, loggerhandler) {
     let setting = requireUncached(curConfigPath);
     let sshObj = getUploadObj(setting);
     Ssh(sshObj);
 }
 
-function pack(projectPath){
+function pack(projectPath, loggerhandler) {
+
     curConfigPath = path.join(projectPath, CONFIGNAME);
 
     let setting = requireUncached(curConfigPath);
 
     let packConfig = getPackObj({
-        path: projectPath, 
-        packageModules: setting.modules, 
+        path: projectPath,
+        packageModules: setting.modules,
         setting: setting
     });
 
-    let { clean, sass, font, html, img, js, tpl, zip} = packConfig;
+    let { clean, sass, font, html, img, js, tpl, zip } = packConfig;
+
+    loggerhandler({
+        desc: "pack 模式已打开...",
+        type: "warning"
+    });
 
     async.series([
-        /*
-         *  先删除
-         */
-        function(next){
-            Clean(clean,next);
-        },
-        function(next){
-            /*
-             * 进行一些同步操作
-             */
-            async.parallel([
-                function (cb) {
-                    Html(html,cb);
-                },
-                function (cb){
-                    Sass(sass,cb);
-                },
-                function (cb){
-                    JavaSript(js,cb);
-                },
-                function (cb){
-                    Tpl(tpl,cb);
-                },
-                function (cb){
-                    Image(img,cb);
-                },
-                function (cb){
-                    Font(font,cb);
-                }
-                
-            ],function(error){
-                if(error){
-                    throw new Error(error);
-                }
+        function (next) {
+            Clean(clean, function () {
+                loggerhandler({
+                    desc: clean.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: clean.endLog,
+                    type: "success"
+                });
                 next();
-            })
+            });
         },
-        function (cb){
-            Zip(zip,cb);
+        function (next) {
+            Font(font, function () {
+                loggerhandler({
+                    desc: font.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: font.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Html(html, function () {
+                loggerhandler({
+                    desc: html.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: html.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Image(img, function () {
+                loggerhandler({
+                    desc: img.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: img.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Sass(sass, function () {
+                loggerhandler({
+                    desc: sass.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: sass.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Tpl(tpl, function () {
+                loggerhandler({
+                    desc: tpl.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: tpl.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            JavaSript(js, function () {
+                loggerhandler({
+                    desc: js.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: js.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            Zip(zip, function(){
+                
+            },function(){
+                loggerhandler({
+                    desc: zip.endLog,
+                    type: "success"
+                });
+                next();
+            });
         }
     ])
 }
 
-module.exports = {dev,dist,upload,pack};
+module.exports = { dev, upload, pack };
 

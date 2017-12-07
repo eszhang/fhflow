@@ -38,13 +38,15 @@ function getDevObj(config){
     var dev = {
         clean: {
             src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
-            logInfo: '删除成功'
+            startLog: '删除开始...',
+            endLog: '删除成功...'
         },
         html: {
             src: htmlSrcArray.length > 0 ? htmlSrcArray : projectPath + 'src/view/**/*.html',
             srcBase: projectPath + 'src/view',
             dest: projectPath + 'build',
-            logInfo: '编译html成功'
+            startLog: '编译html开始...',
+            endLog: '编译html成功...'
         },
         sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
@@ -56,7 +58,8 @@ function getDevObj(config){
                 imageDest: projectPath + 'build/assets/images' ,
                 fontSrc: projectPath + 'src/fonts',
             },
-            logInfo: '编译sass成功'
+            startLog: '编译sass开始...',
+            endLog: '编译sass成功...'
         },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
@@ -64,7 +67,8 @@ function getDevObj(config){
             dest: projectPath + 'build/assets/js',
             isDelRap: false,
             isMinify: false,
-            logInfo: '编译js成功'
+            startLog: '编译javascript开始...',
+            endLog: '编译avascript成功...'
         },
         tpl: {
             src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',
@@ -72,19 +76,22 @@ function getDevObj(config){
             srcBase: projectPath + 'src/tpl',
             dest: projectPath + 'build/assets/template',
             helperJs: projectPath + 'src/js/template/helper.js',
-            logInfo: 'tpl编译成功'
+            startLog: '编译template开始...',
+            endLog: '编译template成功...'
         },
         img: {
             src: imageSrcArray.length > 0 ? imageSrcArray : projectPath + 'src/images/**/*.*',
             srcBase: projectPath + 'src/images',
             dest: projectPath + 'build/assets/images',
-            logInfo: '图片处理成功'
+            startLog: '编译images开始...',
+            endLog: '编译iamges成功...'
         },
         font: {
             src: fontSrcArray.length > 0 ? fontSrcArray : projectPath + 'src/fonts/**/*.*',
             srcBase: projectPath + 'src/fonts',
             dest: projectPath + 'build/assets/fonts',
-            logInfo: '字体处理成功'
+            startLog: '编译font开始...',
+            endLog: '编译font成功...'
         },
         startServer: {
             srcBase: projectPath + 'build',
@@ -92,11 +99,12 @@ function getDevObj(config){
             port: setting.server.port,
             proxys: setting.server.proxys,
             path: path,
-            logInfo: '服务打开成功'
+            endLog: '启动server成功...'
         },
         watch: {
             srcBase: 'src',
-            watchPath: [projectPath + 'src/**/*.*']
+            watchPath: [projectPath + 'src/**/*.*'],
+            endLog: '启动watch成功...'
         }
     }
     return dev;
@@ -157,13 +165,15 @@ function getPackObj(config){
     var packObj = {
         clean: {
             src: cleanSrcArray.length > 0 ? cleanSrcArray : projectPath + 'build',
-            logInfo: '删除成功'
+            startLog: '删除开始...',
+            endLog: '删除成功...'
         },
         html: {
             src: htmlSrcArray.length > 0 ? htmlSrcArray : projectPath + 'src/view/**/*.html',
             srcBase: projectPath + 'src/view',
             dest: projectPath + 'build',
-            logInfo: '编译html成功'
+            startLog: '编译html开始...',
+            endLog: '编译html成功...'
         },
         sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
@@ -175,7 +185,8 @@ function getPackObj(config){
                 imageDest: projectPath + 'build/assets/images' ,
                 fontSrc: projectPath + 'src/fonts',
             },
-            logInfo: '编译sass成功'
+            startLog: '编译sass开始...',
+            endLog: '编译sass成功...'
         },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
@@ -183,26 +194,30 @@ function getPackObj(config){
             dest: projectPath + 'build/assets/js',
             isDelRap: true,
             isMinify: true,
-            logInfo: '编译js成功'
+            startLog: '编译javascript开始...',
+            endLog: '编译avascript成功...'
         },
         tpl: {
             src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',
             srcBase: projectPath + 'src/tpl',
             dest: projectPath + 'build/assets/template',
             helperJs: projectPath + 'src/js/template/helper.js',
-            logInfo: 'tpl编译成功'
+            startLog: '编译template开始...',
+            endLog: '编译template成功...'
         },
         img: {
             src: imageSrcArray.length > 0 ? imageSrcArray : projectPath + 'src/images/**/*.*',
             srcBase: projectPath + 'src/images',
             dest: projectPath + 'build/assets/images',
-            logInfo: '图片处理成功'
+            startLog: '编译images开始...',
+            endLog: '编译iamges成功...'
         },
         font: {
             src: fontSrcArray.length > 0 ? fontSrcArray : projectPath + 'src/fonts/**/*.*',
             srcBase: projectPath + 'src/fonts',
             dest: projectPath + 'build/assets/fonts',
-            logInfo: '字体处理成功'
+            startLog: '编译font开始...',
+            endLog: '编译font成功...'
         },
         zip:{
             srcArray: packSrcArray,
@@ -213,7 +228,7 @@ function getPackObj(config){
             type: setting.package.type,
             version: setting.package.version,
             fileRegExp: setting.package.fileRegExp,
-            logInfo: 'zip打包完成'
+            endLog: '打包pack成功...'
         }
     }
     return packObj;

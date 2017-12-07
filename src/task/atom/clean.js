@@ -5,14 +5,15 @@
 
 const del = require('del');
 
-module.exports = function (config = {}, cb) {
+module.exports = function (config = {}, startCb, endCb) {
 
     const { src, force = true } = config;
 
+    startCb && startCb();
     let stream = del(src, {
         force: true
     }).then(function () {
-        cb && cb();
+        endCb && endCb();
     })
 
     return stream;

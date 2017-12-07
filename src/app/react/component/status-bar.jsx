@@ -12,7 +12,7 @@ import '../style/status-bar.scss';
 
 export function StatusBar(props) {
 
-    const IconTypeMap = {
+    const iconTypeMap = {
         info: "info-circle",
         warning: "exclamation-circle",
         success: "check-circle",
@@ -25,7 +25,7 @@ export function StatusBar(props) {
                 props.data.map((info, index) => (
                     <li className={info.type} key={index}>
                         <a>
-                            {info.type && <Icon type={IconTypeMap[info.type]} />}
+                            {info.type && <Icon type={iconTypeMap[info.type]} />}
                             {info.desc}
                         </a>
                     </li>

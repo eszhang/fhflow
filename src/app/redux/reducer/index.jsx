@@ -1,5 +1,6 @@
 
 import { CHANGE_ACTION_MENU } from '../action/index'
+import { UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
@@ -68,7 +69,7 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
             return Object.assign({}, state, {
                 dev: {
                     progressIndex: action.payload.index,
-                    progressStatus: action.payload.status 
+                    progressStatus: action.payload.status
                 }
             });
         case UPDATE_INSTALL_TOOLS_LIST:
@@ -80,25 +81,37 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
     }
 };
 
+//statusList state
+export const statusList = (state = { data: [] }, action = {}) => {
+    switch (action.type) {
+        case UPDATE_STATUS_LIST:
+            return Object.assign({}, state, {
+                data: action.payload.data
+            });
+        default:
+            return state;
+    }
+}
+
 //projectList state
-export const projectList = (state = { selectedIndex: 0 ,data: [], rightOperateData: [] }, action = {}) => {
+export const projectList = (state = { selectedIndex: 0, data: [], rightOperateData: [] }, action = {}) => {
     switch (action.type) {
         case SET_PROJECT_DATA:
-            return Object.assign({}, state,   
-                    { ...action.payload.data}
+            return Object.assign({}, state,
+                { ...action.payload.data }
             );
         case CHANGE_ACTION_PROJECT:
-            return Object.assign({}, state, {  
-                    selectedIndex: action.payload.index
+            return Object.assign({}, state, {
+                selectedIndex: action.payload.index
             });
-        case DEl_ACTION_PROJECT: 
+        case DEl_ACTION_PROJECT:
             return Object.assign({}, state, {
                 data: state.data.filter((value, index) => {
                     return index !== action.payload.index;
                 }),
-                selectedIndex: action.payload.index-1
+                selectedIndex: action.payload.index - 1
             })
-        case ADD_ACTION_PROJECT: 
+        case ADD_ACTION_PROJECT:
             return Object.assign({}, state, {
                 data: [...state.data, action.payload.data],
                 selectedIndex: state.data.length

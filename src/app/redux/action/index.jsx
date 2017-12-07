@@ -3,6 +3,7 @@
  * action类型
  */
 export const CHANGE_ACTION_MENU = 'CHANGE_ACTION_MENU';
+export const UPDATE_STATUS_LIST = 'UPDATE_STATUS_LIST';
 export const UPDATE_PROXY_HOST = 'UPDATE_PROXY_HOST';
 export const ADD_PROXY_ITEM = 'ADD_PROXY_ITEM';
 export const UPDATE_PROXY_ITEM = 'UPDATE_PROXY_ITEM';
@@ -29,6 +30,14 @@ export const changeActionMenu = index => ({
         index
     },
 });
+
+//更新状态栏
+export const updateStatusList = (data) => ({
+    type: UPDATE_STATUS_LIST,
+    payload: {
+        data
+    }
+})
 
 //更新本地请求host配置项
 export const updateProxyHost = (data) => ({

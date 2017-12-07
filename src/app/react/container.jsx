@@ -18,7 +18,7 @@ import proxyListData from '../redux/data/proxy-list';
 import digitalListData from '../redux/data/digital-list';
 import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
-import statusBarData from '../redux/data/status-bar';
+// import statusBarData from '../redux/data/status-bar';
 import projectManageData from '../redux/data/project-list';
 
 import 'antd/dist/antd.css';
@@ -77,7 +77,7 @@ class Container extends React.Component {
 
     render() {
 
-        const { actionMenuSelectedIndex, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
+        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
         const { projectList, delProject, addProject, changeActionProject} = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
@@ -95,7 +95,7 @@ class Container extends React.Component {
                 </div>
                 <div className="status-bar-area">
                     <div>
-                        <StatusBar data={statusBarData} />
+                        <StatusBar data={statusList.data} />
                     </div>
                 </div>
                 <div className="action-setting-area">

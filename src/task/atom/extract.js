@@ -5,15 +5,17 @@
 
 const extract = require('extract-zip');
 
-module.exports = function (config = {}, cb) {
+module.exports = function (config = {}, startCb, endCb) {
 
     const { src, dest } = config;
 
-    let stream = extract(src, {dir: dest}, function (err) {
+    startCb && startCb();
+
+    let stream = extract(src, { dir: dest }, function (err) {
         if (err) {
             throw new Error(err);
         }
-        cb && cb();
+        endCb && endCb();
     });
 
     return stream;

@@ -6,9 +6,11 @@
 const gulp = require('gulp');
 const fileinclude = require('gulp-file-include');
 
-module.exports = function (config = {}, cb) {
+module.exports = function (config = {}, startCb, endCb) {
 
     const { src, srcBase, dest } = config;
+
+    startCb && startCb();
 
     let stream = gulp.src(src, { base: srcBase })
         .pipe(fileinclude({
@@ -17,7 +19,7 @@ module.exports = function (config = {}, cb) {
         }))
         .pipe(gulp.dest(dest))
         .on('end', function () {
-            cb && cb();
+            endCb && endCb();
         });
 
     return stream;
