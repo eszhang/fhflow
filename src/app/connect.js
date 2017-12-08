@@ -65,7 +65,21 @@ ipcRenderer.on('installProgress', (event, step, status) => {
 let logs = [];
 ipcRenderer.on('print-log', (event, newLogs) => {
     newLogs = Array.isArray(newLogs) ? newLogs : [newLogs];
+    newLogs = newLogs.map(function (log, logIndex) {
+        let D = new Date(),
+            h = D.getHours(),
+            m = D.getMinutes(),
+            s = D.getSeconds();
+        h = h - 0 < 10 ? `0${h}` : h;
+        m = m - 0 < 10 ? `0${m}` : m;
+        s = s - 0 < 10 ? `0${s}` : s;
+
+        return Object.assign({}, log, {
+            desc: `[${h}:${m}:${s}] ${log.desc}`
+        });
+    })
     logs = [...logs, ...newLogs];
+    console.log(logs)
     globalDispatch(updateStatusList(logs))
 });
 
