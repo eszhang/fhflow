@@ -20,6 +20,7 @@ export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
 export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
 export const CHANGE_PACK_STATUS = 'CHANGE_PACK_STATUS';
+export const SET_ACTION_DATA = 'SET_ACTION_DATA';
 
 
 /*
@@ -167,6 +168,14 @@ export const changePackStatus = (index,  status) => ({
     type: CHANGE_PACK_STATUS,
     payload: {
         index
+    }
+});
+
+//设置项目配置项
+export const setActionData = (data) => ({
+    type: SET_ACTION_DATA,
+    payload: {
+        data
     }
 });
 

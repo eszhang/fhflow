@@ -12,6 +12,8 @@ class ActionSettingForm extends React.Component{
         super(props);
     }
     handleSubmit = (e) => {
+         e.preventDefault();
+        alert(111)
         // const { form, submitHandler } = this.props;
         // e.preventDefault();
         // form.validateFields((err, values) => {
@@ -22,7 +24,12 @@ class ActionSettingForm extends React.Component{
         // });
     }
 
+    handleReset = () => {
+        this.props.form.resetFields();
+    }
     render(){
+        const { actionSetting, selectedIndex } = this.props;
+        
         const functionOptions = [
             { label: '开启LiveReload浏览器自动刷新', value: 'liveReload' },
             { label: '开启REM适配解决方案', value: 'rem' },
@@ -32,10 +39,11 @@ class ActionSettingForm extends React.Component{
         const radioValue = 1;
         const packageValue = 1;
         const { getFieldDecorator } = this.props.form;
+
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
                 <FormItem label="工作区路径">
-                    <Input readOnly placeholder="工作区路径" size="small" />
+                    <Input readOnly placeholder="工作区路径" size="small"/>
                 </FormItem>
                 <FormItem label="功能">
                     <CheckboxGroup className="functionGroup" options={functionOptions} defaultValue={['liveReload']}  />
@@ -91,6 +99,12 @@ class ActionSettingForm extends React.Component{
                         <Radio value={2}>zip</Radio>
                     </RadioGroup>
                 </FormItem>
+                 <FormItem > 
+                    <Button type="primary" htmlType="submit">保存</Button>
+                    <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                    Clear
+                    </Button>
+                 </FormItem> 
             </Form>
         )
     }
@@ -125,12 +139,6 @@ class SeniorDevelopSetting extends React.Component{
                 <FormItem label="模块设置">
                     <CheckboxGroup options={functionOptions} defaultValue={['module1','module2','module3','module4','module5']}  />
                 </FormItem>
-                <div className="operator">
-                    <Button>开发</Button>
-                    <Button>编译</Button>
-                    <Button>上传</Button>
-                    <Button>打包</Button>
-                </div>
             </Form>
         )
     }
@@ -148,14 +156,15 @@ export default class ActionSetting extends React.Component {
 
     
     render(){
+        const { actionSetting, selectedIndex } = this.props;
         return (
             <div className="action-setting">
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={<span><Icon type="apple" />项目设置</span>} key="1">
-                        <WrappedActionSettingForm />
+                        <WrappedActionSettingForm  data={actionSetting} selectedIndex={selectedIndex}/>
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />开发设置</span>} key="2">
-                        <WrappedSeniorDevelopSettingForm />
+                        <WrappedSeniorDevelopSettingForm data={actionSetting} selectedIndex={selectedIndex}/>
                     </TabPane>
                 </Tabs>
                 

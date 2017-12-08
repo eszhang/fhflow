@@ -20,6 +20,7 @@ import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
 // import statusBarData from '../redux/data/status-bar';
 import projectManageData from '../redux/data/project-list';
+import actionSettingData from '../redux/data/action-setting';
 
 import 'antd/dist/antd.css';
 
@@ -38,10 +39,9 @@ class Container extends React.Component {
         super(props);
     }
     componentWillMount(){
-        const { setProjectData } = this.props;
+        const { setProjectData, setActionData } = this.props;
         setProjectData(projectManageData);
-        // console.log(33333333)
-        // console.log(projectManageData)
+        setActionData(actionSettingData);
     }
 
     componentDidMount() {
@@ -78,7 +78,7 @@ class Container extends React.Component {
     render() {
 
         const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
-        const { projectList, delProject, addProject, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
+        const { projectList, actionSetting, delProject, addProject, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-layout-type={layoutType}>
@@ -99,7 +99,7 @@ class Container extends React.Component {
                     </div>
                 </div>
                 <div className="action-setting-area">
-                    <ActionSetting />
+                    <ActionSetting data={actionSetting.data}  selectedIndex={actionSetting.selectedIndex}/>
                 </div>
 
             </div>
