@@ -166,19 +166,13 @@ function dev(projectPath, loggerhandler) {
 }
 
 function upload(projectPath, loggerhandler) {
+    
     let setting = requireUncached(curConfigPath);
     let sshObj = getUploadObj(setting);
 
     loggerhandler({
         desc: "upload 模式已打开...",
         type: "warning"
-    });
-
-    Ssh(sshObj,function(){
-        loggerhandler({
-            desc: sshObj.startLog,
-            type: "info"
-        });
     });
 
     Ssh(sshObj,function(){
