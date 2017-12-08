@@ -154,7 +154,7 @@ export default class ActionSetting extends React.Component {
                     <TabPane tab={<span><Icon type="apple" />项目设置</span>} key="1">
                         <WrappedActionSettingForm />
                     </TabPane>
-                    <TabPane tab={<span><Icon type="android" />高级开发设置</span>} key="2">
+                    <TabPane tab={<span><Icon type="android" />开发设置</span>} key="2">
                         <WrappedSeniorDevelopSettingForm />
                     </TabPane>
                 </Tabs>
