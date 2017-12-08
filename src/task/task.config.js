@@ -246,7 +246,9 @@ function getUploadObj( config ){
             user: setting.user,
             pass: setting.pass,
             remotePath: setting.remotePath
-        }
+        },
+        startLog: '上传files开始...',
+        endLog: '上传files成功...'
     }
     return ssh;
 }
