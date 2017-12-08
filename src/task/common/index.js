@@ -15,11 +15,6 @@ const constantConfig = {
     TEMPLAGE_PROJECT: path.resolve(path.join(__dirname, '../template/project.zip'))
 };
 
-let cacheConfig = {
-    currentConfigPath: constantConfig.CONFIGPATH
-};
-
 module.exports = {
-    constantConfig,
-    cacheConfig
+    constantConfig
 }

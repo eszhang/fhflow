@@ -15,8 +15,8 @@ let { webContents } = global.mainWindow;
 let STORAGE = (function () {
     let cache = {
         name: "fhflow",
-        workspace: "D:/mygit/fhFlow/WorkspaceTest",
-        curProjectPath: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
+        workspace: "E:/eszhang-git/fhflow",
+        curProjectPath: "E:/eszhang-git/fhflow/test/fhflowTest",
         projects: {}
     };
     function get() {
@@ -231,6 +231,21 @@ let action = {
 //获取初始化数据
 ipcMain.on("init", function (event) {
     action.init();
+})
+
+//创建项目
+ipcMain.on("CREATEPROJECT", function (event, path) {
+    action.createProject(path)
+})
+
+//打开项目
+ipcMain.on("OPENPROJECT", function (event) {
+    action.openProjectProject()
+})
+
+//删除项目
+ipcMain.on("DElPROJECT", function (event) {
+    action.delProject()
 })
 
 //更新工作空间

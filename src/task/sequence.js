@@ -1,4 +1,9 @@
 
+
+/**
+ * task 任务队列
+ */
+
 const path = require('path');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 const Html = require('./atom/html');
@@ -17,16 +22,13 @@ const async = require('async');
 let { getDevObj, getPackObj } = require('./task.config.js');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
-    { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig,
-    { curConfigPath } = cacheConfig;
-
-/*
- * dev task
- */
+    { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
+    
+//dev task
 function dev(projectPath, loggerhandler) {
 
-    curConfigPath = path.join(projectPath, CONFIGNAME);
-    let setting = requireUncached(curConfigPath);
+    let curConfigPath = path.join(projectPath, CONFIGNAME),
+        setting = requireUncached(curConfigPath);
 
     let devConfig = getDevObj({
         path: projectPath,
@@ -165,32 +167,33 @@ function dev(projectPath, loggerhandler) {
     ])
 }
 
+//upload task
 function upload(projectPath, loggerhandler) {
-    
-    let setting = requireUncached(curConfigPath);
-    let sshObj = getUploadObj(setting);
+
+    let setting = requireUncached(curConfigPath),
+        sshObj = getUploadObj(setting);
 
     loggerhandler({
         desc: "upload 模式已打开...",
         type: "warning"
     });
 
-    Ssh(sshObj,function(){
+    Ssh(sshObj, function () {
         loggerhandler({
             desc: sshObj.startLog,
             type: "info"
-        },{
+        }, {
             desc: sshObj.endtLog,
             type: "success"
         });
     });
 }
 
+//pack task
 function pack(projectPath, loggerhandler) {
 
-    curConfigPath = path.join(projectPath, CONFIGNAME);
-
-    let setting = requireUncached(curConfigPath);
+    let curConfigPath = path.join(projectPath, CONFIGNAME),
+        setting = requireUncached(curConfigPath);
 
     let packConfig = getPackObj({
         path: projectPath,
@@ -305,9 +308,9 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Zip(zip, function(){
-                
-            },function(){
+            Zip(zip, function () {
+
+            }, function () {
                 loggerhandler({
                     desc: zip.endLog,
                     type: "success"
