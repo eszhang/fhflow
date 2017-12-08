@@ -17,6 +17,9 @@ export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
 export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
+export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
+export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
+export const CHANGE_PACK_STATUS = 'CHANGE_PACK_STATUS';
 
 
 /*
@@ -138,6 +141,30 @@ export const addProject = (data) => ({
 //删除文件夹
 export const delProject = (index) => ({
     type: DEl_ACTION_PROJECT,
+    payload: {
+        index
+    }
+});
+
+//设置开发按钮的状态
+export const changeDevStatus = (index,  status) => ({
+    type: CHANGE_DEV_STATUS,
+    payload: {
+        index
+    }
+});
+
+//设置上传按钮的状态
+export const changeUploadStatus = (index,  status) => ({
+    type: CHANGE_UPLOAD_STATUS,
+    payload: {
+        index
+    }
+});
+
+//设置打包按钮的状态
+export const changePackStatus = (index,  status) => ({
+    type: CHANGE_PACK_STATUS,
     payload: {
         index
     }

@@ -15,8 +15,8 @@ let { webContents } = global.mainWindow;
 let STORAGE = (function () {
     let cache = {
         name: "fhflow",
-        workspace: "E:/eszhang-git/fhflow",
-        curProjectPath: "E:/eszhang-git/fhflow/test/fk-04",
+        workspace: "D:/mygit/fhFlow/WorkspaceTest",
+        curProjectPath: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
         projects: {}
     };
     function get() {

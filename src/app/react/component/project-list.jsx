@@ -52,8 +52,18 @@ export default class ProjectList extends React.Component {
     }
 
 
-    plfRightClickHandler = (e) => {
-       
+    plfRightClickHandler = (type, data) => {
+       switch(type){
+            case 'dev': 
+                this.dev(data);
+                break;
+            case 'upload': 
+                this.upload(data);
+                break;
+            case 'package': 
+                this.pack(data);
+                break;
+        }
     }
     
     add = () => {
@@ -81,6 +91,19 @@ export default class ProjectList extends React.Component {
     open = () => {
         alert('打开目标文件夹');
     }
+
+    dev = (data) => {
+        this.props.changeDevStatusHandler(data.selectedIndex);
+    }
+
+    upload = (data) => {
+        this.props.changeUploadStatusHandler(data.selectedIndex);
+    }
+
+    pack = (data) => {
+        this.props.changePackStatusHandler(data.selectedIndex);
+    }
+
 
     globalSetting = () => {
         this.setState({ modalVisible: true });
@@ -153,14 +176,17 @@ export default class ProjectList extends React.Component {
                         <WrappedGlobalSettingForm ref={this.saveFormRef} visible={this.state.modalVisible} ModalText={this.state.ModalText} confirmLoading={this.state.confirmLoading} handleCancel={this.handleCancel} handleOk={this.handleOk}/>                                              
                         
                     </div>
-                    <div className="plf-right">        
-                        {
-                            data.rightOperateData.map((n, index) => (
-                                <a key={index} >
-                                    {n.name}
-                                </a>
-                            ))
-                        }
+                    <div className="plf-right"> 
+                        
+                            <a className={data.data.length !== 0 && data.data[data.selectedIndex].isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev',data)}>
+                                {data.data.length !== 0 && data.data[data.selectedIndex].isDeveloping ? '监听中...' : '开发'}
+                            </a>
+                            <a className={data.data.length !== 0 && data.data[data.selectedIndex].isUploading ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('upload',data)}>
+                                {data.data.length !== 0 && data.data[data.selectedIndex].isUploading ? '处理中...' : '上传'}
+                            </a>
+                            <a className={data.data.length !== 0 && data.data[data.selectedIndex].isPackageing  ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('package',data)}>
+                                {data.data.length !== 0 && data.data[data.selectedIndex].isPackageing ? '处理中...' : '打包'}
+                            </a> 
                     </div>
                 </div>
             </div>
