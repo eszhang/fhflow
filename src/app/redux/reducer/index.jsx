@@ -3,8 +3,9 @@ import { CHANGE_ACTION_MENU } from '../action/index'
 import { UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
-import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index'
-import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, ADD_ACTION_PROJECT, CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, SET_ACTION_DATA } from '../action/index'
+import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
+import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, ADD_ACTION_PROJECT, CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS } from '../action/index'
+import { UPDATE_PROJECT_SETTING } from '../action/index';
 
 //actionMenu state
 export const actionMenuSelectedIndex = (state = 0, action = {}) => {
@@ -137,18 +138,24 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
 };
 
 //action Setting
-export const actionSetting = (state = { selectedIndex: 0, data: [] }, action = {}) => {
+export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {}) => {
     switch (action.type) {
-        case SET_ACTION_DATA:
-            return Object.assign({}, state,
-                { 
-                    selectedIndex: state.selectedIndex,
-                    data: action.payload.data
-                }
-            );
+        // case SET_ACTION_DATA:
+        //     return Object.assign({}, state,
+        //         { 
+        //             selectedIndex: state.selectedIndex,
+        //             data: action.payload.data
+        //         }
+        //     );
+        case UPDATE_PROJECT_SETTING:
+            return Object.assign({}, state,{
+               data: Object.assign({}, state.data, action.payload.data)
+            });
          
         default:
             return state;
     }
 };
+
+
 

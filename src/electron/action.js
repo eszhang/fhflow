@@ -15,8 +15,8 @@ let { webContents } = global.mainWindow;
 let STORAGE = (function () {
     let cache = {
         name: "fhflow",
-        workspace: "E:/eszhang-git/fhflow",
-        curProjectPath: "E:/eszhang-git/fhflow/test/fhflowTest",
+        workspace: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
+        curProjectPath: "D:/mygit/fhFlowWorkspaceTest",
         projects: {}
     };
     function get() {
@@ -32,10 +32,11 @@ let action = {
 
     //启动需要的数据
     init: function () {
-        let storage = STORAGE.get();
+        let storage = STORAGE.get(),
+            config = task.getConfig(storage.curProjectPath);
 
         if (storage) {
-            webContents.send("getInitData-success", storage);
+            webContents.send("getInitData-success", storage, config);
         }
 
     },

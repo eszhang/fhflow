@@ -16,8 +16,30 @@ console.log(`store=${globalStore}`)
 let { addProject, delProject, updateStatusList } = globalAction;
 
 //项目初始化数据
-ipcRenderer.on('getInitData-success', (event, storage) => {
+ipcRenderer.on('getInitData-success', (event, storage, config) => {
     console.log(storage)
+    globalDispatch({
+        type: 'UPDATE_PROJECT_SETTING',
+        payload: {
+            data:{
+                "workSpace": 'D:/mygit/fhFlowWorkspaceTest',
+                "choseFunctions": ["liveReload"],
+                "uploadHost": config.server.host,
+                "uploadPort": 33,
+                "uploadUser": "root",
+                "uploadPass": "hero@125",
+                "uploadRemotePath": "xx",
+                "uploadIgnoreFileRegExp": "*.js",
+                "uploadType": 'ftp',
+                "packType": "zip",
+                "PackVersion": "0.0.1",
+                "packFileRegExp": "${name}-${moduleName}-${version}-${time}",
+                "packTpye": 'zip',
+                "modules": ["fk","backflow"],
+                "choseModules": ["fk"]
+            }
+        }
+    })
 })
 
 //新建项目
@@ -91,8 +113,8 @@ globalStore.subscribe(
     () => {
         let state = globalStore.getState(),
             action = window.preAction,
-            { proxyList } = state,
-            { CHANGE_ACTION_PROJECT, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } = globalAction;
+            { proxyList, actionSetting } = state,
+            { CHANGE_ACTION_PROJECT, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
         switch (action.type) {
             //创建项目
             case "CREATEPROJECT":
@@ -130,8 +152,7 @@ globalStore.subscribe(
                 ipcRenderer.send('customPackTask');
                 break
             //更新任务配置
-            case "UPDATETASKMODULE":
-            case "UPDATETASKCONFIG":
+            case UPDATE_PROJECT_SETTING: 
             case UPDATE_PROXY_HOST:
             case ADD_PROXY_ITEM:
             case UPDATE_PROXY_ITEM:
@@ -150,8 +171,8 @@ globalStore.subscribe(
                         "proxys": []
                     },
                     "ftp": {
-                        "host": "",
-                        "port": "",
+                        "host": actionSetting.data.uploadHost,
+                        "port": actionSetting.data.uploadPort,
                         "user": "",
                         "pass": "",
                         "remotePath": "",

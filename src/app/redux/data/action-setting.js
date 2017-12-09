@@ -1,29 +1,19 @@
 var actionSettingData = {
-    "supportREM": true,
-    "supportChanged": false,
-    "reversion": false,
-    "modules": [],
-    "businessName": "hero",
-    "server": {
-        "host": "localhost",
-        "port": 8089,
-        "liverload": true,
-        "proxys": []
-    },
-    "ftp": {
-        "host": "",
-        "port": "",
-        "user": "",
-        "pass": "",
-        "remotePath": "",
-        "ignoreFileRegExp": "",
-        "ssh": false
-    },
-    "package": {
-        "type": "zip",
-        "version": "0.0.1",
-        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
-    }
+    "workSpace": 'D:/mygit/fhFlowWorkspaceTest',
+    "choseFunctions": ["liveReload"],
+    "uploadHost": "172.16.113.125",
+    "uploadPort": 22,
+    "uploadUser": "root",
+    "uploadPass": "hero@125",
+    "uploadRemotePath": "xx",
+    "uploadIgnoreFileRegExp": "*.js",
+    "uploadType": 'ftp',
+    "packType": "zip",
+    "PackVersion": "0.0.1",
+    "packFileRegExp": "${name}-${moduleName}-${version}-${time}",
+    "packTpye": 'zip',
+    "modules": ["fk","backflow"],
+    "choseModules": ["fk"]
 }
 
 export default actionSettingData;

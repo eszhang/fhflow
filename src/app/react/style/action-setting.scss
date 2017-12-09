@@ -2,10 +2,13 @@
     padding: 2px;
     overflow-x: hidden;
     overflow-y: auto;
-    .ant-form-item-label{
-        >label{
-            color: #fff;
-            font-size: 14px;
+    .ant-form {
+        .ant-form-item-label{
+            padding-left: 10px;
+            >label{
+                color: #fff;
+                font-size: 14px;
+            }
         }
     }
     input{
@@ -21,6 +24,7 @@
         padding: 0 20px;
     }
     .modulName{
+        padding-left: 10px;
         color: #fff;
         font-size: 14px;
         padding-bottom: 8px;

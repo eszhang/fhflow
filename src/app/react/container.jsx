@@ -39,9 +39,11 @@ class Container extends React.Component {
         super(props);
     }
     componentWillMount(){
-        const { setProjectData, setActionData } = this.props;
+        const { setProjectData, updateProjectSetting } = this.props;
         setProjectData(projectManageData);
-        setActionData(actionSettingData);
+        updateProjectSetting(actionSettingData);
+        // setActionData(actionSettingData);
+
     }
 
     componentDidMount() {
@@ -61,6 +63,10 @@ class Container extends React.Component {
 
     handleActionProjectClick = index => {
         this.props.changeActionProject(index);
+    }
+
+    submitProjectSettingHandler = (value) => {
+        this.props.updateProjectSetting(value);
     }
 
     handleUpdateToDocList = (pageNo, pageSize) => {
@@ -99,7 +105,7 @@ class Container extends React.Component {
                     </div>
                 </div>
                 <div className="action-setting-area">
-                    <ActionSetting data={actionSetting.data}  selectedIndex={actionSetting.selectedIndex}/>
+                    <ActionSetting actionSetting={actionSetting.data}  selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler}/>
                 </div>
 
             </div>
