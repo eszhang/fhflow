@@ -13,33 +13,75 @@ console.log(`store=${globalStore}`)
 
 //==接收列表
 
-let { addProject, delProject, updateStatusList } = globalAction;
+let { setProjectData, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData } = globalAction;
 
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, storage, config) => {
-    console.log(storage)
-    globalDispatch({
-        type: 'UPDATE_PROJECT_SETTING',
-        payload: {
-            data:{
-                "workSpace": 'D:/mygit/fhFlowWorkspaceTest',
-                "choseFunctions": ["liveReload"],
-                "uploadHost": config.server.host,
-                "uploadPort": 33,
-                "uploadUser": "root",
-                "uploadPass": "hero@125",
-                "uploadRemotePath": "xx",
-                "uploadIgnoreFileRegExp": "*.js",
-                "uploadType": 'ftp',
-                "packType": "zip",
-                "PackVersion": "0.0.1",
-                "packFileRegExp": "${name}-${moduleName}-${version}-${time}",
-                "packTpye": 'zip',
-                "modules": ["fk","backflow"],
-                "choseModules": ["fk"]
+
+    let { workspace, projects } = storage,
+        { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
+        chooseFunc = [];
+
+    server.liverload && chooseFunc.push('liveReload');
+    supportChanged && chooseFunc.push('fileAddCompileSupport');
+    supportREM && chooseFunc.push('rem');
+    reversion && chooseFunc.push('md5');
+
+    globalDispatch(setProjectData({
+        data: [
+            {
+                key: 0,
+                class: 'project-floader',
+                name: 'ued0',
+                path: 'E://test/ued0',
+                isDeveloping: false,
+                isUploading: false,
+                isPackageing: false
+            }, {
+                key: 1,
+                class: 'project-floader',
+                name: 'ued1',
+                path: 'E://test/ued1',
+                isDeveloping: false,
+                isUploading: false,
+                isPackageing: false
+            }, {
+                key: 2,
+                class: 'project-floader',
+                name: 'ued2',
+                path: 'E://test/ued2',
+                isDeveloping: false,
+                isUploading: false,
+                isPackageing: false
             }
-        }
-    })
+        ]
+    }));
+
+    globalDispatch(updateProjectSetting({
+        "workSpace": workspace,
+        "choseFunctions": chooseFunc,
+        "uploadHost": ftp.host,
+        "uploadPort": ftp.port,
+        "uploadUser": ftp.user,
+        "uploadPass": ftp.pass,
+        "uploadRemotePath": ftp.remotePath,
+        "uploadIgnoreFileRegExp": ftp.ignoreFileRegExp,
+        "uploadType": ftp.ssh ? 'sftp' : 'ftp',
+        "packType": package.type,
+        "PackVersion": package.version,
+        "packFileRegExp": package.fileRegExp,
+        "modules": modules,
+        "choseModules": choseModules
+    }));
+
+    globalDispatch(updateProxyHost({
+        "ip": server.host,
+        "port": server.port
+    }));
+
+    globalDispatch(setProxyData(server.proxys))
+
+
 })
 
 //新建项目
@@ -49,7 +91,10 @@ ipcRenderer.on('createProject-success', (event, projectPath) => {
         class: "project-floader",
         key: Date.now(),
         name: projectName,
-        path: projectPath
+        path: projectPath,
+        isDeveloping: false,
+        isUploading: false,
+        isPackageing: false
     }))
 });
 
@@ -60,7 +105,10 @@ ipcRenderer.on('openProject-success', (event, projectPath) => {
         class: "project-floader",
         key: Date.now(),
         name: projectName,
-        path: projectPath
+        path: projectPath,
+        isDeveloping: false,
+        isUploading: false,
+        isPackageing: false
     }))
 });
 
@@ -152,37 +200,40 @@ globalStore.subscribe(
                 ipcRenderer.send('customPackTask');
                 break
             //更新任务配置
-            case UPDATE_PROJECT_SETTING: 
+            case UPDATE_PROJECT_SETTING:
             case UPDATE_PROXY_HOST:
             case ADD_PROXY_ITEM:
             case UPDATE_PROXY_ITEM:
             case DELETE_PROXY_ITEM:
             case SET_PROXY_DATA:
+                let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, PackVersion, packFileRegExp, choseFunctions } = actionSetting.data,
+                    { ip, port } = proxyList.host;
                 let config = {
-                    "supportREM": true,
-                    "supportChanged": false,
-                    "reversion": false,
-                    "modules": [],
-                    "businessName": "hero",
+                    "businessName": "hero2",
+                    "modules": modules,
+                    "choseModules": choseModules,
+                    "supportREM": choseFunctions.indexOf("rem") !== -1 ? true : false,
+                    "supportChanged": choseFunctions.indexOf("fileAddCompileSupport") !== -1 ? true : false,
+                    "reversion": choseFunctions.indexOf("md5") !== -1 ? true : false,
                     "server": {
-                        "host": proxyList.host.ip,
-                        "port": proxyList.host.port,
-                        "liverload": true,
-                        "proxys": []
+                        "host": ip,
+                        "port": port,
+                        "liverload": choseFunctions.indexOf("liveReload") !== -1 ? true : false,
+                        "proxys": proxyList.data
                     },
                     "ftp": {
-                        "host": actionSetting.data.uploadHost,
-                        "port": actionSetting.data.uploadPort,
-                        "user": "",
-                        "pass": "",
-                        "remotePath": "",
-                        "ignoreFileRegExp": "",
-                        "ssh": false
+                        "host": uploadHost,
+                        "port": uploadPort,
+                        "user": uploadUser,
+                        "pass": uploadPass,
+                        "remotePath": uploadRemotePath,
+                        "ignoreFileRegExp": uploadIgnoreFileRegExp,
+                        "ssh": uploadType === "ftp" ? true : false
                     },
                     "package": {
-                        "type": "zip",
-                        "version": "0.0.1",
-                        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
+                        "type": packType,
+                        "version": PackVersion,
+                        "fileRegExp": packFileRegExp
                     }
                 };
                 ipcRenderer.send('updateTaskConfig', config);

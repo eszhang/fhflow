@@ -15,9 +15,13 @@ let { webContents } = global.mainWindow;
 let STORAGE = (function () {
     let cache = {
         name: "fhflow",
-        workspace: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
-        curProjectPath: "D:/mygit/fhFlowWorkspaceTest",
-        projects: {}
+        workspace: "/Users/eszhang/Desktop/eszhang-github/fhflow/test",
+        curProjectPath: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk",
+        projects: {
+            fk: {
+                path: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk"
+            }
+        }
     };
     function get() {
         return cache;
@@ -49,7 +53,7 @@ let action = {
 
         if (storage && (workspace = storage.workspace)) {
 
-            projectPath = `${workspace}/test/fk-04`;
+            projectPath = `${workspace}/fk-04`;
 
             //先判断一下工作区是否存在
             if (!isDirExist(workspace)) {
