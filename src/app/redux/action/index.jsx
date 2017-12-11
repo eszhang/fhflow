@@ -149,7 +149,7 @@ export const delProject = (index) => ({
 });
 
 //设置开发按钮的状态
-export const changeDevStatus = (index,  status) => ({
+export const changeDevStatus = (index) => ({
     type: CHANGE_DEV_STATUS,
     payload: {
         index
@@ -157,7 +157,7 @@ export const changeDevStatus = (index,  status) => ({
 });
 
 //设置上传按钮的状态
-export const changeUploadStatus = (index,  status) => ({
+export const changeUploadStatus = (index) => ({
     type: CHANGE_UPLOAD_STATUS,
     payload: {
         index
@@ -165,7 +165,7 @@ export const changeUploadStatus = (index,  status) => ({
 });
 
 //设置打包按钮的状态
-export const changePackStatus = (index,  status) => ({
+export const changePackStatus = (index) => ({
     type: CHANGE_PACK_STATUS,
     payload: {
         index

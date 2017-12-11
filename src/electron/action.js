@@ -13,13 +13,23 @@ const task = require('../task/index');
 let { webContents } = global.mainWindow;
 
 let STORAGE = (function () {
+    // let cache = {
+    //     name: "fhflow",
+    //     workspace: "/Users/eszhang/Desktop/eszhang-github/fhflow/test",
+    //     curProjectPath: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk",
+    //     projects: {
+    //         fk: {
+    //             path: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk"
+    //         }
+    //     }
+    // };
     let cache = {
         name: "fhflow",
-        workspace: "/Users/eszhang/Desktop/eszhang-github/fhflow/test",
-        curProjectPath: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk",
+        workspace: "D:/mygit/fhFlowWorkspaceTest",
+        curProjectPath: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
         projects: {
-            fk: {
-                path: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk"
+            fhflowTest: {
+                path: "D:/mygit/fhFlowWorkspaceTest/fhflowTest"
             }
         }
     };

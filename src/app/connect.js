@@ -27,6 +27,16 @@ ipcRenderer.on('getInitData-success', (event, storage, config) => {
     supportREM && chooseFunc.push('rem');
     reversion && chooseFunc.push('md5');
 
+
+    projects = detailProjects(projects);
+
+    // detailProjects = (projects) => {
+    //     for(var i = 0; i < projects.length; i++ ){
+    //         projects.
+
+    //     }
+    // }
+
     globalDispatch(setProjectData({
         data: [
             {
