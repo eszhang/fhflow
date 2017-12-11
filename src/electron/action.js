@@ -136,6 +136,10 @@ let action = {
         }
     },
 
+    openProjectPath: function(path){
+        shell.openItem(path);
+    },
+
     //删除项目
     delProject: function () {
 
@@ -262,9 +266,9 @@ ipcMain.on("CREATEPROJECT", function (event, path) {
     action.createProject(path)
 })
 
-//打开项目
-ipcMain.on("OPENPROJECT", function (event) {
-    action.openProjectProject()
+//打开项目路径
+ipcMain.on("OPENPROJECT", function (event, path) {
+    action.openProjectPath(path)
 })
 
 //删除项目

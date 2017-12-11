@@ -15,6 +15,7 @@ export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
+export const OPEN_PROJECT = 'OPEN_PROJECT';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
 export const ADD_ACTION_PROJECT_BACKEND = 'ADD_ACTION_PROJECT_BACKEND';
 export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
@@ -132,6 +133,11 @@ export const changeActionProject = (index) => ({
     payload: {
         index
     },
+});
+
+//新增文件夹
+export const openProject = (data) => ({
+    type: OPEN_PROJECT
 });
 
 //新增文件夹

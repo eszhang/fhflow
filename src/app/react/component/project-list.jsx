@@ -81,7 +81,7 @@ export default class ProjectList extends React.Component {
     }
 
     open = () => {
-        alert('打开目标文件夹');
+        this.props.openProjectHandler();
     }
 
     dev = (data) => {

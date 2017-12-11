@@ -84,7 +84,7 @@ class Container extends React.Component {
     render() {
 
         const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
-        const { projectList, actionSetting, delProjectBackend, addProjectBackend, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
+        const { projectList, actionSetting, openProject, delProjectBackend, addProjectBackend, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-layout-type={layoutType}>
@@ -92,7 +92,7 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList data={projectList} delProjectHandler={delProjectBackend}  changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectBackend} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
+                    {EN === "resource-management" && <ProjectList data={projectList} delProjectHandler={delProjectBackend} openProjectHandler={openProject} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectBackend} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
 
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
