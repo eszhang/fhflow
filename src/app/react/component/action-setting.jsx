@@ -23,7 +23,6 @@ class ActionSettingForm extends React.Component{
         });
     }
 
-
     handleReset = () => {
         this.props.form.resetFields();
     }
@@ -53,7 +52,7 @@ class ActionSettingForm extends React.Component{
                     <Input readOnly placeholder="工作区路径" size="small" value={workSpace}/>
                 </FormItem>
                 <FormItem label="功能">
-                    {getFieldDecorator('functionGroup', {
+                    {getFieldDecorator('choseFunctions', {
                         initialValue: choseFunctions,
                     })(
                         <CheckboxGroup className="functionGroup" options={functionOptions} />
