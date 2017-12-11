@@ -13,7 +13,7 @@ console.log(`store=${globalStore}`)
 
 //==接收列表
 
-let { setProjectData, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData } = globalAction;
+let { setProjectData, setWorkSpace, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData } = globalAction;
 
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, storage, config) => {
@@ -47,6 +47,9 @@ ipcRenderer.on('getInitData-success', (event, storage, config) => {
     globalDispatch(setProjectData({
         data: projectArr
     }));
+
+    globalDispatch(setWorkSpace(workspace));
+
 
     globalDispatch(updateProjectSetting({
         "workSpace": workspace,
@@ -156,7 +159,8 @@ globalStore.subscribe(
             { ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
                  CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS,
                  CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, 
-                 ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
+                 ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING, 
+                SET_WORKSPACE } = globalAction;
         
         let { data, selectedIndex } = projectList,
             curProjectPath = data[selectedIndex].path;
@@ -175,8 +179,8 @@ globalStore.subscribe(
                 ipcRenderer.send('DElPROJECT');
                 break;
             //更新工作空间
-            case "UPDATEWORKSPACE":
-                let { workSpace } = actionSetting.data;
+            case SET_WORKSPACE:
+                let workSpace  = projectList.workSpace;
                 ipcRenderer.send('updateWorkspace', workSpace);
                 break;
             //更新当前活跃项目

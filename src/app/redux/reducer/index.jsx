@@ -4,7 +4,8 @@ import { UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
-import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
+import { SET_PROJECT_DATA,SET_WORKSPACE,
+         CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
         OPEN_PROJECT, ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, 
         CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS } from '../action/index'
 import { UPDATE_PROJECT_SETTING } from '../action/index';
@@ -102,6 +103,12 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
         case SET_PROJECT_DATA:
             return Object.assign({}, state,
                 { ...action.payload.data }
+            );
+        case SET_WORKSPACE:
+            return Object.assign({}, state,
+                {
+                    workSpace: action.payload.data
+                }
             );
         case CHANGE_ACTION_PROJECT:
             return Object.assign({}, state, {

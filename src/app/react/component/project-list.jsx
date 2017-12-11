@@ -109,6 +109,7 @@ export default class ProjectList extends React.Component {
 
     handleOk = () => {
         this.form.validateFields((err, values) => {
+            this.props.setWorkSpace(values.workSpace);
             if (!err) {
                 this.setState({
                     ModalText: '设置成功,页面将在2s后关闭',
@@ -117,7 +118,8 @@ export default class ProjectList extends React.Component {
                 setTimeout(() => {
                 this.setState({
                     modalVisible: false,
-                    confirmLoading: false
+                    confirmLoading: false,
+                    ModalText: '',
                 });
                 }, 2000);
             }
@@ -130,7 +132,7 @@ export default class ProjectList extends React.Component {
     }
 
     render() {
-        const {data= {},onClickHandler = function () { } } = this.props;
+        const {data= {}, onClickHandler = function () { } } = this.props;
         
         // this.state = data;
         return (
@@ -165,7 +167,7 @@ export default class ProjectList extends React.Component {
                             <Icon type="setting" title="全局设置" />
                         </a>
                         
-                        <WrappedGlobalSettingForm ref={this.saveFormRef} visible={this.state.modalVisible} ModalText={this.state.ModalText} confirmLoading={this.state.confirmLoading} handleCancel={this.handleCancel} handleOk={this.handleOk}/>                                              
+                        <WrappedGlobalSettingForm ref={this.saveFormRef}  workSpace={data.workSpace} visible={this.state.modalVisible} ModalText={this.state.ModalText} confirmLoading={this.state.confirmLoading} handleCancel={this.handleCancel} handleOk={this.handleOk}/>                                              
                         
                     </div>
                     <div className="plf-right"> 
@@ -193,10 +195,10 @@ class GlobalSettingForm extends React.Component{
     }
 
     render(){
-        const { visible,  confirmLoading, ModalText, handleCancel, handleOk} = this.props;
+        const { visible,  confirmLoading, ModalText, handleCancel, handleOk, workSpace} = this.props;
         const { getFieldDecorator } = this.props.form;
         return (
-            <Modal title="Title"
+            <Modal title="修改全局工作区路径"
                     visible={visible}
                     onOk={handleOk}
                     confirmLoading={confirmLoading}
@@ -204,12 +206,13 @@ class GlobalSettingForm extends React.Component{
                     >
             <Form layout="vertical" onSubmit={this.handleSubmit}>
                 <FormItem label="工作区路径">
-                    {getFieldDecorator('ip', {
+                    {getFieldDecorator('workSpace', {
+                        initialValue: workSpace,
                         rules: [ {
                             required: true, message: '工作区路径不能为空',
-                        }],
+                        }]
                         })(
-                        <Input placeholder="服务器地址" size="small" />
+                        <Input placeholder="全局工作区路径" />
                     )}
                 </FormItem>
             </Form>

@@ -159,9 +159,9 @@ let action = {
 
     //更新工作空间
     updateWorkspace: function (path) {
-        let storage = STORAGE.get();
-        storage.workspace = path;
-        storage.set(storage)
+        let storage = STORAGE.get()
+        storage.workspace = path
+        STORAGE.set(storage)
     },
 
     //更新当前活跃项目

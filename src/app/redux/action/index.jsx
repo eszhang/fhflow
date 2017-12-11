@@ -9,6 +9,7 @@ export const ADD_PROXY_ITEM = 'ADD_PROXY_ITEM';
 export const UPDATE_PROXY_ITEM = 'UPDATE_PROXY_ITEM';
 export const DELETE_PROXY_ITEM = 'DELETE_PROXY_ITEM';
 export const SET_PROXY_DATA = 'SET_PROXY_DATA';
+export const SET_WORKSPACE = 'SET_WORKSPACE';
 export const UPDATE_PROXY_LIST = 'UPDATE_PROXY_LIST';
 export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
@@ -125,6 +126,12 @@ export const setProjectData = (data) => ({
     payload: {
         data
     }
+});
+
+//设置文件夹初始化数据
+export const setWorkSpace = (data) => ({
+    type: SET_WORKSPACE,
+    payload:{data}
 });
 
 //切换文件夹
