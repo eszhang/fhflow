@@ -5,6 +5,6 @@ oasisl
 .vscode
 .sass-cache
 release
-*.zip
+/*.zip
 dev-environment
 test
