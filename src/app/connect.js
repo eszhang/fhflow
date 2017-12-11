@@ -191,6 +191,12 @@ globalStore.subscribe(
             //     ipcRenderer.send('runTask', taskName);
             //     break;
             case CHANGE_DEV_STATUS:
+                if(data[selectedIndex].isDeveloping){
+                    ipcRenderer.send('runTask', 'dev');
+                }else{
+                    ipcRenderer.send('runTask', 'close');
+                }
+                break;
             case CHANGE_UPLOAD_STATUS:
             case CHANGE_PACK_STATUS:
                 break;

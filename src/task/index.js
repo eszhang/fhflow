@@ -44,9 +44,9 @@ let action = {
 
     //关闭任务
     close: function(projectPath){
-        require("browser-sync").get(projectPath).exit();
+        require("browser-sync").get(projectPath).pause();
     },
-    
+
     //获取config配置项
     getConfig: function(projectPath){
         let configPath = path.join(projectPath, CONFIGNAME);

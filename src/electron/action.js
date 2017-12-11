@@ -183,9 +183,14 @@ let action = {
     },
 
     //关闭任务
-    closeTask: function (taskName) {
+    // closeTask: function (taskName) {
+    //     let storage = STORAGE.get(),
+    //         projectPath = storage.curProjectPath;
 
-    },
+    //     if (projectPath) {
+    //         task[taskName](projectPath, action.sendLogMessage);
+    //     }
+    // },
 
     //更新配置项
     updateConfig: function (config) {
@@ -292,9 +297,9 @@ ipcMain.on("runTask", function (event, taskName) {
 })
 
 //关闭任务
-ipcMain.on("closeTask", function (event, taskName) {
-    action.closeTask(taskName)
-})
+// ipcMain.on("closeTask", function (event, taskName) {
+//     action.closeTask(taskName)
+// })
 
 //自定义dev任务
 ipcMain.on("customDevTask", function (event, taskTest) {
