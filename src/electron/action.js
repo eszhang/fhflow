@@ -67,7 +67,7 @@ let action = {
     //新建项目
     createProject: function (projectPath) {
 
-        let storage = STORAGE.get(),
+        let storage = STORAGE.get(), 
             workspace;
 
         if (storage && (workspace = storage.workspace)) {
