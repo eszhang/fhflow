@@ -236,16 +236,17 @@ function getPackObj(config){
 
 function getUploadObj( config ){
 
-    let setting = config;
-    var ssh = {
+    let {path,setting} = config;
+    let projectPath = path + '/';
+    let ssh = {
         srcBase: projectPath + 'build',
         destBase: projectPath + 'release',
         sft: {
-            host: setting.host,
-            port: setting.port,
-            user: setting.user,
-            pass: setting.pass,
-            remotePath: setting.remotePath
+            host: setting.ftp.host,
+            port: setting.ftp.port,
+            user: setting.ftp.user,
+            pass: setting.ftp.pass,
+            remotePath: setting.ftp.remotePath
         },
         startLog: '上传files开始...',
         endLog: '上传files成功...'

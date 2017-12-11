@@ -19,7 +19,7 @@ const Zip = require('./atom/zip');
 const Ssh = require('./atom/ssh');
 const async = require('async');
 
-let { getDevObj, getPackObj } = require('./task.config.js');
+let { getDevObj, getPackObj, getUploadObj } = require('./task.config.js');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
@@ -169,9 +169,16 @@ function dev(projectPath, loggerhandler) {
 
 //upload task
 function upload(projectPath, loggerhandler) {
+    let curConfigPath = path.join(projectPath, CONFIGNAME),
+        setting = requireUncached(curConfigPath),
+        
 
-    let setting = requireUncached(curConfigPath),
-        sshObj = getUploadObj(setting);
+    sshObj = getUploadObj({
+        path: projectPath,
+        packageModules: setting.modules,
+        setting: setting
+    });
+    // sshObj = getUploadObj(uploadConfig);
 
     loggerhandler({
         desc: "upload 模式已打开...",

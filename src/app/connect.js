@@ -198,7 +198,10 @@ globalStore.subscribe(
                 }
                 break;
             case CHANGE_UPLOAD_STATUS:
+                ipcRenderer.send('runTask', 'upload');
+                break;
             case CHANGE_PACK_STATUS:
+                ipcRenderer.send('runTask', 'pack');
                 break;
             //自定义任务(dev、dupload、pack)
             case "CUSTOMDEVTASK":
@@ -220,7 +223,7 @@ globalStore.subscribe(
                 let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions } = actionSetting.data,
                     { ip, port } = proxyList.host;
                 let config = {
-                    "businessName": "hero2",
+                    "businessName": "hero",
                     "modules": modules,
                     "choseModules": choseModules,
                     "supportREM": choseFunctions.indexOf("rem") !== -1 ? true : false,

@@ -114,17 +114,11 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
                 }),
                 selectedIndex: 0
             })
-        case DEl_ACTION_PROJECT_BACKEND:
-            return Object.assign({}, state)    
-        case OPEN_PROJECT:
-            return Object.assign({}, state) 
         case ADD_ACTION_PROJECT:
             return Object.assign({}, state, {
                 data: [...state.data, action.payload.data],
                 selectedIndex: state.data.length
             })
-        case ADD_ACTION_PROJECT_BACKEND:
-            return Object.assign({}, state)    
         case CHANGE_DEV_STATUS:
             state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
             return Object.assign({}, state, {
