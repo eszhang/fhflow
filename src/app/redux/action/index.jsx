@@ -9,23 +9,21 @@ export const ADD_PROXY_ITEM = 'ADD_PROXY_ITEM';
 export const UPDATE_PROXY_ITEM = 'UPDATE_PROXY_ITEM';
 export const DELETE_PROXY_ITEM = 'DELETE_PROXY_ITEM';
 export const SET_PROXY_DATA = 'SET_PROXY_DATA';
-export const SET_WORKSPACE = 'SET_WORKSPACE';
-export const UPDATE_PROXY_LIST = 'UPDATE_PROXY_LIST';
 export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
-export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
-export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
+export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
-export const OPEN_PROJECT = 'OPEN_PROJECT';
+export const SET_WORKSPACE = 'SET_WORKSPACE';
+export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
-export const ADD_ACTION_PROJECT_BACKEND = 'ADD_ACTION_PROJECT_BACKEND';
 export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
-export const DEl_ACTION_PROJECT_BACKEND = 'DEl_ACTION_PROJECT_BACKEND';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
 export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
 export const CHANGE_PACK_STATUS = 'CHANGE_PACK_STATUS';
-// export const SET_ACTION_DATA = 'SET_ACTION_DATA';
 export const UPDATE_PROJECT_SETTING = 'UPDATE_PROJECT_SETTING';
+export const CREATE_PROJECT_ORDER = 'CREATE_PROJECT_ORDER';
+export const OPEN_PROJECT_ORDER = 'OPEN_PROJECT_ORDER';
+export const DEl_PROJECT_ORDER = 'DEl_PROJECT_ORDER';
 
 
 /*
@@ -143,21 +141,11 @@ export const changeActionProject = (index) => ({
 });
 
 //新增文件夹
-export const openProject = (data) => ({
-    type: OPEN_PROJECT
-});
-
-//新增文件夹
 export const addProject = (data) => ({
     type: ADD_ACTION_PROJECT,
     payload: {
         data
     }
-});
-
-//后端新增文件夹
-export const addProjectBackend = () => ({
-    type: ADD_ACTION_PROJECT_BACKEND
 });
 
 //删除文件夹
@@ -166,11 +154,6 @@ export const delProject = (name) => ({
     payload: {
         name
     }
-});
-
-//后端删除文件夹
-export const delProjectBackend= () => ({
-    type: DEl_ACTION_PROJECT_BACKEND
 });
 
 //设置开发按钮的状态
@@ -194,20 +177,27 @@ export const changePackStatus = (index) => ({
     }
 });
 
-//设置项目配置项
-// export const setActionData = (data) => ({
-//     type: SET_ACTION_DATA,
-//     payload: {
-//         data
-//     }
-// });
-
 //更新项目配置项
 export const updateProjectSetting = (data) => ({
     type:  UPDATE_PROJECT_SETTING,
     payload: {
         data
     }
+});
+
+//新增文件夹指令
+export const addProjectOrder = () => ({
+    type: CREATE_PROJECT_ORDER
+});
+
+//打开文件夹目录指令
+export const openProjectOrder = (data) => ({
+    type: OPEN_PROJECT_ORDER
+});
+
+//后端删除文件夹
+export const delProjectOrder= () => ({
+    type: DEl_PROJECT_ORDER
 });
 
 

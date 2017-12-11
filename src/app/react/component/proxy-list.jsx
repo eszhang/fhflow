@@ -49,7 +49,7 @@ class IpPortForm extends React.Component {
         const portError = isFieldTouched('port') && getFieldError('port');
         return (
             <Form layout="inline" onSubmit={this.handleSubmit}>
-                <FormItem validateStatus={ipError ? 'error' : ''} help={ipError || ''} label="ip">
+                <FormItem validateStatus={ipError ? 'error' : ''} help={ipError || ''} label="主机名">
                     {
                         getFieldDecorator('ip', {
                             initialValue: ip,
@@ -57,7 +57,7 @@ class IpPortForm extends React.Component {
                         })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" />)
                     }
                 </FormItem>
-                <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} label="port">
+                <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} label="端口号">
                     {
                         getFieldDecorator('port', {
                             initialValue: port,
@@ -89,35 +89,28 @@ class ProxItemForm extends React.Component {
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 5 },
+                sm: { span: 5 }
             },
             wrapperCol: {
                 xs: { span: 24 },
-                sm: { span: 12 },
+                sm: { span: 12 }
             }
         }
         return (
             <Modal title="新增代理请求" visible={visible} onOk={onCreate} onCancel={onCancel}>
                 <Form>
-                    <FormItem {...formItemLayout} label="ip">
+                    <FormItem {...formItemLayout} label="匹配规则">
                         {
-                            getFieldDecorator('ip', {
-                                rules: [{ required: true, message: 'Please input your ip!' }]
-                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" />)
+                            getFieldDecorator('rule', {
+                                rules: [{ required: true, message: 'Please input your rule!' }]
+                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="rule" />)
                         }
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="port">
+                    <FormItem  {...formItemLayout} label="目标地址">
                         {
-                            getFieldDecorator('port', {
-                                rules: [{ required: true, message: 'Please input your port!' }]
-                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="port" />)
-                        }
-                    </FormItem>
-                    <FormItem  {...formItemLayout} label="project">
-                        {
-                            getFieldDecorator('project', {
-                                rules: [{ required: true, message: 'Please input your project!' }]
-                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="project" />)
+                            getFieldDecorator('target', {
+                                rules: [{ required: true, message: 'Please input your target!' }]
+                            })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="target" />)
                         }
                     </FormItem>
                 </Form>
@@ -144,13 +137,13 @@ export default class ProxyList extends React.Component {
         this.columns = [{
             title: '匹配规则',
             dataIndex: 'rule',
-            width: '35%',
-            render: (text, record) => this.renderColumns(text, record, 'ip')
+            width: '40%',
+            render: (text, record) => this.renderColumns(text, record, 'rule')
         }, {
             title: '目标地址',
             dataIndex: 'target',
-            width: '15%',
-            render: (text, record) => this.renderColumns(text, record, 'port')
+            width: '40%',
+            render: (text, record) => this.renderColumns(text, record, 'target')
         }, {
             title: '操作',
             dataIndex: 'operation',

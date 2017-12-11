@@ -40,16 +40,16 @@ class Container extends React.Component {
     }
     componentWillMount(){
         const { setProjectData, updateProjectSetting } = this.props;
-        setProjectData(projectManageData);
-        updateProjectSetting(actionSettingData);
+        // setProjectData(projectManageData);
+        // updateProjectSetting(actionSettingData);
         // setActionData(actionSettingData);
 
     }
 
     componentDidMount() {
         const { updateProxyHost, setProxyData, updateDocList, updateInstallToolsList } = this.props;
-        updateProxyHost(proxyListData.host);
-        setProxyData(proxyListData.data);
+        // updateProxyHost(proxyListData.host);
+        // setProxyData(proxyListData.data);
         updateDocList(docListData, 1, pageSize);
         updateInstallToolsList(installListData.tools, 1, pageSize)
     }
@@ -84,7 +84,7 @@ class Container extends React.Component {
     render() {
 
         const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
-        const { projectList, actionSetting, openProject, setWorkSpace, delProjectBackend, addProjectBackend, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
+        const { projectList, actionSetting, openProjectOrder, setWorkSpace, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-layout-type={layoutType}>
@@ -92,7 +92,7 @@ class Container extends React.Component {
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area">
-                    {EN === "resource-management" && <ProjectList data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectBackend} openProjectHandler={openProject} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectBackend} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
+                    {EN === "resource-management" && <ProjectList data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
 
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}

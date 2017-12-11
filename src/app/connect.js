@@ -13,7 +13,11 @@ console.log(`store=${globalStore}`)
 
 //==接收列表
 
-let { setProjectData, setWorkSpace, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData } = globalAction;
+let {
+    setProjectData, setWorkSpace,
+    addProject, delProject,
+    updateStatusList, updateProjectSetting, updateProxyHost, setProxyData
+} = globalAction;
 
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, storage, config) => {
@@ -49,7 +53,6 @@ ipcRenderer.on('getInitData-success', (event, storage, config) => {
     }));
 
     globalDispatch(setWorkSpace(workspace));
-
 
     globalDispatch(updateProjectSetting({
         "workSpace": workspace,
@@ -156,48 +159,45 @@ globalStore.subscribe(
         let state = globalStore.getState(),
             action = window.preAction,
             { projectList, proxyList, actionSetting } = state,
-            { ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
-                 CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS,
-                 CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, 
-                 ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING, 
-                SET_WORKSPACE } = globalAction;
-        
+            {
+                CREATE_PROJECT_ORDER, OPEN_PROJECT_ORDER, DEl_PROJECT_ORDER,
+                SET_WORKSPACE, CHANGE_ACTION_PROJECT,
+                CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
+                UPDATE_PROXY_HOST,
+                UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA,
+                UPDATE_INSTALL_PROGRESS
+            } = globalAction;
+
         let { data, selectedIndex } = projectList,
             curProjectPath = data[selectedIndex].path;
 
         switch (action.type) {
             //创建项目
-            case "ADD_ACTION_PROJECT_BACKEND":
+            case CREATE_PROJECT_ORDER:
                 ipcRenderer.send('CREATEPROJECT');
                 break;
             //打开项目
-            case "OPEN_PROJECT":
-                ipcRenderer.send('OPENPROJECT',curProjectPath);
+            case OPEN_PROJECT_ORDER:
+                ipcRenderer.send('OPENPROJECT');
                 break;
             //删除项目
-            case "DEl_ACTION_PROJECT_BACKEND":
+            case DEl_PROJECT_ORDER:
                 ipcRenderer.send('DElPROJECT');
                 break;
             //更新工作空间
             case SET_WORKSPACE:
-                let workSpace  = projectList.workSpace;
+                let workSpace = projectList.workSpace;
                 ipcRenderer.send('updateWorkspace', workSpace);
                 break;
             //更新当前活跃项目
             case CHANGE_ACTION_PROJECT:
-                // let { data, selectedIndex } = projectList,
-                //     curProjectPath = data[selectedIndex].path;
                 ipcRenderer.send('changeSelectedProject', curProjectPath);
                 break;
             //执行对应任务         
-            // case "CHANGETASK":
-            //     let taskName = "dev";
-            //     ipcRenderer.send('runTask', taskName);
-            //     break;
             case CHANGE_DEV_STATUS:
-                if(data[selectedIndex].isDeveloping){
+                if (data[selectedIndex].isDeveloping) {
                     ipcRenderer.send('runTask', 'dev');
-                }else{
+                } else {
                     ipcRenderer.send('runTask', 'close');
                 }
                 break;

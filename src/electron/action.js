@@ -27,20 +27,32 @@ let STORAGE = (function () {
     //         }
     //     }
     // };
+    // let cache = {
+    //     name: "fhflow",
+
+    //     workspace: "D:/mygit/fhFlowWorkspaceTest",
+    //     curProjectPath: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
+    //     projects: {
+    //         fhflowTest: {
+    //              path: "D:/mygit/fhFlowWorkspaceTest/fhflowTest"
+    //         },
+    //         fk: {
+    //              path: "D:/mygit/fhFlowWorkspaceTest/fk"
+    //         }
+    //     }
+
+    // };
     let cache = {
         name: "fhflow",
 
-        workspace: "D:/mygit/fhFlowWorkspaceTest",
-        curProjectPath: "D:/mygit/fhFlowWorkspaceTest/fhflowTest",
+        workspace: "/Users/eszhang/Desktop/eszhang-github/fhflow/test",
+        curProjectPath: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk",
         projects: {
-            fhflowTest: {
-                 path: "D:/mygit/fhFlowWorkspaceTest/fhflowTest"
-            },
             fk: {
-                 path: "D:/mygit/fhFlowWorkspaceTest/fk"
+                path: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk"
             }
         }
-        
+
     };
     function get() {
         return cache;
@@ -65,9 +77,9 @@ let action = {
     },
 
     //新建项目
-    createProject: function (projectPath) {
+    createProject: function () {
 
-        let storage = STORAGE.get(), 
+        let storage = STORAGE.get(),
             workspace;
 
         if (storage && (workspace = storage.workspace)) {
@@ -136,13 +148,14 @@ let action = {
         }
     },
 
-    openProjectPath: function(path){
-        shell.openItem(path);
+    openProjectPath: function () {
+        let storage = STORAGE.get(),
+            curProjectPath = storage.curProjectPath;
+        shell.openItem(curProjectPath);
     },
 
     //删除项目
     delProject: function () {
-
         let storage = STORAGE.get(),
             curProjectPath = storage.curProjectPath;
         projectName = path.basename(curProjectPath);
@@ -165,7 +178,7 @@ let action = {
     },
 
     //更新当前活跃项目
-    changeSelectedProject: function(projectPath){
+    changeSelectedProject: function (projectPath) {
         let storage = STORAGE.get();
         storage.curProjectPath = projectPath;
         STORAGE.set(storage);
@@ -244,7 +257,7 @@ let action = {
 
     },
 
-    sendLogMessage: function(logs) {
+    sendLogMessage: function (logs) {
         webContents.send("print-log", logs);
     }
 };
@@ -257,13 +270,13 @@ ipcMain.on("init", function (event) {
 })
 
 //创建项目
-ipcMain.on("CREATEPROJECT", function (event, path) {
-    action.createProject(path)
+ipcMain.on("CREATEPROJECT", function (event) {
+    action.createProject()
 })
 
 //打开项目路径
-ipcMain.on("OPENPROJECT", function (event, path) {
-    action.openProjectPath(path)
+ipcMain.on("OPENPROJECT", function (event) {
+    action.openProjectPath()
 })
 
 //删除项目

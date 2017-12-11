@@ -4,10 +4,12 @@ import { UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
-import { SET_PROJECT_DATA,SET_WORKSPACE,
-         CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
-        OPEN_PROJECT, ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, 
-        CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS } from '../action/index'
+import {
+    SET_PROJECT_DATA, SET_WORKSPACE,
+    CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT,
+    OPEN_PROJECT, ADD_ACTION_PROJECT,
+    CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS
+} from '../action/index'
 import { UPDATE_PROJECT_SETTING } from '../action/index';
 
 //actionMenu state
@@ -130,17 +132,17 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
             state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
             return Object.assign({}, state, {
                 data: state.data
-            })    
+            })
         case CHANGE_UPLOAD_STATUS:
             state.data[state.selectedIndex].isUploading = !state.data[state.selectedIndex].isUploading;
             return Object.assign({}, state, {
                 data: state.data
-            })    
+            })
         case CHANGE_PACK_STATUS:
             state.data[state.selectedIndex].isPackageing = !state.data[state.selectedIndex].isPackageing;
             return Object.assign({}, state, {
                 data: state.data
-            })    
+            })
         default:
             return state;
     }
@@ -157,10 +159,10 @@ export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {
         //         }
         //     );
         case UPDATE_PROJECT_SETTING:
-            return Object.assign({}, state,{
-               data: Object.assign({}, state.data, action.payload.data)
+            return Object.assign({}, state, {
+                data: Object.assign({}, state.data, action.payload.data)
             });
-         
+
         default:
             return state;
     }
