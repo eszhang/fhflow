@@ -142,20 +142,15 @@ export default class ProxyList extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: '主机名',
-            dataIndex: 'ip',
+            title: '匹配规则',
+            dataIndex: 'rule',
             width: '35%',
             render: (text, record) => this.renderColumns(text, record, 'ip')
         }, {
-            title: '端口号',
-            dataIndex: 'port',
+            title: '目标地址',
+            dataIndex: 'target',
             width: '15%',
             render: (text, record) => this.renderColumns(text, record, 'port')
-        }, {
-            title: '项目名',
-            dataIndex: 'project',
-            width: '35%',
-            render: (text, record) => this.renderColumns(text, record, 'project')
         }, {
             title: '操作',
             dataIndex: 'operation',

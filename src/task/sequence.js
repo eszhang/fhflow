@@ -185,11 +185,9 @@ function upload(projectPath, loggerhandler) {
         type: "warning"
     });
 
-    Ssh(sshObj, function () {
-        loggerhandler({
-            desc: sshObj.startLog,
-            type: "info"
-        }, {
+    Ssh( sshObj, function(){
+    }, function () {
+        loggerhandler( {
             desc: sshObj.endtLog,
             type: "success"
         });
