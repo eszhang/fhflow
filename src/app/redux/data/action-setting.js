@@ -8,10 +8,9 @@ var actionSettingData = {
     "uploadRemotePath": "xx",
     "uploadIgnoreFileRegExp": "*.js",
     "uploadType": 'ftp',
-    "packType": "zip",
-    "PackVersion": "0.0.1",
+    "packVersion": "0.0.1",
     "packFileRegExp": "${name}-${moduleName}-${version}-${time}",
-    "packTpye": 'zip',
+    "packType": 'zip',
     "modules": ["fk","backflow"],
     "choseModules": ["fk"]
 }

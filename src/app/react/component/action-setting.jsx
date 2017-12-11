@@ -33,7 +33,7 @@ class ActionSettingForm extends React.Component{
         const { actionSetting, selectedIndex } = this.props;
         const {choseFunctions, workSpace, uploadHost, uploadPort,
         uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, 
-        uploadType, packType, PackVersion, packFileRegExp,packTpye} = actionSetting;
+        uploadType, packType, packVersion, packFileRegExp,packTpye} = actionSetting;
 
         const functionOptions = [
             { label: '开启LiveReload浏览器自动刷新', value: 'liveReload' },
@@ -130,13 +130,8 @@ class ActionSettingForm extends React.Component{
 
                
                 <FormItem label="打包">
-                    {getFieldDecorator('packType', {
-                        initialValue: packType,
-                    })(   
-                        <Input placeholder="打包名称" size="small" />
-                    )} 
-                    {getFieldDecorator('PackVersion', {
-                        initialValue: PackVersion,
+                    {getFieldDecorator('packVersion', {
+                        initialValue: packVersion,
                     })(   
                         <Input placeholder="版本号" size="small" />
                     )} 
@@ -145,8 +140,8 @@ class ActionSettingForm extends React.Component{
                     })(   
                         <Input placeholder="自定义命名规则" size="small" />
                     )} 
-                    {getFieldDecorator('packTpye', {
-                        initialValue: packTpye,
+                    {getFieldDecorator('packType', {
+                        initialValue: packType,
                     })(   
                         <RadioGroup >
                             <Radio value="rar">rar</Radio>
