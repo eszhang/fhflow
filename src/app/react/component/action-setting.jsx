@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Icon, Button, Checkbox, Radio, Tabs } from 'antd';
+import { Form, Input, Icon, Button, Checkbox, Radio, message, Tabs } from 'antd';
 import '../style/action-setting.scss';
 const FormItem = Form.Item;
 const CheckboxGroup  = Checkbox.Group;
@@ -18,7 +18,7 @@ class ActionSettingForm extends React.Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 submitHandler(values);
-                // message.success('访问主机名更新成功');
+                message.success('项目配置更新成功');
             }
         });
     }

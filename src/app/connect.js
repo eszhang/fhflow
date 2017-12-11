@@ -155,10 +155,12 @@ globalStore.subscribe(
         let state = globalStore.getState(),
             action = window.preAction,
             { projectList, proxyList, actionSetting } = state,
-            { ADD_ACTION_PROJECT, DEl_ACTION_PROJECT, CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
+            { ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, DEl_ACTION_PROJECT, CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS,
+                 CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, 
+                 ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
         switch (action.type) {
             //创建项目
-            case "CREATEPROJECT":
+            case "ADD_ACTION_PROJECT_BACKEND":
                 ipcRenderer.send('CREATEPROJECT');
                 break;
             //打开项目

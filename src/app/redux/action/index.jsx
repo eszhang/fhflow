@@ -16,6 +16,7 @@ export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
+export const ADD_ACTION_PROJECT_BACKEND = 'ADD_ACTION_PROJECT_BACKEND';
 export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
 export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
@@ -138,6 +139,11 @@ export const addProject = (data) => ({
     payload: {
         data
     }
+});
+
+//新增文件夹
+export const addProjectBackend = () => ({
+    type: ADD_ACTION_PROJECT_BACKEND
 });
 
 //删除文件夹
