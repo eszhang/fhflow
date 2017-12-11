@@ -18,6 +18,7 @@ export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
 export const ADD_ACTION_PROJECT_BACKEND = 'ADD_ACTION_PROJECT_BACKEND';
 export const DEl_ACTION_PROJECT = 'DEl_ACTION_PROJECT';
+export const DEl_ACTION_PROJECT_BACKEND = 'DEl_ACTION_PROJECT_BACKEND';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
 export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
 export const CHANGE_PACK_STATUS = 'CHANGE_PACK_STATUS';
@@ -141,25 +142,27 @@ export const addProject = (data) => ({
     }
 });
 
-//新增文件夹
+//后端新增文件夹
 export const addProjectBackend = () => ({
     type: ADD_ACTION_PROJECT_BACKEND
 });
 
 //删除文件夹
-export const delProject = (index) => ({
+export const delProject = (name) => ({
     type: DEl_ACTION_PROJECT,
     payload: {
-        index
+        name
     }
+});
+
+//后端删除文件夹
+export const delProjectBackend= () => ({
+    type: DEl_ACTION_PROJECT_BACKEND
 });
 
 //设置开发按钮的状态
 export const changeDevStatus = (index) => ({
-    type: CHANGE_DEV_STATUS,
-    payload: {
-        index
-    }
+    type: CHANGE_DEV_STATUS
 });
 
 //设置上传按钮的状态

@@ -67,18 +67,6 @@ export default class ProjectList extends React.Component {
     }
     
     add = () => {
-        // const projectListData = this.props.data.data;  
-        // const newKey = projectListData[projectListData.length - 1].key + 1;
-        // const targetData = {
-        //     key: newKey,
-        //     class: 'project-floader',
-        //     name: 'newProject' + newKey,
-        //     path: 'E://test/newProject' + newKey,
-        //     isDeveloping: false,
-        //     isUploading: false,
-        //     isPackageing: false
-        // };
-        
         this.props.addProjectHandler();
     }
 

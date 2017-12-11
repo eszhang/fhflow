@@ -4,7 +4,9 @@ import { UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
-import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS } from '../action/index'
+import { SET_PROJECT_DATA, CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
+        ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, 
+        CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS } from '../action/index'
 import { UPDATE_PROJECT_SETTING } from '../action/index';
 
 //actionMenu state
@@ -108,10 +110,12 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
         case DEl_ACTION_PROJECT:
             return Object.assign({}, state, {
                 data: state.data.filter((value, index) => {
-                    return index !== action.payload.index;
+                    return value.name !== action.payload.name;
                 }),
-                selectedIndex: action.payload.index - 1
+                selectedIndex: 0
             })
+        case DEl_ACTION_PROJECT_BACKEND:
+            return Object.assign({}, state)    
         case ADD_ACTION_PROJECT:
             return Object.assign({}, state, {
                 data: [...state.data, action.payload.data],

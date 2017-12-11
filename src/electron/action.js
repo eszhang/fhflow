@@ -72,7 +72,8 @@ let action = {
 
         if (storage && (workspace = storage.workspace)) {
 
-            projectPath = `${workspace}/fk-04`;
+            let randomName = 'fhflow' + new Date().getTime();
+            projectPath = `${workspace}/` + randomName;
 
             //先判断一下工作区是否存在
             if (!isDirExist(workspace)) {
@@ -143,7 +144,6 @@ let action = {
         projectName = path.basename(curProjectPath);
         if (storage && storage['projects'] && storage['projects'][projectName]) {
             delete storage['projects'][projectName];
-            STORAGE.set(storage);
             //关闭监听等任务(要有容错判断)
             // task.close(projectName);
             storage.curProjectPath = "";
