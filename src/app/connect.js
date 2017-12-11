@@ -18,43 +18,33 @@ let { setProjectData, addProject, delProject, updateStatusList, updateProjectSet
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, storage, config) => {
 
-    let { workspace, projects } = storage,
+    let { workspace, projects, curProjectPath } = storage,
         { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
-        chooseFunc = [];
+        projectArr = [],
+        chooseFunc = [],
+        projectPath,
+        projectName;
 
     server.liverload && chooseFunc.push('liveReload');
     supportChanged && chooseFunc.push('fileAddCompileSupport');
     supportREM && chooseFunc.push('rem');
     reversion && chooseFunc.push('md5');
 
+    for (var key in projects) {
+        projectPath = projects[key].path;
+        projectName = path.basename(projectPath);
+        projectArr.push({
+            key: Date.now(),
+            class: 'project-floader',
+            name: projectName,
+            path: projectPath,
+            isDeveloping: false,
+            isUploading: false,
+            isPackageing: false
+        })
+    }
     globalDispatch(setProjectData({
-        data: [
-            {
-                key: 0,
-                class: 'project-floader',
-                name: 'ued0',
-                path: 'E://test/ued0',
-                isDeveloping: false,
-                isUploading: false,
-                isPackageing: false
-            }, {
-                key: 1,
-                class: 'project-floader',
-                name: 'ued1',
-                path: 'E://test/ued1',
-                isDeveloping: false,
-                isUploading: false,
-                isPackageing: false
-            }, {
-                key: 2,
-                class: 'project-floader',
-                name: 'ued2',
-                path: 'E://test/ued2',
-                isDeveloping: false,
-                isUploading: false,
-                isPackageing: false
-            }
-        ]
+        data: projectArr
     }));
 
     globalDispatch(updateProjectSetting({
@@ -81,7 +71,9 @@ ipcRenderer.on('getInitData-success', (event, storage, config) => {
 
     globalDispatch(setProxyData(server.proxys))
 
+    if (curProjectPath) {
 
+    }
 })
 
 //新建项目
@@ -161,33 +153,40 @@ globalStore.subscribe(
     () => {
         let state = globalStore.getState(),
             action = window.preAction,
-            { proxyList, actionSetting } = state,
-            { CHANGE_ACTION_PROJECT, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
+            { projectList, proxyList, actionSetting } = state,
+            { ADD_ACTION_PROJECT, DEl_ACTION_PROJECT, CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING } = globalAction;
         switch (action.type) {
             //创建项目
             case "CREATEPROJECT":
                 ipcRenderer.send('CREATEPROJECT');
                 break;
             //打开项目
-            case "DElPROJECT":
+            case "OPENPROJECT":
                 ipcRenderer.send('OPENPROJECT');
                 break;
             //删除项目
-            case "DElPROJECT":
+            case DEl_ACTION_PROJECT:
                 ipcRenderer.send('DElPROJECT');
                 break;
             //更新工作空间
             case "UPDATEWORKSPACE":
-                ipcRenderer.send('updateWorkspace');
+                let { workSpace } = actionSetting.data;
+                ipcRenderer.send('updateWorkspace', workSpace);
                 break;
             //更新当前活跃项目
             case CHANGE_ACTION_PROJECT:
-                ipcRenderer.send('changeSelectedProject');
+                let { data, selectedIndex } = projectList,
+                    curProjectPath = data[selectedIndex].path;
+                ipcRenderer.send('changeSelectedProject', curProjectPath);
                 break;
             //执行对应任务         
-            case "CHANGETASK":
-                let taskName = "dev";
-                ipcRenderer.send('runTask', taskName);
+            // case "CHANGETASK":
+            //     let taskName = "dev";
+            //     ipcRenderer.send('runTask', taskName);
+            //     break;
+            case CHANGE_DEV_STATUS:
+            case CHANGE_UPLOAD_STATUS:
+            case CHANGE_PACK_STATUS:
                 break;
             //自定义任务(dev、dupload、pack)
             case "CUSTOMDEVTASK":

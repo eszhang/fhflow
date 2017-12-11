@@ -15,11 +15,14 @@ let { webContents } = global.mainWindow;
 let STORAGE = (function () {
     let cache = {
         name: "fhflow",
-        workspace: "/Users/eszhang/Desktop/eszhang-github/fhflow/test",
-        curProjectPath: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk",
+        workspace: "E:/eszhang-git/fhflow/test",
+        curProjectPath: "E:/eszhang-git/fhflow/test/fk",
         projects: {
-            fk: {
-                path: "/Users/eszhang/Desktop/eszhang-github/fhflow/test/fk"
+            "fk": {
+                path: "E:/eszhang-git/fhflow/test/fk"
+            },
+            "fk-04": {
+                path: "E:/eszhang-git/fhflow/test/fk-04"
             }
         }
     };
@@ -137,7 +140,7 @@ let action = {
     //更新工作空间
     updateWorkspace: function (path) {
         let storage = STORAGE.get();
-        storage.workspace = patj;
+        storage.workspace = path;
         storage.set(storage)
     },
 
