@@ -1,0 +1,13 @@
+{
+    "businessName": "hero",
+    "ftp": {
+        "ssh": true
+    },
+    "package": {},
+    "reversion": false,
+    "server": {
+        "liverload": false
+    },
+    "supportChanged": false,
+    "supportREM": false
+}

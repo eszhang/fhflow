@@ -151,7 +151,7 @@ export const changeProjectSetting = (index) => ({
     },
 });
 
-//新增文件夹
+//打开文件
 export const openProject = (data) => ({
     type: OPEN_PROJECT
 });

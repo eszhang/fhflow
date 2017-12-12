@@ -134,7 +134,7 @@ class ActionSettingForm extends React.Component{
                 </InputGroup>
                 <div className="modulName">打包</div>
                <InputGroup size="small" >
-                    <FormItem {...formItemLayout} label="文件过滤">
+                    <FormItem {...formItemLayout} label="版本号">
                         {getFieldDecorator('packVersion', {
                             initialValue: packVersion,
                         })(   

@@ -13,7 +13,7 @@ console.log(`store=${globalStore}`)
 
 //==接收列表
 
-let { setProjectData, setWorkSpace, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData } = globalAction;
+let { setProjectData, setWorkSpace, addProject, delProject, updateStatusList, updateProjectSetting, updateProxyHost, setProxyData, changeActionProject, changeProjectSetting } = globalAction;
 
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, storage, config) => {
@@ -62,7 +62,7 @@ ipcRenderer.on('getInitData-success', (event, storage, config) => {
         "uploadIgnoreFileRegExp": ftp.ignoreFileRegExp,
         "uploadType": ftp.ssh ? 'sftp' : 'ftp',
         "packType": package.type,
-        "PackVersion": package.version,
+        "packVersion": package.version,
         "packFileRegExp": package.fileRegExp,
         "modules": modules,
         "choseModules": choseModules
@@ -112,6 +112,8 @@ ipcRenderer.on('openProject-success', (event, projectPath) => {
 ipcRenderer.on('delProject-success', (event, projectPath) => {
     let projectName = path.basename(projectPath);
     globalDispatch(delProject(projectName))
+    globalDispatch(changeActionProject(0));
+        globalDispatch(changeProjectSetting());
 });
 
 //成功获取当前激活项目，更新右侧面板
@@ -120,7 +122,7 @@ ipcRenderer.on('getSelectedProjectSetting-success', (event, storage, config) => 
         { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config;
     chooseFunc = [];
 
-    server.liverload && chooseFunc.push('liveReload');
+    server && server.liverload && chooseFunc.push('liveReload');
     supportChanged && chooseFunc.push('fileAddCompileSupport');
     supportREM && chooseFunc.push('rem');
     reversion && chooseFunc.push('md5');
@@ -129,26 +131,26 @@ ipcRenderer.on('getSelectedProjectSetting-success', (event, storage, config) => 
     globalDispatch(updateProjectSetting({
         "workSpace": workspace,
         "choseFunctions": chooseFunc,
-        "uploadHost": ftp.host,
-        "uploadPort": ftp.port,
-        "uploadUser": ftp.user,
-        "uploadPass": ftp.pass,
-        "uploadRemotePath": ftp.remotePath,
-        "uploadIgnoreFileRegExp": ftp.ignoreFileRegExp,
-        "uploadType": ftp.ssh ? 'sftp' : 'ftp',
-        "packType": package.type,
-        "PackVersion": package.version,
-        "packFileRegExp": package.fileRegExp,
+        "uploadHost": ftp && ftp.host,
+        "uploadPort": ftp && ftp.port,
+        "uploadUser": ftp && ftp.user,
+        "uploadPass": ftp && ftp.pass,
+        "uploadRemotePath": ftp && ftp.remotePath,
+        "uploadIgnoreFileRegExp": ftp && ftp.ignoreFileRegExp,
+        "uploadType": (ftp && ftp.ssh) ? 'sftp' : 'ftp',
+        "packType": package && package.type,
+        "packVersion": package && package.version,
+        "packFileRegExp": package && package.fileRegExp,
         "modules": modules,
         "choseModules": choseModules
     }));
 
     globalDispatch(updateProxyHost({
-        "ip": server.host,
-        "port": server.port
+        "ip": server && server.host,
+        "port": server && server.port
     }));
 
-    globalDispatch(setProxyData(server.proxys))
+    globalDispatch(setProxyData(server && server.proxys))
 });
 
 //更新安装进程
@@ -200,7 +202,9 @@ globalStore.subscribe(
                 SET_WORKSPACE } = globalAction;
         
         let { data, selectedIndex } = projectList,
-            curProjectPath = data[selectedIndex].path;
+            curProjectPath='';
+            // 处理所有项目都删除的情况
+            data[selectedIndex] && (curProjectPath = data[selectedIndex].path);
 
         switch (action.type) {
             //创建项目

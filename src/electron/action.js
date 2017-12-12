@@ -6,6 +6,7 @@
 const { app, dialog, shell, ipcMain } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const { exec, execSync } = require('child_process');
 const { requireUncached, isFileExist, isDirExist } = require('../task/util/index');
 const task = require('../task/index');
@@ -150,7 +151,9 @@ let action = {
             delete storage['projects'][projectName];
             //关闭监听等任务(要有容错判断)
             // task.close(projectName);
-            storage.curProjectPath = "";
+            // if(_.keys(storage['projects']).length === 0 ){
+                storage.curProjectPath = "";
+            // }
             STORAGE.set(storage);
             webContents.send("delProject-success", projectName);
         }
@@ -161,8 +164,11 @@ let action = {
     getSelectedProjectSetting: function () {
 
         let storage = STORAGE.get();
-
-        config = task.getConfig(storage.curProjectPath);
+        if(storage.curProjectPath ===''){
+            config = {}
+        }else{
+            config = task.getConfig(storage.curProjectPath);
+        }
 
         if (storage) {
             webContents.send("getSelectedProjectSetting-success", storage, config);

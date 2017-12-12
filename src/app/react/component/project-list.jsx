@@ -131,15 +131,12 @@ export default class ProjectList extends React.Component {
         this.form = form;
     }
 
-    render() {
-        const {data= {}, onClickHandler = function () { } } = this.props;
-        
-        // this.state = data;
-        return (
-            <div className="project-list">
+    renderUserMessage(){
+        if(data.data.length !== 0){
+            return (
                 <ul className="project-list-ul">
                     {
-                        data.data.map((m, index) => (
+                       data.data.length !== 0 && data.data.map((m, index) => (
                             <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
                                 <Icon type="folder" />
                                 <div className="project-info">
@@ -147,6 +144,36 @@ export default class ProjectList extends React.Component {
                                 </div>
                             </li>
                         ))
+                    }
+                </ul>
+            )
+        }else{
+            return (
+                <ul className="project-list-ul"></ul>
+            )
+        }
+    }
+
+    render() {
+        const {data= {}, onClickHandler = function () { } } = this.props;
+        
+        // this.state = data;
+
+        
+        return (
+            <div className="project-list">
+                <ul className="project-list-ul">
+                    {
+                       data.data.length !== 0 ? data.data.map((m, index) => (
+                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
+                                <Icon type="folder" />
+                                <div className="project-info">
+                                    <div className="folderName" >{m.name}</div>
+                                </div>
+                            </li>
+                        )) 
+                        :
+                        <div></div>
                     }
                 </ul>
                 <div className="project-list-footer clearfix" >
