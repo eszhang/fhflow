@@ -46,11 +46,19 @@ class ActionSettingForm extends React.Component{
         const packageValue = 1;
         const { getFieldDecorator } = this.props.form;
 
+
+         const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 7 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 17},
+            },
+        };
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
-                <FormItem label="工作区路径">
-                    <Input readOnly placeholder="工作区路径" size="small" value={workSpace}/>
-                </FormItem>
                 <FormItem label="功能">
                     {getFieldDecorator('choseFunctions', {
                         initialValue: choseFunctions,
@@ -60,12 +68,10 @@ class ActionSettingForm extends React.Component{
                 </FormItem>
                 <div className="modulName">上传模式配置</div>
                 <InputGroup size="small" >
-                    <FormItem >
+                    <FormItem  {...formItemLayout} label="IP">
                         {getFieldDecorator('ip', {
                             initialValue: uploadHost,
                             rules: [ {
-                            required: true, message: 'ip为必填项',
-                            },{
                                 validator(rule,values,callback){
                                     var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
                                     if(!reg.test(values)){
@@ -80,35 +86,35 @@ class ActionSettingForm extends React.Component{
                         <Input placeholder="服务器地址" size="small"  />
                         )}
                     </FormItem>
-                    <FormItem >
+                    <FormItem  {...formItemLayout} label="用户名">
                         {getFieldDecorator('uploadUser', {
                             initialValue: uploadUser,
                         })(
                             <Input placeholder="用户名" size="small" />
                         )}
                     </FormItem>
-                    <FormItem >
+                    <FormItem   {...formItemLayout} label="密码">
                         {getFieldDecorator('uploadPass', {
                             initialValue: uploadPass,
                         })(
                             <Input placeholder="密码" type="password"  size="small"/>
                         )}   
                     </FormItem>
-                    <FormItem >
+                    <FormItem   {...formItemLayout} label="端口号">
                         {getFieldDecorator('uploadPort', {
                             initialValue: uploadPort,
                         })(
                             <Input placeholder="端口号" size="small"/>
                         )} 
                     </FormItem>
-                    <FormItem >
+                    <FormItem  {...formItemLayout} label="远程路径">
                         {getFieldDecorator('uploadRemotePath', {
                             initialValue: uploadRemotePath,
                         })(
                             <Input placeholder="远程路径" size="small"/>
                         )} 
                     </FormItem>
-                    <FormItem >
+                    <FormItem  {...formItemLayout} label="文件过滤">
                         {getFieldDecorator('uploadIgnoreFileRegExp', {
                             initialValue: uploadIgnoreFileRegExp,
                         })(
@@ -126,29 +132,34 @@ class ActionSettingForm extends React.Component{
                         )} 
                     </FormItem>
                 </InputGroup>
-
-               
-                <FormItem label="打包">
-                    {getFieldDecorator('packVersion', {
-                        initialValue: packVersion,
-                    })(   
-                        <Input placeholder="版本号" size="small" />
-                    )} 
-                    {getFieldDecorator('packFileRegExp', {
-                        initialValue: packFileRegExp,
-                    })(   
-                        <Input placeholder="自定义命名规则" size="small" />
-                    )} 
-                    {getFieldDecorator('packType', {
-                        initialValue: packType,
-                    })(   
-                        <RadioGroup >
-                            <Radio value="rar">rar</Radio>
-                            <Radio value="zip">zip</Radio>
-                        </RadioGroup>
-                    )} 
-                </FormItem>
-                 <FormItem > 
+                <div className="modulName">打包</div>
+               <InputGroup size="small" >
+                    <FormItem {...formItemLayout} label="文件过滤">
+                        {getFieldDecorator('packVersion', {
+                            initialValue: packVersion,
+                        })(   
+                            <Input placeholder="版本号" size="small" />
+                        )} 
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="命名规则">
+                        {getFieldDecorator('packFileRegExp', {
+                            initialValue: packFileRegExp,
+                        })(   
+                            <Input placeholder="自定义命名规则" size="small" />
+                        )} 
+                    </FormItem>
+                    <FormItem  >
+                        {getFieldDecorator('packType', {
+                            initialValue: packType,
+                        })(   
+                            <RadioGroup >
+                                <Radio value="rar">rar</Radio>
+                                <Radio value="zip">zip</Radio>
+                            </RadioGroup>
+                        )} 
+                    </FormItem>
+                </InputGroup>
+                 <FormItem className="buttons"> 
                     <Button type="primary" htmlType="submit">保存</Button>
                     <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                         重置
@@ -171,6 +182,8 @@ class SeniorDevelopSetting extends React.Component{
         obj.choseModules = values;
         submitHandler(obj);
     }
+
+    
 
     render(){
         const { actionSetting, selectedIndex } = this.props;
