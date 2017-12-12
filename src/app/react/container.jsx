@@ -63,6 +63,7 @@ class Container extends React.Component {
 
     handleActionProjectClick = index => {
         this.props.changeActionProject(index);
+        this.props.changeProjectSetting();
     }
 
     submitProjectSettingHandler = (value) => {

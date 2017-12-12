@@ -157,6 +157,18 @@ let action = {
 
     },
 
+    //删除项目
+    getSelectedProjectSetting: function () {
+
+        let storage = STORAGE.get();
+
+        config = task.getConfig(storage.curProjectPath);
+
+        if (storage) {
+            webContents.send("getSelectedProjectSetting-success", storage, config);
+        }
+    },
+
     //更新工作空间
     updateWorkspace: function (path) {
         let storage = STORAGE.get()
@@ -257,18 +269,23 @@ ipcMain.on("init", function (event) {
 })
 
 //创建项目
-ipcMain.on("CREATEPROJECT", function (event, path) {
+ipcMain.on("createProject", function (event, path) {
     action.createProject(path)
 })
 
 //打开项目路径
-ipcMain.on("OPENPROJECT", function (event, path) {
+ipcMain.on("openProject", function (event, path) {
     action.openProjectPath(path)
 })
 
 //删除项目
-ipcMain.on("DElPROJECT", function (event) {
+ipcMain.on("deleteProject", function (event) {
     action.delProject()
+})
+
+//获取当前激活项目的setting
+ipcMain.on("getSelectedProjectSetting", function (event) {
+    action.getSelectedProjectSetting()
 })
 
 //更新工作空间

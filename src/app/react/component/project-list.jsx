@@ -75,7 +75,7 @@ export default class ProjectList extends React.Component {
         confirm({
             title: '您确认删除该项目吗？',
             onOk() {
-                that.props.delProjectHandler(data.selectedIndex);
+                that.props.delProjectHandler();
             }
         });
     }

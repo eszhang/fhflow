@@ -114,6 +114,43 @@ ipcRenderer.on('delProject-success', (event, projectPath) => {
     globalDispatch(delProject(projectName))
 });
 
+//成功获取当前激活项目，更新右侧面板
+ipcRenderer.on('getSelectedProjectSetting-success', (event, storage, config) => {
+    let { workspace } = storage,
+        { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config;
+    chooseFunc = [];
+
+    server.liverload && chooseFunc.push('liveReload');
+    supportChanged && chooseFunc.push('fileAddCompileSupport');
+    supportREM && chooseFunc.push('rem');
+    reversion && chooseFunc.push('md5');
+
+
+    globalDispatch(updateProjectSetting({
+        "workSpace": workspace,
+        "choseFunctions": chooseFunc,
+        "uploadHost": ftp.host,
+        "uploadPort": ftp.port,
+        "uploadUser": ftp.user,
+        "uploadPass": ftp.pass,
+        "uploadRemotePath": ftp.remotePath,
+        "uploadIgnoreFileRegExp": ftp.ignoreFileRegExp,
+        "uploadType": ftp.ssh ? 'sftp' : 'ftp',
+        "packType": package.type,
+        "PackVersion": package.version,
+        "packFileRegExp": package.fileRegExp,
+        "modules": modules,
+        "choseModules": choseModules
+    }));
+
+    globalDispatch(updateProxyHost({
+        "ip": server.host,
+        "port": server.port
+    }));
+
+    globalDispatch(setProxyData(server.proxys))
+});
+
 //更新安装进程
 ipcRenderer.on('installProgress', (event, step, status) => {
     globalDispatch({
@@ -157,7 +194,7 @@ globalStore.subscribe(
             action = window.preAction,
             { projectList, proxyList, actionSetting } = state,
             { ADD_ACTION_PROJECT, ADD_ACTION_PROJECT_BACKEND, DEl_ACTION_PROJECT, DEl_ACTION_PROJECT_BACKEND,
-                 CHANGE_ACTION_PROJECT, CHANGE_DEV_STATUS,
+                 CHANGE_ACTION_PROJECT, CHANGE_PROJECT_SETTING, CHANGE_DEV_STATUS,
                  CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, UPDATE_INSTALL_PROGRESS, UPDATE_PROXY_HOST, 
                  ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA, UPDATE_PROJECT_SETTING, 
                 SET_WORKSPACE } = globalAction;
@@ -168,16 +205,22 @@ globalStore.subscribe(
         switch (action.type) {
             //创建项目
             case "ADD_ACTION_PROJECT_BACKEND":
-                ipcRenderer.send('CREATEPROJECT');
+                ipcRenderer.send('createProject');
                 break;
             //打开项目
             case "OPEN_PROJECT":
-                ipcRenderer.send('OPENPROJECT',curProjectPath);
+                ipcRenderer.send('openProject',curProjectPath);
                 break;
             //删除项目
             case "DEl_ACTION_PROJECT_BACKEND":
-                ipcRenderer.send('DElPROJECT');
+                ipcRenderer.send('deleteProject');
                 break;
+            //更新setting配置
+            case "CHANGE_PROJECT_SETTING":
+                //获取当前项目的配置文件 
+                ipcRenderer.send('getSelectedProjectSetting');
+                break;
+            
             //更新工作空间
             case SET_WORKSPACE:
                 let workSpace  = projectList.workSpace;

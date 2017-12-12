@@ -15,6 +15,7 @@ export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const CHANGE_ACTION_PROJECT = 'CHANGE_ACTION_PROJECT';
+export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const OPEN_PROJECT = 'OPEN_PROJECT';
 export const ADD_ACTION_PROJECT = 'ADD_ACTION_PROJECT';
@@ -137,6 +138,14 @@ export const setWorkSpace = (data) => ({
 //切换文件夹
 export const changeActionProject = (index) => ({
     type: CHANGE_ACTION_PROJECT,
+    payload: {
+        index
+    },
+});
+
+//切换右侧展示的配置内容
+export const changeProjectSetting = (index) => ({
+    type: CHANGE_PROJECT_SETTING,
     payload: {
         index
     },
