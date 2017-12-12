@@ -76,66 +76,50 @@ class ActionSettingForm extends React.Component {
                 <div className="modulName">上传模式配置</div>
                 <InputGroup size="small" >
                     <FormItem  {...formItemLayout} label="IP">
-                        {getFieldDecorator('ip', {
-                            initialValue: uploadHost,
-
-                            rules: [{
-                                // required: true, message: 'ip为必填项',
-                            }
-                                // ,{
-                                //     validator(rule,values,callback){
-                                //         var reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
-                                //         if(!reg.test(values)){
-                                //             callback('请输入正确的ip地址');
-                                //         }else{
-                                //             callback();
-                                //         }
-
-                                //     }
-                                // }
-                            ]
+                        {getFieldDecorator('uploadHost', {
+                            initialValue: uploadHost
                         })(
                             <Input placeholder="服务器地址" size="small" />
                             )}
                     </FormItem>
                     <FormItem  {...formItemLayout} label="用户名">
                         {getFieldDecorator('uploadUser', {
-                            initialValue: uploadUser,
-                        })(
-                            <Input placeholder="端口号" size="small" />
-                            )}
-                    </FormItem>
-                    <FormItem   {...formItemLayout} label="密码">
-                        {getFieldDecorator('uploadPass', {
-                            initialValue: uploadPass,
-                        })(
-                            <Input placeholder="远程路径" size="small" />
-                            )}
-                    </FormItem>
-                    <FormItem   {...formItemLayout} label="端口号">
-                        {getFieldDecorator('uploadPort', {
-                            initialValue: uploadPort,
+                            initialValue: uploadUser
                         })(
                             <Input placeholder="用户名" size="small" />
                             )}
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="远程路径">
-                        {getFieldDecorator('uploadRemotePath', {
-                            initialValue: uploadRemotePath,
+                    <FormItem   {...formItemLayout} label="密码">
+                        {getFieldDecorator('uploadPass', {
+                            initialValue: uploadPass
                         })(
                             <Input placeholder="密码" type="password" size="small" />
                             )}
                     </FormItem>
+                    <FormItem   {...formItemLayout} label="端口号">
+                        {getFieldDecorator('uploadPort', {
+                            initialValue: uploadPort
+                        })(
+                            <Input placeholder="端口号" size="small" />
+                            )}
+                    </FormItem>
+                    <FormItem  {...formItemLayout} label="远程路径">
+                        {getFieldDecorator('uploadRemotePath', {
+                            initialValue: uploadRemotePath
+                        })(
+                            <Input placeholder="远程路径"  size="small" />
+                            )}
+                    </FormItem>
                     <FormItem  {...formItemLayout} label="文件过滤">
                         {getFieldDecorator('uploadIgnoreFileRegExp', {
-                            initialValue: uploadIgnoreFileRegExp,
+                            initialValue: uploadIgnoreFileRegExp
                         })(
                             <Input placeholder="过滤上传文件(支持正则匹配)" size="small" />
                             )}
                     </FormItem>
                     <FormItem >
                         {getFieldDecorator('uploadType', {
-                            initialValue: uploadType,
+                            initialValue: uploadType
                         })(
                             <RadioGroup onChange={this.onUploadChange}>
                                 <Radio value="ftp">FTP</Radio>
@@ -148,21 +132,21 @@ class ActionSettingForm extends React.Component {
                <InputGroup size="small" >
                     <FormItem {...formItemLayout} label="版本号">
                         {getFieldDecorator('packVersion', {
-                            initialValue: packVersion,
+                            initialValue: packVersion
                         })(   
                             <Input placeholder="版本号" size="small" />
                         )} 
                     </FormItem>
                     <FormItem {...formItemLayout} label="命名规则">
                         {getFieldDecorator('packFileRegExp', {
-                            initialValue: packFileRegExp,
+                            initialValue: packFileRegExp
                         })(   
                             <Input placeholder="自定义命名规则" size="small" />
                         )} 
                     </FormItem>
                     <FormItem  >
                         {getFieldDecorator('packType', {
-                            initialValue: packType,
+                            initialValue: packType
                         })(   
                             <RadioGroup >
                                 <Radio value="rar">rar</Radio>
@@ -218,8 +202,30 @@ class SeniorDevelopSetting extends React.Component {
 
 
 
-const WrappedActionSettingForm = Form.create()(ActionSettingForm);
-const WrappedSeniorDevelopSettingForm = Form.create()(SeniorDevelopSetting);
+const WrappedActionSettingForm = Form.create({
+     mapPropsToFields(props) {
+        return {
+            choseFunctions: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.choseFunctions,
+            uploadHost: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadHost,
+            uploadUser: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadUser,
+            uploadPass: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadPass,
+            uploadPort: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadPort,
+            uploadRemotePath: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadRemotePath,
+            uploadIgnoreFileRegExp: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadIgnoreFileRegExp,
+            uploadType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadType,
+            packVersion: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packVersion,
+            packFileRegExp: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packFileRegExp,
+            packType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packType
+        };
+    }
+})(ActionSettingForm);
+const WrappedSeniorDevelopSettingForm = Form.create({
+     mapPropsToFields(props) {
+        return {
+            choseModules: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.choseModules,
+        };
+    }
+})(SeniorDevelopSetting);
 
 export default class ActionSetting extends React.Component {
     constructor(props) {

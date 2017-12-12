@@ -143,10 +143,7 @@ export const changeActionProject = (index) => ({
 
 //切换右侧展示的配置内容
 export const changeProjectSetting = (index) => ({
-    type: CHANGE_PROJECT_SETTING,
-    payload: {
-        index
-    },
+    type: CHANGE_PROJECT_SETTING
 });
 
 //打开文件
