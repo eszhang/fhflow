@@ -5,31 +5,33 @@
 
 const fs = require('fs');
 const path = require('path');
-const extract =require('./atom/extract');
+const extract = require('./atom/extract');
 const copy = require('./atom/copy');
-const {bs} = require('./atom/startServer');
+const { bs } = require('./atom/startServer');
 const { dev, dist, upload, pack } = require('./sequence');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
-let { constantConfig , cacheConfig} = require('./common/index'),
+let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
 
 
 let action = {
-    
+
     //生成脚手架
-    copyProjectExample: function(projectPath, callback){
+    copyProjectExample: function (projectPath, callback) {
         extract({
             src: TEMPLAGE_PROJECT,
             dest: projectPath
-        }, function(){
+        }, function () {
+
+        }, function () {
             callback && callback();
         });
     },
-    
+
     //开发
-    dev: function (projectPath,  callback) {
-        dev(projectPath,  callback);
+    dev: function (projectPath, callback) {
+        dev(projectPath, callback);
     },
 
     //上传
@@ -43,30 +45,30 @@ let action = {
     },
 
     //关闭任务
-    close: function(projectPath){
+    close: function (projectPath) {
         require("browser-sync").get(projectPath).pause();
     },
 
     //获取config配置项
-    getConfig: function(projectPath){
+    getConfig: function (projectPath) {
         let configPath = path.join(projectPath, CONFIGNAME);
-        return  requireUncached(configPath);
+        return requireUncached(configPath);
     },
 
     //初次初始化config
-    initConfig: function(projectPath, callback){
+    initConfig: function (projectPath, callback) {
 
         let configPath = path.join(projectPath, CONFIGNAME);
-        
+
         if (!isFileExist(configPath)) {
             copy({
                 src: CONFIGPATH,
                 dest: projectPath,
-            }, function(){
-                callback&&callback(requireUncached(configPath));
+            }, function () {
+                callback && callback(requireUncached(configPath));
             })
-        }else{
-            callback&&callback(requireUncached(configPath));
+        } else {
+            callback && callback(requireUncached(configPath));
         }
     },
 
@@ -79,7 +81,7 @@ let action = {
             if (err) {
                 throw new Error(err);
             }
-            callback&&callback(requireUncached(config));
+            callback && callback(requireUncached(config));
         })
     }
 

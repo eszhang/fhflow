@@ -49,10 +49,9 @@ let action = {
         }
 
         task.copyProjectExample(projectPath, function () {
+            webContents.send("createProject-success", projectPath);
             console.log("create project success....")
         });
-
-        webContents.send("createProject-success", projectPath);
 
     },
 

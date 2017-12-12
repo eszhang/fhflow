@@ -38,7 +38,7 @@ let COMMON = (function (STORAGE) {
             fs.mkdir(workSpace, function (err) {
                 if (err) {
                     throw new Error(err);
-                }   
+                }
                 storage.workSpace = workSpace;
                 storage.projects = {};
                 STORAGE.set(storage);
@@ -47,25 +47,25 @@ let COMMON = (function (STORAGE) {
             });
         } else {
             checkLocalProjects();
-            curProjectPath = storage.curProjectPath;
             workSpace = storage.workSpace;
             projects = storage.projects;
             let projectsKeys = Object.keys(projects);
-            if(projectsKeys.length>0){
-                curProjectPath = projects[projectsKeys[0]].path;
+            if (projectsKeys.length > 0) {
+                storage.curProjectPath = curProjectPath = projects[projectsKeys[0]].path;
                 ipcRenderer.send('init', curProjectPath);
-            }else{
+            } else {
                 globalDispatch(setWorkSpace(workSpace));
+                // 无数据展示
             }
         }
     }
-
+    //初始化数据
     //每次启动的时候检查本地项目是否还存在
     function checkLocalProjects() {
         let storage = STORAGE.get();
         if (storage) {
             if (storage.workSpace) {
-                if (!UTILS.isDirExist(storage.workSpace)) {                   
+                if (!UTILS.isDirExist(storage.workSpace)) {
                     storage.projects = {};
                     console.log('本地工作区已不存在');
                 }
@@ -126,33 +126,11 @@ ipcRenderer.on('getInitData-success', (event, config) => {
 
     globalDispatch(setWorkSpace(workSpace));
 
-    globalDispatch(updateProjectSetting({
-        "workSpace": workSpace,
-        "choseFunctions": chooseFunc,
-        "uploadHost": ftp.host,
-        "uploadPort": ftp.port,
-        "uploadUser": ftp.user,
-        "uploadPass": ftp.pass,
-        "uploadRemotePath": ftp.remotePath,
-        "uploadIgnoreFileRegExp": ftp.ignoreFileRegExp,
-        "uploadType": ftp.ssh ? 'ftp' : 'sftp',
-        "packType": package.type,
-        "packVersion": package.version,
-        "packFileRegExp": package.fileRegExp,
-        "modules": modules,
-        "choseModules": choseModules
-    }));
+    let maxIndex = projectArr.length - 1,
+        index = maxIndex >= 0 ? 0 : -1;
+    globalDispatch(changeActionProject(index));
+    globalDispatch(changeProjectSetting());
 
-    globalDispatch(updateProxyHost({
-        "ip": server.host,
-        "port": server.port
-    }));
-
-    globalDispatch(setProxyData(server.proxys))
-
-    if (curProjectPath) {
-
-    }
 })
 
 //新建项目
@@ -176,6 +154,11 @@ ipcRenderer.on('createProject-success', (event, projectPath) => {
         isUploading: false,
         isPackageing: false
     }))
+    let { projectList } = globalStore.getState(),
+        { data, selectedIndex } = projectList,
+        maxIndex = data.length - 1;
+    globalDispatch(changeActionProject(maxIndex));
+    globalDispatch(changeProjectSetting());
 });
 
 //打开项目
@@ -190,7 +173,6 @@ ipcRenderer.on('openProject', (event, projectPath) => {
     if (storage['projects'][projectName]) {
         console.log('项目已存在');
     } else {
-        storage.curProjectPath = projectPath;
         storage['projects'][projectName] = {};
         storage['projects'][projectName]['path'] = projectPath;
         STORAGE.set(storage);
@@ -203,20 +185,28 @@ ipcRenderer.on('openProject', (event, projectPath) => {
             isUploading: false,
             isPackageing: false
         }))
+        let { projectList } = globalStore.getState(),
+            { data, selectedIndex } = projectList,
+            maxIndex = data.length - 1;
+        globalDispatch(changeActionProject(maxIndex));
+        globalDispatch(changeProjectSetting());
     }
 });
 
 //删除项目
 ipcRenderer.on('delProject', (event) => {
-    let storage = STORAGE.get(),
-        projectPath = storage.curProjectPath
+    let storage = STORAGE.get();
+    projectPath = storage.curProjectPath
     projectName = path.basename(projectPath);
     if (storage && storage['projects'] && storage['projects'][projectName]) {
         delete storage['projects'][projectName];
-        storage.curProjectPath = "";
         STORAGE.set(storage);
         globalDispatch(delProject(projectName))
-        globalDispatch(changeActionProject(0));
+        let { projectList } = globalStore.getState(),
+            { data, selectedIndex } = projectList,
+            maxIndex = data.length - 1,
+            index = maxIndex < 0 ? -1 : (selectedIndex > maxIndex ? maxIndex : selectedIndex);
+        globalDispatch(changeActionProject(index));
         globalDispatch(changeProjectSetting());
     }
 
@@ -233,7 +223,6 @@ ipcRenderer.on('getSelectedProjectSetting-success', (event, config) => {
     supportChanged && chooseFunc.push('fileAddCompileSupport');
     supportREM && chooseFunc.push('rem');
     reversion && chooseFunc.push('md5');
-
 
     globalDispatch(updateProjectSetting({
         "workSpace": workspace,
@@ -312,7 +301,7 @@ globalStore.subscribe(
                 UPDATE_INSTALL_PROGRESS
             } = globalAction;
 
-        let { data, selectedIndex } = projectList;;
+        let { data, selectedIndex } = projectList;
 
         let storage = STORAGE.get(),
             workSpace = storage && storage.workSpace || "",
@@ -333,7 +322,7 @@ globalStore.subscribe(
                 break;
             //更新setting配置
             case CHANGE_PROJECT_SETTING:
-                 curProjectPath && ipcRenderer.send('getSelectedProjectSetting', curProjectPath);
+                curProjectPath && ipcRenderer.send('getSelectedProjectSetting', curProjectPath);
                 break;
             //更新工作空间
             case SET_WORKSPACE:
@@ -341,10 +330,12 @@ globalStore.subscribe(
                 break;
             //更新当前活跃项目
             case CHANGE_ACTION_PROJECT:
-                storage.curProjectPath = data[selectedIndex]&&data[selectedIndex].path;
+                storage.curProjectPath = data[selectedIndex] && data[selectedIndex].path;
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:
+                if (!curProjectPath)
+                    return;
                 if (data[selectedIndex].isDeveloping) {
                     ipcRenderer.send('runTask', curProjectPath, 'dev');
                 } else {
@@ -414,5 +405,6 @@ globalStore.subscribe(
         }
 
         STORAGE.set(storage);
+        console.log('storage', STORAGE.get())
     }
 )

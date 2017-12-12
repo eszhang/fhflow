@@ -1,13 +1,27 @@
 {
     "businessName": "hero",
     "ftp": {
-        "ssh": true
+        "host": "",
+        "ignoreFileRegExp": "",
+        "pass": "",
+        "port": "",
+        "remotePath": "",
+        "ssh": false,
+        "user": ""
     },
-    "package": {},
+    "modules": [],
+    "package": {
+        "fileRegExp": "${name}-${moduleName}-${version}-${time}",
+        "type": "zip",
+        "version": "0.0.1"
+    },
     "reversion": false,
     "server": {
-        "liverload": false
+        "host": "localhost",
+        "liverload": true,
+        "port": 8089,
+        "proxys": []
     },
     "supportChanged": false,
-    "supportREM": false
+    "supportREM": true
 }

@@ -120,13 +120,11 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
             return Object.assign({}, state, {
                 data: state.data.filter((value, index) => {
                     return value.name !== action.payload.name;
-                }),
-                selectedIndex: 0
+                })
             })
         case ADD_ACTION_PROJECT:
             return Object.assign({}, state, {
-                data: [...state.data, action.payload.data],
-                selectedIndex: state.data.length
+                data: [...state.data, action.payload.data]
             })
         case CHANGE_DEV_STATUS:
             state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
