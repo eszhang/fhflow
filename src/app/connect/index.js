@@ -3,7 +3,7 @@
  * electron 主线程和渲染之间通信
  */
 
-const { ipcRenderer } = require('electron');
+const { remote, ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const globalStore = window.store;
@@ -12,83 +12,50 @@ const globalDispatch = globalStore.dispatch;
 
 console.log(`store=${globalStore}`)
 
-let STORAGE = window.STORAGE = (function () {
-    let name = "fhflow";
-    let storage = window.localStorage;
-    function get() {
-        if (storage.getItem(name)) {
-            return JSON.parse(storage.getItem(name));
-        } else {
-            return false;
-        }
-    }
-    function set(data) {
-        storage.setItem(name, JSON.stringify(data));
-    }
-    return { set, get };
-})();
+let CONFIG = require(`${process.cwd()}/src/app/connect/config.js`)
+let fhStorage = require(`${process.cwd()}/src/app/connect/storage.js`)
+let STORAGE = window.STORAGE = new fhStorage(CONFIG.NAME);
+let UTILS = require(`${process.cwd()}/src/app/connect/util.js`)
 
-let UTILS = (function () {
-    function isFileExist(filePath) {
-        try {
-            var stat = fs.statSync(filePath);
-            if (stat.isFile()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (err) {
-            if (err.code === 'ENOENT') {
-                return false;
-            } else {
-                throw new Error(err);
-            }
-        }
-    }
 
-    function isDirExist(dirPath) {
-        try {
-            var stat = fs.statSync(dirPath);
-            if (stat.isDirectory()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (err) {
-            if (err.code === 'ENOENT') {
-                return false;
-            } else {
-                throw new Error(err);
-            }
-        }
-    }
-    return { isFileExist, isDirExist };
-})();
-
+let {
+    setProjectData, setWorkSpace,
+    addProject, delProject,
+    updateStatusList, updateProjectSetting, updateProxyHost, setProxyData,
+    changeActionProject, changeProjectSetting
+} = globalAction;
 
 let COMMON = (function (STORAGE) {
     //初始化
     function init() {
-        let storage = STORAGE.get();
+        let storage = STORAGE.get(),
+            curProjectPath,
+            workSpace,
+            projects;
         if (!storage) {
             storage = {};
-            let workSpace = 'D:/mygit/fhFlowWorkspaceTest/3333';
+            workSpace = path.join(remote.app.getPath(CONFIG.DEFAULT_PATH), CONFIG.WORKSPACE);
             fs.mkdir(workSpace, function (err) {
                 if (err) {
                     throw new Error(err);
-                }
+                }   
                 storage.workSpace = workSpace;
+                storage.projects = {};
                 STORAGE.set(storage);
-                console.log('Create workSpace success.');
+                globalDispatch(setWorkSpace(workSpace));
                 // 无数据展示
             });
         } else {
             checkLocalProjects();
-            let curProjectPath = storage.curProjectPath;
-            if (curProjectPath) {
+            curProjectPath = storage.curProjectPath;
+            workSpace = storage.workSpace;
+            projects = storage.projects;
+            let projectsKeys = Object.keys(projects);
+            if(projectsKeys.length>0){
+                curProjectPath = projects[projectsKeys[0]].path;
                 ipcRenderer.send('init', curProjectPath);
-            } else {
-                //这个场景如何处理,无数据展示
+            }else{
+                globalDispatch(setWorkSpace(workSpace));
             }
         }
     }
@@ -98,47 +65,30 @@ let COMMON = (function (STORAGE) {
         let storage = STORAGE.get();
         if (storage) {
             if (storage.workSpace) {
-                if (!UTILS.isDirExist(storage.workSpace)) {
-                    console.log('本地工作区已不存在');
-                    //清空数据
+                if (!UTILS.isDirExist(storage.workSpace)) {                   
                     storage.projects = {};
+                    console.log('本地工作区已不存在');
                 }
-
-                if (!UTILS.isDirExist(storage.curProjectPath)) {
-                    console.log('当前工作项目已不存在');
-                    //清空数据
-                    storage.curProjectPath = "";
-                }
-
-                if (storage.projects) {
-                    let projects = storage.projects;
-                    for (var key in projects) {
-                        if (!UTILS.isDirExist(projects[key].path)) {
-                            delete projects[key];
-                        } else {
-                            storage.curProjectPath = projects[key].path;
-                        }
-                    }
-                    storage.projects = projects;
-                }
-                STORAGE.set(storage);
             }
+            if (storage.projects) {
+                let projects = storage.projects;
+                for (var key in projects) {
+                    if (!UTILS.isDirExist(projects[key].path)) {
+                        delete projects[key];
+                    }
+                }
+                storage.projects = projects;
+            }
+            STORAGE.set(storage);
         }
     }
 
-    return { init, checkLocalProjects }
+    return { init }
 })(STORAGE);
 
 COMMON.init();
 
 //==接收列表
-let {
-    setProjectData, setWorkSpace,
-    addProject, delProject,
-    updateStatusList, updateProjectSetting, updateProxyHost, setProxyData,
-    changeActionProject, changeProjectSetting
-} = globalAction;
-
 
 //项目初始化数据
 ipcRenderer.on('getInitData-success', (event, config) => {
@@ -354,6 +304,7 @@ globalStore.subscribe(
             { projectList, proxyList, actionSetting } = state,
             {
                 CREATE_PROJECT_ORDER, OPEN_PROJECT_ORDER, DEl_PROJECT_ORDER,
+                CHANGE_PROJECT_SETTING,
                 SET_WORKSPACE, CHANGE_ACTION_PROJECT,
                 CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
                 UPDATE_PROXY_HOST,
@@ -364,30 +315,25 @@ globalStore.subscribe(
         let { data, selectedIndex } = projectList;;
 
         let storage = STORAGE.get(),
+            workSpace = storage && storage.workSpace || "",
             curProjectPath = storage && storage.curProjectPath || "";
 
         switch (action.type) {
             //创建项目
             case CREATE_PROJECT_ORDER:
-                let workSpace;
-                if (storage && (workSpace = storage.workSpace)) {
-                    ipcRenderer.send('CREATEPROJECT', workSpace);
-                }
+                workSpace && ipcRenderer.send('CREATEPROJECT', workSpace);
                 break;
             //打开项目
             case OPEN_PROJECT_ORDER:
-                ipcRenderer.send('OPENPROJECTPATH', curProjectPath);
+                curProjectPath && ipcRenderer.send('OPENPROJECTPATH', curProjectPath);
                 break;
             //删除项目
             case DEl_PROJECT_ORDER:
-                ipcRenderer.send('DElPROJECT', curProjectPath);
+                curProjectPath && ipcRenderer.send('DElPROJECT', curProjectPath);
                 break;
             //更新setting配置
-            case "CHANGE_PROJECT_SETTING":
-                //获取当前项目的配置文件
-                if(curProjectPath){ 
-                    ipcRenderer.send('getSelectedProjectSetting', curProjectPath);
-                }
+            case CHANGE_PROJECT_SETTING:
+                 curProjectPath && ipcRenderer.send('getSelectedProjectSetting', curProjectPath);
                 break;
             //更新工作空间
             case SET_WORKSPACE:
@@ -395,7 +341,7 @@ globalStore.subscribe(
                 break;
             //更新当前活跃项目
             case CHANGE_ACTION_PROJECT:
-                storage.curProjectPath = data[selectedIndex]&&data[selectedIndex].path || "";
+                storage.curProjectPath = data[selectedIndex]&&data[selectedIndex].path;
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:
@@ -406,10 +352,10 @@ globalStore.subscribe(
                 }
                 break;
             case CHANGE_UPLOAD_STATUS:
-                ipcRenderer.send('runTask', curProjectPath, 'upload');
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'upload');
                 break;
             case CHANGE_PACK_STATUS:
-                ipcRenderer.send('runTask', curProjectPath, 'pack');
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'pack');
                 break;
             //自定义任务(dev、dupload、pack)
             case "CUSTOMDEVTASK":
