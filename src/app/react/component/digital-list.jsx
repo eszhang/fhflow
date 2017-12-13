@@ -17,18 +17,23 @@ function DigitalList(props) {
 
     return (
         <div className="digital-list">
-            <h2>{title}</h2>
-            {
-                contents.map((m, index) => (
-                    <div key={index}>
-                        <h3>{m.subTitle}</h3>
-                        <p>{m.subContent}</p>
-                    </div>
-                ))
-            }   
-            <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
-                {link.text}<Icon type="right" />
-            </Button>
+            <div>
+                <h2>{title}</h2>
+                {
+                    contents.map((m, index) => (
+                        <div key={index}>
+                            <h3>{m.subTitle}</h3>
+                            <p>{m.subContent}</p>
+                        </div>
+                    ))
+                }
+                <div class="btn-area">   
+                    <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
+                        {link.text}<Icon type="right" />
+                    </Button>
+                </div>
+
+            </div>
         </div>
     )
 }

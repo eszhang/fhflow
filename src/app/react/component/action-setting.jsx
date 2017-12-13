@@ -58,7 +58,7 @@ class ActionSettingForm extends React.Component {
             },
         };
         return (
-            <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <Form className="projectSetting" layout="vertical" onSubmit={this.handleSubmit}>
                 {
                     /*
                     <FormItem label="工作区路径">

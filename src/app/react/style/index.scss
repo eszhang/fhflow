@@ -20,7 +20,7 @@ body{
         bottom: 0;
         left: 0;
         width: $action-menu-area-width;
-        background-color: rgb(51,51,51);
+        background-color: #404040;
     }
     .main-content-area{
         position: absolute;
@@ -29,10 +29,22 @@ body{
         bottom: $status-bar-area-height;
         left: $action-menu-area-width;
         background-color: rgb(30, 30, 30);
+        &[data-type="resource-management"]{
+            >div{
+                overflow-y: scroll;
+            }
+        }
         >div{
             height: 100%;
             overflow-y: auto;
         }
+        .proxy-list,
+        .digital-list{
+            >div{
+                height: 100%;
+            }
+        }
+        
     }
     .status-bar-area{
         position: absolute;
@@ -40,9 +52,12 @@ body{
         bottom: 0px;
         left: $action-menu-area-width;
         height: $status-bar-area-height;
-        padding: 8px 0;
         background-color: rgb(30, 30, 30); 
-        border-top: 1px solid rgba(128, 128, 128, 0.35);
+        .status-bar{
+            .opt-btn.delete{
+                right: 15px;
+            }
+        }
     }
     .action-setting-area{
         position: absolute;
@@ -51,7 +66,6 @@ body{
         right: 0;
         width: $action-setting-area-widht;
         background-color: rgb(30, 30, 30);
-        border-left: 1px solid rgba(128, 128, 128, 0.35);
     }
     &[data-layout-type='3']{
         .main-content-area{
@@ -65,13 +79,29 @@ body{
             display: none;
         }
     }
-    .projectMask{
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50px;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.85);
-        z-index: 999;
-    }
+}
+
+::-webkit-scrollbar-track-piece {
+    width:10px;
+    background-color:#404040; 
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar{ 
+    width:10px;
+    height:6px;
+
+}
+
+::-webkit-scrollbar-thumb{
+    height:50px;
+    background:#007acc; 
+    border-radius: 0px;
+    cursor:pointer;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#007acc; 
+    border-radius: 0px;
+    cursor:pointer
 }

@@ -1,8 +1,11 @@
 
 .proxy-list{
     padding: 30px;
-    background-color: #fff;
-
+    background-color: #e2e2e2;
+    >div{
+        padding: 15px;
+        background-color: #fff;
+    }
     .ant-form{
         margin-bottom: 10px;
     }

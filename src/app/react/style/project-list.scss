@@ -8,7 +8,7 @@
         flex-direction: row;
         color: #adadad;
         &:hover{
-            background-color: #3f3f46;
+            background-color: rgba(39, 65, 84, 0.67);
         }
         &.active{
             color: #fff;
@@ -41,7 +41,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        padding: 0 20px; 
+        padding-left: 20px; 
         color: #f9fcfe;
         height: 22px;
         line-height: 22px;
@@ -49,12 +49,13 @@
         >div{
             height: 22px; 
             a{
-                color: #f9fcfe;
-                margin-right: 5px;
-                padding: 0 3px;
+                display: inline-block;
+                margin-left: 5px;
+                padding: 0 5px;
                 font-size: 16px;
+                color: #f9fcfe;           
                 &:hover{
-                    background-color: #1e8ad2;
+                    background-color: #0e5d92;
                 }
             }
             &.plf-left{
@@ -62,27 +63,18 @@
             }
             &.plf-right{
                 float: right;
+                margin-right: 10px;
                 div{
                     >a{
                         font-size: 14px;
                     }
                     .isRunning{
-                        color: red;
+                        color: #16f586;
                     }
                 }
             }
         }
     }
-    // .addProjectWrap{
-    //     position: absolute;
-    //     top: 0;
-    //     bottom: 0;
-    //     left: 0;
-    //     right: 0;
-    //     color: red;
-    //     background-color: rgba(0, 0, 0, 0.45);
-    //     z-index: 2;
-    // }
 }
 
 .app-container{
