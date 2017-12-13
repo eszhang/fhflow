@@ -161,13 +161,13 @@ export default class ProjectList extends React.Component {
                             <Icon type="folder-add" title="增加项目" />
                         </a>
                         {
-                            data.length === 0 &&
+                            data.data.length > 0 &&
                             <a onClick={() => this.plfLeftClickHandler("del", data)}>
                                 <Icon type="delete" title="删除项目" />
                             </a>
                         }
                         {
-                            data.length === 0 &&
+                            data.data.length > 0 &&
                             <a onClick={() => this.plfLeftClickHandler("open", data)}>
                                 <Icon type="folder-open" title="打开项目" />
                             </a>
@@ -182,7 +182,7 @@ export default class ProjectList extends React.Component {
                     </div>
                     <div className="plf-right">
                         {
-                            data.length === 0 &&
+                            data.data.length > 0 &&
                             <div>
                                 <a className={isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev', data)}>
                                     {isDeveloping ? '监听中...' : '开发'}
