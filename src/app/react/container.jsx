@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
+import { ProjectMask } from './component/project-mask';
 import { StatusBar } from './component/status-bar';
 import ProxyList from './component/proxy-list';
 import DigitalList from './component/digital-list';
@@ -61,6 +62,10 @@ class Container extends React.Component {
         changeActionMenu(index);
     }
 
+    handleAddProject = () => {
+        this.props.addProjectOrder();
+    }
+
     handleActionProjectClick = index => {
         this.props.changeActionProject(index);
         this.props.changeProjectSetting();
@@ -88,7 +93,9 @@ class Container extends React.Component {
         const { projectList, actionSetting, openProjectOrder, setWorkSpace, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
-            <div className="app-container" data-layout-type={layoutType}>
+            <div className="app-container" data-projects={projectList.data.length==0 && "noProject"} data-layout-type={layoutType}>
+                {projectList.data.length==0 && <ProjectMask addProjectHandler={this.handleAddProject}/>}
+
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>

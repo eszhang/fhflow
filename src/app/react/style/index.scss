@@ -69,4 +69,13 @@ body{
             display: none;
         }
     }
+    .projectMask{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50px;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.85);
+        z-index: 999;
+    }
 }
