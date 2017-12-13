@@ -66,10 +66,15 @@ function writeFile(config, cb) {
 
 }
 
+function reloadHandler(path){
+    require('browser-sync').get(path).reload();
+}
+
 module.exports = {
     requireUncached,
     isFileExist,
     isDirExist,
     readFile,
-    writeFile
+    writeFile,
+    reloadHandler
 }

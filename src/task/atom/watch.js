@@ -12,11 +12,12 @@ const CompileJavaSript = require('./javascript');
 const CompileTpl = require('./tpl');
 const CompileImage = require('./image');
 const CompileFont = require('./font');
+const reloadHandler = require('../util/index');
 
 
 module.exports = function (config = {}, devObj, startCb, endCb) {
 
-    const { srcBase, watchPath } = config;
+    const { srcBase, watchPath, liverload, startServerPath } = config;
     const { html, sass, clean, js, tpl, img, font } = devObj;
 
     startCb && startCb();
@@ -45,8 +46,10 @@ module.exports = function (config = {}, devObj, startCb, endCb) {
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase, 'build\\assets')
                     del([tmp], { force: true }).then(function () {
+                        setting.server.liverload && reloadHandler(startServer.path);
                     })
                 } else {
+                    setting.server.liverload && reloadHandler(startServer.path);
                     CompileImage(img);
                 }
                 break;

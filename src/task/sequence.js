@@ -36,7 +36,13 @@ function dev(projectPath, loggerhandler) {
         setting: setting
     });
 
+
     let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
+
+    // 加入控制修改后刷新
+    watch.liverload = setting.server.liverload;
+    watch.startServerPath = startServer.path;
+
 
     let prefixLog = "[dev-task] ";
 
