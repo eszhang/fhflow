@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
 import { ActionMenu } from './component/action-menu';
 import { ProjectMask } from './component/project-mask';
-import { StatusBar } from './component/status-bar';
+import StatusBar  from './component/status-bar';
 import ProxyList from './component/proxy-list';
 import DigitalList from './component/digital-list';
 import DocList from './component/doc-list';
