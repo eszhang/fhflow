@@ -77,7 +77,7 @@ let action = {
 
         //关闭监听等任务(要有容错判断)
         // task.close(projectName);
-        webContents.send("delProject", projectPath);
+        webContents.send("delProject-success", projectPath);
     },
 
     //获取项目配置项
@@ -184,7 +184,7 @@ ipcMain.on("openProjectPath", function (event, projectPath) {
 })
 
 //删除项目
-ipcMain.on("DElPROJECT", function (event, projectPath) {
+ipcMain.on("delProject", function (event, projectPath) {
     action.delProject(projectPath)
 })
 

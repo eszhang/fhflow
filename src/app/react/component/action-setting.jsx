@@ -185,7 +185,7 @@ class SeniorDevelopSetting extends React.Component {
         const { getFieldDecorator } = this.props.form;
 
         return (
-            <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 <FormItem label="模块设置">
                     {
                         getFieldDecorator('choseModules', {

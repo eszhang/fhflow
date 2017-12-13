@@ -2,18 +2,22 @@
     padding: 2px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-right: 10px;
-    .ant-form {
-        .ant-form-item{
-            margin-bottom: 10px;
-        }
-        .ant-form-item-label{
-            padding-left: 10px;
-            >label{
-                color: #fff;
-                font-size: 12px;
+    .ant-tabs-tabpane-active{
+        .ant-form {
+            .ant-form-item{
+                margin-bottom: 10px;
+            }
+            .ant-form-item-label{
+                padding-left: 10px;
+                >label{
+                    color: #fff;
+                    font-size: 12px;
+                }
             }
         }
+    }
+    .ant-tabs-content{
+        padding-right: 10px;
     }
     .ant-input-group{
         .ant-form-item{
@@ -64,5 +68,8 @@
     }
     .buttons{
         text-align: center;
+    }
+    .moduleSetting{
+        padding-left: 20px;
     }
 }

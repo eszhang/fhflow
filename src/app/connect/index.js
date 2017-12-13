@@ -194,7 +194,7 @@ ipcRenderer.on('openProject', (event, projectPath) => {
 });
 
 //删除项目
-ipcRenderer.on('delProject', (event) => {
+ipcRenderer.on('delProject-success', (event) => {
     let storage = STORAGE.get();
     projectPath = storage.curProjectPath
     projectName = path.basename(projectPath);
