@@ -52,7 +52,7 @@ let action = {
     //获取config配置项
     getConfig: function (projectPath) {
         let configPath = path.join(projectPath, CONFIGNAME);
-        return requireUncached(configPath);
+        return isFileExist(configPath) ? requireUncached(configPath) : requireUncached(CONFIGPATH);
     },
 
     //初次初始化config

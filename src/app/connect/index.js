@@ -52,7 +52,8 @@ let COMMON = (function (STORAGE) {
             let projectsKeys = Object.keys(projects);
             if (projectsKeys.length > 0) {
                 storage.curProjectPath = curProjectPath = projects[projectsKeys[0]].path;
-                ipcRenderer.send('init', curProjectPath);
+                globalDispatch(setWorkSpace(workSpace));
+                initData();
             } else {
                 globalDispatch(setWorkSpace(workSpace));
                 // 无数据展示
@@ -60,6 +61,33 @@ let COMMON = (function (STORAGE) {
         }
     }
     //初始化数据
+    function initData() {
+        let storage = STORAGE.get(),
+            { projects } = storage,
+            projectArr = [];
+
+        for (var key in projects) {
+            projectPath = projects[key].path;
+            projectName = path.basename(projectPath);
+            projectArr.push({
+                key: Date.now(),
+                class: 'project-floader',
+                name: projectName,
+                path: projectPath,
+                isDeveloping: false,
+                isUploading: false,
+                isPackageing: false
+            })
+        }
+        globalDispatch(setProjectData({
+            data: projectArr
+        }));
+        let maxIndex = projectArr.length - 1,
+            index = maxIndex >= 0 ? 0 : -1;
+        globalDispatch(changeActionProject(index));
+        globalDispatch(changeProjectSetting());
+    }
+
     //每次启动的时候检查本地项目是否还存在
     function checkLocalProjects() {
         let storage = STORAGE.get();
@@ -89,49 +117,6 @@ let COMMON = (function (STORAGE) {
 COMMON.init();
 
 //==接收列表
-
-//项目初始化数据
-ipcRenderer.on('getInitData-success', (event, config) => {
-
-    let storage = STORAGE.get(),
-        { workSpace, projects, curProjectPath } = storage,
-        { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
-        projectArr = [],
-        chooseFunc = [],
-        projectPath,
-        projectName;
-
-    server.liverload && chooseFunc.push('liveReload');
-    supportChanged && chooseFunc.push('fileAddCompileSupport');
-    supportREM && chooseFunc.push('rem');
-    reversion && chooseFunc.push('md5');
-
-    for (var key in projects) {
-        projectPath = projects[key].path;
-        projectName = path.basename(projectPath);
-        projectArr.push({
-            key: Date.now(),
-            class: 'project-floader',
-            name: projectName,
-            path: projectPath,
-            isDeveloping: false,
-            isUploading: false,
-            isPackageing: false
-        })
-    }
-
-    globalDispatch(setProjectData({
-        data: projectArr
-    }));
-
-    globalDispatch(setWorkSpace(workSpace));
-
-    let maxIndex = projectArr.length - 1,
-        index = maxIndex >= 0 ? 0 : -1;
-    globalDispatch(changeActionProject(index));
-    globalDispatch(changeProjectSetting());
-
-})
 
 //新建项目
 ipcRenderer.on('createProject-success', (event, projectPath) => {
@@ -214,8 +199,8 @@ ipcRenderer.on('delProject', (event) => {
 
 //成功获取当前激活项目，更新右侧面板
 ipcRenderer.on('getSelectedProjectSetting-success', (event, config) => {
-    let storage = STORAGE.get();
-    let { workspace } = storage,
+    let storage = STORAGE.get(),
+        { workspace } = storage,
         { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config;
     chooseFunc = [];
 
@@ -284,6 +269,12 @@ ipcRenderer.on('print-log', (event, newLogs) => {
     globalDispatch(updateStatusList(logs))
 });
 
+//获取工作区间
+ipcRenderer.on('workSpace-requeset', (event) => {
+    let storage = STORAGE.get(),
+        { workSpace } = storage;
+    ipcRenderer.send('workSpace-response', workSpace);
+})
 //==监听redux state tree 发送指令 至 electron main 线程
 
 globalStore.subscribe(

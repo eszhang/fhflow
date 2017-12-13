@@ -15,24 +15,20 @@ let { webContents } = global.mainWindow;
 
 let action = {
 
-    //启动需要的数据
-    init: function (projectPath) {
-        let config = task.getConfig(projectPath);
-
-        webContents.send("getInitData-success", config);
-
-    },
-
     //新建项目
-    createProject: function (workspace) {
+    createProject: function (workSpace) {
 
+        if(!workSpace){
+            webContents.send("workSpace-requeset");
+            return;
+        }
         let randomName = 'fhflow' + new Date().getTime(),
-            projectPath = `${workspace}/` + randomName;
+            projectPath = `${workSpace}/` + randomName;
 
         //先判断一下工作区是否存在
-        if (!isDirExist(workspace)) {
+        if (!isDirExist(workSpace)) {
             try {
-                fs.mkdirSync(path.join(workspace));
+                fs.mkdirSync(path.join(workSpace));
             } catch (err) {
                 throw new Error(err);
             }
@@ -74,20 +70,18 @@ let action = {
     //删除项目
     delProject: function (projectPath) {
 
-
         //关闭监听等任务(要有容错判断)
         // task.close(projectName);
-        webContents.send("delProject", projectPath);
+        webContents.send("delProject");
     },
 
     //获取项目配置项
     getSelectedProjectSetting: function (projectPath) {
 
-
         let config = task.getConfig(projectPath);
 
-         webContents.send("getSelectedProjectSetting-success", config);
-        
+        webContents.send("getSelectedProjectSetting-success", config);
+
     },
 
     //打开工作目录
@@ -168,14 +162,12 @@ let action = {
 
 //== 接收列表
 
-//获取初始化数据
-ipcMain.on("init", function (event, projectPath) {
-    action.init(projectPath);
-})
-
 //创建项目
-ipcMain.on("CREATEPROJECT", function (event, workspace) {
-    action.createProject(workspace)
+ipcMain.on("CREATEPROJECT", function (event, workSpace) {
+    action.createProject(workSpace)
+})
+ipcMain.on("workSpace-response", function (event, workSpace) {
+    action.createProject(workSpace)
 })
 
 //打开项目路径
