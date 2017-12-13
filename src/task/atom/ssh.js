@@ -17,7 +17,14 @@ function upload2TestJs(config = {}, cb) {
         });
 }
 function upload2TestOther(config, cb) {
-    gulp.src([config.srcBase + '/**/**', '!' + config.srcBase + '/**/*.js'])
+    var src = [config.srcBase + '/**/**', '!' + config.srcBase + '/**/*.js'];
+    // 过滤不需要匹配的文件
+    var ignoreArray = config.ignoreFileRegExp.split(';').filter(function(item) {
+            return '' != item;
+        });
+        src.push(...ignoreArray);
+
+    gulp.src(src)
         .pipe(gulp.dest(config.destBase)).on('end', function () {
             cb ? cb() : undefined;
         });

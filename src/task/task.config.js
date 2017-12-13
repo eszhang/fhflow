@@ -241,6 +241,7 @@ function getUploadObj( config ){
     let ssh = {
         srcBase: projectPath + 'build',
         destBase: projectPath + 'release',
+        ignoreFileRegExp: setting.ftp.ignoreFileRegExp,
         sft: {
             host: setting.ftp.host,
             port: setting.ftp.port,
