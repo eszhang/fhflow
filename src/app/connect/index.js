@@ -310,15 +310,15 @@ globalStore.subscribe(
         switch (action.type) {
             //创建项目
             case CREATE_PROJECT_ORDER:
-                workSpace && ipcRenderer.send('CREATEPROJECT', workSpace);
+                workSpace && ipcRenderer.send('createProject', workSpace);
                 break;
             //打开项目
             case OPEN_PROJECT_ORDER:
-                curProjectPath && ipcRenderer.send('OPENPROJECTPATH', curProjectPath);
+                curProjectPath && ipcRenderer.send('openProjectPath', curProjectPath);
                 break;
             //删除项目
             case DEl_PROJECT_ORDER:
-                curProjectPath && ipcRenderer.send('DElPROJECT', curProjectPath);
+                curProjectPath && ipcRenderer.send('delProject', curProjectPath);
                 break;
             //更新setting配置
             case CHANGE_PROJECT_SETTING:

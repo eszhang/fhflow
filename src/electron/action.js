@@ -174,12 +174,12 @@ ipcMain.on("init", function (event, projectPath) {
 })
 
 //创建项目
-ipcMain.on("CREATEPROJECT", function (event, workspace) {
+ipcMain.on("createProject", function (event, workspace) {
     action.createProject(workspace)
 })
 
 //打开项目路径
-ipcMain.on("OPENPROJECTPATH", function (event, projectPath) {
+ipcMain.on("openProjectPath", function (event, projectPath) {
     action.openProjectPath(projectPath)
 })
 
