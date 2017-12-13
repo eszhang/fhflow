@@ -25,7 +25,7 @@ function DigitalList(props) {
                         <p>{m.subContent}</p>
                     </div>
                 ))
-            }
+            }   
             <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
                 {link.text}<Icon type="right" />
             </Button>

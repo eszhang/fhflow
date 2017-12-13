@@ -173,7 +173,8 @@ function getPackObj(config){
             srcBase: projectPath + 'src/view',
             dest: projectPath + 'build',
             startLog: '编译html开始...',
-            endLog: '编译html成功...'
+            endLog: '编译html成功...',
+            updateLog: '更新html成功...'
         },
         sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
@@ -186,7 +187,8 @@ function getPackObj(config){
                 fontSrc: projectPath + 'src/fonts',
             },
             startLog: '编译sass开始...',
-            endLog: '编译sass成功...'
+            endLog: '编译sass成功...',
+            updateLog: '更新sass成功...'
         },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
@@ -195,7 +197,8 @@ function getPackObj(config){
             isDelRap: true,
             isMinify: true,
             startLog: '编译javascript开始...',
-            endLog: '编译avascript成功...'
+            endLog: '编译avascript成功...',
+            updateLog: '更新javascript成功...'
         },
         tpl: {
             src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',
@@ -203,21 +206,24 @@ function getPackObj(config){
             dest: projectPath + 'build/assets/template',
             helperJs: projectPath + 'src/js/template/helper.js',
             startLog: '编译template开始...',
-            endLog: '编译template成功...'
+            endLog: '编译template成功...',
+            updateLog: '更新template成功...'
         },
         img: {
             src: imageSrcArray.length > 0 ? imageSrcArray : projectPath + 'src/images/**/*.*',
             srcBase: projectPath + 'src/images',
             dest: projectPath + 'build/assets/images',
             startLog: '编译images开始...',
-            endLog: '编译iamges成功...'
+            endLog: '编译iamges成功...',
+            updateLog: '更新images成功...'
         },
         font: {
             src: fontSrcArray.length > 0 ? fontSrcArray : projectPath + 'src/fonts/**/*.*',
             srcBase: projectPath + 'src/fonts',
             dest: projectPath + 'build/assets/fonts',
             startLog: '编译font开始...',
-            endLog: '编译font成功...'
+            endLog: '编译font成功...',
+            updateLog: '更新font成功...'
         },
         zip:{
             srcArray: packSrcArray,
