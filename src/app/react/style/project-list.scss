@@ -73,16 +73,6 @@
             }
         }
     }
-    // .addProjectWrap{
-    //     position: absolute;
-    //     top: 0;
-    //     bottom: 0;
-    //     left: 0;
-    //     right: 0;
-    //     color: red;
-    //     background-color: rgba(0, 0, 0, 0.45);
-    //     z-index: 2;
-    // }
 }
 
 .app-container{
@@ -92,3 +82,10 @@
         }
     } 
 } 
+::-webkit-scrollbar-track-piece{width:10px;background-color:#4e4e5a ; border-radius: 8px; }
+
+::-webkit-scrollbar{width:10px;height:6px ; }
+
+::-webkit-scrollbar-thumb{height:50px;background:#007acc;   cursor:pointer;border-radius: 8px;}
+
+::-webkit-scrollbar-thumb:hover{background:#007acc; border-radius: 8px;cursor:pointer}

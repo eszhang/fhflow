@@ -1,7 +1,5 @@
 .action-setting-area{
     padding: 2px;
-    overflow-y: auto;
-    overflow-x: hidden;
     .ant-tabs-tabpane-active{
         .ant-form {
             .ant-form-item{
@@ -12,12 +10,12 @@
                 >label{
                     color: #fff;
                     font-size: 12px;
+                    &[for='choseFunctions']{
+                        font-size: 14px;
+                    }
                 }
             }
         }
-    }
-    .ant-tabs-content{
-        padding-right: 10px;
     }
     .ant-input-group{
         .ant-form-item{
@@ -73,18 +71,29 @@
         padding-left: 20px;
     }
      .actionSettingHeader {
+        width: 298px;
         padding-top: 50px;
         .ant-tabs-bar{
             position: absolute;
-            // width: 296px;
+            width: 100%;
             margin-top: -50px;
             background-color: #333333;
             z-index: 2;
         }
         .ant-tabs-content{
-            // overflow-y: auto;
-            // overflow-x: hidden;
-            // height: 501px;
+            margin-top: -15px;
+        }
+    }
+    .projectSetting{
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 515px;
+        padding-top: 10px;
+        padding-right: 10px;
+    }
+    .buttons{
+        .ant-form-item-control-wrapper{
+            margin-left: 10px;
         }
     }
 }
