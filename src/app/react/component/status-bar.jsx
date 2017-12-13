@@ -29,7 +29,7 @@ class StatusBar extends React.Component {
             info: "info-circle",
             warning: "exclamation-circle",
             success: "check-circle",
-            error: "close-circle"
+            error: "close-circle" 
         };
 
         return (
