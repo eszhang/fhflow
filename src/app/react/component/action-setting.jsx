@@ -185,7 +185,7 @@ class SeniorDevelopSetting extends React.Component {
         const { getFieldDecorator } = this.props.form;
 
         return (
-            <Form layout="vertical" onSubmit={this.handleSubmit}>
+            <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 <FormItem label="模块设置">
                     {
                         getFieldDecorator('choseModules', {
@@ -239,10 +239,10 @@ export default class ActionSetting extends React.Component {
             <div className="action-setting">
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={<span><Icon type="apple" />项目设置</span>} key="1">
-                        <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} />
+                        { Object.keys(actionSetting).length > 0 &&  <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />开发设置</span>} key="2">
-                        <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} />
+                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
                 </Tabs>
 

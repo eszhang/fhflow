@@ -21,7 +21,7 @@ let UTILS = require(`${process.cwd()}/src/app/connect/util.js`)
 let {
     setProjectData, setWorkSpace,
     addProject, delProject,
-    updateStatusList, updateProjectSetting, updateProxyHost, setProxyData,
+    addStatusList, updateProjectSetting, updateProxyHost, setProxyData,
     changeActionProject, changeProjectSetting
 } = globalAction;
 
@@ -114,8 +114,6 @@ let COMMON = (function (STORAGE) {
     return { init }
 })(STORAGE);
 
-COMMON.init();
-
 //==接收列表
 
 //新建项目
@@ -179,7 +177,7 @@ ipcRenderer.on('openProject', (event, projectPath) => {
 });
 
 //删除项目
-ipcRenderer.on('delProject', (event) => {
+ipcRenderer.on('delProject-success', (event) => {
     let storage = STORAGE.get();
     projectPath = storage.curProjectPath
     projectName = path.basename(projectPath);
@@ -247,8 +245,7 @@ ipcRenderer.on('installProgress', (event, step, status) => {
     })
 });
 
-//控制台信息
-let logs = [];
+//打印输出信息
 ipcRenderer.on('print-log', (event, newLogs) => {
     newLogs = Array.isArray(newLogs) ? newLogs : [newLogs];
     newLogs = newLogs.map(function (log, logIndex) {
@@ -264,9 +261,7 @@ ipcRenderer.on('print-log', (event, newLogs) => {
             desc: `[${h}:${m}:${s}] ${log.desc}`
         });
     })
-    logs = [...logs, ...newLogs];
-    console.log(logs)
-    globalDispatch(updateStatusList(logs))
+    globalDispatch(addStatusList(newLogs))
 });
 
 //获取工作区间
@@ -296,20 +291,21 @@ globalStore.subscribe(
 
         let storage = STORAGE.get(),
             workSpace = storage && storage.workSpace || "",
-            curProjectPath = storage && storage.curProjectPath || "";
+            curProjectPath = storage && storage.curProjectPath || "",
+            taskFlag;
 
         switch (action.type) {
             //创建项目
             case CREATE_PROJECT_ORDER:
-                workSpace && ipcRenderer.send('CREATEPROJECT', workSpace);
+                workSpace && ipcRenderer.send('createProject', workSpace);
                 break;
             //打开项目
             case OPEN_PROJECT_ORDER:
-                curProjectPath && ipcRenderer.send('OPENPROJECTPATH', curProjectPath);
+                curProjectPath && ipcRenderer.send('openProjectPath', curProjectPath);
                 break;
             //删除项目
             case DEl_PROJECT_ORDER:
-                curProjectPath && ipcRenderer.send('DElPROJECT', curProjectPath);
+                curProjectPath && ipcRenderer.send('delProject', curProjectPath);
                 break;
             //更新setting配置
             case CHANGE_PROJECT_SETTING:
@@ -325,19 +321,16 @@ globalStore.subscribe(
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:
-                if (!curProjectPath)
-                    return;
-                if (data[selectedIndex].isDeveloping) {
-                    ipcRenderer.send('runTask', curProjectPath, 'dev');
-                } else {
-                    ipcRenderer.send('runTask', curProjectPath, 'close');
-                }
+                taskFlag = data[selectedIndex].isDeveloping ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'dev', taskFlag);
                 break;
             case CHANGE_UPLOAD_STATUS:
-                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'upload');
+                taskFlag = data[selectedIndex].isUploading ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'upload', taskFlag);
                 break;
             case CHANGE_PACK_STATUS:
-                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'pack');
+                taskFlag = data[selectedIndex].isPackageing ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'pack', taskFlag);
                 break;
             //自定义任务(dev、dupload、pack)
             case "CUSTOMDEVTASK":
@@ -399,3 +392,5 @@ globalStore.subscribe(
         console.log('storage', STORAGE.get())
     }
 )
+
+COMMON.init();

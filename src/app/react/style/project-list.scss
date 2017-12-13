@@ -48,7 +48,7 @@
         background-color: #007acc;
         >div{
             height: 22px; 
-            >a{
+            a{
                 color: #f9fcfe;
                 margin-right: 5px;
                 padding: 0 3px;
@@ -62,11 +62,13 @@
             }
             &.plf-right{
                 float: right;
-                >a{
-                    font-size: 14px;
-                }
-                .isRunning{
-                    color: red;
+                div{
+                    >a{
+                        font-size: 14px;
+                    }
+                    .isRunning{
+                        color: red;
+                    }
                 }
             }
         }

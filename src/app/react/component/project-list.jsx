@@ -160,14 +160,18 @@ export default class ProjectList extends React.Component {
                         <a onClick={() => this.plfLeftClickHandler('add', data)}>
                             <Icon type="folder-add" title="增加项目" />
                         </a>
-
-                        <a onClick={() => this.plfLeftClickHandler("del", data)}>
-                            <Icon type="delete" title="删除项目" />
-                        </a>
-
-                        <a onClick={() => this.plfLeftClickHandler("open", data)}>
-                            <Icon type="folder-open" title="打开项目" />
-                        </a>
+                        {
+                            data.data.length > 0 &&
+                            <a onClick={() => this.plfLeftClickHandler("del", data)}>
+                                <Icon type="delete" title="删除项目" />
+                            </a>
+                        }
+                        {
+                            data.data.length > 0 &&
+                            <a onClick={() => this.plfLeftClickHandler("open", data)}>
+                                <Icon type="folder-open" title="打开项目" />
+                            </a>
+                        }
 
                         <a onClick={() => this.plfLeftClickHandler('globalSetting', data)}>
                             <Icon type="setting" title="全局设置" />
@@ -177,16 +181,20 @@ export default class ProjectList extends React.Component {
 
                     </div>
                     <div className="plf-right">
-
-                        <a className={isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev', data)}>
-                            {isDeveloping ? '监听中...' : '开发'}
-                        </a>
-                        <a className={isUploading ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('upload', data)}>
-                            {isUploading ? '处理中...' : '上传'}
-                        </a>
-                        <a className={isPackageing ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('package', data)}>
-                            {isPackageing ? '处理中...' : '打包'}
-                        </a>
+                        {
+                            data.data.length > 0 &&
+                            <div>
+                                <a className={isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev', data)}>
+                                    {isDeveloping ? '监听中...' : '开发'}
+                                </a>
+                                <a className={isUploading ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('upload', data)}>
+                                    {isUploading ? '处理中...' : '上传'}
+                                </a>
+                                <a className={isPackageing ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('package', data)}>
+                                    {isPackageing ? '处理中...' : '打包'}
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

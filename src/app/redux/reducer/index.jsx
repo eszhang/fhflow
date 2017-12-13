@@ -1,6 +1,6 @@
 
 import { CHANGE_ACTION_MENU } from '../action/index'
-import { UPDATE_STATUS_LIST } from '../action/index';
+import { ADD_STATUS_LIST, UPDATE_STATUS_LIST } from '../action/index';
 import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
 import { UPDATE_DOC_LIST } from '../action/index';
 import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
@@ -90,6 +90,10 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 //statusList state
 export const statusList = (state = { data: [] }, action = {}) => {
     switch (action.type) {
+        case ADD_STATUS_LIST:
+            return Object.assign({}, state, {
+                data: [...state.data, ...action.payload.data]
+            });
         case UPDATE_STATUS_LIST:
             return Object.assign({}, state, {
                 data: action.payload.data

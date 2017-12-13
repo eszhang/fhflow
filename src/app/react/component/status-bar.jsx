@@ -1,6 +1,7 @@
 
 import React from 'react';
-import Icon from 'antd/lib/icon'
+import PropTypes from 'prop-types';
+import { Icon } from 'antd';
 
 import '../style/status-bar.scss';
 
@@ -10,27 +11,51 @@ import '../style/status-bar.scss';
  * @function StatusBar
  */
 
-export function StatusBar(props) {
+class StatusBar extends React.Component {
 
-    const iconTypeMap = {
-        info: "info-circle",
-        warning: "exclamation-circle",
-        success: "check-circle",
-        error: "close-circle"
-    };
+    constructor(props){
+        super(props)
+    }
 
-    return (
-        <ul className="status-bar">
-            {
-                props.data.map((info, index) => (
-                    <li className={info.type} key={index}>
-                        <a>
-                            {info.type && <Icon type={iconTypeMap[info.type]} />}
-                            {info.desc}
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-    )
-}   
+    componentDidUpdate() {
+        this.wrapper.scrollTop = this.wrapper.scrollHeight;
+    }
+
+    render() {
+
+        let { data, deleteHandler} = this.props;
+
+        const iconTypeMap = {
+            info: "info-circle",
+            warning: "exclamation-circle",
+            success: "check-circle",
+            error: "close-circle"
+        };
+
+        return (
+            <div className="status-bar" ref={(dom) => { this.wrapper = dom }}>
+                <a className="opt-btn delete" onClick = {deleteHandler}><Icon type="delete" /></a>
+                <div>
+                    <ul>
+                        {
+                            data.map((info, index) => (
+                                <li className={info.type} key={index}>
+                                    <a>
+                                        {info.type && <Icon type={iconTypeMap[info.type]} />}
+                                        {info.desc}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </div>
+        )
+    }
+}
+
+StatusBar.propTypes = {
+    data: PropTypes.array.isRequired
+}
+
+export default StatusBar;

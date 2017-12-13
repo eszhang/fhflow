@@ -1,5 +1,21 @@
 
 .status-bar{
+    position: relative;
+    height: 100%;
+    min-height: 70px;
+    .opt-btn.delete{
+        position: absolute;
+        right: 25px;
+        color: #fff;
+        font-size: 16px;
+        &:hover{
+            color: #c4e0d2;
+        }
+    }
+    >div{
+        height: 100%;
+        overflow-y: auto;
+    }
     li{ 
         padding: 4px 10px;
         white-space: nowrap;    

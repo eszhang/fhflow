@@ -2,23 +2,23 @@
     padding: 2px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-right: 10px;
-    .ant-form {
-        .ant-form-item{
-            margin-bottom: 10px;
-        }
-        .ant-form-item-label{
-            padding-left: 10px;
-            >label{
-                color: #fff;
-                font-size: 14px;
+    .ant-tabs-tabpane-active{
+        .ant-form {
+            .ant-form-item{
+                margin-bottom: 10px;
+            }
+            .ant-form-item-label{
+                padding-left: 10px;
+                >label{
+                    color: #fff;
+                    font-size: 12px;
+                }
             }
         }
     }
-    // input{
-    //     margin-left: 20px;
-    //     width: calc(100% - 40px);
-    // }
+    .ant-tabs-content{
+        padding-right: 10px;
+    }
     .ant-input-group{
         .ant-form-item{
             .ant-form-item-label{
@@ -27,11 +27,6 @@
             }
         }
     }
-    // .ant-input-group{
-    //     .ant-input{
-    //         width: calc(100% - 40px);
-    //     }
-    // }
     .ant-form-explain{
         padding: 0 20px;
     }
@@ -73,5 +68,8 @@
     }
     .buttons{
         text-align: center;
+    }
+    .moduleSetting{
+        padding-left: 20px;
     }
 }

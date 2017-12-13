@@ -18,7 +18,7 @@ let action = {
     //新建项目
     createProject: function (workSpace) {
 
-        if(!workSpace){
+        if (!workSpace) {
             webContents.send("workSpace-requeset");
             return;
         }
@@ -72,7 +72,7 @@ let action = {
 
         //关闭监听等任务(要有容错判断)
         // task.close(projectName);
-        webContents.send("delProject");
+        webContents.send("delProject-success");
     },
 
     //获取项目配置项
@@ -89,10 +89,9 @@ let action = {
         shell.openItem(projectPath);
     },
 
-    //运行任务
-    runTask: function (projectPath, taskName) {
-        task[taskName](projectPath, action.sendLogMessage);
-
+    //运行任务 taskStatus 1: 开启  0: 关闭
+    runTask: function (projectPath, taskName, taskStatus) {
+        task.runTask(projectPath, taskName, taskStatus, this.sendLogMessage);
     },
 
     //更新配置项
@@ -163,20 +162,20 @@ let action = {
 //== 接收列表
 
 //创建项目
-ipcMain.on("CREATEPROJECT", function (event, workSpace) {
-    action.createProject(workSpace)
+ipcMain.on("createProject", function (event, workspace) {
+    action.createProject(workspace)
 })
 ipcMain.on("workSpace-response", function (event, workSpace) {
     action.createProject(workSpace)
 })
 
 //打开项目路径
-ipcMain.on("OPENPROJECTPATH", function (event, projectPath) {
+ipcMain.on("openProjectPath", function (event, projectPath) {
     action.openProjectPath(projectPath)
 })
 
 //删除项目
-ipcMain.on("DElPROJECT", function (event, projectPath) {
+ipcMain.on("delProject", function (event, projectPath) {
     action.delProject(projectPath)
 })
 
@@ -191,8 +190,8 @@ ipcMain.on("changeSelectedProject", function (event, path) {
 })
 
 //运行任务
-ipcMain.on("runTask", function (event, projectPath, taskName) {
-    action.runTask(projectPath, taskName)
+ipcMain.on("runTask", function (event, projectPath, taskName, taskStatus) {
+    action.runTask(projectPath, taskName, taskStatus)
 })
 
 //自定义dev任务
