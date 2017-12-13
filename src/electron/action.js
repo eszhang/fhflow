@@ -100,31 +100,6 @@ let action = {
         task.updateConfig(projectPath, config);
     },
 
-    //检查更新
-    checkUpdate: function () {
-        console.log('check update ...');
-    },
-
-    //查看官网主页
-    viewHomeWebsite: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //使用帮助
-    useHelp: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //报告问题
-    reportProblems: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //关于
-    showAbout: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
     //安装环境
     installEnvironment: function () {
 
@@ -149,17 +124,41 @@ let action = {
                     }
                 })
             }
-        });
-
+        })
     },
 
     //发送日志
     sendLogMessage: function (logs) {
         webContents.send("print-log", logs);
+    },
+
+    //检查更新
+    checkUpdate: function () {
+        console.log('check update ...');
+    },
+
+    //查看官网主页
+    viewHomeWebsite: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //使用帮助
+    useHelp: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //报告问题
+    reportProblems: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //关于
+    showAbout: function () {
+        shell.openExternal('https://github.com/eszhang');
     }
 };
 
-//== 接收列表
+//== 注册接收渲染线程信息列表
 
 //创建项目
 ipcMain.on("createProject", function (event, workspace) {
