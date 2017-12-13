@@ -68,7 +68,7 @@ function getDevObj(config){
             isDelRap: false,
             isMinify: false,
             startLog: '编译javascript开始...',
-            endLog: '编译avascript成功...'
+            endLog: '编译javascript成功...'
         },
         tpl: {
             src: tplSrcArray.length > 0 ? tplSrcArray : projectPath + 'src/tpl/**/*.tpl',

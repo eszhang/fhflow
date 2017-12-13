@@ -15,24 +15,20 @@ let { webContents } = global.mainWindow;
 
 let action = {
 
-    //启动需要的数据
-    init: function (projectPath) {
-        let config = task.getConfig(projectPath);
-
-        webContents.send("getInitData-success", config);
-
-    },
-
     //新建项目
-    createProject: function (workspace) {
+    createProject: function (workSpace) {
 
+        if (!workSpace) {
+            webContents.send("workSpace-requeset");
+            return;
+        }
         let randomName = 'fhflow' + new Date().getTime(),
-            projectPath = `${workspace}/` + randomName;
+            projectPath = `${workSpace}/` + randomName;
 
         //先判断一下工作区是否存在
-        if (!isDirExist(workspace)) {
+        if (!isDirExist(workSpace)) {
             try {
-                fs.mkdirSync(path.join(workspace));
+                fs.mkdirSync(path.join(workSpace));
             } catch (err) {
                 throw new Error(err);
             }
@@ -74,20 +70,18 @@ let action = {
     //删除项目
     delProject: function (projectPath) {
 
-
         //关闭监听等任务(要有容错判断)
         // task.close(projectName);
-        webContents.send("delProject-success", projectPath);
+        webContents.send("delProject-success");
     },
 
     //获取项目配置项
     getSelectedProjectSetting: function (projectPath) {
 
-
         let config = task.getConfig(projectPath);
 
-         webContents.send("getSelectedProjectSetting-success", config);
-        
+        webContents.send("getSelectedProjectSetting-success", config);
+
     },
 
     //打开工作目录
@@ -95,41 +89,15 @@ let action = {
         shell.openItem(projectPath);
     },
 
-    //运行任务
-    runTask: function (projectPath, taskName) {
-        task[taskName](projectPath, action.sendLogMessage);
-
+    //运行任务 taskStatus 1: 开启  0: 关闭
+    runTask: function (projectPath, taskName, taskStatus) {
+        task.runTask(projectPath, taskName, taskStatus, this.sendLogMessage);
     },
 
     //更新配置项
     updateConfig: function (projectPath, config) {
 
         task.updateConfig(projectPath, config);
-    },
-
-    //检查更新
-    checkUpdate: function () {
-        console.log('check update ...');
-    },
-
-    //查看官网主页
-    viewHomeWebsite: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //使用帮助
-    useHelp: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //报告问题
-    reportProblems: function () {
-        shell.openExternal('https://github.com/eszhang');
-    },
-
-    //关于
-    showAbout: function () {
-        shell.openExternal('https://github.com/eszhang');
     },
 
     //安装环境
@@ -156,26 +124,48 @@ let action = {
                     }
                 })
             }
-        });
-
+        })
     },
 
     //发送日志
     sendLogMessage: function (logs) {
         webContents.send("print-log", logs);
+    },
+
+    //检查更新
+    checkUpdate: function () {
+        console.log('check update ...');
+    },
+
+    //查看官网主页
+    viewHomeWebsite: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //使用帮助
+    useHelp: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //报告问题
+    reportProblems: function () {
+        shell.openExternal('https://github.com/eszhang');
+    },
+
+    //关于
+    showAbout: function () {
+        shell.openExternal('https://github.com/eszhang');
     }
 };
 
-//== 接收列表
-
-//获取初始化数据
-ipcMain.on("init", function (event, projectPath) {
-    action.init(projectPath);
-})
+//== 注册接收渲染线程信息列表
 
 //创建项目
 ipcMain.on("createProject", function (event, workspace) {
     action.createProject(workspace)
+})
+ipcMain.on("workSpace-response", function (event, workSpace) {
+    action.createProject(workSpace)
 })
 
 //打开项目路径
@@ -199,8 +189,8 @@ ipcMain.on("changeSelectedProject", function (event, path) {
 })
 
 //运行任务
-ipcMain.on("runTask", function (event, projectPath, taskName) {
-    action.runTask(projectPath, taskName)
+ipcMain.on("runTask", function (event, projectPath, taskName, taskStatus) {
+    action.runTask(projectPath, taskName, taskStatus)
 })
 
 //自定义dev任务

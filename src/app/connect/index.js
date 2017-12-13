@@ -21,7 +21,7 @@ let UTILS = require(`${process.cwd()}/src/app/connect/util.js`)
 let {
     setProjectData, setWorkSpace,
     addProject, delProject,
-    updateStatusList, updateProjectSetting, updateProxyHost, setProxyData,
+    addStatusList, updateProjectSetting, updateProxyHost, setProxyData,
     changeActionProject, changeProjectSetting
 } = globalAction;
 
@@ -52,7 +52,8 @@ let COMMON = (function (STORAGE) {
             let projectsKeys = Object.keys(projects);
             if (projectsKeys.length > 0) {
                 storage.curProjectPath = curProjectPath = projects[projectsKeys[0]].path;
-                ipcRenderer.send('init', curProjectPath);
+                globalDispatch(setWorkSpace(workSpace));
+                initData();
             } else {
                 globalDispatch(setWorkSpace(workSpace));
                 // 无数据展示
@@ -60,6 +61,33 @@ let COMMON = (function (STORAGE) {
         }
     }
     //初始化数据
+    function initData() {
+        let storage = STORAGE.get(),
+            { projects } = storage,
+            projectArr = [];
+
+        for (var key in projects) {
+            projectPath = projects[key].path;
+            projectName = path.basename(projectPath);
+            projectArr.push({
+                key: Date.now(),
+                class: 'project-floader',
+                name: projectName,
+                path: projectPath,
+                isDeveloping: false,
+                isUploading: false,
+                isPackageing: false
+            })
+        }
+        globalDispatch(setProjectData({
+            data: projectArr
+        }));
+        let maxIndex = projectArr.length - 1,
+            index = maxIndex >= 0 ? 0 : -1;
+        globalDispatch(changeActionProject(index));
+        globalDispatch(changeProjectSetting());
+    }
+
     //每次启动的时候检查本地项目是否还存在
     function checkLocalProjects() {
         let storage = STORAGE.get();
@@ -86,52 +114,7 @@ let COMMON = (function (STORAGE) {
     return { init }
 })(STORAGE);
 
-COMMON.init();
-
 //==接收列表
-
-//项目初始化数据
-ipcRenderer.on('getInitData-success', (event, config) => {
-
-    let storage = STORAGE.get(),
-        { workSpace, projects, curProjectPath } = storage,
-        { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
-        projectArr = [],
-        chooseFunc = [],
-        projectPath,
-        projectName;
-
-    server.liverload && chooseFunc.push('liveReload');
-    supportChanged && chooseFunc.push('fileAddCompileSupport');
-    supportREM && chooseFunc.push('rem');
-    reversion && chooseFunc.push('md5');
-
-    for (var key in projects) {
-        projectPath = projects[key].path;
-        projectName = path.basename(projectPath);
-        projectArr.push({
-            key: Date.now(),
-            class: 'project-floader',
-            name: projectName,
-            path: projectPath,
-            isDeveloping: false,
-            isUploading: false,
-            isPackageing: false
-        })
-    }
-
-    globalDispatch(setProjectData({
-        data: projectArr
-    }));
-
-    globalDispatch(setWorkSpace(workSpace));
-
-    let maxIndex = projectArr.length - 1,
-        index = maxIndex >= 0 ? 0 : -1;
-    globalDispatch(changeActionProject(index));
-    globalDispatch(changeProjectSetting());
-
-})
 
 //新建项目
 ipcRenderer.on('createProject-success', (event, projectPath) => {
@@ -214,8 +197,8 @@ ipcRenderer.on('delProject-success', (event) => {
 
 //成功获取当前激活项目，更新右侧面板
 ipcRenderer.on('getSelectedProjectSetting-success', (event, config) => {
-    let storage = STORAGE.get();
-    let { workspace } = storage,
+    let storage = STORAGE.get(),
+        { workspace } = storage,
         { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config;
     chooseFunc = [];
 
@@ -262,8 +245,7 @@ ipcRenderer.on('installProgress', (event, step, status) => {
     })
 });
 
-//控制台信息
-let logs = [];
+//打印输出信息
 ipcRenderer.on('print-log', (event, newLogs) => {
     newLogs = Array.isArray(newLogs) ? newLogs : [newLogs];
     newLogs = newLogs.map(function (log, logIndex) {
@@ -279,11 +261,15 @@ ipcRenderer.on('print-log', (event, newLogs) => {
             desc: `[${h}:${m}:${s}] ${log.desc}`
         });
     })
-    logs = [...logs, ...newLogs];
-    console.log(logs)
-    globalDispatch(updateStatusList(logs))
+    globalDispatch(addStatusList(newLogs))
 });
 
+//获取工作区间
+ipcRenderer.on('workSpace-requeset', (event) => {
+    let storage = STORAGE.get(),
+        { workSpace } = storage;
+    ipcRenderer.send('workSpace-response', workSpace);
+})
 //==监听redux state tree 发送指令 至 electron main 线程
 
 globalStore.subscribe(
@@ -305,7 +291,8 @@ globalStore.subscribe(
 
         let storage = STORAGE.get(),
             workSpace = storage && storage.workSpace || "",
-            curProjectPath = storage && storage.curProjectPath || "";
+            curProjectPath = storage && storage.curProjectPath || "",
+            taskFlag;
 
         switch (action.type) {
             //创建项目
@@ -334,19 +321,16 @@ globalStore.subscribe(
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:
-                if (!curProjectPath)
-                    return;
-                if (data[selectedIndex].isDeveloping) {
-                    ipcRenderer.send('runTask', curProjectPath, 'dev');
-                } else {
-                    ipcRenderer.send('runTask', curProjectPath, 'close');
-                }
+                taskFlag = data[selectedIndex].isDeveloping ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'dev', taskFlag);
                 break;
             case CHANGE_UPLOAD_STATUS:
-                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'upload');
+                taskFlag = data[selectedIndex].isUploading ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'upload', taskFlag);
                 break;
             case CHANGE_PACK_STATUS:
-                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'pack');
+                taskFlag = data[selectedIndex].isPackageing ? 1 : 0;
+                curProjectPath && ipcRenderer.send('runTask', curProjectPath, 'pack', taskFlag);
                 break;
             //自定义任务(dev、dupload、pack)
             case "CUSTOMDEVTASK":
@@ -408,3 +392,5 @@ globalStore.subscribe(
         console.log('storage', STORAGE.get())
     }
 )
+
+COMMON.init();

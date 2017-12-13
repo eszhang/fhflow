@@ -8,7 +8,7 @@ const path = require('path');
 const extract = require('./atom/extract');
 const copy = require('./atom/copy');
 const { bs } = require('./atom/startServer');
-const { dev, dist, upload, pack } = require('./sequence');
+const taskSequence = require('./sequence');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
@@ -29,19 +29,22 @@ let action = {
         });
     },
 
-    //开发
-    dev: function (projectPath, callback) {
-        dev(projectPath, callback);
-    },
-
-    //上传
-    upload: function (projectPath, callback) {
-        upload(projectPath, callback);
-    },
-
-    //打包
-    pack: function (projectPath, callback) {
-        pack(projectPath, callback)
+    //运行任务 taskStatus 1: 开启  0: 关闭
+    runTask: function(projectPath, taskName, taskStatus,callback){
+        let taskCloseLog = {
+            dev: "[dev-task] dev模式已关闭...",
+            upload: "[upload-task] upload模式已关闭...",
+            pack: "[pack-task] pack模式已关闭..."
+        }
+        if(taskStatus){
+            taskSequence[taskName](projectPath,callback)
+        }else{
+            //关闭
+            callback({
+                desc: taskCloseLog[taskName],
+                type: "warning"
+            })
+        }
     },
 
     //关闭任务
@@ -52,7 +55,7 @@ let action = {
     //获取config配置项
     getConfig: function (projectPath) {
         let configPath = path.join(projectPath, CONFIGNAME);
-        return requireUncached(configPath);
+        return isFileExist(configPath) ? requireUncached(configPath) : requireUncached(CONFIGPATH);
     },
 
     //初次初始化config

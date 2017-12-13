@@ -23,7 +23,7 @@ let { getDevObj, getPackObj, getUploadObj } = require('./task.config.js');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
-    
+
 //dev task
 function dev(projectPath, loggerhandler) {
 
@@ -38,8 +38,10 @@ function dev(projectPath, loggerhandler) {
 
     let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
 
+    let prefixLog = "[dev-task] ";
+
     loggerhandler({
-        desc: "dev 模式已打开...",
+        desc: prefixLog + "dev模式已打开...",
         type: "warning"
     });
 
@@ -47,12 +49,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Clean(clean, function () {
                 loggerhandler({
-                    desc: clean.startLog,
+                    desc: prefixLog + clean.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: clean.endLog,
+                    desc: prefixLog + clean.endLog,
                     type: "success"
                 });
                 next();
@@ -61,12 +63,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Font(font, function () {
                 loggerhandler({
-                    desc: font.startLog,
+                    desc: prefixLog + font.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: font.endLog,
+                    desc: prefixLog + font.endLog,
                     type: "success"
                 });
                 next();
@@ -75,12 +77,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Html(html, function () {
                 loggerhandler({
-                    desc: html.startLog,
+                    desc: prefixLog + html.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: html.endLog,
+                    desc: prefixLog + html.endLog,
                     type: "success"
                 });
                 next();
@@ -89,12 +91,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Image(img, function () {
                 loggerhandler({
-                    desc: img.startLog,
+                    desc: prefixLog + img.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: img.endLog,
+                    desc: prefixLog + img.endLog,
                     type: "success"
                 });
                 next();
@@ -103,12 +105,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Sass(sass, function () {
                 loggerhandler({
-                    desc: sass.startLog,
+                    desc: prefixLog + sass.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: sass.endLog,
+                    desc: prefixLog + sass.endLog,
                     type: "success"
                 });
                 next();
@@ -117,12 +119,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             Tpl(tpl, function () {
                 loggerhandler({
-                    desc: tpl.startLog,
+                    desc: prefixLog + tpl.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: tpl.endLog,
+                    desc: prefixLog + tpl.endLog,
                     type: "success"
                 });
                 next();
@@ -131,12 +133,12 @@ function dev(projectPath, loggerhandler) {
         function (next) {
             JavaSript(js, function () {
                 loggerhandler({
-                    desc: js.startLog,
+                    desc: prefixLog + js.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: js.endLog,
+                    desc: prefixLog + js.endLog,
                     type: "success"
                 });
                 next();
@@ -147,7 +149,7 @@ function dev(projectPath, loggerhandler) {
 
             }, function () {
                 loggerhandler({
-                    desc: watch.endLog,
+                    desc: prefixLog + watch.endLog,
                     type: "success"
                 });
                 next();
@@ -158,7 +160,7 @@ function dev(projectPath, loggerhandler) {
 
             }, function () {
                 loggerhandler({
-                    desc: startServer.endLog,
+                    desc: prefixLog + startServer.endLog,
                     type: "success"
                 });
                 next();
@@ -171,24 +173,27 @@ function dev(projectPath, loggerhandler) {
 function upload(projectPath, loggerhandler) {
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath),
-        
+        sshObj = getUploadObj({
+            path: projectPath,
+            packageModules: setting.modules,
+            setting: setting
+        });
 
-    sshObj = getUploadObj({
-        path: projectPath,
-        packageModules: setting.modules,
-        setting: setting
-    });
-    // sshObj = getUploadObj(uploadConfig);
+    let prefixLog = "[upload-task] ";
 
     loggerhandler({
-        desc: "upload 模式已打开...",
+        desc: prefixLog + "upload模式已打开...",
         type: "warning"
     });
 
-    Ssh( sshObj, function(){
+    Ssh(sshObj, function () {
+        loggerhandler({
+            desc: prefixLog + sshObj.starttLog,
+            type: "info"
+        });
     }, function () {
-        loggerhandler( {
-            desc: sshObj.endtLog,
+        loggerhandler({
+            desc: prefixLog + sshObj.endtLog,
             type: "success"
         });
     });
@@ -208,8 +213,10 @@ function pack(projectPath, loggerhandler) {
 
     let { clean, sass, font, html, img, js, tpl, zip } = packConfig;
 
+    let prefixLog = "[pack-task] ";
+
     loggerhandler({
-        desc: "pack 模式已打开...",
+        desc: prefixLog + "pack模式已打开...",
         type: "warning"
     });
 
@@ -217,12 +224,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Clean(clean, function () {
                 loggerhandler({
-                    desc: clean.startLog,
+                    desc: prefixLog + clean.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: clean.endLog,
+                    desc: prefixLog + clean.endLog,
                     type: "success"
                 });
                 next();
@@ -231,12 +238,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Font(font, function () {
                 loggerhandler({
-                    desc: font.startLog,
+                    desc: prefixLog + font.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: font.endLog,
+                    desc: prefixLog + font.endLog,
                     type: "success"
                 });
                 next();
@@ -245,12 +252,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Html(html, function () {
                 loggerhandler({
-                    desc: html.startLog,
+                    desc: prefixLog + html.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: html.endLog,
+                    desc: prefixLog + html.endLog,
                     type: "success"
                 });
                 next();
@@ -259,12 +266,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Image(img, function () {
                 loggerhandler({
-                    desc: img.startLog,
+                    desc: prefixLog + img.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: img.endLog,
+                    desc: prefixLog + img.endLog,
                     type: "success"
                 });
                 next();
@@ -273,12 +280,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Sass(sass, function () {
                 loggerhandler({
-                    desc: sass.startLog,
+                    desc: prefixLog + sass.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: sass.endLog,
+                    desc: prefixLog + sass.endLog,
                     type: "success"
                 });
                 next();
@@ -287,12 +294,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             Tpl(tpl, function () {
                 loggerhandler({
-                    desc: tpl.startLog,
+                    desc: prefixLog + tpl.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: tpl.endLog,
+                    desc: prefixLog + tpl.endLog,
                     type: "success"
                 });
                 next();
@@ -301,12 +308,12 @@ function pack(projectPath, loggerhandler) {
         function (next) {
             JavaSript(js, function () {
                 loggerhandler({
-                    desc: js.startLog,
+                    desc: prefixLog + js.startLog,
                     type: "info"
                 });
             }, function () {
                 loggerhandler({
-                    desc: js.endLog,
+                    desc: prefixLog + js.endLog,
                     type: "success"
                 });
                 next();
@@ -317,7 +324,7 @@ function pack(projectPath, loggerhandler) {
 
             }, function () {
                 loggerhandler({
-                    desc: zip.endLog,
+                    desc: prefixLog + zip.endLog,
                     type: "success"
                 });
                 next();

@@ -39,7 +39,7 @@ class Container extends React.Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount(){
+    componentWillMount() {
         const { setProjectData, updateProjectSetting } = this.props;
         // setProjectData(projectManageData);
         // updateProjectSetting(actionSettingData);
@@ -87,9 +87,13 @@ class Container extends React.Component {
         this.props.updateInstallProgress(index);
     }
 
+    handleDeleteStatusList = () => {
+        this.props.updateStatusList([])
+    }
+
     render() {
 
-        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem } = this.props;
+        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem, up } = this.props;
         const { projectList, actionSetting, openProjectOrder, setWorkSpace, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
@@ -102,18 +106,15 @@ class Container extends React.Component {
                 <div className="main-content-area">
                     {EN === "resource-management" && <ProjectList data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
-
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
                     {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />}
                 </div>
                 <div className="status-bar-area">
-                    <div>
-                        <StatusBar data={statusList.data} />
-                    </div>
+                    <StatusBar data={statusList.data} deleteHandler={this.handleDeleteStatusList} />
                 </div>
                 <div className="action-setting-area">
-                    <ActionSetting actionSetting={actionSetting.data}  selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler}/>
+                    <ActionSetting actionSetting={actionSetting.data} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
                 </div>
 
             </div>
