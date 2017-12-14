@@ -4,9 +4,10 @@
   "description": "烽火前端开发环境集成工具",
   "main": "app.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.config.js",
     "start": "npm run dev",
-    "electron": "electron src/electron/app.js"
+    "dev": "webpack-dev-server --config webpack.dev.config.js",
+    "build": "webpack --config webpack.dev.config.js",
+    "electron": "electron build/electron/app.js"
   },
   "keywords": [
     "fhflow",
@@ -27,6 +28,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "babel-preset-stage-2": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.2.3",
     "css-loader": "^0.28.7",
     "eslint-loader": "^1.9.0",
     "html-webpack-plugin": "^2.30.1",

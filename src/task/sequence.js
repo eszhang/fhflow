@@ -327,6 +327,7 @@ function pack(projectPath, loggerhandler) {
                     desc: prefixLog + zip.endLog,
                     type: "success"
                 });
+               console.log("已经为完成")
                 next();
             });
         }

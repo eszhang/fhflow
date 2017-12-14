@@ -98,7 +98,7 @@ class Container extends React.Component {
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-projects={projectList.data.length==0 && "noProject"} data-layout-type={layoutType}>
-                {projectList.data.length==0 && <ProjectMask addProjectHandler={this.handleAddProject}/>}
+                {projectList.data.length==0 && (EN === "resource-management" || EN === "ajax-proxy") && <ProjectMask addProjectHandler={this.handleAddProject}/>}
 
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />

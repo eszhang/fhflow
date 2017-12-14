@@ -1,10 +1,9 @@
 @echo off
-REM registry compass path
-compass -v
+REM registry nodejs path
+where node
 if errorlevel 1 (
-    setx path "%path%;%1/Ruby22/bin/;"
+    setx path "%path%;%1/nodejs/;"
     if errorlevel 1 (echo "i-error") else (echo "i-success")
 )else (
     echo "i-success"
 )
-exit

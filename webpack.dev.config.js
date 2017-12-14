@@ -3,8 +3,8 @@
  * webpack dev config
  */
 
-const webpack = require('webpack'),
-    config = require('./webpack.base.config');
+const webpack = require('webpack');
+const config = require('./webpack.base.config');
 
 // 添加 webpack-dev-server 相关的配置项
 config.devServer = {

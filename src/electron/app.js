@@ -1,5 +1,5 @@
 
-/*
+/**
  *  electron app
  *  暴露全局对象mainWindow
  */
@@ -14,16 +14,16 @@ let mainWindow,
     logo;
 
 
-logo = path.join(__dirname, 'assets/img/FhFlow.png');
+logo = path.join(__dirname, './logo.ico');
 
 function createMainWindow() {
 
     mainWindow = global.mainWindow = new BrowserWindow({
-        title: 'Fhflow前端集成开发环境',
+        title: '烽火前端开发环境集成工具',
         width: 982,
         minHeight: 545,
-        resizable: false
-        // icon: logo
+        resizable: false,
+        icon: logo
     });
 
     mainWindow.loadURL('http:127.0.0.1:8080');

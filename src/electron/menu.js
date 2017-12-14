@@ -1,5 +1,5 @@
 
-/*
+/**
  *  electron menu 菜单定制
  */
 
@@ -135,19 +135,19 @@ let template = [
             {
                 label: 'FhFlow 官网',
                 click: function () {
-                    action.viewHomeWebsite();
+                    action.openExternal("home");
                 }
             },
             {
                 label: 'FhFlow 使用帮助',
                 click: function () {
-                    action.useHelp();
+                    action.openExternal("help");
                 }
             },
             {
                 label: '报告问题',
                 click: function () {
-                    action.reportProblems();
+                    action.openExternal("problem");
                 }
             }
         ]
@@ -162,7 +162,7 @@ if (process.platform === 'darwin') {
             {
                 label: '关于 FhFlow',
                 click: function (item, focusedWindow) {
-                    action.showAbout();
+                    action.openExternal("about");
                 }
             },
             {
@@ -223,7 +223,7 @@ if (process.platform === 'darwin') {
     helpItem.submenu.push({
         label: '关于',
         click: function (item, focusedWindow) {
-            action.showAbout();
+            action.openExternal("about");
         }
     });
 }
