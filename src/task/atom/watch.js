@@ -15,8 +15,9 @@ const fontAtom = require('./font');
 
 module.exports = function (config = {}, loggerhandler, startCb, endCb) {
 
-    const { html, sass, clean, js, tpl, img, font, watch } = config;
-    const { srcBase, watchPath } = watch;
+    const { html, sass, clean, js, tpl, img, font, watch, bs } = config;
+    const { srcBase, watchPath, liverload } = watch;
+
 
     startCb && startCb();
 
@@ -48,18 +49,24 @@ module.exports = function (config = {}, loggerhandler, startCb, endCb) {
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase, 'build\\assets')
                     delAtom([tmp], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    imageAtom(img);
+                    imageAtom(img,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
             case 'js':
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase, 'build\\assets')
                     delAtom([tmp], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    javaSriptAtom(js);
+                    javaSriptAtom(js,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
             case 'scss':
@@ -67,36 +74,48 @@ module.exports = function (config = {}, loggerhandler, startCb, endCb) {
                     let tmp = file.replace(srcBase + '\\scss', 'build\\assets\\css').replace(".scss", '.css')
                     let tmp2 = tmp.replace(".css", '.css.map')
                     delAtom([tmp, tmp2], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    sassAtom(sass);
+                    sassAtom(sass,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
             case 'view':
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase, 'build');
                     delAtom([tmp], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    htmlAtom(html);
+                    htmlAtom(html,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
             case 'tpl':
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase + '\\tpl', 'build\\assets\\template').replace(".tpl", '.js');
                     delAtom([tmp], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    tplAtom(tpl);
+                    tplAtom(tpl,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
             case 'font':
                 if (type === 'removed') {
                     let tmp = file.replace(srcBase, 'build\\assets');
                     delAtom([tmp], { force: true }).then(function () {
+                        liverload && bs.reload();
                     })
                 } else {
-                    fontAtom(font);
+                    fontAtom(font,function(){},function(){
+                        liverload && bs.reload();
+                    });
                 }
                 break;
         }

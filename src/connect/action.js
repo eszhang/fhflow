@@ -8,7 +8,7 @@ const path = require('path');
 const { exec, execSync } = require('child_process');
 const { requireUncached, isFileExist, isDirExist } = require(path.join(__dirname, '../task/util/index'));
 const UTILS = require(path.join(__dirname, 'utils.js'));
-const task = require(path.join(_dirname, '../task/index'));
+const task = require(path.join(__dirname, '../task/index'));
 function createAction(globalDispatch, globalAction, STORAGE) {
 
     let {

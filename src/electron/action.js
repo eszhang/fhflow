@@ -29,7 +29,7 @@ let action = {
 
     //检查更新
     checkUpdate: function () {
-        webContents.send("checkUpdate", urlName);
+        webContents.send("checkUpdate");
     },
 
     //打开外链

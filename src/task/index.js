@@ -7,7 +7,6 @@ const fs = require('fs');
 const path = require('path');
 const extract = require('./atom/extract');
 const copy = require('./atom/copy');
-const { bs } = require('./atom/startServer');
 const taskSequence = require('./sequence');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
@@ -39,6 +38,7 @@ let action = {
         if(taskStatus){
             taskSequence[taskName](projectPath,callback)
         }else{
+             taskName === 'dev' && this.close(projectPath);
             //关闭
             callback({
                 desc: taskCloseLog[taskName],
@@ -49,7 +49,7 @@ let action = {
 
     //关闭任务
     close: function (projectPath) {
-        require("browser-sync").get(projectPath).pause();
+        require("browser-sync").get(projectPath).exit();
     },
 
     //获取config配置项

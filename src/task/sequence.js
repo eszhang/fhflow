@@ -13,7 +13,7 @@ const javascriptHandler = require('./atom/javascript');
 const tplHandler = require('./atom/tpl');
 const imageHandler = require('./atom/image');
 const fontHandler = require('./atom/font');
-const startServerHandler = require('./atom/startServer').startServer;
+const startServerHandler = require('./atom/server').startServer;
 const watchHandler = require('./atom/watch');
 const zipHandler = require('./atom/zip');
 const sshHandler = require('./atom/ssh');
@@ -36,7 +36,14 @@ function dev(projectPath, loggerhandler) {
         setting: setting
     });
 
+     const bs = require('browser-sync').create(projectPath);
+
     let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
+
+    // 加入控制修改后刷新
+    watch.liverload = setting.server.liverload;
+    watch.startServerPath = startServer.path;
+
 
     let prefixLog = "[dev-task] ";
 
@@ -145,6 +152,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            devConfig.bs = bs;
             watchHandler(devConfig, loggerhandler, function () {
 
             }, function () {
@@ -156,6 +164,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            startServer.bs = bs;
             startServerHandler(startServer, function () {
 
             }, function () {
