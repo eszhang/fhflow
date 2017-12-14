@@ -22,7 +22,8 @@ export default class ProjectList extends React.Component {
         this.state = {
             modalVisible: false,
             ModalText: '',
-            confirmLoading: false
+            confirmLoading: false,
+            projectSettingModalVisible: false
         }
     }
 
@@ -108,6 +109,11 @@ export default class ProjectList extends React.Component {
         this.setState({ modalVisible: false });
     }
 
+    //设置项目信息弹窗取消按钮
+    projectSettingHandleCancel = () => {
+        this.setState({ projectSettingModalVisible: false });
+    }
+
     handleOk = () => {
         this.form.validateFields((err, values) => {
             this.props.setWorkSpace(values.workSpace);
@@ -128,7 +134,37 @@ export default class ProjectList extends React.Component {
 
     }
 
+    projectSettingHandleOk = (data,selectedIndex) => {
+        this.form.validateFields((err, values) => {
+
+            data[selectedIndex].name = values.projectName;
+            // 更新项目名
+            this.props.setProjectData(data);
+            if (!err) {
+                this.setState({
+                    ModalText: '设置成功,页面将在2s后关闭',
+                    confirmLoading: true
+                });
+                setTimeout(() => {
+                    this.setState({
+                        modalVisible: false,
+                        confirmLoading: false,
+                        ModalText: '',
+                    });
+                }, 2000);
+            }
+        });
+    }
+
+    onDoubleClickHandler = ()=>{
+        this.setState({ projectSettingModalVisible: true });
+    }
+
     saveFormRef = (form) => {
+        this.form = form;
+    }
+
+    saveProjectSettingFormRef = (form) => {
         this.form = form;
     }
 
@@ -145,7 +181,7 @@ export default class ProjectList extends React.Component {
                 <ul className="project-list-ul">
                     {
                         data.data.length !== 0 ? data.data.map((m, index) => (
-                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} key={index}>
+                            <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)} onDoubleClick={() => this.onDoubleClickHandler(data,selectedIndex)} key={index}>
                                 <Icon type="folder" />
                                 <div className="project-info">
                                     <div className="folderName" >{m.name}</div>
@@ -156,6 +192,7 @@ export default class ProjectList extends React.Component {
                             <div></div>
                     }
                 </ul>
+                { data.data.length > 0 && <WrappedProjectInfoForm  ref={this.saveProjectSettingFormRef}  visible={this.state.projectSettingModalVisible} handleOk={()=>this.projectSettingHandleOk(data.data,selectedIndex)} handleCancel={this.projectSettingHandleCancel} data={data.data} selectedIndex={data.selectedIndex}/> }
                 <div className="project-list-footer clearfix" >
                     <div className="plf-left">
                         <a onClick={() => this.plfLeftClickHandler('add', data)}>
@@ -203,6 +240,40 @@ export default class ProjectList extends React.Component {
     }
 }
 
+class ProjectInfoForm extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const { visible, data, selectedIndex, handleCancel, handleOk } = this.props;
+        const { getFieldDecorator } = this.props.form;
+        return (
+            <Modal title="项目信息修改" 
+                visible={visible}
+                onCancel={handleCancel}
+                onOk={handleOk}
+            >
+                <Form layout="vertical" onSubmit={this.handleSubmit}>
+                    <FormItem label="项目名称">
+                         {getFieldDecorator('projectName', {
+                            initialValue: data[selectedIndex].path,
+                            rules: [{
+                                required: true, message: '项目名称不能为空',
+                            }]
+                        })(
+                            <Input placeholder="项目名称" />
+                            )}
+                    </FormItem>
+                </Form>
+                <p></p>
+            </Modal>
+        )
+    }
+}
+
+
 class GlobalSettingForm extends React.Component {
 
     constructor(props) {
@@ -233,11 +304,9 @@ class GlobalSettingForm extends React.Component {
                 </Form>
                 <p>{ModalText}</p>
             </Modal>
-
-
-
         )
     }
 }
 
 const WrappedGlobalSettingForm = Form.create()(GlobalSettingForm);
+const WrappedProjectInfoForm = Form.create()(ProjectInfoForm);
