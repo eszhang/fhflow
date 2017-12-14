@@ -13,6 +13,8 @@ module.exports = function (config = {}, startCb, endCb) {
     let date = new Date();
 
     startCb && startCb();
+    //  用于记录是不是最后一个打包已经完成
+    var packNo = 0;
 
     let year = date.getFullYear(),
         month = date.getMonth() + 1,
@@ -29,7 +31,7 @@ module.exports = function (config = {}, startCb, endCb) {
             .pipe(zip(name))
             .pipe(gulp.dest(dist))
             .on('end', function () {
-                // endCb && endCb();
+                endCb && endCb();
             });
     } else {
         for (var i = 0; i < srcArray.length; i++) {
@@ -40,8 +42,11 @@ module.exports = function (config = {}, startCb, endCb) {
                 .pipe(zip(name))
                 .pipe(gulp.dest(dist))
                 .on('end', function () {
-                    // endCb && endCb();
+                    if(packNo++ == (srcArray.length-1) ){
+                        endCb && endCb();
+                    }
                 });
+            
         }
     }
 }

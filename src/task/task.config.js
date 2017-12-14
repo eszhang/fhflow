@@ -54,7 +54,6 @@ function getDevObj(config){
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
             isCompress: false,
-            supportREM: setting.supportREM,
             compassSetting: {
                 imageDest: projectPath + 'build/assets/images' ,
                 fontSrc: projectPath + 'src/fonts',
@@ -183,7 +182,6 @@ function getPackObj(config){
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
             isCompress: false,
-            supportREM: supportREM,
             compassSetting: {
                 imageDest: projectPath + 'build/assets/images' ,
                 fontSrc: projectPath + 'src/fonts',
