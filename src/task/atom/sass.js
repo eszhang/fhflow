@@ -9,10 +9,13 @@ const autoprefixer = require('gulp-autoprefixer');
 const sourceMap = require('gulp-sourcemaps');
 const compass = require('gulp-compass');
 const minifyCss = require('gulp-clean-css');
+const postcss = require('gulp-postcss');
+const postcssPxtorem = require('postcss-pxtorem');
+const postcssAutoprefixer = require('autoprefixer');
 
 module.exports = function (config = {}, startCb, endCb) {
 
-    const { src, srcBase, dest, compassSetting, isCompress, isOpenSourceMap } = config;
+    const { src, srcBase, dest, compassSetting, isCompress, isOpenSourceMap, supportREM } = config;
 
     startCb && startCb();
 
@@ -25,7 +28,19 @@ module.exports = function (config = {}, startCb, endCb) {
             style: isCompress ? 'compressed' : 'compact',
             sourcemap: isOpenSourceMap ? true : false
         }))
-        .pipe(gulp.dest(dest))
+
+        // if(supportREM){
+        //     stream.pipe(postcss([
+        //         postcssAutoprefixer({browser: ["last 9 versions"]}),
+        //         postcssPxtorem({
+        //             root_value: "20",
+        //             prop_white_list: {},
+        //             minPixelValue: 2
+        //         })
+        //     ]))
+        // }
+
+        stream.pipe(gulp.dest(dest))
         .on('end', function () {
             endCb && endCb();
         });

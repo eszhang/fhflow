@@ -191,6 +191,9 @@ ipcRenderer.on('delProject-success', (event) => {
             index = maxIndex < 0 ? -1 : (selectedIndex > maxIndex ? maxIndex : selectedIndex);
         globalDispatch(changeActionProject(index));
         globalDispatch(changeProjectSetting());
+        // new Notification('FHFLOW提示', {
+        //     body: '删除成功'
+        // });
     }
 
 });

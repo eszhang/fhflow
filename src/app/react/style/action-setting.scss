@@ -1,5 +1,6 @@
 .action-setting-area{
-    padding: 2px;
+    overflow-y: auto;
+    overflow-x: hidden;
     .ant-tabs-tabpane-active{
         .ant-form {
             .ant-form-item{
@@ -81,7 +82,7 @@
             z-index: 2;
         }
         .ant-tabs-content{
-            margin-top: -15px;
+            margin-top: -13px;
         }
     }
     .projectSetting{

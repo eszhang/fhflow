@@ -103,7 +103,7 @@ class Container extends React.Component {
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
-                <div className="main-content-area">
+                <div className="main-content-area" data-type={EN}>
                     {EN === "resource-management" && <ProjectList data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
                     {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}

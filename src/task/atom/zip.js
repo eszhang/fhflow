@@ -21,17 +21,17 @@ module.exports = function (config = {}, startCb, endCb) {
     day = day > 9 ? day : '0' + day;
 
     let time = '' + year + month + day;
-    if(srcArray.length === 0){
+    if (srcArray.length === 0) {
         let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
-                .replace(/\${version}/g, version).replace(/\${time}/g, time);
-            name = name + '.' + type;
-            gulp.src(srcBase)
-                .pipe(zip(name))
-                .pipe(gulp.dest(dist))
-                .on('end', function () {
+            .replace(/\${version}/g, version).replace(/\${time}/g, time);
+        name = name + '.' + type;
+        gulp.src(srcBase)
+            .pipe(zip(name))
+            .pipe(gulp.dest(dist))
+            .on('end', function () {
                 // endCb && endCb();
-                });
-    }else{
+            });
+    } else {
         for (var i = 0; i < srcArray.length; i++) {
             let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
                 .replace(/\${version}/g, version).replace(/\${time}/g, time);
@@ -40,7 +40,7 @@ module.exports = function (config = {}, startCb, endCb) {
                 .pipe(zip(name))
                 .pipe(gulp.dest(dist))
                 .on('end', function () {
-                // endCb && endCb();
+                    // endCb && endCb();
                 });
         }
     }

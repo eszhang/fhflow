@@ -1,8 +1,11 @@
 
 .proxy-list{
     padding: 30px;
-    background-color: #fff;
-
+    background-color: #e2e2e2;
+    >div{
+        padding: 15px;
+        background-color: #fff;
+    }
     .ant-form{
         margin-bottom: 10px;
     }
@@ -13,10 +16,3 @@
         margin-right: 8px;
     }
 }
-::-webkit-scrollbar-track-piece{width:10px;background-color:#4e4e5a ; border-radius: 8px; }
-
-::-webkit-scrollbar{width:10px;height:6px ; }
-
-::-webkit-scrollbar-thumb{height:50px;background:#007acc;   cursor:pointer;border-radius: 8px;}
-
-::-webkit-scrollbar-thumb:hover{background:#007acc; border-radius: 8px;cursor:pointer}

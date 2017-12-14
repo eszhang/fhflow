@@ -5,19 +5,19 @@
  */
 
 const path = require('path');
-const { requireUncached, isFileExist, isDirExist } = require('./util/index');
-const Html = require('./atom/html');
-const Sass = require('./atom/sass');
-const Clean = require('./atom/clean');
-const JavaSript = require('./atom/javascript');
-const Tpl = require('./atom/tpl');
-const Image = require('./atom/image');
-const Font = require('./atom/font');
-const StartServer = require('./atom/startServer').startServer;
-const Watch = require('./atom/watch');
-const Zip = require('./atom/zip');
-const Ssh = require('./atom/ssh');
 const async = require('async');
+const htmlHandler = require('./atom/html');
+const sassHandler = require('./atom/sass');
+const cleanHandler = require('./atom/clean');
+const javascriptHandler = require('./atom/javascript');
+const tplHandler = require('./atom/tpl');
+const imageHandler = require('./atom/image');
+const fontHandler = require('./atom/font');
+const startServerHandler = require('./atom/startServer').startServer;
+const watchHandler = require('./atom/watch');
+const zipHandler = require('./atom/zip');
+const sshHandler = require('./atom/ssh');
+const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
 let { getDevObj, getPackObj, getUploadObj } = require('./task.config.js');
 
@@ -53,7 +53,7 @@ function dev(projectPath, loggerhandler) {
 
     async.series([
         function (next) {
-            Clean(clean, function () {
+            cleanHandler(clean, function () {
                 loggerhandler({
                     desc: prefixLog + clean.startLog,
                     type: "info"
@@ -67,7 +67,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Font(font, function () {
+            fontHandler(font, function () {
                 loggerhandler({
                     desc: prefixLog + font.startLog,
                     type: "info"
@@ -81,7 +81,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Html(html, function () {
+            htmlHandler(html, function () {
                 loggerhandler({
                     desc: prefixLog + html.startLog,
                     type: "info"
@@ -95,7 +95,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Image(img, function () {
+            imageHandler(img, function () {
                 loggerhandler({
                     desc: prefixLog + img.startLog,
                     type: "info"
@@ -109,7 +109,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Sass(sass, function () {
+            sassHandler(sass, function () {
                 loggerhandler({
                     desc: prefixLog + sass.startLog,
                     type: "info"
@@ -123,7 +123,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Tpl(tpl, function () {
+            tplHandler(tpl, function () {
                 loggerhandler({
                     desc: prefixLog + tpl.startLog,
                     type: "info"
@@ -137,7 +137,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            JavaSript(js, function () {
+            javascriptHandler(js, function () {
                 loggerhandler({
                     desc: prefixLog + js.startLog,
                     type: "info"
@@ -151,7 +151,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Watch(watch, devConfig, function () {
+            watchHandler(devConfig, loggerhandler, function () {
 
             }, function () {
                 loggerhandler({
@@ -162,7 +162,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            StartServer(startServer, function () {
+            startServerHandler(startServer, function () {
 
             }, function () {
                 loggerhandler({
@@ -192,7 +192,7 @@ function upload(projectPath, loggerhandler) {
         type: "warning"
     });
 
-    Ssh(sshObj, function () {
+    sshHandler(sshObj, function () {
         loggerhandler({
             desc: prefixLog + sshObj.starttLog,
             type: "info"
@@ -228,7 +228,7 @@ function pack(projectPath, loggerhandler) {
 
     async.series([
         function (next) {
-            Clean(clean, function () {
+            cleanHandler(clean, function () {
                 loggerhandler({
                     desc: prefixLog + clean.startLog,
                     type: "info"
@@ -242,7 +242,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Font(font, function () {
+            fontHandler(font, function () {
                 loggerhandler({
                     desc: prefixLog + font.startLog,
                     type: "info"
@@ -256,7 +256,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Html(html, function () {
+            htmlHandler(html, function () {
                 loggerhandler({
                     desc: prefixLog + html.startLog,
                     type: "info"
@@ -270,7 +270,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Image(img, function () {
+            imageHandler(img, function () {
                 loggerhandler({
                     desc: prefixLog + img.startLog,
                     type: "info"
@@ -284,7 +284,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Sass(sass, function () {
+            sassHandler(sass, function () {
                 loggerhandler({
                     desc: prefixLog + sass.startLog,
                     type: "info"
@@ -298,7 +298,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Tpl(tpl, function () {
+            tplHandler(tpl, function () {
                 loggerhandler({
                     desc: prefixLog + tpl.startLog,
                     type: "info"
@@ -312,7 +312,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            JavaSript(js, function () {
+            javascriptHandler(js, function () {
                 loggerhandler({
                     desc: prefixLog + js.startLog,
                     type: "info"
@@ -326,7 +326,7 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            Zip(zip, function () {
+            zipHandler(zip, function () {
 
             }, function () {
                 loggerhandler({
