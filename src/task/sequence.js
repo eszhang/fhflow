@@ -36,6 +36,7 @@ function dev(projectPath, loggerhandler) {
         setting: setting
     });
 
+     const bs = require('browser-sync').create(projectPath);
 
     let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
 
@@ -151,6 +152,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            devConfig.bs = bs;
             watchHandler(devConfig, loggerhandler, function () {
 
             }, function () {
@@ -162,6 +164,7 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            startServer.bs = bs;
             startServerHandler(startServer, function () {
 
             }, function () {

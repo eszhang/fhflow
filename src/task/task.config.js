@@ -104,7 +104,6 @@ function getDevObj(config){
         },
         watch: {
             srcBase: 'src',
-            supportChanged: setting.supportChanged,
             watchPath: [projectPath + 'src/**/*.*'],
             endLog: '启动watch成功...'
         }
