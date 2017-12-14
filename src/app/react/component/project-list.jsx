@@ -76,6 +76,7 @@ export default class ProjectList extends React.Component {
             title: '您确认删除该项目吗？',
             onOk() {
                 that.props.delProjectHandler();
+                that.props.updateStatusList([]);
             }
         });
     }
