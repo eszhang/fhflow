@@ -71,7 +71,7 @@ let action = {
     delProject: function (projectPath) {
 
         //关闭监听等任务(要有容错判断)
-        // task.close(projectName);
+        task.close(projectPath);
         webContents.send("delProject-success");
     },
 
