@@ -10,6 +10,7 @@ module.exports = function (config = {}, startCb, endCb) {
     const { src, force = true } = config;
 
     startCb && startCb();
+    
     let stream = del(src, {
         force: true
     }).then(function () {

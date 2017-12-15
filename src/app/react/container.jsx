@@ -57,9 +57,9 @@ class Container extends React.Component {
 
     handleActionMenuClick = index => {
 
-        const { changeActionMenu, changeGridLayout } = this.props;
+        const { changeMenuSelected, changeGridLayout } = this.props;
 
-        changeActionMenu(index);
+        changeMenuSelected(index);
     }
 
     handleAddProject = () => {
@@ -93,7 +93,7 @@ class Container extends React.Component {
 
     render() {
 
-        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, deleteProxyItem, up } = this.props;
+        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, up } = this.props;
         const { projectList, setProjectData, actionSetting, openProjectOrder, setWorkSpace, updateStatusList, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
@@ -105,7 +105,7 @@ class Container extends React.Component {
                 </div>
                 <div className="main-content-area" data-type={EN}>
                     {EN === "resource-management" && <ProjectList setProjectData={setProjectData} data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} updateStatusList={updateStatusList} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
-                    {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} deleteProxyItemHandler={deleteProxyItem} updateHostHandler={updateProxyHost} />}
+                    {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} delProxyItemHandler={delProxyItem} updateHostHandler={updateProxyHost} />}
                     {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
                     {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
                     {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />}

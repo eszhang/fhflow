@@ -9,7 +9,7 @@ const { exec, execSync } = require('child_process');
 const { requireUncached, isFileExist, isDirExist } = require(path.join(__dirname, '../task/util/index'));
 const UTILS = require(path.join(__dirname, 'utils.js'));
 const task = require(path.join(__dirname, '../task/index'));
-function createAction(globalDispatch, globalAction, STORAGE) {
+function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
 
     let {
         setProjectData, setWorkSpace,
@@ -37,7 +37,6 @@ function createAction(globalDispatch, globalAction, STORAGE) {
                     storage.projects = {};
                     STORAGE.set(storage);
                     globalDispatch(setWorkSpace(workSpace));
-                    // 无数据展示
                 });
             } else {
                 checkLocalProjects();
@@ -50,7 +49,6 @@ function createAction(globalDispatch, globalAction, STORAGE) {
                     initData();
                 } else {
                     globalDispatch(setWorkSpace(workSpace));
-                    // 无数据展示
                 }
             }
 
@@ -73,9 +71,7 @@ function createAction(globalDispatch, globalAction, STORAGE) {
                         isPackageing: false
                     })
                 }
-                globalDispatch(setProjectData({
-                    data: projectArr
-                }));
+                globalDispatch(setProjectData(projectArr));
                 let maxIndex = projectArr.length - 1,
                     index = maxIndex >= 0 ? 0 : -1;
                 globalDispatch(changeActionProject(index));
@@ -111,7 +107,7 @@ function createAction(globalDispatch, globalAction, STORAGE) {
 
             let storage = STORAGE.get(),
                 { workSpac } = storage,
-                suffix = 'fhflow' + new Date().getTime(),
+                suffix = CONFIG.NAME + new Date().getTime(),
                 projectPath = `${workSpace}/` + suffix;
 
             //先判断一下工作区是否存在

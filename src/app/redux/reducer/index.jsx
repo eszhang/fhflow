@@ -1,22 +1,96 @@
 
-import { CHANGE_ACTION_MENU } from '../action/index'
-import { ADD_STATUS_LIST, UPDATE_STATUS_LIST } from '../action/index';
-import { UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA } from '../action/index'
-import { UPDATE_DOC_LIST } from '../action/index';
-import { UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST } from '../action/index';
 import {
-    SET_PROJECT_DATA, SET_WORKSPACE,
-    CHANGE_ACTION_PROJECT, DEl_ACTION_PROJECT,
-    OPEN_PROJECT, ADD_ACTION_PROJECT,
-    CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS
-} from '../action/index'
-import { UPDATE_PROJECT_SETTING } from '../action/index';
+    CHANGE_MENU_SELECTED,
+    SET_WORKSPACE,
+    ADD_PROJECT_ITEM, DEl_PROJECT_ITEM, SET_PROJECT_DATA, CHANGE_PROJECT_SELECTED,
+    CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
+        UPDATE_PROJECT_SETTING,
+    ADD_STATUS_LIST, UPDATE_STATUS_LIST,
+    UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
+    UPDATE_DOC_LIST,
+    UPDATE_INSTALL_PROGRESS, UPDATE_INSTALL_TOOLS_LIST
+} from '../action/index';
 
 //actionMenu state
 export const actionMenuSelectedIndex = (state = 0, action = {}) => {
     switch (action.type) {
-        case CHANGE_ACTION_MENU:
+        case CHANGE_MENU_SELECTED:
             return action.payload.index;
+        default:
+            return state;
+    }
+};
+
+//projectList list
+export const projectList = (state = { selectedIndex: 0, data: [] }, action = {}) => {
+    switch (action.type) {
+        case SET_WORKSPACE:
+            return Object.assign({}, state,
+                {
+                    workSpace: action.payload.data
+                }
+            );
+        case ADD_PROJECT_ITEM:
+            return Object.assign({}, state, 
+                {
+                    data: [...state.data, action.payload.data]
+                }
+            );
+        case DEl_PROJECT_ITEM:
+            return Object.assign({}, state, 
+                {
+                    data: state.data.filter((value, index) => {
+                        return value.name !== action.payload.name;
+                    })
+                }
+            );
+        case SET_PROJECT_DATA:
+            return Object.assign({}, state,
+                {
+                    data: action.payload.data
+                }
+            );
+        case CHANGE_PROJECT_SELECTED:
+            return Object.assign({}, state,
+                {
+                    selectedIndex: action.payload.index
+                }
+            );    
+        case CHANGE_DEV_STATUS:
+            state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
+            return Object.assign({}, state, {
+                data: state.data
+            })
+        case CHANGE_UPLOAD_STATUS:
+            state.data[state.selectedIndex].isUploading = !state.data[state.selectedIndex].isUploading;
+            return Object.assign({}, state, {
+                data: state.data
+            })
+        case CHANGE_PACK_STATUS:
+            state.data[state.selectedIndex].isPackageing = !state.data[state.selectedIndex].isPackageing;
+            return Object.assign({}, state, {
+                data: state.data
+            })
+        default:
+            return state;
+    }
+};
+
+//action Setting
+export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {}) => {
+    switch (action.type) {
+        // case SET_ACTION_DATA:
+        //     return Object.assign({}, state,
+        //         { 
+        //             selectedIndex: state.selectedIndex,
+        //             data: action.payload.data
+        //         }
+        //     );
+        case UPDATE_PROJECT_SETTING:
+            return Object.assign({}, state, {
+                data: Object.assign({}, state.data, action.payload.data)
+            });
+
         default:
             return state;
     }
@@ -43,7 +117,7 @@ export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
                     }
                 })
             })
-        case DELETE_PROXY_ITEM:
+        case DEL_PROXY_ITEM:
             return Object.assign({}, state, {
                 data: state.data.filter((value, index) => {
                     return value.id !== action.payload.id;
@@ -98,73 +172,6 @@ export const statusList = (state = { data: [] }, action = {}) => {
             return Object.assign({}, state, {
                 data: action.payload.data
             });
-        default:
-            return state;
-    }
-}
-
-//projectList list
-export const projectList = (state = { selectedIndex: 0, data: [] }, action = {}) => {
-    switch (action.type) {
-        case SET_PROJECT_DATA:
-            return Object.assign({}, state,
-                { ...action.payload.data }
-            );
-        case SET_WORKSPACE:
-            return Object.assign({}, state,
-                {
-                    workSpace: action.payload.data
-                }
-            );
-        case CHANGE_ACTION_PROJECT:
-            return Object.assign({}, state, {
-                selectedIndex: action.payload.index
-            });
-        case DEl_ACTION_PROJECT:
-            return Object.assign({}, state, {
-                data: state.data.filter((value, index) => {
-                    return value.name !== action.payload.name;
-                })
-            })
-        case ADD_ACTION_PROJECT:
-            return Object.assign({}, state, {
-                data: [...state.data, action.payload.data]
-            })
-        case CHANGE_DEV_STATUS:
-            state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
-            return Object.assign({}, state, {
-                data: state.data
-            })
-        case CHANGE_UPLOAD_STATUS:
-            state.data[state.selectedIndex].isUploading = !state.data[state.selectedIndex].isUploading;
-            return Object.assign({}, state, {
-                data: state.data
-            })
-        case CHANGE_PACK_STATUS:
-            state.data[state.selectedIndex].isPackageing = !state.data[state.selectedIndex].isPackageing;
-            return Object.assign({}, state, {
-                data: state.data
-            })
-        default:
-            return state;
-    }
-};
-
-//action Setting
-export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {}) => {
-    switch (action.type) {
-        // case SET_ACTION_DATA:
-        //     return Object.assign({}, state,
-        //         { 
-        //             selectedIndex: state.selectedIndex,
-        //             data: action.payload.data
-        //         }
-        //     );
-        case UPDATE_PROJECT_SETTING:
-            return Object.assign({}, state, {
-                data: Object.assign({}, state.data, action.payload.data)
-            });
-
         default:
             return state;
     }

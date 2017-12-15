@@ -1,4 +1,9 @@
-var actionSettingData = {
+
+/**
+ *  actionSettingData 数据
+ */
+
+const actionSettingData = {
     "workSpace": 'D:/mygit/fhFlowWorkspaceTest',
     "choseFunctions": ["liveReload"],
     "uploadHost": "172.16.113.125",

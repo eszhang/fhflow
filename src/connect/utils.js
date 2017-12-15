@@ -1,5 +1,5 @@
 /**
- * util
+ * utils
  */
 
 function isFileExist(filePath) {

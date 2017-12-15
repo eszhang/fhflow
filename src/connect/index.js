@@ -6,15 +6,15 @@
 const { remote, ipcRenderer, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const globalStore = window.store;
-const globalAction = window.action;
+const globalStore = window.fhStore;
+const globalAction = window.fhAction;
 const globalDispatch = globalStore.dispatch;
 
 let BASEPATH = process.cwd() + '/src/connect';
 let CONFIG = require(`${BASEPATH}/config.js`);
 let fhStorage = require(`${BASEPATH}/storage.js`);
 let STORAGE = new fhStorage(CONFIG.NAME);
-let ACTION = require(`${BASEPATH}/action.js`)(globalDispatch, globalAction, STORAGE);
+let ACTION = require(`${BASEPATH}/action.js`)(globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`)
 
@@ -56,15 +56,15 @@ ipcRenderer.on('openExternal', (event, urlName) => {
 globalStore.subscribe(
     () => {
         let state = globalStore.getState(),
-            action = window.preAction,
+            action = window.fhPrevAction,
             { projectList, proxyList, actionSetting } = state,
             {
                 CREATE_PROJECT_ORDER, OPEN_PROJECT_ORDER, DEl_PROJECT_ORDER,
                 CHANGE_PROJECT_SETTING,
-                SET_WORKSPACE, CHANGE_ACTION_PROJECT,
+                SET_WORKSPACE, CHANGE_PROJECT_SELECTED,
                 CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
                 UPDATE_PROXY_HOST,
-                UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DELETE_PROXY_ITEM, SET_PROXY_DATA,
+                UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
                 UPDATE_INSTALL_PROGRESS
             } = globalAction;
 
@@ -97,7 +97,7 @@ globalStore.subscribe(
                 storage.workSpace = projectList.workSpace;
                 break;
             //更新当前活跃项目
-            case CHANGE_ACTION_PROJECT:
+            case CHANGE_PROJECT_SELECTED:
                 storage.curProjectPath = data[selectedIndex] && data[selectedIndex].path;
                 break;
             //执行对应任务         
@@ -125,7 +125,7 @@ globalStore.subscribe(
             case UPDATE_PROXY_HOST:
             case ADD_PROXY_ITEM:
             case UPDATE_PROXY_ITEM:
-            case DELETE_PROXY_ITEM:
+            case DEL_PROXY_ITEM:
             case SET_PROXY_DATA:
                 let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions } = actionSetting.data,
                     { ip, port } = proxyList.host;

@@ -214,11 +214,11 @@ export default class ProxyList extends React.Component {
         confirm({
             title: '您确认删除该条代理请求么？',
             onOk() {
-                const { data, deleteProxyItemHandler } = that.props;
+                const { data, delProxyItemHandler } = that.props;
                 const newData = [...data];
                 const target = newData.filter(item => key === item.key)[0];
                 if (target) {
-                    deleteProxyItemHandler(key);
+                    delProxyItemHandler(key);
                     that.cacheData = newData.map(item => ({ ...item }));
                     message.success('删除成功');
                 }

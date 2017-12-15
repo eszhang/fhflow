@@ -5,7 +5,6 @@
  */
 
 const { app, BrowserWindow } = require('electron');
-const { exec, execSync, spawnSync } = require('child_process');
 const path = require('path');
 const url = require('url');
 
