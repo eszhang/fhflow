@@ -63,7 +63,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     projectName = path.basename(projectPath);
                     projectArr.push({
                         key: Date.now(),
-                        class: 'project-floader',
+                        class: 'project-folder',
+                        logo: 'folder',
                         name: projectName,
                         path: projectPath,
                         isDeveloping: false,
@@ -106,7 +107,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
         createProject: function () {
 
             let storage = STORAGE.get(),
-                { workSpac } = storage,
+                { workSpace } = storage,
                 suffix = CONFIG.NAME + new Date().getTime(),
                 projectPath = `${workSpace}/` + suffix;
 
@@ -143,7 +144,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                 storage['projects'][projectName]['path'] = projectPath;
                 STORAGE.set(storage)
                 globalDispatch(addProject({
-                    class: "project-floader",
+                    class: "project-folder",
+                    logo: 'folder',
                     key: Date.now(),
                     name: projectName,
                     path: projectPath,
@@ -188,7 +190,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     storage['projects'][projectName]['path'] = projectPath;
                     STORAGE.set(storage);
                     globalDispatch(addProject({
-                        class: "project-floader",
+                        class: "project-folder",
+                        logo: "folder",
                         key: Date.now(),
                         name: projectName,
                         path: projectPath,
