@@ -67,7 +67,7 @@ export const delProject = (name) => ({
     type: DEl_PROJECT_ITEM,
     payload: {
         name
-    }
+    } 
 });
 
 //设置文件夹初始化数据
