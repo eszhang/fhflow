@@ -111,7 +111,7 @@ function createAction(globalDispatch, globalAction, STORAGE) {
         createProject: function () {
 
             let storage = STORAGE.get(),
-                { workSpac } = storage,
+                { workSpace } = storage,
                 suffix = 'fhflow' + new Date().getTime(),
                 projectPath = `${workSpace}/` + suffix;
 
