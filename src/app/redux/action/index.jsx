@@ -74,7 +74,7 @@ export const delProject = (name) => ({
 export const setProjectData = (data) => ({
     type: SET_PROJECT_DATA,
     payload: {
-        data
+        ...data
     }
 });
 
@@ -91,7 +91,7 @@ export const changeActionProject = (index) => ({
 export const changeDevStatus = (index) => ({
     type: CHANGE_DEV_STATUS,
     payload: {
-        index
+        // index
     }
 });
 
@@ -99,7 +99,7 @@ export const changeDevStatus = (index) => ({
 export const changeUploadStatus = (index) => ({
     type: CHANGE_UPLOAD_STATUS,
     payload: {
-        index
+        // index
     }
 });
 
@@ -107,7 +107,7 @@ export const changeUploadStatus = (index) => ({
 export const changePackStatus = (index) => ({
     type: CHANGE_PACK_STATUS,
     payload: {
-        index
+        // index
     }
 });
 

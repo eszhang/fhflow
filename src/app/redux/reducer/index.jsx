@@ -4,7 +4,7 @@ import {
     SET_WORKSPACE,
     ADD_PROJECT_ITEM, DEl_PROJECT_ITEM, SET_PROJECT_DATA, CHANGE_PROJECT_SELECTED,
     CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
-        UPDATE_PROJECT_SETTING,
+    UPDATE_PROJECT_SETTING,
     ADD_STATUS_LIST, UPDATE_STATUS_LIST,
     UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
     UPDATE_DOC_LIST,
@@ -31,13 +31,13 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
                 }
             );
         case ADD_PROJECT_ITEM:
-            return Object.assign({}, state, 
+            return Object.assign({}, state,
                 {
-                    data: [...state.data, action.payload.data]
+                    data: [...state.data, action.payload]
                 }
             );
         case DEl_PROJECT_ITEM:
-            return Object.assign({}, state, 
+            return Object.assign({}, state,
                 {
                     data: state.data.filter((value, index) => {
                         return value.name !== action.payload.name;
@@ -55,42 +55,69 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
                 {
                     selectedIndex: action.payload.index
                 }
-            );    
+            );
         case CHANGE_DEV_STATUS:
-            state.data[state.selectedIndex].isDeveloping = !state.data[state.selectedIndex].isDeveloping;
-            return Object.assign({}, state, {
-                data: state.data
-            })
+            return Object.assign({}, state,
+                {
+                    data: state.data.map((value, index) => {
+                        if (index === state.selectedIndex) {
+                            return Object.assign({}, value,
+                                {
+                                    isDeveloping: !value.isDeveloping
+                                }
+                            )
+                        } else {
+                            return value
+                        }
+                    })
+                }
+            );
         case CHANGE_UPLOAD_STATUS:
-            state.data[state.selectedIndex].isUploading = !state.data[state.selectedIndex].isUploading;
-            return Object.assign({}, state, {
-                data: state.data
-            })
+            return Object.assign({}, state,
+                {
+                    data: state.data.map((value, index) => {
+                        if (index === state.selectedIndex) {
+                            return Object.assign({}, value,
+                                {
+                                    isUploading: !value.isUploading
+                                }
+                            )
+                        } else {
+                            return value
+                        }
+                    })
+                }
+            );
         case CHANGE_PACK_STATUS:
-            state.data[state.selectedIndex].isPackageing = !state.data[state.selectedIndex].isPackageing;
-            return Object.assign({}, state, {
-                data: state.data
-            })
+            return Object.assign({}, state,
+                {
+                    data: state.data.map((value, index) => {
+                        if (index === state.selectedIndex) {
+                            return Object.assign({}, value,
+                                {
+                                    isPackageing: !value.isPackageing
+                                }
+                            )
+                        } else {
+                            return value
+                        }
+                    })
+                }
+            );
         default:
             return state;
     }
 };
 
 //action Setting
-export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {}) => {
+export const actionSetting = (state = { data: {} }, action = {}) => {
     switch (action.type) {
-        // case SET_ACTION_DATA:
-        //     return Object.assign({}, state,
-        //         { 
-        //             selectedIndex: state.selectedIndex,
-        //             data: action.payload.data
-        //         }
-        //     );
         case UPDATE_PROJECT_SETTING:
-            return Object.assign({}, state, {
-                data: Object.assign({}, state.data, action.payload.data)
-            });
-
+            return Object.assign({}, state,
+                {
+                    data: Object.assign({}, state.data, action.payload.data)
+                }
+            );
         default:
             return state;
     }
@@ -100,33 +127,43 @@ export const actionSetting = (state = { selectedIndex: 0, data: {} }, action = {
 export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
     switch (action.type) {
         case UPDATE_PROXY_HOST:
-            return Object.assign({}, state, {
-                host: action.payload
-            });
+            return Object.assign({}, state,
+                {
+                    host: action.payload
+                }
+            );
         case ADD_PROXY_ITEM:
-            return Object.assign({}, state, {
-                data: [action.payload, ...state.data]
-            });
+            return Object.assign({}, state,
+                {
+                    data: [action.payload, ...state.data]
+                }
+            );
         case UPDATE_PROXY_ITEM:
-            return Object.assign({}, state, {
-                data: state.data.map((value, index) => {
-                    if (value.id === action.payload.id) {
-                        return action.payload
-                    } else {
-                        return value
-                    }
-                })
-            })
+            return Object.assign({}, state,
+                {
+                    data: state.data.map((value, index) => {
+                        if (value.id === action.payload.id) {
+                            return action.payload
+                        } else {
+                            return value
+                        }
+                    })
+                }
+            );
         case DEL_PROXY_ITEM:
-            return Object.assign({}, state, {
-                data: state.data.filter((value, index) => {
-                    return value.id !== action.payload.id;
-                })
-            })
+            return Object.assign({}, state,
+                {
+                    data: state.data.filter((value, index) => {
+                        return value.id !== action.payload.id;
+                    })
+                }
+            );
         case SET_PROXY_DATA:
-            return Object.assign({}, state, {
-                data: action.payload.data
-            })
+            return Object.assign({}, state,
+                {
+                    data: action.payload.data
+                }
+            );
         default:
             return state;
     }
@@ -136,7 +173,7 @@ export const proxyList = (state = { host: {}, data: [] }, action = {}) => {
 export const docList = (state = {}, action = {}) => {
     switch (action.type) {
         case UPDATE_DOC_LIST:
-            return action.payload
+            return action.payload;
         default:
             return state;
     }
@@ -146,16 +183,20 @@ export const docList = (state = {}, action = {}) => {
 export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
     switch (action.type) {
         case UPDATE_INSTALL_PROGRESS:
-            return Object.assign({}, state, {
-                dev: {
-                    progressIndex: action.payload.index,
-                    progressStatus: action.payload.status
+            return Object.assign({}, state,
+                {
+                    dev: {
+                        progressIndex: action.payload.index,
+                        progressStatus: action.payload.status
+                    }
                 }
-            });
+            );
         case UPDATE_INSTALL_TOOLS_LIST:
-            return Object.assign({}, state, {
-                tools: { ...action.payload }
-            });
+            return Object.assign({}, state,
+                {
+                    tools: { ...action.payload }
+                }
+            );
         default:
             return state;
     }
@@ -165,13 +206,17 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 export const statusList = (state = { data: [] }, action = {}) => {
     switch (action.type) {
         case ADD_STATUS_LIST:
-            return Object.assign({}, state, {
-                data: [...state.data, ...action.payload.data]
-            });
+            return Object.assign({}, state,
+                {
+                    data: [...state.data, ...action.payload.data]
+                }
+            );
         case UPDATE_STATUS_LIST:
-            return Object.assign({}, state, {
-                data: action.payload.data
-            });
+            return Object.assign({}, state,
+                {
+                    data: action.payload.data
+                }
+            );
         default:
             return state;
     }
