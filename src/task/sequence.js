@@ -124,6 +124,20 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            sassHandler(sass, function () {
+                loggerhandler({
+                    desc: prefixLog + sass.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + sass.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
             tplHandler(tpl, function () {
                 loggerhandler({
                     desc: prefixLog + tpl.startLog,

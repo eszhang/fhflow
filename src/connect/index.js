@@ -98,7 +98,7 @@ globalStore.subscribe(
                 break;
             //更新当前活跃项目
             case CHANGE_PROJECT_SELECTED:
-                storage.curProjectPath = data[selectedIndex] && data[selectedIndex].path;
+                storage.curProjectPath = (data && data[selectedIndex] && data[selectedIndex].path) || storage.curProjectPath;
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:

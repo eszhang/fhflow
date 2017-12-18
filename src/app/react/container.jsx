@@ -97,8 +97,8 @@ class Container extends React.Component {
         const { projectList, setProjectData, actionSetting, openProjectOrder, setWorkSpace, updateStatusList, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
-            <div className="app-container" data-projects={projectList.data.length==0 && "noProject"} data-layout-type={layoutType}>
-                {projectList.data.length==0 && (EN === "resource-management" || EN === "ajax-proxy") && <ProjectMask addProjectHandler={this.handleAddProject}/>}
+            <div className="app-container" data-projects={(projectList==undefined || projectList.data==undefined || projectList.data.length==0) && "noProject"} data-layout-type={layoutType}>
+                {(projectList==undefined || projectList.data==undefined || projectList.data.length==0) && (EN === "resource-management" || EN === "ajax-proxy") && <ProjectMask addProjectHandler={this.handleAddProject}/>}
 
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />

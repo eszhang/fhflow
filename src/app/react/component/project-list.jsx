@@ -173,13 +173,13 @@ export default class ProjectList extends React.Component {
 
     mouseEnterHandle = (index, data)=>{
         data[index].logo = 'folder-open'
-        this.props.setProjectData()
+        this.props.setProjectData(data)
         // this.setState({ floderName: 'folder-open' });
     }
 
     mouseLeaveHandle = (index, data)=>{
         data[index].logo = 'folder'
-        this.props.setProjectData()
+        this.props.setProjectData(data)
         // this.setState({ floderName: 'folder-open' });
     }
 
@@ -195,7 +195,7 @@ export default class ProjectList extends React.Component {
             <div className="project-list">
                 <ul className="project-list-ul">
                     {
-                        data.data.length !== 0 ? data.data.map((m, index) => (
+                        (data.data !== undefined && data.data.length !== 0) ? data.data.map((m, index) => (
                             <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)}  key={index}>
                                 <Icon type={m.logo} onMouseEnter={()=>{this.mouseEnterHandle(index, data.data)}} onMouseLeave={()=>{this.mouseLeaveHandle(index, data.data)}} onClick={(e)=>{this.open(e,index)}} />
                                 <div className="project-info">
@@ -213,7 +213,7 @@ export default class ProjectList extends React.Component {
                             <Icon type="folder-add" title="增加项目" />
                         </a>
                         {
-                            data.data.length > 0 &&
+                            (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <a onClick={() => this.plfLeftClickHandler("del", data)}>
                                 <Icon type="delete" title="删除项目" />
                             </a>
@@ -227,7 +227,7 @@ export default class ProjectList extends React.Component {
                     </div>
                     <div className="plf-right">
                         {
-                            data.data.length > 0 &&
+                            (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <div>
                                 <a className={isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev', data)}>
                                     {isDeveloping ? '监听中...' : '开发'}
