@@ -137,50 +137,20 @@ export default class ProjectList extends React.Component {
 
     }
 
-    // projectSettingHandleOk = (data,selectedIndex) => {
-    //     this.form.validateFields((err, values) => {
-
-    //         data[selectedIndex].name = values.projectName;
-    //         // 更新项目名
-    //         this.props.setProjectData(data);
-    //         if (!err) {
-    //             this.setState({
-    //                 ModalText: '设置成功,页面将在2s后关闭',
-    //                 confirmLoading: true
-    //             });
-    //             setTimeout(() => {
-    //                 this.setState({
-    //                     modalVisible: false,
-    //                     confirmLoading: false,
-    //                     ModalText: '',
-    //                 });
-    //             }, 2000);
-    //         }
-    //     });
-    // }
-
-    // onDoubleClickHandler = ()=>{
-    //     this.setState({ projectSettingModalVisible: true });
-    // }
 
     saveFormRef = (form) => {
         this.form = form;
     }
 
-    // saveProjectSettingFormRef = (form) => {
-    //     this.form = form;
-    // }
 
     mouseEnterHandle = (index, data)=>{
         data[index].logo = 'folder-open'
         this.props.setProjectData(data)
-        // this.setState({ floderName: 'folder-open' });
     }
 
     mouseLeaveHandle = (index, data)=>{
         data[index].logo = 'folder'
         this.props.setProjectData(data)
-        // this.setState({ floderName: 'folder-open' });
     }
 
     render() {
@@ -247,38 +217,6 @@ export default class ProjectList extends React.Component {
     }
 }
 
-// class ProjectInfoForm extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//     }
-
-//     render() {
-//         const { visible, data, selectedIndex, handleCancel, handleOk } = this.props;
-//         const { getFieldDecorator } = this.props.form;
-//         return (
-//             <Modal title="项目信息修改" 
-//                 visible={visible}
-//                 onCancel={handleCancel}
-//                 onOk={handleOk}
-//             >
-//                 <Form layout="vertical" onSubmit={this.handleSubmit}>
-//                     <FormItem label="项目名称">
-//                          {getFieldDecorator('projectName', {
-//                             initialValue: data[selectedIndex].path,
-//                             rules: [{
-//                                 required: true, message: '项目名称不能为空',
-//                             }]
-//                         })(
-//                             <Input placeholder="项目名称" />
-//                             )}
-//                     </FormItem>
-//                 </Form>
-//                 <p></p>
-//             </Modal>
-//         )
-//     }
-// }
 
 
 class GlobalSettingForm extends React.Component {

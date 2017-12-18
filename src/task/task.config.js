@@ -107,6 +107,15 @@ function getDevObj(config){
             endLog: '启动watch成功...'
         }
     }
+
+    if(setting.supportREM){
+        dev['compileAutoprefixer'] = {
+            src: projectPath + 'build/assets/css/**/*.css',
+            dest: projectPath + 'build/assets/css',
+            startLog: '添加rem开始...',
+            endLog: '添加rem成功...'
+        }
+    }
     return dev;
 }
 

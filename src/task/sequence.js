@@ -17,6 +17,7 @@ const startServerHandler = require('./atom/server').startServer;
 const watchHandler = require('./atom/watch');
 const zipHandler = require('./atom/zip');
 const sshHandler = require('./atom/ssh');
+const REMHandler = require('./atom/rem');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
 let { getDevObj, getPackObj, getUploadObj } = require('./task.config.js');
@@ -124,18 +125,22 @@ function dev(projectPath, loggerhandler) {
             });
         },
         function (next) {
-            sassHandler(sass, function () {
-                loggerhandler({
-                    desc: prefixLog + sass.startLog,
-                    type: "info"
+            if(devConfig.compileAutoprefixer !== undefined){
+                REMHandler(devConfig.compileAutoprefixer, function () {
+                    loggerhandler({
+                        desc: prefixLog + devConfig.compileAutoprefixer.startLog,
+                        type: "info"
+                    });
+                }, function () {
+                    loggerhandler({
+                        desc: prefixLog + devConfig.compileAutoprefixer.endLog,
+                        type: "success"
+                    });
+                    next();
                 });
-            }, function () {
-                loggerhandler({
-                    desc: prefixLog + sass.endLog,
-                    type: "success"
-                });
+            }else{
                 next();
-            });
+            }
         },
         function (next) {
             tplHandler(tpl, function () {
