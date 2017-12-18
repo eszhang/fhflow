@@ -74,7 +74,7 @@ export const delProject = (name) => ({
 export const setProjectData = (data) => ({
     type: SET_PROJECT_DATA,
     payload: {
-        ...data
+        data
     }
 });
 
