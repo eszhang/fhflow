@@ -9,7 +9,7 @@
 function getDevObj(config){
 
     var { path, packageModules, setting } = config;
-    var projectPath = path + '/';
+    var projectPath = path + '\\';
 
         // 此处项目名为模块化中项目业务名称.如fk
     var buinessName = setting.businessName,
@@ -137,9 +137,9 @@ function getDevObj(config){
  */
 function getPackObj(config){
     var { path, packageModules, setting } = config;
-    var projectPath = path + '/';
+    var projectPath = path + '\\';
 
-    var tempArray = path.split('/');
+    var tempArray = path.split('\\');
     var projectName = tempArray[tempArray.length-1]
 
         // 此处项目名为模块化中项目业务名称.如fk
