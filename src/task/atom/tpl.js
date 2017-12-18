@@ -12,12 +12,12 @@ module.exports = function (config = {}, startCb, endCb) {
 
     startCb && startCb();
 
-    let stream = gulp.src(src)
+    let stream = gulp.src(src, { base: srcBase })
         .pipe(tmodjs({
             templateBase: srcBase,
             combo: true,
             type: 'amd',
-            // output: tplObj.dest,
+            outputBase: dest,
             helpers: helperJs || ''
         }))
         .pipe(gulp.dest(dest))
