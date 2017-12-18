@@ -17,7 +17,8 @@ const startServerHandler = require('./atom/server').startServer;
 const watchHandler = require('./atom/watch');
 const zipHandler = require('./atom/zip');
 const sshHandler = require('./atom/ssh');
-const REMHandler = require('./atom/rem');
+const remHandler = require('./atom/rem');
+const reversionHandler = require('./atom/reversion');
 const { requireUncached, isFileExist, isDirExist } = require('./util/index');
 
 let { getDevObj, getPackObj, getUploadObj } = require('./task.config.js');
@@ -126,7 +127,7 @@ function dev(projectPath, loggerhandler) {
         },
         function (next) {
             if(devConfig.compileAutoprefixer !== undefined){
-                REMHandler(devConfig.compileAutoprefixer, function () {
+                remHandler(devConfig.compileAutoprefixer, function () {
                     loggerhandler({
                         desc: prefixLog + devConfig.compileAutoprefixer.startLog,
                         type: "info"
@@ -169,6 +170,24 @@ function dev(projectPath, loggerhandler) {
                 });
                 next();
             });
+        },
+        function (next) {
+            if(devConfig.reversion !== undefined){
+                reversionHandler(devConfig.reversion, function () {
+                    loggerhandler({
+                        desc: prefixLog + devConfig.reversion.startLog,
+                        type: "info"
+                    });
+                }, function () {
+                    loggerhandler({
+                        desc: prefixLog + devConfig.reversion.endLog,
+                        type: "success"
+                    });
+                    next();
+                });
+            }else{
+                next();
+            }
         },
         function (next) {
             devConfig.bs = bs;
@@ -320,6 +339,24 @@ function pack(projectPath, loggerhandler) {
             });
         },
         function (next) {
+            if(packConfig.compileAutoprefixer !== undefined){
+                remHandler(packConfig.compileAutoprefixer, function () {
+                    loggerhandler({
+                        desc: prefixLog + packConfig.compileAutoprefixer.startLog,
+                        type: "info"
+                    });
+                }, function () {
+                    loggerhandler({
+                        desc: prefixLog + packConfig.compileAutoprefixer.endLog,
+                        type: "success"
+                    });
+                    next();
+                });
+            }else{
+                next();
+            }
+        },
+        function (next) {
             tplHandler(tpl, function () {
                 loggerhandler({
                     desc: prefixLog + tpl.startLog,
@@ -346,6 +383,24 @@ function pack(projectPath, loggerhandler) {
                 });
                 next();
             });
+        },
+        function (next) {
+            if(packConfig.reversion !== undefined){
+                reversionHandler(packConfig.reversion, function () {
+                    loggerhandler({
+                        desc: prefixLog + packConfig.reversion.startLog,
+                        type: "info"
+                    });
+                }, function () {
+                    loggerhandler({
+                        desc: prefixLog + packConfig.reversion.endLog,
+                        type: "success"
+                    });
+                    next();
+                });
+            }else{
+                next();
+            }
         },
         function (next) {
             zipHandler(zip, function () {

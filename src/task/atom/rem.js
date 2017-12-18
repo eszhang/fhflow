@@ -10,7 +10,7 @@ const postcssAutoprefixer = require('autoprefixer');
 
 module.exports = function (config = {}, startCb, endCb) {
 
-    const { src, dest, option } = config;
+    const { src, dest } = config;
 
     startCb && startCb();
 
