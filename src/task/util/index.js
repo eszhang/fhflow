@@ -44,6 +44,23 @@ function isDirExist(dirPath) {
     }
 }
 
+function renameProject(oldPath,newPath) {
+    try {
+        fs.rename(oldPath,newPath, function(err){
+        if(err){
+            throw err;
+        }
+            console.log('done!');
+        })
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            return false;
+        } else {
+            throw new Error(err);
+        }
+    }
+}
+
 function readFile(config, cb) {
     
     const { path } = config;
@@ -76,5 +93,6 @@ module.exports = {
     isDirExist,
     readFile,
     writeFile,
-    reloadHandler
+    reloadHandler,
+    renameProject 
 }
