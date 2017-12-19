@@ -195,7 +195,7 @@ class SeniorDevelopSetting extends React.Component {
         return (
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 {
-                    <FormItem label="模块设置">
+                    <FormItem label="项目类型选择">
                         <Checkbox className="hasModuleSetting" onChange={this.choseHasModules}>是否含有模块</Checkbox>
                     </FormItem>
                 }
