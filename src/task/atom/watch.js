@@ -11,6 +11,7 @@ const javaSriptAtom = require('./javascript');
 const tplAtom = require('./tpl');
 const imageAtom = require('./image');
 const fontAtom = require('./font');
+const remAtom = require('./rem');
 
 
 module.exports = function (config = {}, loggerhandler, startCb, endCb) {
@@ -78,8 +79,15 @@ module.exports = function (config = {}, loggerhandler, startCb, endCb) {
                     })
                 } else {
                     sassAtom(sass,function(){},function(){
-                        liverload && bs.reload();
+                        if(config.compileAutoprefixer){
+                            remAtom(config.compileAutoprefixer,function(){},function(){
+                                liverload && bs.reload();
+                            })
+                        }else{
+                            liverload && bs.reload();
+                        }
                     });
+                    
                 }
                 break;
             case 'view':

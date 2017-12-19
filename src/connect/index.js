@@ -63,7 +63,7 @@ globalStore.subscribe(
                 CHANGE_PROJECT_SETTING,
                 SET_WORKSPACE, CHANGE_PROJECT_SELECTED,
                 CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,
-                UPDATE_PROXY_HOST,
+                UPDATE_PROXY_HOST,UPDATE_PROJECT_NAME,
                 UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
                 UPDATE_INSTALL_PROGRESS
             } = globalAction;
@@ -88,6 +88,10 @@ globalStore.subscribe(
             case DEl_PROJECT_ORDER:
                 ACTION.delProject();
                 break;
+            // 更新项目名称
+            case UPDATE_PROJECT_NAME:
+                ACTION.updateProjectName(projectList);
+                break;
             //更新setting配置展示
             case CHANGE_PROJECT_SETTING:
                 ACTION.getSelectedProjectSetting();
@@ -98,7 +102,7 @@ globalStore.subscribe(
                 break;
             //更新当前活跃项目
             case CHANGE_PROJECT_SELECTED:
-                storage.curProjectPath = data[selectedIndex] && data[selectedIndex].path;
+                storage.curProjectPath = (data && data[selectedIndex] && data[selectedIndex].path) || storage.curProjectPath;
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:

@@ -32,6 +32,7 @@ export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
 export const CREATE_PROJECT_ORDER = 'CREATE_PROJECT_ORDER';
 export const OPEN_PROJECT_ORDER = 'OPEN_PROJECT_ORDER';
 export const DEl_PROJECT_ORDER = 'DEl_PROJECT_ORDER';
+export const UPDATE_PROJECT_NAME = 'UPDATE_PROJECT_NAME';
 
 
 /*
@@ -225,6 +226,11 @@ export const openProjectOrder = (data) => ({
 //后端删除文件夹
 export const delProjectOrder = () => ({
     type: DEl_PROJECT_ORDER
+});
+
+//修改文件夹名称
+export const updateProjectName = () => ({
+    type: UPDATE_PROJECT_NAME
 });
 
 

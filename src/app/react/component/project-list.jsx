@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Icon, Modal, Form, Input } from 'antd';
+import _ from 'lodash';
 
 import '../style/project-list.scss';
 
@@ -112,10 +113,6 @@ export default class ProjectList extends React.Component {
         this.setState({ modalVisible: false });
     }
 
-    // //设置项目信息弹窗取消按钮
-    // projectSettingHandleCancel = () => {
-    //     this.setState({ projectSettingModalVisible: false });
-    // }
 
     handleOk = () => {
         this.form.validateFields((err, values) => {
@@ -137,69 +134,71 @@ export default class ProjectList extends React.Component {
 
     }
 
-    // projectSettingHandleOk = (data,selectedIndex) => {
-    //     this.form.validateFields((err, values) => {
-
-    //         data[selectedIndex].name = values.projectName;
-    //         // 更新项目名
-    //         this.props.setProjectData(data);
-    //         if (!err) {
-    //             this.setState({
-    //                 ModalText: '设置成功,页面将在2s后关闭',
-    //                 confirmLoading: true
-    //             });
-    //             setTimeout(() => {
-    //                 this.setState({
-    //                     modalVisible: false,
-    //                     confirmLoading: false,
-    //                     ModalText: '',
-    //                 });
-    //             }, 2000);
-    //         }
-    //     });
-    // }
-
-    // onDoubleClickHandler = ()=>{
-    //     this.setState({ projectSettingModalVisible: true });
-    // }
 
     saveFormRef = (form) => {
         this.form = form;
     }
 
-    // saveProjectSettingFormRef = (form) => {
-    //     this.form = form;
-    // }
 
     mouseEnterHandle = (index, data)=>{
         data[index].logo = 'folder-open'
-        this.props.setProjectData()
-        // this.setState({ floderName: 'folder-open' });
+        this.props.setProjectData(data)
     }
 
     mouseLeaveHandle = (index, data)=>{
         data[index].logo = 'folder'
-        this.props.setProjectData()
-        // this.setState({ floderName: 'folder-open' });
+        this.props.setProjectData(data)
+    }
+
+    renameProjectHandler = (target, index, data)=>{
+        data[index].nowName = data[index].name
+        data[index].willName = target
+        this.props.setProjectData(data);
+    } 
+
+    changeEdit = (e,index, data)=>{
+        data[index].editable === false ? (data[index].editable = true) : undefined;
+        this.props.setProjectData(data)
+        e.stopPropagation();
+    }
+
+    closeEditHandle = (e,data) => {
+        var obj = _.find(data, function(pro) {
+            return pro.editable === true;
+        })
+        if( obj !== undefined ){
+            for(let i = 0; i < data.length; i++){
+                data[i].editable = false;
+            }
+            this.props.setProjectData(data)
+            this.props.updateProjectName()
+        }
     }
 
     render() {
         const { data = {}, onClickHandler = function () { } } = this.props;
 
-        // this.state = data;
-
         let selectedProject = data.data && data.data[data.selectedIndex],
             { isDeveloping, isUploading, isPackageing } = selectedProject || {};
+        
 
         return (
-            <div className="project-list">
+            <div className="project-list" onClick={(e)=>{this.closeEditHandle(e, data.data)}}>
                 <ul className="project-list-ul">
                     {
-                        data.data.length !== 0 ? data.data.map((m, index) => (
+                        (data.data !== undefined && data.data.length !== 0) ? data.data.map((m, index) => (
                             <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)}  key={index}>
                                 <Icon type={m.logo} onMouseEnter={()=>{this.mouseEnterHandle(index, data.data)}} onMouseLeave={()=>{this.mouseLeaveHandle(index, data.data)}} onClick={(e)=>{this.open(e,index)}} />
                                 <div className="project-info">
-                                    <div className="folderName" >{m.name}</div>
+                                    <EditableCell
+                                        className={this.state.floderName}
+                                        editable={m.editable}
+                                        value={m.willName}
+                                        index={index}
+                                        data={data.data}
+                                        changeEdit = {( e, index, data)=>this.changeEdit(e,index,data)}
+                                        onChange={(value,index,data) => this.renameProjectHandler(value,index,data)}
+                                    />
                                 </div>
                             </li>
                         ))
@@ -213,7 +212,7 @@ export default class ProjectList extends React.Component {
                             <Icon type="folder-add" title="增加项目" />
                         </a>
                         {
-                            data.data.length > 0 &&
+                            (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <a onClick={() => this.plfLeftClickHandler("del", data)}>
                                 <Icon type="delete" title="删除项目" />
                             </a>
@@ -227,7 +226,7 @@ export default class ProjectList extends React.Component {
                     </div>
                     <div className="plf-right">
                         {
-                            data.data.length > 0 &&
+                            (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <div>
                                 <a className={isDeveloping ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('dev', data)}>
                                     {isDeveloping ? '监听中...' : '开发'}
@@ -247,38 +246,6 @@ export default class ProjectList extends React.Component {
     }
 }
 
-// class ProjectInfoForm extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//     }
-
-//     render() {
-//         const { visible, data, selectedIndex, handleCancel, handleOk } = this.props;
-//         const { getFieldDecorator } = this.props.form;
-//         return (
-//             <Modal title="项目信息修改" 
-//                 visible={visible}
-//                 onCancel={handleCancel}
-//                 onOk={handleOk}
-//             >
-//                 <Form layout="vertical" onSubmit={this.handleSubmit}>
-//                     <FormItem label="项目名称">
-//                          {getFieldDecorator('projectName', {
-//                             initialValue: data[selectedIndex].path,
-//                             rules: [{
-//                                 required: true, message: '项目名称不能为空',
-//                             }]
-//                         })(
-//                             <Input placeholder="项目名称" />
-//                             )}
-//                     </FormItem>
-//                 </Form>
-//                 <p></p>
-//             </Modal>
-//         )
-//     }
-// }
 
 
 class GlobalSettingForm extends React.Component {
@@ -315,5 +282,13 @@ class GlobalSettingForm extends React.Component {
     }
 }
 
+const EditableCell = ({ editable, value, onChange, changeEdit, index, data }) => (
+    <div>
+        {editable
+            ? <Input style={{ margin: '-5px 0' }} value={value} onClick={e => changeEdit(e,index,data)} onChange={e => onChange(e.target.value,index, data)} />
+            : <div className="staticProjectName"  onClick={e => changeEdit(e,index,data)}>{value}</div>
+        }
+    </div>
+);
 const WrappedGlobalSettingForm = Form.create()(GlobalSettingForm);
 // const WrappedProjectInfoForm = Form.create()(ProjectInfoForm);

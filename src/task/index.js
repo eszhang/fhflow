@@ -8,7 +8,7 @@ const path = require('path');
 const extract = require('./atom/extract');
 const copy = require('./atom/copy');
 const taskSequence = require('./sequence');
-const { requireUncached, isFileExist, isDirExist } = require('./util/index');
+const { requireUncached, isFileExist, isDirExist, renameProject } = require('./util/index');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
@@ -45,6 +45,11 @@ let action = {
                 type: "warning"
             })
         }
+    },
+
+    // 更新项目名称
+    updateProjectName: function(oldProject, newProject){
+        renameProject(oldProject, newProject)
     },
 
     //关闭任务

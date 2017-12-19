@@ -9,7 +9,7 @@
 function getDevObj(config){
 
     var { path, packageModules, setting } = config;
-    var projectPath = path + '/';
+    var projectPath = path + '\\';
 
         // 此处项目名为模块化中项目业务名称.如fk
     var buinessName = setting.businessName,
@@ -107,6 +107,24 @@ function getDevObj(config){
             endLog: '启动watch成功...'
         }
     }
+
+    if(setting.supportREM){
+        dev['compileAutoprefixer'] = {
+            src: projectPath + 'build/assets/css/**/*.css',
+            dest: projectPath + 'build/assets/css',
+            startLog: '添加rem开始...',
+            endLog: '添加rem成功...'
+        }
+    }
+
+    if(setting.reversion){
+        dev['reversion'] = {
+            src: projectPath + 'build/**/*.*',
+            dest: projectPath + 'build',
+            startLog: 'reversion开始...',
+            endLog: 'reversion成功...'
+        }
+    }
     return dev;
 }
 
@@ -119,9 +137,9 @@ function getDevObj(config){
  */
 function getPackObj(config){
     var { path, packageModules, setting } = config;
-    var projectPath = path + '/';
+    var projectPath = path + '\\';
 
-    var tempArray = path.split('/');
+    var tempArray = path.split('\\');
     var projectName = tempArray[tempArray.length-1]
 
         // 此处项目名为模块化中项目业务名称.如fk
@@ -235,6 +253,24 @@ function getPackObj(config){
             version: setting.package.version,
             fileRegExp: setting.package.fileRegExp,
             endLog: '打包pack成功...'
+        }
+    }
+
+    if(setting.supportREM){
+        packObj['compileAutoprefixer'] = {
+            src: projectPath + 'build/assets/css/**/*.css',
+            dest: projectPath + 'build/assets/css',
+            startLog: '添加rem开始...',
+            endLog: '添加rem成功...'
+        }
+    }
+
+    if(setting.reversion){
+        packObj['reversion'] = {
+            src: projectPath + 'build/**/*.*',
+            dest: projectPath + 'build',
+            startLog: 'reversion开始...',
+            endLog: 'reversion成功...'
         }
     }
     return packObj;

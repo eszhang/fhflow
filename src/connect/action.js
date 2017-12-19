@@ -67,6 +67,9 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                         logo: 'folder',
                         name: projectName,
                         path: projectPath,
+                        editable: false,
+                        nowName: projectName,
+                        willName: projectName,
                         isDeveloping: false,
                         isUploading: false,
                         isPackageing: false
@@ -149,6 +152,9 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     key: Date.now(),
                     name: projectName,
                     path: projectPath,
+                    editable: false,
+                    nowName: projectName,
+                    willName: projectName,
                     isDeveloping: false,
                     isUploading: false,
                     isPackageing: false
@@ -195,6 +201,9 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                         key: Date.now(),
                         name: projectName,
                         path: projectPath,
+                        editable: false,
+                        nowName: projectName,
+                        willName: projectName,
                         isDeveloping: false,
                         isUploading: false,
                         isPackageing: false
@@ -236,6 +245,25 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                 //     body: '删除成功'
                 // });
             }
+        },
+
+        // 修改项目名称
+        updateProjectName: function(projectList){
+            let storage = STORAGE.get()
+            let newPath = projectList.data[projectList.selectedIndex].path.replace(projectList.data[projectList.selectedIndex].nowName, projectList.data[projectList.selectedIndex].willName)
+
+            task.updateProjectName(projectList.data[projectList.selectedIndex].path,newPath);
+            // 更新缓存
+            delete storage.projects[projectList.data[projectList.selectedIndex].name]
+            storage.projects[projectList.data[projectList.selectedIndex].willName] = newPath
+            storage.curProjectPath = newPath
+            STORAGE.set(storage);
+// TODO storage设置不上去
+            
+            projectList.data[projectList.selectedIndex].name = projectList.data[projectList.selectedIndex].willName
+            projectList.data[projectList.selectedIndex].nowName = projectList.data[projectList.selectedIndex].willName
+            globalDispatch(setProjectData(projectList.data));
+            // storage.projects
         },
 
         //运行任务

@@ -83,7 +83,7 @@ class Container extends React.Component {
         const { 
             actionMenuSelectedIndex,
             setWorkSpace,
-            projectList, changeActionProject, setProjectData, openProjectOrder, addProjectOrder, delProjectOrder, 
+            projectList, changeActionProject, setProjectData, openProjectOrder, addProjectOrder, delProjectOrder, updateProjectName,
             changeDevStatus, changeUploadStatus, changePackStatus,
             actionSetting,
             statusList, updateStatusList,
@@ -98,7 +98,7 @@ class Container extends React.Component {
         
         switch(EN){
             case "resource-management": 
-                MainView = <ProjectList setProjectData={setProjectData} data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} updateStatusList={updateStatusList} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />;
+                MainView = <ProjectList setProjectData={setProjectData} data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} updateStatusList={updateStatusList} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} updateProjectName={updateProjectName}/>;
                 break;
             case "ajax-proxy":
                 MainView = <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} delProxyItemHandler={delProxyItem} updateHostHandler={updateProxyHost} />

@@ -57,6 +57,7 @@
     "gulp-file-include": "^1.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
+    "gulp-rev-delete-original": "^0.2.3",
     "gulp-sftp": "^0.1.5",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-ssh": "^0.6.0",
@@ -72,6 +73,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "weflow-rev-all": "^0.0.1"
   }
 }

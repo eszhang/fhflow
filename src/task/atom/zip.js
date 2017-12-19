@@ -24,10 +24,10 @@ module.exports = function (config = {}, startCb, endCb) {
 
     let time = '' + year + month + day;
     if (srcArray.length === 0) {
-        let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
+        let name = fileRegExp.replace(/\${name}/g, projectName)
             .replace(/\${version}/g, version).replace(/\${time}/g, time);
         name = name + '.' + type;
-        gulp.src(srcBase)
+        gulp.src(srcBase + '\\**\\*')
             .pipe(zip(name))
             .pipe(gulp.dest(dist))
             .on('end', function () {
