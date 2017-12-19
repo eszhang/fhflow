@@ -106,8 +106,8 @@ let action = {
     updateConfig: function (projectPath, config, callback) {
 
         let configPath = path.join(projectPath, CONFIGNAME);
-
-        fs.writeFile(configPath, JSON.stringify(config, null, 4), function (err) {
+        let configContent = JSON.stringify(config, null, 4);
+        fs.writeFile(configPath, configContent, function (err) {
             if (err) {
                 throw new Error(err);
             }

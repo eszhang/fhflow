@@ -16,8 +16,6 @@ const FormItem = Form.Item;
 // export default function projectList(props) {
 export default class ProjectList extends React.Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
