@@ -15,19 +15,19 @@ fhStorage.prototype = {
     constructor: fhStorage,
 
     get: function () {
-        if (this.localStorage.getItem(name)) {
-            return JSON.parse(this.localStorage.getItem(name));
+        if (this.localStorage.getItem(this.name)) {
+            return JSON.parse(this.localStorage.getItem(this.name));
         } else {
             return false;
         }
     },
 
     set: function (data) {
-        this.localStorage.setItem(name, JSON.stringify(data));
+        this.localStorage.setItem(this.name, JSON.stringify(data));
     },
 
     reset: function () {
-        this.localStorage.removeItem(name);
+        this.localStorage.removeItem(this.name);
     }
 }
 
