@@ -189,34 +189,33 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     if (!storage['projects']) {
                         storage['projects'] = {};
                     }
-                }
-
-                if (storage['projects'][projectName]) {
-                    console.log('项目已存在');
-                } else {
-                    storage['projects'][projectName] = {};
-                    storage['projects'][projectName]['path'] = projectPath;
-                    STORAGE.set(storage);
-                    globalDispatch(addProject({
-                        class: "project-folder",
-                        logo: "folder",
-                        key: Date.now(),
-                        name: projectName,
-                        path: projectPath,
-                        editable: false,
-                        nowName: projectName,
-                        willName: projectName,
-                        isDeveloping: false,
-                        isUploading: false,
-                        isPackageing: false,
-                        isRunning: false
-                    }))
-                    let { projectList } = globalStore.getState(),
-                        { data, selectedIndex } = projectList,
-                        maxIndex = data.length - 1;
-                    globalDispatch(changeActionProject(maxIndex));
-                    globalDispatch(changeProjectSetting());
-                }
+                    if (storage['projects'][projectName]) {
+                        console.log('项目已存在');
+                    } else {
+                        storage['projects'][projectName] = {};
+                        storage['projects'][projectName]['path'] = projectPath;
+                        STORAGE.set(storage);
+                        globalDispatch(addProject({
+                            class: "project-folder",
+                            logo: "folder",
+                            key: Date.now(),
+                            name: projectName,
+                            path: projectPath,
+                            editable: false,
+                            nowName: projectName,
+                            willName: projectName,
+                            isDeveloping: false,
+                            isUploading: false,
+                            isPackageing: false,
+                            isRunning: false
+                        }))
+                        let { projectList } = globalStore.getState(),
+                            { data, selectedIndex } = projectList,
+                            maxIndex = data.length - 1;
+                        globalDispatch(changeActionProject(maxIndex));
+                        globalDispatch(changeProjectSetting());
+                    }
+                }              
             }
         },
 
