@@ -46,12 +46,14 @@ function isDirExist(dirPath) {
 
 function renameProject(oldPath,newPath) {
     try {
-        fs.rename(oldPath,newPath, function(err){
-        if(err){
-            throw err;
+        if(oldPath !== newPath){
+            fs.rename(oldPath,newPath, function(err){
+                if(err){
+                    throw err;
+                }
+                console.log('done!');
+            })
         }
-            console.log('done!');
-        })
     } catch (err) {
         if (err.code === 'ENOENT') {
             return false;
@@ -87,6 +89,20 @@ function reloadHandler(path){
     require('browser-sync').get(path).reload();
 }
 
+
+function readFistLevelFolder(path){
+    try {
+        var names = fs.readdirSync(path);
+        return names;
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            return false;
+        } else {
+            throw new Error(err);
+        }
+    }
+}
+
 module.exports = {
     requireUncached,
     isFileExist,
@@ -94,5 +110,6 @@ module.exports = {
     readFile,
     writeFile,
     reloadHandler,
-    renameProject 
+    renameProject ,
+    readFistLevelFolder
 }

@@ -282,6 +282,13 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             task.runTask(curProjectPath, taskName, taskStatus, this.printLog , fn);
         },
 
+        importModulesSetting: function(curProjectPath){
+            let fn = function(config){
+                globalDispatch(updateProjectSetting(config));
+            }
+            task.readModulesName(curProjectPath, fn);
+        },
+
         //获取项目配置项
         getSelectedProjectSetting: function (projectPath) {
 

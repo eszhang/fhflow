@@ -95,7 +95,7 @@ class Container extends React.Component {
 
         const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, up } = this.props;
         const { projectList, setProjectData, actionSetting, openProjectOrder, setWorkSpace, updateStatusList, delProjectOrder, addProjectOrder, changeActionProject,
-             changeDevStatus, changeUploadStatus, changePackStatus, updateProjectName, changeRunStatus} = this.props;
+             changeDevStatus, changeUploadStatus, changePackStatus, updateProjectName, changeRunStatus, importModules} = this.props;
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
         return (
             <div className="app-container" data-projects={(projectList==undefined || projectList.data==undefined || projectList.data.length==0) && "noProject"} data-layout-type={layoutType}>
@@ -117,7 +117,7 @@ class Container extends React.Component {
                     <StatusBar data={statusList.data} deleteHandler={this.handleDeleteStatusList} />
                 </div>
                 <div className="action-setting-area">
-                    <ActionSetting actionSetting={actionSetting.data} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
+                    <ActionSetting actionSetting={actionSetting.data} importModulesHandler={importModules} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
                 </div>
 
             </div>

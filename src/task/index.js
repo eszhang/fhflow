@@ -5,10 +5,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const extract = require('./atom/extract');
 const copy = require('./atom/copy');
 const taskSequence = require('./sequence');
-const { requireUncached, isFileExist, isDirExist, renameProject } = require('./util/index');
+const { requireUncached, isFileExist, isDirExist, renameProject, readFistLevelFolder } = require('./util/index');
 
 let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
@@ -52,6 +53,27 @@ let action = {
         renameProject(oldProject, newProject)
     },
 
+    // 读取项目名称
+    readModulesName: function(curProjectPath, fn){
+        let config = this.getConfig(curProjectPath)
+        let basePath = curProjectPath+ '\\src\\view' 
+        let businessName = readFistLevelFolder(basePath)[0]
+        // 为了防止有的文件夹模块不全
+        let arrayPath = [curProjectPath+ '\\src\\view\\'+businessName, curProjectPath+ '\\src\\tpl\\'+businessName,
+                         curProjectPath+ '\\src\\scss\\'+businessName, curProjectPath+ '\\src\\js\\'+businessName,
+                         curProjectPath+ '\\src\\images\\'+businessName, curProjectPath+ '\\src\\fonts\\'+businessName]
+
+        let modules = [];
+        for(let i = 0; i < arrayPath.length ; i++){
+            let eachModule = readFistLevelFolder(arrayPath[i]);
+            modules = _.union(modules, eachModule)
+        }
+
+        config.modules = modules
+        this.updateConfig(curProjectPath, config);
+        fn(config);
+        console.log(modules);
+    },
     //关闭任务
     close: function (projectPath) {
         require("browser-sync").get(projectPath).exit();

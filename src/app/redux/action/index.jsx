@@ -28,6 +28,7 @@ export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
 export const UPDATE_PROJECT_NAME = 'UPDATE_PROJECT_NAME';
 export const CHANGE_RUN_STATUS = 'CHANGE_RUN_STATUS';
+export const IMPORT_MODULES = 'IMPORT_MODULES';
 
 //action指令，不影响 state tree 数据
 export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
@@ -240,6 +241,11 @@ export const delProjectOrder = () => ({
 //修改文件夹名称
 export const updateProjectName = () => ({
     type: UPDATE_PROJECT_NAME
+});
+
+//导入模块名
+export const importModules = () => ({
+    type: IMPORT_MODULES
 });
 
 
