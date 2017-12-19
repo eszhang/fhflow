@@ -27,7 +27,7 @@ function DigitalList(props) {
                         </div>
                     ))
                 }
-                <div class="btn-area">   
+                <div className="btn-area">   
                     <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
                         {link.text}<Icon type="right" />
                     </Button>

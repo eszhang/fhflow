@@ -58,7 +58,7 @@ export const setWorkSpace = (data) => ({
 export const addProject = (data) => ({
     type: ADD_PROJECT_ITEM,
     payload: {
-        data
+        ...data
     }
 });
 

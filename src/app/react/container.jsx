@@ -39,27 +39,14 @@ class Container extends React.Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount() {
-        const { setProjectData, updateProjectSetting } = this.props;
-        // setProjectData(projectManageData);
-        // updateProjectSetting(actionSettingData);
-        // setActionData(actionSettingData);
-
-    }
 
     componentDidMount() {
-        const { updateProxyHost, setProxyData, updateDocList, updateInstallToolsList } = this.props;
-        // updateProxyHost(proxyListData.host);
-        // setProxyData(proxyListData.data);
-        updateDocList(docListData, 1, pageSize);
-        updateInstallToolsList(installListData.tools, 1, pageSize)
+        this.props.updateDocList(docListData, 1, pageSize);
+        this.props.updateInstallToolsList(installListData.tools, 1, pageSize)
     }
 
     handleActionMenuClick = index => {
-
-        const { changeMenuSelected, changeGridLayout } = this.props;
-
-        changeMenuSelected(index);
+        this.props.changeMenuSelected(index);
     }
 
     handleAddProject = () => {
@@ -93,22 +80,51 @@ class Container extends React.Component {
 
     render() {
 
-        const { actionMenuSelectedIndex, statusList, proxyList, docList, installList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, up } = this.props;
-        const { projectList, setProjectData, actionSetting, openProjectOrder, setWorkSpace, updateStatusList, delProjectOrder, addProjectOrder, changeActionProject, changeDevStatus, changeUploadStatus, changePackStatus } = this.props;
-        const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
-        return (
-            <div className="app-container" data-projects={projectList.data.length==0 && "noProject"} data-layout-type={layoutType}>
-                {projectList.data.length==0 && (EN === "resource-management" || EN === "ajax-proxy") && <ProjectMask addProjectHandler={this.handleAddProject}/>}
+        const { 
+            actionMenuSelectedIndex,
+            setWorkSpace,
+            projectList, changeActionProject, setProjectData, openProjectOrder, addProjectOrder, delProjectOrder, 
+            changeDevStatus, changeUploadStatus, changePackStatus,
+            actionSetting,
+            statusList, updateStatusList,
+            proxyList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, 
+            docList, 
+            installList
+        } = this.props;
 
+        const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
+
+        let MainView;
+        
+        switch(EN){
+            case "resource-management": 
+                MainView = <ProjectList setProjectData={setProjectData} data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} updateStatusList={updateStatusList} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />;
+                break;
+            case "ajax-proxy":
+                MainView = <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} delProxyItemHandler={delProxyItem} updateHostHandler={updateProxyHost} />
+                break;
+            case "digital-simulation":
+                MainView = <DigitalList data={digitalListData} />
+                break;
+            case "environment-doc":
+                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList} />
+                break;
+            case "environment-install":
+                MainView = <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />
+                break;
+        }
+        
+        return (
+            <div className="app-container" data-layout-type={layoutType}>
+                {
+                    projectList.data.length==0 && (EN === "resource-management" || EN === "ajax-proxy") 
+                    && <ProjectMask addProjectHandler={this.handleAddProject}/>
+                }
                 <div className="action-menu-area">
                     <ActionMenu data={actionMenuData} selectedIndex={actionMenuSelectedIndex} onClickHandler={this.handleActionMenuClick} />
                 </div>
                 <div className="main-content-area" data-type={EN}>
-                    {EN === "resource-management" && <ProjectList setProjectData={setProjectData} data={projectList} setWorkSpace={setWorkSpace} delProjectHandler={delProjectOrder} openProjectHandler={openProjectOrder} changeDevStatusHandler={changeDevStatus} changeUploadStatusHandler={changeUploadStatus} updateStatusList={updateStatusList} changePackStatusHandler={changePackStatus} addProjectHandler={addProjectOrder} changeActionProject={changeActionProject} onClickHandler={this.handleActionProjectClick} />}
-                    {EN === "ajax-proxy" && <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} delProxyItemHandler={delProxyItem} updateHostHandler={updateProxyHost} />}
-                    {EN === "digital-simulation" && <DigitalList data={digitalListData} />}
-                    {EN === "environment-doc" && <DocList data={docList} updateHandler={this.handleUpdateToDocList} />}
-                    {EN === "environment-install" && <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />}
+                    { MainView }
                 </div>
                 <div className="status-bar-area">
                     <StatusBar data={statusList.data} deleteHandler={this.handleDeleteStatusList} />
@@ -116,7 +132,6 @@ class Container extends React.Component {
                 <div className="action-setting-area">
                     <ActionSetting actionSetting={actionSetting.data} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
                 </div>
-
             </div>
         )
     }
