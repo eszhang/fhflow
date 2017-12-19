@@ -1,4 +1,8 @@
 
+/**
+ * reducer
+ */
+
 import {
     CHANGE_MENU_SELECTED,
     SET_WORKSPACE,

@@ -1,4 +1,8 @@
 
+/**
+ * store
+ */
+
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import * as action from '../action/index'
 import * as reducer from '../reducer/index';
