@@ -103,10 +103,12 @@ globalStore.subscribe(
             //更新工作空间
             case SET_WORKSPACE:
                 storage.workSpace = projectList.workSpace;
+                STORAGE.set(storage);
                 break;
             //更新当前活跃项目
             case CHANGE_PROJECT_SELECTED:
                 storage.curProjectPath = (data && data[selectedIndex] && data[selectedIndex].path) || storage.curProjectPath;
+                STORAGE.set(storage);
                 break;
             //执行对应任务         
             case CHANGE_DEV_STATUS:
@@ -174,7 +176,7 @@ globalStore.subscribe(
                 break;
         }
 
-        STORAGE.set(storage);
+        // STORAGE.set(storage);
         console.log('storage', STORAGE.get())
     }
 )

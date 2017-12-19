@@ -89,7 +89,8 @@ class Container extends React.Component {
             statusList, updateStatusList,
             proxyList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, 
             docList, 
-            installList
+            installList,
+            importModules
         } = this.props;
 
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
