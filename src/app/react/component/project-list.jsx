@@ -16,8 +16,6 @@ const FormItem = Form.Item;
 // export default function projectList(props) {
 export default class ProjectList extends React.Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -91,15 +89,24 @@ export default class ProjectList extends React.Component {
     }
 
     dev = (data) => {
-        this.props.changeDevStatusHandler(data.selectedIndex);
+        if(!data.data[data.selectedIndex].isRunning){
+            !data.data[data.selectedIndex].isDeveloping && this.props.changeRunStatusHandler(data.selectedIndex);
+            this.props.changeDevStatusHandler(data.selectedIndex);
+        }
     }
 
     upload = (data) => {
-        this.props.changeUploadStatusHandler(data.selectedIndex);
+        if(!data.data[data.selectedIndex].isRunning){
+            !data.data[data.selectedIndex].isUploading && this.props.changeRunStatusHandler(data.selectedIndex);
+            this.props.changeUploadStatusHandler(data.selectedIndex);
+        }
     }
 
     pack = (data) => {
-        this.props.changePackStatusHandler(data.selectedIndex);
+        if(!data.data[data.selectedIndex].isRunning){
+            !data.data[data.selectedIndex].isPackageing && this.props.changeRunStatusHandler(data.selectedIndex);
+            this.props.changePackStatusHandler(data.selectedIndex);
+        }
     }
 
 
@@ -179,7 +186,7 @@ export default class ProjectList extends React.Component {
         const { data = {}, onClickHandler = function () { } } = this.props;
 
         let selectedProject = data.data && data.data[data.selectedIndex],
-            { isDeveloping, isUploading, isPackageing } = selectedProject || {};
+            { isDeveloping, isUploading, isPackageing, isRunning } = selectedProject || {};
         
 
         return (
@@ -224,7 +231,7 @@ export default class ProjectList extends React.Component {
                         <WrappedGlobalSettingForm ref={this.saveFormRef} workSpace={data.workSpace} visible={this.state.modalVisible} ModalText={this.state.ModalText} confirmLoading={this.state.confirmLoading} handleCancel={this.handleCancel} handleOk={this.handleOk} />
 
                     </div>
-                    <div className="plf-right">
+                    <div className="plf-right" >
                         {
                             (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <div>
@@ -237,8 +244,12 @@ export default class ProjectList extends React.Component {
                                 <a className={isPackageing ? 'isRunning' : ''} onClick={() => this.plfRightClickHandler('package', data)}>
                                     {isPackageing ? '处理中...' : '打包'}
                                 </a>
+                                {
+                                    isRunning && <div className="runningMask"></div>
+                                }
                             </div>
                         }
+                        
                     </div>
                 </div>
             </div>

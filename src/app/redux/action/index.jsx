@@ -26,13 +26,16 @@ export const SET_PROXY_DATA = 'SET_PROXY_DATA';
 export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';
 export const UPDATE_INSTALL_PROGRESS = 'UPDATE_INSTALL_PROGRESS';
 export const UPDATE_INSTALL_TOOLS_LIST = 'UPDATE_INSTALL_TOOLS_LIST';
+export const UPDATE_PROJECT_NAME = 'UPDATE_PROJECT_NAME';
+export const CHANGE_RUN_STATUS = 'CHANGE_RUN_STATUS';
+export const IMPORT_MODULES = 'IMPORT_MODULES';
 
 //action指令，不影响 state tree 数据
 export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
 export const CREATE_PROJECT_ORDER = 'CREATE_PROJECT_ORDER';
 export const OPEN_PROJECT_ORDER = 'OPEN_PROJECT_ORDER';
 export const DEl_PROJECT_ORDER = 'DEl_PROJECT_ORDER';
-export const UPDATE_PROJECT_NAME = 'UPDATE_PROJECT_NAME';
+
 
 
 /*
@@ -89,7 +92,7 @@ export const changeActionProject = (index) => ({
 
 
 //设置开发按钮的状态
-export const changeDevStatus = (index) => ({
+export const changeDevStatus = () => ({
     type: CHANGE_DEV_STATUS,
     payload: {
         // index
@@ -97,7 +100,7 @@ export const changeDevStatus = (index) => ({
 });
 
 //设置上传按钮的状态
-export const changeUploadStatus = (index) => ({
+export const changeUploadStatus = () => ({
     type: CHANGE_UPLOAD_STATUS,
     payload: {
         // index
@@ -105,10 +108,17 @@ export const changeUploadStatus = (index) => ({
 });
 
 //设置打包按钮的状态
-export const changePackStatus = (index) => ({
+export const changePackStatus = () => ({
     type: CHANGE_PACK_STATUS,
     payload: {
         // index
+    }
+});
+
+//修改是否在运行中
+export const changeRunStatus = () => ({
+    type: CHANGE_RUN_STATUS,
+    payload: {
     }
 });
 
@@ -232,6 +242,13 @@ export const delProjectOrder = () => ({
 export const updateProjectName = () => ({
     type: UPDATE_PROJECT_NAME
 });
+
+//导入模块名
+export const importModules = () => ({
+    type: IMPORT_MODULES
+});
+
+
 
 
 

@@ -179,22 +179,38 @@ class SeniorDevelopSetting extends React.Component {
         submitHandler(obj);
     } 
 
+     choseHasModules = (e) => {
+        if(e.target.checked){
+            const { importModulesHandler } = this.props;
+            // console.log(importModulesHandler);
+            importModulesHandler();
+        }
+    } 
+
     render(){
-        const { actionSetting, selectedIndex } = this.props;
+        const { actionSetting, selectedIndex, importModulesHandler } = this.props;
         const { modules, choseModules } = actionSetting;
         const { getFieldDecorator } = this.props.form;
 
         return (
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
-                <FormItem label="模块设置">
-                    {
-                        getFieldDecorator('choseModules', {
-                            initialValue: choseModules,
-                        })(
-                            <CheckboxGroup options={modules} onChange={this.onChange} />
-                            )
-                    }
-                </FormItem>
+                {
+                    <FormItem label="模块设置">
+                        <Checkbox className="hasModuleSetting" onChange={this.choseHasModules}>是否含有模块</Checkbox>
+                    </FormItem>
+                }
+                {
+                    modules.length > 0 &&
+                    <FormItem label="模块设置">
+                        {
+                            getFieldDecorator('choseModules', {
+                                initialValue: choseModules,
+                            })(
+                                <CheckboxGroup options={modules} onChange={this.onChange} />
+                                )
+                        }
+                    </FormItem>
+                }
             </Form>
         )
     }
@@ -234,7 +250,7 @@ export default class ActionSetting extends React.Component {
 
 
     render() {
-        const { actionSetting, selectedIndex, submitProjectSettingHandler } = this.props;
+        const { actionSetting, selectedIndex, submitProjectSettingHandler,importModulesHandler } = this.props;
         return (
             <div className="action-setting">
                 <Tabs defaultActiveKey="1" className="actionSettingHeader">
@@ -242,10 +258,9 @@ export default class ActionSetting extends React.Component {
                         { Object.keys(actionSetting).length > 0 &&  <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />开发高级设置</span>} key="2">
-                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
+                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} importModulesHandler={importModulesHandler}/> }
                     </TabPane>
                 </Tabs>
-
             </div>
         )
     }
