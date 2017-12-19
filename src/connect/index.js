@@ -107,7 +107,7 @@ globalStore.subscribe(
             //执行对应任务         
             case CHANGE_DEV_STATUS:
                 taskFlag = data[selectedIndex].isDeveloping ? 1 : 0;
-                ACTION.runTask('dev', taskFlag);
+                ACTION.runTask('dev', taskFlag );
                 break;
             case CHANGE_UPLOAD_STATUS:
                 taskFlag = data[selectedIndex].isUploading ? 1 : 0;

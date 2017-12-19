@@ -13,7 +13,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
 
     let {
         setProjectData, setWorkSpace,
-        addProject, delProject,
+        addProject, delProject,changeRunStatus,
         addStatusList, updateProjectSetting, updateProxyHost, setProxyData,
         changeActionProject, changeProjectSetting
     } = globalAction;
@@ -72,7 +72,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                         willName: projectName,
                         isDeveloping: false,
                         isUploading: false,
-                        isPackageing: false
+                        isPackageing: false,
+                        isRunning: false
                     })
                 }
                 globalDispatch(setProjectData(projectArr));
@@ -157,7 +158,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     willName: projectName,
                     isDeveloping: false,
                     isUploading: false,
-                    isPackageing: false
+                    isPackageing: false,
+                    isRunning: false
                 }))
                 let { projectList } = globalStore.getState(),
                     { data, selectedIndex } = projectList,
@@ -206,7 +208,8 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                         willName: projectName,
                         isDeveloping: false,
                         isUploading: false,
-                        isPackageing: false
+                        isPackageing: false,
+                        isRunning: false
                     }))
                     let { projectList } = globalStore.getState(),
                         { data, selectedIndex } = projectList,
@@ -269,8 +272,14 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
         //运行任务
         runTask: function (taskName, taskStatus) {
             let storage = STORAGE.get(),
-                { curProjectPath } = storage;
-            task.runTask(curProjectPath, taskName, taskStatus, this.printLog);
+                { curProjectPath } = storage,
+                fn;
+            if(taskName === 'dev' || taskName === 'upload' || taskName === 'pack'){
+                fn = function(){
+                     globalDispatch(changeRunStatus());
+                }
+            }
+            task.runTask(curProjectPath, taskName, taskStatus, this.printLog , fn);
         },
 
         //获取项目配置项

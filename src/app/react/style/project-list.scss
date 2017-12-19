@@ -67,6 +67,7 @@
                 float: left;
             }
             &.plf-right{
+                position: relative;
                 float: right;
                 margin-right: 10px;
                 div{
@@ -76,6 +77,14 @@
                     .isRunning{
                         color: #16f586;
                     }
+                }
+                .runningMask{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    cursor: not-allowed;
                 }
             }
         }

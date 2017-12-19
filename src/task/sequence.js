@@ -27,7 +27,7 @@ let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
 
 //dev task
-function dev(projectPath, loggerhandler) {
+function dev(projectPath, loggerhandler, fn) {
 
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath);
@@ -210,6 +210,7 @@ function dev(projectPath, loggerhandler) {
                     desc: prefixLog + startServer.endLog,
                     type: "success"
                 });
+                fn && fn();
                 next();
             });
         }
@@ -217,7 +218,7 @@ function dev(projectPath, loggerhandler) {
 }
 
 //upload task
-function upload(projectPath, loggerhandler) {
+function upload(projectPath, loggerhandler, fn) {
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath),
         sshObj = getUploadObj({
@@ -243,11 +244,12 @@ function upload(projectPath, loggerhandler) {
             desc: prefixLog + sshObj.endtLog,
             type: "success"
         });
+        fn && fn();
     });
 }
 
 //pack task
-function pack(projectPath, loggerhandler) {
+function pack(projectPath, loggerhandler, fn) {
 
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath);
@@ -410,7 +412,8 @@ function pack(projectPath, loggerhandler) {
                     desc: prefixLog + zip.endLog,
                     type: "success"
                 });
-               console.log("已经为完成")
+                console.log("已经为完成")
+                fn && fn();
                 next();
             });
         }
