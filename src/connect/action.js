@@ -26,10 +26,10 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                 curProjectPath,
                 workSpace,
                 projects;
-            if (!storage) {
+            if (!storage && !UTILS.isDirExist(path.join(remote.app.getPath(CONFIG.DEFAULT_PATH), CONFIG.WORKSPACE))) {
                 storage = {};
                 workSpace = path.join(remote.app.getPath(CONFIG.DEFAULT_PATH), CONFIG.WORKSPACE);
-                fs.mkdir(workSpace, function (err) {
+                 fs.mkdir(workSpace, function (err) {
                     if (err) {
                         throw new Error(err);
                     }
