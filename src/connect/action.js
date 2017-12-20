@@ -299,7 +299,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
         getSelectedProjectSetting: function (projectPath) {
 
             let storage = STORAGE.get(),
-                { workspace, curProjectPath } = storage;
+                { workSpace, curProjectPath } = storage;
 
             let config = task.getConfig(curProjectPath),
                 { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
@@ -311,7 +311,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             reversion && chooseFunc.push('md5');
 
             globalDispatch(updateProjectSetting({
-                "workSpace": workspace,
+                "workSpace": workSpace,
                 "choseFunctions": chooseFunc,
                 "uploadHost": ftp && ftp.host,
                 "uploadPort": ftp && ftp.port,

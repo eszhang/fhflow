@@ -297,7 +297,7 @@ const EditableCell = ({ editable, value, onChange, changeEdit, index, data }) =>
     <div>
         {editable
             ? <Input style={{ margin: '-5px 0' }} value={value} onClick={e => changeEdit(e,index,data)} onChange={e => onChange(e.target.value,index, data)} />
-            : <div className="staticProjectName"  onClick={e => changeEdit(e,index,data)}>{value}</div>
+            : <div className="staticProjectName"  onDoubleClick={e => changeEdit(e,index,data)}>{value}</div>
         }
     </div>
 );

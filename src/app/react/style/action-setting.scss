@@ -52,6 +52,7 @@
         color: #fff;
     }
     .ant-checkbox-wrapper{
+        padding-left: 20px;
         span{
             color: #fff;
         }
@@ -69,7 +70,6 @@
         text-align: center;
     }
     .moduleSetting{
-        padding-left: 20px;
         padding-top: 20px;
     }
      .actionSettingHeader {
@@ -97,5 +97,8 @@
         .ant-form-item-control-wrapper{
             margin-left: 10px;
         }
+    }
+    .ant-form-item-label{
+        font-size: 14px;
     }
 }
