@@ -84,11 +84,12 @@ let action = {
         config.choseModules = []
         this.updateConfig(curProjectPath, config);
         fn(config);
-        // console.log(modules);
     },
+
     //关闭任务
     close: function (projectPath) {
         require("browser-sync").get(projectPath).exit();
+        require('./atom/cache')[projectPath].close();
     },
 
     //获取config配置项

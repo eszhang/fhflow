@@ -13,6 +13,7 @@ const imageAtom = require('./image');
 const fontAtom = require('./font');
 const remAtom = require('./rem');
 
+var cache = require('./cache');
 
 module.exports = function (config = {}, loggerhandler, startCb, endCb) {
 
@@ -23,6 +24,8 @@ module.exports = function (config = {}, loggerhandler, startCb, endCb) {
     startCb && startCb();
 
     let watcher = watchAtom(watchPath, { ignored: /[\/\\]\./ });
+
+    cache[bs.name] = watcher;
     watcher.on('change', function (file) {
         console.log(file + "has been changed");
         watchHandler('changed', file);
