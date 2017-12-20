@@ -13,7 +13,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
 
     let {
         setProjectData, setWorkSpace,
-        addProject, delProject,changeRunStatus,
+        addProject, delProject, changeRunStatus, changeUploadStatus, changePackStatus,
         addStatusList, updateProjectSetting, updateProxyHost, setProxyData,
         changeActionProject, changeProjectSetting
     } = globalAction;
@@ -273,9 +273,19 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             let storage = STORAGE.get(),
                 { curProjectPath } = storage,
                 fn;
-            if(taskName === 'dev' || taskName === 'upload' || taskName === 'pack'){
+            if(taskName === 'dev'){
                 fn = function(){
                      globalDispatch(changeRunStatus());
+                }
+            }else if(taskName === 'upload'){
+                fn = function(){
+                    globalDispatch(changeRunStatus());
+                    globalDispatch(changeUploadStatus());
+                }
+            }else if(taskName === 'pack'){  
+                fn = function(){
+                    globalDispatch(changeRunStatus());
+                    globalDispatch(changePackStatus());
                 }
             }
             task.runTask(curProjectPath, taskName, taskStatus, this.printLog , fn);
