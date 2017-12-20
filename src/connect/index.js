@@ -62,7 +62,7 @@ globalStore.subscribe(
                 CREATE_PROJECT_ORDER, OPEN_PROJECT_ORDER, DEl_PROJECT_ORDER,
                 CHANGE_PROJECT_SETTING,
                 SET_WORKSPACE, CHANGE_PROJECT_SELECTED,
-                CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,IMPORT_MODULES,
+                CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,IMPORT_MODULES,DEL_MODULES,
                 UPDATE_PROXY_HOST,UPDATE_PROJECT_NAME,
                 UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
                 UPDATE_INSTALL_PROGRESS
@@ -99,6 +99,10 @@ globalStore.subscribe(
             //导入模块化设置
             case IMPORT_MODULES:
                 ACTION.importModulesSetting(curProjectPath);
+                break;
+            //删除模块化设置
+            case DEL_MODULES:
+                ACTION.delModulesSetting(curProjectPath);
                 break;
             //更新工作空间
             case SET_WORKSPACE:

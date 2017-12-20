@@ -288,6 +288,13 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             task.readModulesName(curProjectPath, fn);
         },
 
+        delModulesSetting: function(curProjectPath){
+            let fn = function(config){
+                globalDispatch(updateProjectSetting(config));
+            }
+            task.delModulesName(curProjectPath, fn);
+        },
+
         //获取项目配置项
         getSelectedProjectSetting: function (projectPath) {
 

@@ -90,7 +90,7 @@ class Container extends React.Component {
             proxyList, updateProxyHost, addProxyItem, updateProxyItem, delProxyItem, 
             docList, 
             installList,
-            importModules
+            importModules,delModules
         } = this.props;
 
         const { EN, layoutType } = actionMenuData[actionMenuSelectedIndex];
@@ -134,7 +134,7 @@ class Container extends React.Component {
                     <StatusBar data={statusList.data} deleteHandler={this.handleDeleteStatusList} />
                 </div>
                 <div className="action-setting-area">
-                    <ActionSetting actionSetting={actionSetting.data} importModulesHandler={importModules} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
+                    <ActionSetting actionSetting={actionSetting.data} importModulesHandler={importModules} delModulesHandler={delModules} selectedIndex={actionSetting.selectedIndex} submitProjectSettingHandler={this.submitProjectSettingHandler} />
                 </div>
             </div>
         )

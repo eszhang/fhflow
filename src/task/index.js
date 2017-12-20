@@ -70,9 +70,21 @@ let action = {
         }
 
         config.modules = modules
+        config.choseModules = modules
         this.updateConfig(curProjectPath, config);
         fn(config);
-        console.log(modules);
+        // console.log(modules);
+    },
+
+    // 删除项目名称
+    delModulesName: function(curProjectPath, fn){
+        let config = this.getConfig(curProjectPath)
+
+        config.modules = []
+        config.choseModules = []
+        this.updateConfig(curProjectPath, config);
+        fn(config);
+        // console.log(modules);
     },
     //关闭任务
     close: function (projectPath) {

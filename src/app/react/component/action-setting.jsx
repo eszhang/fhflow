@@ -180,23 +180,25 @@ class SeniorDevelopSetting extends React.Component {
     } 
 
      choseHasModules = (e) => {
-        if(e.target.checked){
+        if(e.target.checked){//导入模块
             const { importModulesHandler } = this.props;
-            // console.log(importModulesHandler);
             importModulesHandler();
+        }else{// 去除模块
+            const { delModulesHandler } = this.props;
+            delModulesHandler();
         }
     } 
 
     render(){
-        const { actionSetting, selectedIndex, importModulesHandler } = this.props;
+        const { actionSetting, selectedIndex, importModulesHandler,delModulesHandler } = this.props;
         const { modules, choseModules } = actionSetting;
         const { getFieldDecorator } = this.props.form;
-
+        console.debug()
         return (
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 {
                     <FormItem label="项目类型选择">
-                        <Checkbox className="hasModuleSetting" onChange={this.choseHasModules}>是否含有模块</Checkbox>
+                        <Checkbox className="hasModuleSetting" defaultChecked={ modules.length > 0 ? true : false } onChange={this.choseHasModules}>是否含有模块</Checkbox>
                     </FormItem>
                 }
                 {
@@ -250,7 +252,7 @@ export default class ActionSetting extends React.Component {
 
 
     render() {
-        const { actionSetting, selectedIndex, submitProjectSettingHandler,importModulesHandler } = this.props;
+        const { actionSetting, selectedIndex, submitProjectSettingHandler, importModulesHandler, delModulesHandler } = this.props;
         return (
             <div className="action-setting">
                 <Tabs defaultActiveKey="1" className="actionSettingHeader">
@@ -258,7 +260,8 @@ export default class ActionSetting extends React.Component {
                         { Object.keys(actionSetting).length > 0 &&  <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />开发高级设置</span>} key="2">
-                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} importModulesHandler={importModulesHandler}/> }
+                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler}
+                         importModulesHandler={importModulesHandler} delModulesHandler={delModulesHandler}/> }
                     </TabPane>
                 </Tabs>
             </div>
