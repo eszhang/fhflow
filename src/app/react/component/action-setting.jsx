@@ -37,8 +37,8 @@ class ActionSettingForm extends React.Component {
         const functionOptions = [
             { label: '开启LiveReload浏览器自动刷新', value: 'liveReload' },
             { label: '开启REM适配解决方案', value: 'rem' },
-            { label: '开启文件版本(MD5)去缓存解决方案', value: 'md5' },
-            { label: '开启文件变动增量编译支持', value: 'fileAddCompileSupport' }
+            { label: '开启文件版本(MD5)去缓存解决方案', value: 'md5' }
+            // { label: '开启文件变动增量编译支持', value: 'fileAddCompileSupport' }
         ];
 
 
