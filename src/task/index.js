@@ -120,12 +120,12 @@ let action = {
 
         let configPath = path.join(projectPath, CONFIGNAME);
         let configContent = JSON.stringify(config, null, 4);
-        fs.writeFile(configPath, configContent, function (err) {
-            if (err) {
-                throw new Error(err);
-            }
-            callback && callback(requireUncached(config));
-        })
+        try{
+            fs.writeFileSync(configPath, configContent)
+            callback && callback(requireUncached(config))
+        }catch(e){
+            console.log('报错');
+        }
     }
 
 }
