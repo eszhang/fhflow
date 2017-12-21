@@ -144,7 +144,7 @@ globalStore.subscribe(
                 let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions } = actionSetting.data,
                     { ip, port } = proxyList.host;
                 let config = {
-                    "businessName": "hero",
+                    "businessName": actionSetting.data.businessName || "",
                     "modules": modules,
                     "choseModules": choseModules,
                     "supportREM": choseFunctions.indexOf("rem") !== -1 ? true : false,

@@ -236,12 +236,12 @@ function upload(projectPath, loggerhandler, fn) {
 
     sshHandler(sshObj, function () {
         loggerhandler({
-            desc: prefixLog + sshObj.starttLog,
+            desc: prefixLog + sshObj.startLog,
             type: "info"
         });
     }, function () {
         loggerhandler({
-            desc: prefixLog + sshObj.endtLog,
+            desc: prefixLog + sshObj.endLog,
             type: "success"
         });
         fn && fn();

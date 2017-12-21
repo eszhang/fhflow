@@ -3,7 +3,7 @@
     "supportChanged": false,
     "reversion": false,
     "modules": [],
-    "businessName": "hero",
+    "businessName": "",
     "server": {
         "host": "localhost",
         "port": 8089,

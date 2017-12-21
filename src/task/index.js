@@ -69,6 +69,7 @@ let action = {
             modules = _.union(modules, eachModule)
         }
 
+        config.businessName = businessName
         config.modules = modules
         config.choseModules = modules
         this.updateConfig(curProjectPath, config);
@@ -80,6 +81,7 @@ let action = {
     delModulesName: function(curProjectPath, fn){
         let config = this.getConfig(curProjectPath)
 
+        config.businessName = ''
         config.modules = []
         config.choseModules = []
         this.updateConfig(curProjectPath, config);
