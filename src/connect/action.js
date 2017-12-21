@@ -243,9 +243,6 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                     index = maxIndex < 0 ? -1 : (selectedIndex > maxIndex ? maxIndex : selectedIndex);
                 globalDispatch(changeActionProject(index));
                 globalDispatch(changeProjectSetting());
-                // new Notification('FHFLOW提示', {
-                //     body: '删除成功'
-                // });
             }
         },
 
@@ -254,10 +251,14 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             let storage = STORAGE.get()
             let newPath = projectList.data[projectList.selectedIndex].path.replace(projectList.data[projectList.selectedIndex].nowName, projectList.data[projectList.selectedIndex].willName)
 
-            task.updateProjectName(projectList.data[projectList.selectedIndex].path,newPath);
+            task.updateProjectName(projectList.data[projectList.selectedIndex]['path'],newPath);
             // 更新缓存
             delete storage.projects[projectList.data[projectList.selectedIndex].name]
-            storage.projects[projectList.data[projectList.selectedIndex].willName] = newPath
+            delete storage.curProjectPath
+            var projectInfo = {
+                path: newPath
+            }
+            storage.projects[projectList.data[projectList.selectedIndex].willName] = projectInfo
             storage.curProjectPath = newPath
             STORAGE.set(storage);
 // TODO storage设置不上去
