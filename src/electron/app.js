@@ -26,6 +26,11 @@ function createMainWindow() {
     });
 
     mainWindow.loadURL('http:127.0.0.1:8080');
+    // mainWindow.loadURL(url.format({
+    //     pathname: path.join(__dirname, '../app/index.html'),
+    //     protocol: 'file',
+    //     slashes: true
+    // }));
 
     mainWindow.on('close', function (event) {
         if (process.platform !== 'win32' && !willClose) {

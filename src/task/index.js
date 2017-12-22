@@ -30,18 +30,18 @@ let action = {
     },
 
     //运行任务 taskStatus 1: 开启  0: 关闭
-    runTask: function(projectPath, taskName, taskStatus, callback, fn ){
+    runTask: function(projectPath, taskName, taskStatus, loggerhandler, notifier, fn ){
         let taskCloseLog = {
             dev: "[dev-task] dev模式已关闭...",
             upload: "[upload-task] upload模式已关闭...",
             pack: "[pack-task] pack模式已关闭..."
         }
         if(taskStatus){
-            taskSequence[taskName](projectPath, callback, fn)
+            taskSequence[taskName](projectPath, loggerhandler, notifier, fn)
         }else{
              taskName === 'dev' && this.close(projectPath);
             //关闭
-            callback({
+            loggerhandler({
                 desc: taskCloseLog[taskName],
                 type: "warning"
             })

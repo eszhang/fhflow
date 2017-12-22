@@ -12,8 +12,7 @@ const globalDispatch = globalStore.dispatch;
 
 let BASEPATH = process.cwd() + '/src/connect';
 let CONFIG = require(`${BASEPATH}/config.js`);
-let fhStorage = require(`${BASEPATH}/storage.js`);
-let STORAGE = new fhStorage(CONFIG.NAME);
+let STORAGE = require(`${BASEPATH}/storage.js`);
 let ACTION = require(`${BASEPATH}/action.js`)(globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`)
@@ -62,8 +61,8 @@ globalStore.subscribe(
                 CREATE_PROJECT_ORDER, OPEN_PROJECT_ORDER, DEl_PROJECT_ORDER,
                 CHANGE_PROJECT_SETTING,
                 SET_WORKSPACE, CHANGE_PROJECT_SELECTED,
-                CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,IMPORT_MODULES,DEL_MODULES,
-                UPDATE_PROXY_HOST,UPDATE_PROJECT_NAME,
+                CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, IMPORT_MODULES, DEL_MODULES,
+                UPDATE_PROXY_HOST, UPDATE_PROJECT_NAME,
                 UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
                 UPDATE_INSTALL_PROGRESS
             } = globalAction;
@@ -117,7 +116,7 @@ globalStore.subscribe(
             //执行对应任务         
             case CHANGE_DEV_STATUS:
                 taskFlag = data[selectedIndex].isDeveloping ? 1 : 0;
-                ACTION.runTask('dev', taskFlag );
+                ACTION.runTask('dev', taskFlag);
                 break;
             case CHANGE_UPLOAD_STATUS:
                 taskFlag = data[selectedIndex].isUploading ? 1 : 0;

@@ -1,6 +1,9 @@
+
 /**
  * utils
  */
+
+const fs = require('fs');
 
 function isFileExist(filePath) {
     try {
@@ -36,4 +39,7 @@ function isDirExist(dirPath) {
     }
 }
 
-module.exports = { isFileExist, isDirExist }
+module.exports = {
+    isFileExist,
+    isDirExist
+}
