@@ -1,34 +1,31 @@
+
 /**
  * storage
  */
 
+const config = require('./config');
+const name = config.NAME;
 
-function fhStorage(name) {
+localStorage = window.localStorage;
 
-    this.name = name;
-    this.localStorage = window.localStorage;
-
-}
-
-fhStorage.prototype = {
-
-    constructor: fhStorage,
-
-    get: function () {
-        if (this.localStorage.getItem(this.name)) {
-            return JSON.parse(this.localStorage.getItem(this.name));
-        } else {
-            return false;
-        }
-    },
-
-    set: function (data) {
-        this.localStorage.setItem(this.name, JSON.stringify(data));
-    },
-
-    reset: function () {
-        this.localStorage.removeItem(this.name);
+function get() {
+    if (localStorage.getItem(name)) {
+        return JSON.parse(localStorage.getItem(name));
+    } else {
+        return false;
     }
 }
 
-module.exports = fhStorage;
+function set(data) {
+    localStorage.setItem(name, JSON.stringify(data));
+}
+
+function reset() {
+    localStorage.removeItem(this.name);
+}
+
+module.exports = {
+    get,
+    set,
+    reset
+};

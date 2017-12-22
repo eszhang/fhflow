@@ -27,7 +27,7 @@ let { constantConfig, cacheConfig } = require('./common/index'),
     { NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME } = constantConfig;
 
 //dev task
-function dev(projectPath, loggerhandler, fn) {
+function dev(projectPath, loggerhandler, notifier, fn) {
 
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath);
@@ -218,7 +218,7 @@ function dev(projectPath, loggerhandler, fn) {
 }
 
 //upload task
-function upload(projectPath, loggerhandler, fn) {
+function upload(projectPath, loggerhandler, notifier, fn) {
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath),
         sshObj = getUploadObj({
@@ -249,7 +249,7 @@ function upload(projectPath, loggerhandler, fn) {
 }
 
 //pack task
-function pack(projectPath, loggerhandler, fn) {
+function pack(projectPath, loggerhandler, notifier, fn) {
 
     let curConfigPath = path.join(projectPath, CONFIGNAME),
         setting = requireUncached(curConfigPath);
