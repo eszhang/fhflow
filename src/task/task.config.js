@@ -127,12 +127,12 @@ function getDevObj(config){
         iconfont: {
             svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
             fontName: projectName+'-icon',
-            cssSrc: projectName+'src/icons/templates/'+projectName+'icon.css',
+            cssSrc: projectPath+'src/icons/templates/'+projectName+'icon.css',
             fontPath: '../fonts',
             className: projectName+'icon',
             version: '1.0.0' + (new Date()),
-            cssDest: 'build/assets/css/',
-            fontsDest: 'build/assets/fonts/',
+            cssDest: projectPath+'build/assets/css/',
+            fontsDest: projectPath+'build/assets/fonts/',
             startLog: '编译iconfont开始...',
             endLog: '编译iconfont成功...'
         },
