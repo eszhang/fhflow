@@ -5,11 +5,11 @@
 
 const gulp = require('gulp');
 const fileinclude = require('gulp-iconfont');
-const fileinclude = require('gulp-consolidate');
+const consolidate = require('gulp-consolidate');
 
 module.exports = function (config = {}, startCb, endCb) {
 
-    const { svgSrc, fontName, cssSrc, fontName, fontPath, className, version, cssDest, fontsDest } = config;
+    const { svgSrc, fontName, cssSrc, fontPath, className, version, cssDest, fontsDest } = config;
 
     startCb && startCb();
 
