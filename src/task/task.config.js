@@ -13,6 +13,8 @@ function getDevObj(config){
 
         // 此处项目名为模块化中项目业务名称.如fk
     var buinessName = setting.businessName,
+        tempArray = path.split('\\'),
+        projectName = tempArray[tempArray.length-1],
         dev = {},
         cleanSrcArray = [],
         htmlSrcArray = [],
@@ -20,7 +22,8 @@ function getDevObj(config){
         jsSrcArray = [],
         tplSrcArray = [],
         imageSrcArray = [],
-        fontSrcArray = [];
+        fontSrcArray = [],
+        othersSrcArray = [];
 
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
@@ -28,12 +31,33 @@ function getDevObj(config){
         cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
         cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
-        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
+        sassSrcArray.push([projectPath + 'src/scss' + modulePathAdd +'/**/*.scss',projectPath + 'src/scss' + modulePathAdd +'/**/*.css']);
         jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
         tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
         imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
         fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
+
+        othersSrcArray.push([projectPath + 'src/**/*',
+        '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
+        '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
+        '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
+        '!'+projectPath + 'src/tpl', '!'+projectPath + 'src/tpl/**',
+        '!'+projectPath + 'src/images', '!'+projectPath + 'src/images/**',
+        '!'+projectPath + 'src/fonts', '!'+projectPath + 'src/fonts/**'
+        ])
     }
+
+
+    // 非模块化情况下其它文件夹
+     others = [projectPath + 'src/**/*',projectPath + 'oasisl/**/*',
+        '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
+        '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
+        '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
+        '!'+projectPath + 'src/tpl', '!'+projectPath + 'src/tpl/**',
+        '!'+projectPath + 'src/images', '!'+projectPath + 'src/images/**',
+        '!'+projectPath + 'src/icons', '!'+projectPath + 'src/icons/**',
+        '!'+projectPath + 'src/fonts', '!'+projectPath + 'src/fonts/**'
+        ]
 
     var dev = {
         clean: {
@@ -49,7 +73,7 @@ function getDevObj(config){
             endLog: '编译html成功...'
         },
         sass: {
-            src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
+            src: sassSrcArray.length > 0 ? sassSrcArray : [projectPath + 'src/scss/**/*.scss', projectPath + 'src/scss/**/*.css'],
             srcBase: projectPath + 'src/scss' ,
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
@@ -92,6 +116,25 @@ function getDevObj(config){
             dest: projectPath + 'build/assets/fonts',
             startLog: '编译font开始...',
             endLog: '编译font成功...'
+        },
+        others: {
+            src: othersSrcArray.length > 0 ? othersSrcArray : others + 'src/fonts/**/*.*',
+            srcBase: projectPath + 'src/fonts',
+            dest: projectPath + 'build/assets/fonts',
+            startLog: '编译font开始...',
+            endLog: '编译font成功...'
+        },
+        iconfont: {
+            svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
+            fontName: projectName+'-icon',
+            cssSrc: projectName+'src/icons/templates/'+projectName+'icon.css',
+            fontPath: '../fonts',
+            className: projectName+'icon',
+            version: '1.0.0' + (new Date()),
+            cssDest: 'build/assets/css/',
+            fontsDest: 'build/assets/fonts/',
+            startLog: '编译iconfont开始...',
+            endLog: '编译iconfont成功...'
         },
         startServer: {
             srcBase: projectPath + 'build',
@@ -242,6 +285,18 @@ function getPackObj(config){
             startLog: '编译font开始...',
             endLog: '编译font成功...',
             updateLog: '更新font成功...'
+        },
+        iconfont: {
+            svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
+            fontName: 'oasis-icon',
+            cssSrc: projectName+'src/icons/templates/oasicon.css',
+            fontPath: '../fonts',
+            className: projectName+'icon',
+            version: '1.0.0' + (new Date()),
+            cssDest: 'oasisl/css/',
+            fontsDest: 'oasisl/fonts/',
+            startLog: '编译iconfont开始...',
+            endLog: '编译iconfont成功...'
         },
         zip:{
             srcArray: packSrcArray,

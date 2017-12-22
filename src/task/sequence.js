@@ -13,6 +13,8 @@ const javascriptHandler = require('./atom/javascript');
 const tplHandler = require('./atom/tpl');
 const imageHandler = require('./atom/image');
 const fontHandler = require('./atom/font');
+const copyHandler = require('./atom/copy');
+const iconfontHandler = require('./atom/iconfont');
 const startServerHandler = require('./atom/server').startServer;
 const watchHandler = require('./atom/watch');
 const zipHandler = require('./atom/zip');
@@ -40,7 +42,7 @@ function dev(projectPath, loggerhandler, fn) {
 
      const bs = require('browser-sync').create(projectPath);
 
-    let { clean, sass, font, html, img, js, tpl, startServer, watch } = devConfig;
+    let { clean, sass, font, html, img, js, tpl, iconfont, startServer, watch, others } = devConfig;
 
     // 加入控制修改后刷新
     watch.liverload = setting.server.liverload;
@@ -172,6 +174,20 @@ function dev(projectPath, loggerhandler, fn) {
             });
         },
         function (next) {
+            iconfontHandler(iconfont, function () {
+                loggerhandler({
+                    desc: prefixLog + iconfont.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + iconfont.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
             if(devConfig.reversion !== undefined){
                 reversionHandler(devConfig.reversion, function () {
                     loggerhandler({
@@ -260,7 +276,7 @@ function pack(projectPath, loggerhandler, fn) {
         setting: setting
     });
 
-    let { clean, sass, font, html, img, js, tpl, zip } = packConfig;
+    let { clean, sass, font, html, img, js, iconfont, tpl, zip } = packConfig;
 
     let prefixLog = "[pack-task] ";
 
@@ -381,6 +397,20 @@ function pack(projectPath, loggerhandler, fn) {
             }, function () {
                 loggerhandler({
                     desc: prefixLog + js.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            iconfontHandler(iconfont, function () {
+                loggerhandler({
+                    desc: prefixLog + iconfont.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + iconfont.endLog,
                     type: "success"
                 });
                 next();
