@@ -4,7 +4,7 @@
  */
 
 const gulp = require('gulp');
-const fileinclude = require('gulp-iconfont');
+const iconfont = require('gulp-iconfont');
 const consolidate = require('gulp-consolidate');
 
 module.exports = function (config = {}, startCb, endCb) {
