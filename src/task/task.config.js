@@ -288,13 +288,13 @@ function getPackObj(config){
         },
         iconfont: {
             svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
-            fontName: 'oasis-icon',
-            cssSrc: projectName+'src/icons/templates/oasicon.css',
+            fontName: projectName+'-icon',
+            cssSrc: projectName+'src/icons/templates/'+projectName+'icon.css',
             fontPath: '../fonts',
             className: projectName+'icon',
             version: '1.0.0' + (new Date()),
-            cssDest: 'oasisl/css/',
-            fontsDest: 'oasisl/fonts/',
+            cssDest: 'build/assets/css/',
+            fontsDest: 'build/assets/fonts/',
             startLog: '编译iconfont开始...',
             endLog: '编译iconfont成功...'
         },
