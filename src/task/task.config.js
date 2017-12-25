@@ -19,6 +19,9 @@ function getDevObj(config){
         cleanSrcArray = [],
         htmlSrcArray = [],
         sassSrcArray = [],
+        sassSrcBaseArray = [],
+        sassDestArray = [],
+        cssArray = [],
         jsSrcArray = [],
         tplSrcArray = [],
         imageSrcArray = [],
@@ -32,7 +35,10 @@ function getDevObj(config){
         cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
         sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
-        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.css');
+        sassSrcBaseArray.push(projectPath + 'src/scss' + modulePathAdd);
+        sassDestArray.push(projectPath + 'build/assets/css' + modulePathAdd);
+        // css
+        cssArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.css');
         jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
         tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
         imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
@@ -75,7 +81,8 @@ function getDevObj(config){
         },
         sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : [projectPath + 'src/scss/**/*.scss', projectPath + 'src/scss/**/*.css'],
-            srcBase: projectPath + 'src/scss' ,
+            srcBase: sassSrcBaseArray.length > 0 ? sassSrcBaseArray : projectPath + 'src/scss' ,
+            destBase: sassDestArray.length > 0 ? sassDestArray : projectPath + 'build/assets/css',
             dest: projectPath + 'build/assets/css',
             isOpenSourceMap: true,
             isCompress: false,
@@ -85,6 +92,13 @@ function getDevObj(config){
             },
             startLog: '编译sass开始...',
             endLog: '编译sass成功...'
+        },
+        css: {
+            src: cssArray.length > 0 ? cssArray : projectPath + 'src/scss/**/*.css',
+            srcBase: projectPath + 'src/scss' ,
+            dest: projectPath + 'build/assets/css',
+            startLog: '编译css开始...',
+            endLog: '编译css成功...'
         },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
@@ -138,7 +152,7 @@ function getDevObj(config){
             cssSrc: projectPath+'src/icons/templates/'+projectName+'icon.css',
             fontPath: '../fonts',
             className: projectName+'icon',
-            version: '1.0.0' + (new Date()),
+            version: '1.0.0',
             cssDest: projectPath+'build/assets/css/',
             fontsDest: projectPath+'build/assets/fonts/',
             startLog: '编译iconfont开始...',
@@ -300,7 +314,7 @@ function getPackObj(config){
             cssSrc: projectName+'src/icons/templates/'+projectName+'icon.css',
             fontPath: '../fonts',
             className: projectName+'icon',
-            version: '1.0.0' + (new Date()),
+            version: '1.0.0',
             cssDest: 'build/assets/css/',
             fontsDest: 'build/assets/fonts/',
             startLog: '编译iconfont开始...',

@@ -36,13 +36,13 @@ function dev(projectPath, loggerhandler, notifier, fn) {
 
     let devConfig = getDevObj({
         path: projectPath,
-        packageModules: setting.modules,
+        packageModules: setting.choseModules,
         setting: setting
     });
 
      const bs = require('browser-sync').create(projectPath);
 
-    let { clean, sass, font, html, img, js, tpl, iconfont, startServer, watch, others, oasisl } = devConfig;
+    let { clean, sass, css, font, html, img, js, tpl, iconfont, startServer, watch, others, oasisl } = devConfig;
 
     // 加入控制修改后刷新
     watch.liverload = setting.server.liverload;
@@ -188,6 +188,20 @@ function dev(projectPath, loggerhandler, notifier, fn) {
             });
         },
         function (next) {
+            copyHandler(css, function () {
+                loggerhandler({
+                    desc: prefixLog + css.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + css.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
             copyHandler(others, function () {
                 loggerhandler({
                     desc: prefixLog + others.startLog,
@@ -260,7 +274,7 @@ function upload(projectPath, loggerhandler, notifier, fn) {
         setting = requireUncached(curConfigPath),
         sshObj = getUploadObj({
             path: projectPath,
-            packageModules: setting.modules,
+            packageModules: setting.choseModules,
             setting: setting
         });
 
@@ -293,7 +307,7 @@ function pack(projectPath, loggerhandler, notifier, fn) {
 
     let packConfig = getPackObj({
         path: projectPath,
-        packageModules: setting.modules,
+        packageModules: setting.choseModules,
         setting: setting
     });
 

@@ -21,3 +21,8 @@ fhflow前端开发环境集成工具，对fh目前前端开发环境、编译打
 4. 【开发文档模块】 整合UED前端目前自研的文档,如oasis、oasisL、rhyton，以及常用开发文档，如jQuery、loadsh、echart。这模块相对简单，只需要归类提供对应文档链接入口即可。
 5. 【环境安装模块】 分为常规环境安装（nodejs、ruby、compass）及常用开发工具包下载（beyond compare、vscode、markdownpad、koala），其中常规环境安装，安装时需要进度条显示安装到哪一步了，目前三步完整安装流程，常用开发工具包下载，不需要进度条，点击即下载，这里需要明显区分出常规环境安装（推荐）和常用开发工具包下载
 
+
+
+
+注意点: 
+1、iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
