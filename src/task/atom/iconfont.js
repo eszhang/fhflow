@@ -22,12 +22,14 @@ module.exports = function (config = {}, startCb, endCb) {
                         fontName: fontName,
                         fontPath: '../fonts',
                         className: className,
-                        version: version
+                        version: version + '.' + (+new Date())
                     }))
             .pipe(gulp.dest(cssDest))
         })
         .pipe(gulp.dest(fontsDest))
-
+        .on('end', function () {
+            endCb && endCb();
+        }); 
     return stream;
 }
 

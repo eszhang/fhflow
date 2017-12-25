@@ -42,7 +42,7 @@ function dev(projectPath, loggerhandler, notifier, fn) {
 
      const bs = require('browser-sync').create(projectPath);
 
-    let { clean, sass, font, html, img, js, tpl, iconfont, startServer, watch, others } = devConfig;
+    let { clean, sass, font, html, img, js, tpl, iconfont, startServer, watch, others, oasisl } = devConfig;
 
     // 加入控制修改后刷新
     watch.liverload = setting.server.liverload;
@@ -184,6 +184,27 @@ function dev(projectPath, loggerhandler, notifier, fn) {
                     desc: prefixLog + iconfont.endLog,
                     type: "success"
                 });
+                next();
+            });
+        },
+        function (next) {
+            copyHandler(others, function () {
+                loggerhandler({
+                    desc: prefixLog + others.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + others.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            copyHandler(oasisl, function () {
+                // 不是所有项目都有oasisl所以不打印日志了
+            }, function () {
                 next();
             });
         },

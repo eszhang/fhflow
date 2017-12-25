@@ -31,25 +31,26 @@ function getDevObj(config){
         cleanSrcArray.push(projectPath + 'build/assets/*' + modulePathAdd);
         cleanSrcArray.push(projectPath + 'build/' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
-        sassSrcArray.push([projectPath + 'src/scss' + modulePathAdd +'/**/*.scss',projectPath + 'src/scss' + modulePathAdd +'/**/*.css']);
+        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
+        sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.css');
         jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
         tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
         imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
         fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
 
-        othersSrcArray.push([projectPath + 'src/**/*',
-        '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
-        '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
-        '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
-        '!'+projectPath + 'src/tpl', '!'+projectPath + 'src/tpl/**',
-        '!'+projectPath + 'src/images', '!'+projectPath + 'src/images/**',
-        '!'+projectPath + 'src/fonts', '!'+projectPath + 'src/fonts/**'
-        ])
+        // othersSrcArray.push([projectPath + 'src/**/*',
+        // '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
+        // '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
+        // '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
+        // '!'+projectPath + 'src/tpl', '!'+projectPath + 'src/tpl/**',
+        // '!'+projectPath + 'src/images', '!'+projectPath + 'src/images/**',
+        // '!'+projectPath + 'src/fonts', '!'+projectPath + 'src/fonts/**'
+        // ])
     }
 
 
     // 非模块化情况下其它文件夹
-     others = [projectPath + 'src/**/*',projectPath + 'oasisl/**/*',
+     others = [projectPath + 'src/**/*',
         '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
         '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
         '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
@@ -117,12 +118,19 @@ function getDevObj(config){
             startLog: '编译font开始...',
             endLog: '编译font成功...'
         },
+        oasisl: {
+            src: projectPath + 'oasisl',
+            srcBase: projectPath,
+            dest: projectPath + 'build',
+            startLog: '拷贝oasisl开始...',
+            endLog: '拷贝oasisl成功...'
+        },
         others: {
-            src: othersSrcArray.length > 0 ? othersSrcArray : others + 'src/fonts/**/*.*',
-            srcBase: projectPath + 'src/fonts',
-            dest: projectPath + 'build/assets/fonts',
-            startLog: '编译font开始...',
-            endLog: '编译font成功...'
+            src: others,
+            srcBase: projectPath + 'src',
+            dest: projectPath + 'build/assets',
+            startLog: '拷贝其它文件开始...',
+            endLog: '拷贝其它文件成功...'
         },
         iconfont: {
             svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
