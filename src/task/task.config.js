@@ -228,7 +228,7 @@ function getPackObj(config){
         cleanSrcArray.push(projectPath + 'build' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
         sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
-         sassSrcBaseArray.push(projectPath + 'src/scss' + modulePathAdd);
+        sassSrcBaseArray.push(projectPath + 'src/scss' + modulePathAdd);
         sassDestArray.push(projectPath + 'build/assets/css' + modulePathAdd);
         // css
         cssArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.css');
@@ -291,6 +291,27 @@ function getPackObj(config){
             endLog: '编译sass成功...',
             updateLog: '更新sass成功...'
         },
+        sass: {
+            src: sassSrcArray.length > 0 ? sassSrcArray : [projectPath + 'src/scss/**/*.scss', projectPath + 'src/scss/**/*.css'],
+            srcBase: sassSrcBaseArray.length > 0 ? sassSrcBaseArray : projectPath + 'src/scss' ,
+            destBase: sassDestArray.length > 0 ? sassDestArray : projectPath + 'build/assets/css',
+            dest: projectPath + 'build/assets/css',
+            isOpenSourceMap: true,
+            isCompress: false,
+            compassSetting: {
+                imageDest: projectPath + 'build/assets/images' ,
+                fontSrc: projectPath + 'src/fonts',
+            },
+            startLog: '编译sass开始...',
+            endLog: '编译sass成功...'
+        },
+        css: {
+            src: cssArray.length > 0 ? cssArray : projectPath + 'src/scss/**/*.css',
+            srcBase: projectPath + 'src/scss' ,
+            dest: projectPath + 'build/assets/css',
+            startLog: '编译css开始...',
+            endLog: '编译css成功...'
+        },
         js: {
             src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
             srcBase: projectPath + 'src/js' ,
@@ -325,6 +346,20 @@ function getPackObj(config){
             startLog: '编译font开始...',
             endLog: '编译font成功...',
             updateLog: '更新font成功...'
+        },
+        oasisl: {
+            src: projectPath + 'oasisl/**/*.*',
+            srcBase: projectPath,
+            dest: projectPath + 'build',
+            startLog: '拷贝oasisl开始...',
+            endLog: '拷贝oasisl成功...'
+        },
+        others: {
+            src: others,
+            srcBase: projectPath + 'src',
+            dest: projectPath + 'build/assets',
+            startLog: '拷贝其它文件开始...',
+            endLog: '拷贝其它文件成功...'
         },
         iconfont: {
             svgSrc:  [projectPath + 'src/icons/assets/*.svg'],

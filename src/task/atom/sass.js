@@ -38,7 +38,7 @@ module.exports = function (config = {}, startCb, endCb) {
         return stream;
     }else{// 模块化的情况
         for(let i = 0 ; i < src.length; i++){
-            if(utils.isDirExist(srcBase[i])){
+            if(utils.isDirExist(srcBase[i]) && utils.readFistLevelFolder(srcBase[i]).length !== 0){// 目录存在,并且目录不为空
                 gulp.src(src[i])
                     .pipe(compass({
                         css: destBase[i],

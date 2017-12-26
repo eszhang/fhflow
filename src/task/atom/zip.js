@@ -5,7 +5,7 @@
 
 const gulp = require('gulp')
 const zip = require('gulp-zip');
-
+const utils = require('../util/index');
 module.exports = function (config = {}, startCb, endCb) {
 
     const { projectName, version, srcArray, srcBase, dist, type, fileRegExp, packageModules } = config;
@@ -38,6 +38,11 @@ module.exports = function (config = {}, startCb, endCb) {
             let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
                 .replace(/\${version}/g, version).replace(/\${time}/g, time);
             name = name + '.' + type;
+
+            if(packageModules[i]==='common' && utils.isDirExist(srcBase + '/oasisl') && utils.readFistLevelFolder(srcBase + '/oasisl').length !== 0){
+                srcArray[i].push(srcBase + '/oasisl/**/*.*')
+            }
+
             gulp.src(srcArray[i], { base: srcBase })
                 .pipe(zip(name))
                 .pipe(gulp.dest(dist))
