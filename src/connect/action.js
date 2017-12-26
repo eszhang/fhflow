@@ -112,7 +112,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             let storage = STORAGE.get(),
                 { workSpace } = storage,
                 suffix = CONFIG.NAME + new Date().getTime(),
-                projectPath = `${workSpace}/` + suffix;
+                projectPath = `${workSpace}\\` + suffix;
 
             //先判断一下工作区是否存在
             if (!isDirExist(workSpace)) {
