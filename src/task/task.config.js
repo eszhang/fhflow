@@ -1,4 +1,4 @@
-
+const { readFistLevelFolder } = require('./util/index');
 /**
  * 
  * @param {any} projectPath 
@@ -147,9 +147,9 @@ function getDevObj(config){
             endLog: '拷贝其它文件成功...'
         },
         iconfont: {
-            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
+            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/'+buinessName+'/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
             fontName: projectName+'-icon',
-            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/common/templates/'+buinessName+'icon.css' : projectPath+'src/icons/templates/'+buinessName+'icon.css',
+            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/'+buinessName+'/common/templates/'+projectName+'icon.css' : projectPath+'src/icons/templates/'+projectName+'icon.css',
             fontPath: packageModules.length > 0   ? '../../../fonts/common/' : '../fonts/',
             className: projectName+'icon',
             version: '1.0.0',
@@ -250,16 +250,20 @@ function getPackObj(config){
         ]
 
     // 存放多模块的打包路径
-    var packSrcArray = [];
-    for( var i = 0 ; i < packageModules.length ; i++ ){
-        var src = [];
-        var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
-        src.push(projectPath + 'build'+ modulePathAdd + '/**/*.*');
+    let packSrcArray = [];
+    for( let i = 0 ; i < packageModules.length ; i++ ){
+        let src = [];
+        let modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
         src.push(projectPath + 'build/assets/css'+ modulePathAdd + '/**/*.*');
-        src.push(projectPath + 'build/assets/fonts'+ modulePathAdd + '/**/*.*');
-        src.push(projectPath + 'build/assets/images'+ modulePathAdd + '/**/*.*');
-        src.push(projectPath + 'build/assets/js'+ modulePathAdd + '/**/*.*');
-        src.push(projectPath + 'build/assets/template'+ modulePathAdd + '/**/*.*');
+        let array = readFistLevelFolder(projectPath + 'build\\assets');
+        for(let j = 0; j < array.length; j++){
+            src.push(projectPath + 'build/assets/'+ array[j] + modulePathAdd + '/**/*.*');
+        }
+
+        // src.push(projectPath + 'build'+ modulePathAdd + '/**/*.*');
+        // src.push(projectPath + 'build/assets/images'+ modulePathAdd + '/**/*.*');
+        // src.push(projectPath + 'build/assets/js'+ modulePathAdd + '/**/*.*');
+        // src.push(projectPath + 'build/assets/template'+ modulePathAdd + '/**/*.*');
         packSrcArray.push(src);
     }
 
@@ -303,7 +307,7 @@ function getPackObj(config){
             srcBase: projectPath + 'src/js' ,
             dest: projectPath + 'build/assets/js',
             isDelRap: true,
-            isMinify: true,
+            isMinify: false,
             startLog: '编译javascript开始...',
             endLog: '编译avascript成功...',
             updateLog: '更新javascript成功...'
@@ -348,9 +352,9 @@ function getPackObj(config){
             endLog: '拷贝其它文件成功...'
         },
         iconfont: {
-            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
+            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/'+buinessName+'/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
             fontName: projectName+'-icon',
-            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/common/templates/'+buinessName+'icon.css' : projectPath+'src/icons/templates/'+buinessName+'icon.css',
+            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/'+buinessName+'/common/templates/'+projectName+'icon.css' : projectPath+'src/icons/templates/'+projectName+'icon.css',
             fontPath: packageModules.length > 0   ? '../../../fonts/common/' : '../fonts/',
             className: projectName+'icon',
             version: '1.0.0',
