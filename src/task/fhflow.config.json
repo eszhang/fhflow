@@ -3,6 +3,7 @@
     "supportChanged": false,
     "reversion": false,
     "modules": [],
+    "choseModules": [],
     "businessName": "",
     "server": {
         "host": "localhost",
