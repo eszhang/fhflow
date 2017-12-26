@@ -55,7 +55,7 @@ function getDevObj(config){
     }
 
 
-    // 非模块化情况下其它文件夹
+    // 非模块化情况下其它文件夹,直接拷贝
      others = [projectPath + 'src/**/*',
         '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
         '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
@@ -213,11 +213,14 @@ function getPackObj(config){
         cleanSrcArray = [],
         htmlSrcArray = [],
         sassSrcArray = [],
+        sassSrcBaseArray = [],
+        sassDestArray = [],
+        cssArray = [],
         jsSrcArray = [],
         tplSrcArray = [],
         imageSrcArray = [],
-        fontSrcArray = [];
-
+        fontSrcArray = [],
+        othersSrcArray = [];
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
         var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );
@@ -225,11 +228,26 @@ function getPackObj(config){
         cleanSrcArray.push(projectPath + 'build' + modulePathAdd);
         htmlSrcArray.push(projectPath + 'src/view' + modulePathAdd +'/**/*.html');
         sassSrcArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.scss');
+         sassSrcBaseArray.push(projectPath + 'src/scss' + modulePathAdd);
+        sassDestArray.push(projectPath + 'build/assets/css' + modulePathAdd);
+        // css
+        cssArray.push(projectPath + 'src/scss' + modulePathAdd +'/**/*.css');
         jsSrcArray.push(projectPath + 'src/js' + modulePathAdd +'/**/*.js');
         tplSrcArray.push(projectPath + 'src/tpl' + modulePathAdd +'/**/*.tpl');
         imageSrcArray.push(projectPath + 'src/images' + modulePathAdd +'/**/*.*');
         fontSrcArray.push(projectPath + 'src/fonts' + modulePathAdd +'/**/*.*');
     }
+
+    // 非模块化情况下其它文件夹,直接拷贝
+     others = [projectPath + 'src/**/*',
+        '!'+projectPath + 'src/view', '!'+projectPath + 'src/view/**',
+        '!'+projectPath + 'src/scss', '!'+projectPath + 'src/scss/**',
+        '!'+projectPath + 'src/js', '!'+projectPath + 'src/js/**',
+        '!'+projectPath + 'src/tpl', '!'+projectPath + 'src/tpl/**',
+        '!'+projectPath + 'src/images', '!'+projectPath + 'src/images/**',
+        '!'+projectPath + 'src/icons', '!'+projectPath + 'src/icons/**',
+        '!'+projectPath + 'src/fonts', '!'+projectPath + 'src/fonts/**'
+        ]
 
     // 存放多模块的打包路径
     var packSrcArray = [];
@@ -315,8 +333,8 @@ function getPackObj(config){
             fontPath: '../fonts',
             className: projectName+'icon',
             version: '1.0.0',
-            cssDest: 'build/assets/css/',
-            fontsDest: 'build/assets/fonts/',
+            cssDest: projectPath+'build/assets/css/',
+            fontsDest: projectPath+'build/assets/fonts/',
             startLog: '编译iconfont开始...',
             endLog: '编译iconfont成功...'
         },

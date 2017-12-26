@@ -26,3 +26,39 @@ fhflow前端开发环境集成工具，对fh目前前端开发环境、编译打
 
 注意点: 
 1、iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
+
+2、文件目录结构
+a、非模块化项目目录结构
+    ├── build
+    ├── src
+    │   ├── 其他(项目自己需要的文件目录)
+    │   ├── icons
+    │   ├── images
+    │   ├── scss
+    │   ├── tpl
+    │   ├── js
+    │   └── view
+    └── oasisl
+
+
+b、模块化项目目录结构
+    ├── build
+    ├── src
+    │   ├── 其他(项目自己需要的文件目录)
+    │   ├── icons
+    │   ├── images
+    │   ├── scss
+    │   ├── tpl
+    │   ├── js
+    │   │    └── bussinessName
+    │   │        ├── module1
+    │   │        ├── module2
+    │   │        ├── module3
+    │   │        └── common  (公共模块)      
+    │   └── view
+    │       └── bussinessName
+    │           ├── module1  (业务模块1)
+    │           ├── module2  (业务模块2)
+    │           ├── module3  (业务模块3)
+    │           └── common   (公共模块)
+    └── oasisl

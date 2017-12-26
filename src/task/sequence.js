@@ -311,7 +311,7 @@ function pack(projectPath, loggerhandler, notifier, fn) {
         setting: setting
     });
 
-    let { clean, sass, font, html, img, js, iconfont, tpl, zip } = packConfig;
+    let { clean, sass, css, font, html, img, js, iconfont, tpl, zip, others, oasisl } = packConfig;
 
     let prefixLog = "[pack-task] ";
 
@@ -448,6 +448,41 @@ function pack(projectPath, loggerhandler, notifier, fn) {
                     desc: prefixLog + iconfont.endLog,
                     type: "success"
                 });
+                next();
+            });
+        },
+        function (next) {
+            copyHandler(css, function () {
+                loggerhandler({
+                    desc: prefixLog + css.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + css.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            copyHandler(others, function () {
+                loggerhandler({
+                    desc: prefixLog + others.startLog,
+                    type: "info"
+                });
+            }, function () {
+                loggerhandler({
+                    desc: prefixLog + others.endLog,
+                    type: "success"
+                });
+                next();
+            });
+        },
+        function (next) {
+            copyHandler(oasisl, function () {
+                // 不是所有项目都有oasisl所以不打印日志了
+            }, function () {
                 next();
             });
         },
