@@ -5,7 +5,7 @@
 
 const proxyListData = {
     host: {
-        ip: "127.0.0.0",
+        ip: '127.0.0.0',
         port: 8080
     },
     data: (function () {
