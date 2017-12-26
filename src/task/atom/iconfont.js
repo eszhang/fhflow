@@ -20,7 +20,7 @@ module.exports = function (config = {}, startCb, endCb) {
                     .pipe(consolidate('lodash',{
                         glyphs: codepoints,
                         fontName: fontName,
-                        fontPath: '../fonts',
+                        fontPath: '../fonts/',
                         className: className,
                         version: version + '.' + (+new Date())
                     }))

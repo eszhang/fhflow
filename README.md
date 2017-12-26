@@ -33,6 +33,8 @@ a、非模块化项目目录结构
     ├── src
     │   ├── 其他(项目自己需要的文件目录)
     │   ├── icons
+    │   │   ├── assets  (svg)  
+    │   │   └── templates  (icon模板文件 projectName +"icon.css")  
     │   ├── images
     │   ├── scss
     │   ├── tpl
@@ -46,6 +48,10 @@ b、模块化项目目录结构
     ├── src
     │   ├── 其他(项目自己需要的文件目录)
     │   ├── icons
+    │   │    └── bussinessName
+    │   │        └── common  (公共模块)  
+    │   │           ├── assets  (svg)  
+    │   │           └── templates  (icon模板文件 projectName +"icon.css")  
     │   ├── images
     │   ├── scss
     │   ├── tpl
@@ -62,3 +68,5 @@ b、模块化项目目录结构
     │           ├── module3  (业务模块3)
     │           └── common   (公共模块)
     └── oasisl
+
+    

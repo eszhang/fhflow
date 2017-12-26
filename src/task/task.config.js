@@ -147,14 +147,14 @@ function getDevObj(config){
             endLog: '拷贝其它文件成功...'
         },
         iconfont: {
-            svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
+            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
             fontName: projectName+'-icon',
-            cssSrc: projectPath+'src/icons/templates/'+projectName+'icon.css',
-            fontPath: '../fonts',
+            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/common/templates/'+buinessName+'icon.css' : projectPath+'src/icons/templates/'+buinessName+'icon.css',
+            fontPath: packageModules.length > 0   ? '../../../fonts/common/' : '../fonts/',
             className: projectName+'icon',
             version: '1.0.0',
-            cssDest: projectPath+'build/assets/css/',
-            fontsDest: projectPath+'build/assets/fonts/',
+            cssDest: packageModules.length > 0 ? projectPath+'build/assets/css/'+buinessName+'/common' : projectPath+'build/assets/css/',
+            fontsDest: packageModules.length > 0 ? projectPath+'build/assets/fonts/'+buinessName+'/common' : projectPath+'build/assets/fonts/',
             startLog: '编译iconfont开始...',
             endLog: '编译iconfont成功...'
         },
@@ -278,20 +278,6 @@ function getPackObj(config){
             updateLog: '更新html成功...'
         },
         sass: {
-            src: sassSrcArray.length > 0 ? sassSrcArray : projectPath + 'src/scss/**/*.scss',
-            srcBase: projectPath + 'src/scss' ,
-            dest: projectPath + 'build/assets/css',
-            isOpenSourceMap: true,
-            isCompress: false,
-            compassSetting: {
-                imageDest: projectPath + 'build/assets/images' ,
-                fontSrc: projectPath + 'src/fonts',
-            },
-            startLog: '编译sass开始...',
-            endLog: '编译sass成功...',
-            updateLog: '更新sass成功...'
-        },
-        sass: {
             src: sassSrcArray.length > 0 ? sassSrcArray : [projectPath + 'src/scss/**/*.scss', projectPath + 'src/scss/**/*.css'],
             srcBase: sassSrcBaseArray.length > 0 ? sassSrcBaseArray : projectPath + 'src/scss' ,
             destBase: sassDestArray.length > 0 ? sassDestArray : projectPath + 'build/assets/css',
@@ -362,14 +348,14 @@ function getPackObj(config){
             endLog: '拷贝其它文件成功...'
         },
         iconfont: {
-            svgSrc:  [projectPath + 'src/icons/assets/*.svg'],
+            svgSrc:  packageModules.length > 0 ? [projectPath + 'src/icons/common/assets/*.svg'] : [projectPath + 'src/icons/assets/*.svg'],
             fontName: projectName+'-icon',
-            cssSrc: projectName+'src/icons/templates/'+projectName+'icon.css',
-            fontPath: '../fonts',
+            cssSrc: packageModules.length > 0 ? projectPath+'src/icons/common/templates/'+buinessName+'icon.css' : projectPath+'src/icons/templates/'+buinessName+'icon.css',
+            fontPath: packageModules.length > 0   ? '../../../fonts/common/' : '../fonts/',
             className: projectName+'icon',
             version: '1.0.0',
-            cssDest: projectPath+'build/assets/css/',
-            fontsDest: projectPath+'build/assets/fonts/',
+            cssDest: packageModules.length > 0 ? projectPath+'build/assets/css/'+buinessName+'/common' : projectPath+'build/assets/css/',
+            fontsDest: packageModules.length > 0 ? projectPath+'build/assets/fonts/'+buinessName+'/common' : projectPath+'build/assets/fonts/',
             startLog: '编译iconfont开始...',
             endLog: '编译iconfont成功...'
         },
