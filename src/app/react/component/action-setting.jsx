@@ -193,12 +193,11 @@ class SeniorDevelopSetting extends React.Component {
         const { actionSetting, selectedIndex, importModulesHandler,delModulesHandler } = this.props;
         const { modules, choseModules } = actionSetting;
         const { getFieldDecorator } = this.props.form;
-        console.debug()
         return (
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 {
                     <FormItem label="项目类型选择">
-                        <Checkbox className="hasModuleSetting" defaultChecked={ modules.length > 0 ? true : false } onChange={this.choseHasModules}>是否含有模块</Checkbox>
+                        <Checkbox className="hasModuleSetting" checked={ modules.length > 0 ? true : false } onChange={this.choseHasModules}>是否含有模块</Checkbox>
                     </FormItem>
                 }
                 {

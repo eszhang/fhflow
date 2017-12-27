@@ -307,7 +307,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                 { workSpace, curProjectPath } = storage;
 
             let config = task.getConfig(curProjectPath),
-                { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion } = config,
+                { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion, businessName } = config,
                 chooseFunc = [];
 
             server && server.liverload && chooseFunc.push('liveReload');
@@ -316,6 +316,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
             reversion && chooseFunc.push('md5');
 
             globalDispatch(updateProjectSetting({
+                "businessName": businessName || "",
                 "workSpace": workSpace,
                 "choseFunctions": chooseFunc,
                 "uploadHost": ftp && ftp.host,
