@@ -3,6 +3,18 @@
     position: relative;
     height: 100%;
     min-height: 70px;
+    i{
+        &.delete{
+            display: block;
+            width: 16px;
+            height: 22px;
+            line-height: 22px;
+            background-size: 16px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(../images/icon-project-delete-normal.png);
+        }
+    }
     .opt-btn.delete{
         position: absolute;
         top: 5px;
