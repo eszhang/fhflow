@@ -195,7 +195,7 @@ export default class ProjectList extends React.Component {
                     {
                         (data.data !== undefined && data.data.length !== 0) ? data.data.map((m, index) => (
                             <li className={m.class + ((data.selectedIndex === index) ? " active" : "")} title={m.path} onClick={onClickHandler.bind(this, index)}  key={index}>
-                                <Icon type={m.logo} onMouseEnter={()=>{this.mouseEnterHandle(index, data.data)}} onMouseLeave={()=>{this.mouseLeaveHandle(index, data.data)}} onClick={(e)=>{this.open(e,index)}} />
+                                <a className={m.logo} onMouseEnter={()=>{this.mouseEnterHandle(index, data.data)}} onMouseLeave={()=>{this.mouseLeaveHandle(index, data.data)}} onClick={(e)=>{this.open(e,index)}} />
                                 <div className="project-info">
                                     <EditableCell
                                         className={this.state.floderName}
@@ -215,18 +215,18 @@ export default class ProjectList extends React.Component {
                 </ul>
                 <div className="project-list-footer clearfix" >
                     <div className="plf-left">
-                        <a onClick={() => this.plfLeftClickHandler('add', data)}>
-                            <Icon type="folder-add" title="增加项目" />
+                         <a onClick={() => this.plfLeftClickHandler('add', data)}>
+                            <i className="folder-add" title="增加项目" />
                         </a>
                         {
                             (data.data !== undefined && data.data.length !== 0) > 0 &&
                             <a onClick={() => this.plfLeftClickHandler("del", data)}>
-                                <Icon type="delete" title="删除项目" />
+                                <i className="delete" title="删除项目" />
                             </a>
                         }
                         <a onClick={() => this.plfLeftClickHandler('globalSetting', data)}>
-                            <Icon type="setting" title="全局设置" />
-                        </a>
+                            <i className="setting" title="全局设置" />
+                        </a> 
 
                         <WrappedGlobalSettingForm ref={this.saveFormRef} workSpace={data.workSpace} visible={this.state.modalVisible} ModalText={this.state.ModalText} confirmLoading={this.state.confirmLoading} handleCancel={this.handleCancel} handleOk={this.handleOk} />
 

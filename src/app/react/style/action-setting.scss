@@ -85,6 +85,36 @@
         .ant-tabs-content{
             margin-top: -13px;
         }
+        a{
+            &.apple, &.android{
+                position: relative;
+                top: 2px;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                margin-right: 8px;
+                background-size: 16px;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            &.apple{
+                background-image: url(../images/icon-action-setting-apple-normal.png);
+            }
+            &.android{
+                background-image: url(../images/icon-action-setting-android-normal.png);
+            }
+        }
+        .ant-tabs-nav{
+            .ant-tabs-tab-active{
+                .apple{
+                    background-image: url(../images/icon-action-setting-apple-active.png);
+                }
+                .android{
+                    background-image: url(../images/icon-action-setting-android-active.png);
+                }
+            }
+        }
     }
     .projectSetting{
         overflow-x: hidden;

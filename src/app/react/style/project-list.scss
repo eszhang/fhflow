@@ -27,9 +27,28 @@
         .anticon-folder-open{
              color: #007acc;
         }
+        >li{
+            >a{
+                display: block;
+                width: 32px;
+                height: 32px;
+                line-height: 40px;
+                background-size: 32px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url(../images/icon-project-folder-normal.png);
+                &:hover{
+                    padding: 8px;
+                    width: 32px;
+                    height: 32px;
+                    background-size: 24px;
+                    background-image: url(../images/icon-project-folder-active.png);
+                }
+            }
+        }
     }
     .project-info{
-        padding-left: 10px;
+        padding-left: 6px;
         >div{
             font-size: 16px;
             max-width: 220px;
@@ -58,7 +77,6 @@
             height: 22px; 
             a{
                 display: inline-block;
-                margin-left: 5px;
                 padding: 0 5px;
                 font-size: 16px;
                 color: #f9fcfe;           
@@ -68,6 +86,26 @@
             }
             &.plf-left{
                 float: left;
+                i{
+                    &.folder-add, &.delete, &.setting{
+                        display: block;
+                        width: 16px;
+                        height: 22px;
+                        line-height: 22px;
+                        background-size: 16px;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                    &.folder-add{
+                        background-image: url(../images/icon-project-addFolder-normal.png);
+                    }
+                    &.delete{
+                        background-image: url(../images/icon-project-delete-normal.png);
+                    }
+                    &.setting{
+                        background-image: url(../images/icon-project-setting-normal.png);
+                    }
+                }
             }
             &.plf-right{
                 position: relative;
