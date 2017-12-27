@@ -260,10 +260,6 @@ function getPackObj(config){
             src.push(projectPath + 'build/assets/'+ array[j] + modulePathAdd + '/**/*.*');
         }
 
-        // src.push(projectPath + 'build'+ modulePathAdd + '/**/*.*');
-        // src.push(projectPath + 'build/assets/images'+ modulePathAdd + '/**/*.*');
-        // src.push(projectPath + 'build/assets/js'+ modulePathAdd + '/**/*.*');
-        // src.push(projectPath + 'build/assets/template'+ modulePathAdd + '/**/*.*');
         packSrcArray.push(src);
     }
 
@@ -303,7 +299,7 @@ function getPackObj(config){
             endLog: '编译css成功...'
         },
         js: {
-            src: jsSrcArray.length > 0 ? jsSrcArray : projectPath + 'src/js/**/*.js',
+            src: jsSrcArray.length > 0 ? jsSrcArray : [projectPath + 'src/js/**/*.js'],
             srcBase: projectPath + 'src/js' ,
             dest: projectPath + 'build/assets/js',
             isDelRap: true,
@@ -392,6 +388,14 @@ function getPackObj(config){
             startLog: 'reversion开始...',
             endLog: 'reversion成功...'
         }
+    }
+
+    // rhyton项目支持
+    if(setting.projectType === 'rhyton'){
+        packObj.js.src.push('!' + projectPath + 'src/js/common')
+        packObj.js.src.push('!' + projectPath + 'src/js/common/**')
+        packObj.js.src.push('!' + projectPath + 'src/js/template')
+        packObj.js.src.push('!' + projectPath + 'src/js/template/**')
     }
     return packObj;
 }

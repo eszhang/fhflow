@@ -179,7 +179,7 @@ class SeniorDevelopSetting extends React.Component {
         submitHandler(obj);
     } 
 
-     choseHasModules = (e) => {
+    choseHasModules = (e) => {
         if(e.target.checked){//导入模块
             const { importModulesHandler } = this.props;
             importModulesHandler();
@@ -189,15 +189,39 @@ class SeniorDevelopSetting extends React.Component {
         }
     } 
 
+    changeProjectType = (e) => {
+        const { submitHandler } = this.props;
+        var obj = {};
+        obj.projectType = e.target.value;
+        submitHandler(obj);
+    } 
+
     render(){
         const { actionSetting, selectedIndex, importModulesHandler,delModulesHandler } = this.props;
-        const { modules, choseModules } = actionSetting;
+        const { modules, choseModules, projectType } = actionSetting;
         const { getFieldDecorator } = this.props.form;
+
+        const options = [
+            { label: '普通', value: 'normal' },
+            { label: 'rhyton', value: 'rhyton' }
+        ];
         return (
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 {
-                    <FormItem label="项目类型选择">
+                    <FormItem label="模块化选择">
                         <Checkbox className="hasModuleSetting" checked={ modules.length > 0 ? true : false } onChange={this.choseHasModules}>是否含有模块</Checkbox>
+                    </FormItem>
+                }
+                {
+                    <FormItem label="项目类型选择">
+                        {
+                            getFieldDecorator('projectType', {
+                                    initialValue: projectType
+                                })(
+                                <RadioGroup options={options} onChange={this.changeProjectType}  />
+                                )
+                            }
+                        }
                     </FormItem>
                 }
                 {
@@ -240,6 +264,7 @@ const WrappedSeniorDevelopSettingForm = Form.create({
      mapPropsToFields(props) {
         return {
             choseModules: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.choseModules,
+            projectType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.projectType,
         };
     }
 })(SeniorDevelopSetting);

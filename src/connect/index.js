@@ -140,12 +140,13 @@ globalStore.subscribe(
             case UPDATE_PROXY_ITEM:
             case DEL_PROXY_ITEM:
             case SET_PROXY_DATA:
-                let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions } = actionSetting.data,
+                let { uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions, projectType } = actionSetting.data,
                     { ip, port } = proxyList.host;
                 let config = {
                     "businessName": actionSetting.data.businessName || "",
                     "modules": modules,
                     "choseModules": choseModules,
+                    "projectType": projectType || 'normal',
                     "supportREM": choseFunctions.indexOf("rem") !== -1 ? true : false,
                     "supportChanged": choseFunctions.indexOf("fileAddCompileSupport") !== -1 ? true : false,
                     "reversion": choseFunctions.indexOf("md5") !== -1 ? true : false,

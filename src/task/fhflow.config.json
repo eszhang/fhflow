@@ -2,6 +2,7 @@
     "supportREM": true,
     "supportChanged": false,
     "reversion": false,
+    "projectType": "normal",
     "modules": [],
     "choseModules": [],
     "businessName": "",
