@@ -13,7 +13,7 @@ function upload2TestJs(config = {}, cb) {
     gulp.src(config.srcBase + '/**/*.js')
         .pipe(rap())
         .pipe(gulp.dest(config.destBase)).on('end', function () {
-            cb ? cb() : undefined;
+            cb && cb();
         });
 }
 function upload2TestOther(config, cb) {
@@ -26,14 +26,15 @@ function upload2TestOther(config, cb) {
 
     gulp.src(src)
         .pipe(gulp.dest(config.destBase)).on('end', function () {
-            cb ? cb() : undefined;
+            cb && cb();
         });
 }
 function upload2T(config, cb) {
-    gulp.src(['release/**/**'])
-        .pipe(sftp(config.sft)).on('end', function () {
-            cb ? cb() : undefined;
-        });
+    config.sft['callback'] = function(){
+        cb && cb();
+    }
+    gulp.src([config.destBase + '/**/**'])
+        .pipe(sftp(config.sft))
 }
 module.exports = function (config, startCb, endCb) {
 

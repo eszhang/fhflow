@@ -14,10 +14,10 @@
     },
     "ftp": {
         "host": "",
-        "port": "",
+        "port": "22",
         "user": "",
         "pass": "",
-        "remotePath": "",
+        "remotePath": "/",
         "ignoreFileRegExp": "",
         "ssh": false
     },

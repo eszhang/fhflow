@@ -158,10 +158,10 @@ globalStore.subscribe(
                     },
                     "ftp": {
                         "host": uploadHost,
-                        "port": uploadPort,
+                        "port": uploadPort || '22',
                         "user": uploadUser,
                         "pass": uploadPass,
-                        "remotePath": uploadRemotePath,
+                        "remotePath": uploadRemotePath || '/',
                         "ignoreFileRegExp": uploadIgnoreFileRegExp,
                         "ssh": uploadType === "ftp" ? true : false
                     },
