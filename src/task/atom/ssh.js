@@ -8,7 +8,7 @@ const gulpSSH = require('gulp-ssh');
 const rap = require('./rap');
 const sftp = require('gulp-sftp');
 const async = require('async');
-
+const cleanHandler = require('./clean');
 function upload2TestJs(config = {}, cb) {
     gulp.src(config.srcBase + '/**/*.js')
         .pipe(rap())
@@ -22,7 +22,7 @@ function upload2TestOther(config, cb) {
     var ignoreArray = config.ignoreFileRegExp.split(';').filter(function(item) {
             return '' != item;
         });
-        src.push(...ignoreArray);
+    src.push(...ignoreArray);
 
     gulp.src(src)
         .pipe(gulp.dest(config.destBase)).on('end', function () {
@@ -41,14 +41,18 @@ module.exports = function (config, startCb, endCb) {
     startCb && startCb();
     async.series([
         function (next) {
+            cleanHandler({src: config.destBase+'/**'}, function () {}, function () {
+                next();
+            });
+        },
+        function (next) {
             upload2TestOther(config, next);
         },
-
         function (next) {
             upload2TestJs(config, next);
         },
-        function (cb) {
-            upload2T(config, cb);
+        function (next) {
+            upload2T(config, next);
         },
         function (next) {
             endCb && endCb();
