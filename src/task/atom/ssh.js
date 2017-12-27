@@ -18,12 +18,6 @@ function upload2TestJs(config = {}, cb) {
 }
 function upload2TestOther(config, cb) {
     var src = [config.srcBase + '/**/**', '!' + config.srcBase + '/**/*.js'];
-    // 过滤不需要匹配的文件
-    var ignoreArray = config.ignoreFileRegExp.split(';').filter(function(item) {
-            return '' != item;
-        });
-    src.push(...ignoreArray);
-
     gulp.src(src)
         .pipe(gulp.dest(config.destBase)).on('end', function () {
             cb && cb();
@@ -37,7 +31,10 @@ function upload2T(config, cb) {
         .pipe(sftp(config.sft))
 }
 module.exports = function (config, startCb, endCb) {
-
+    //过滤不需要匹配的文件
+    var ignoreArray = config.ignoreFileRegExp.split(';').filter(function(item) {
+            return '' != item;
+        });
     startCb && startCb();
     async.series([
         function (next) {
@@ -50,6 +47,11 @@ module.exports = function (config, startCb, endCb) {
         },
         function (next) {
             upload2TestJs(config, next);
+        },
+        function (next) {
+            cleanHandler({src: ignoreArray}, function () {}, function () {
+                next();
+            });
         },
         function (next) {
             upload2T(config, next);
