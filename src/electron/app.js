@@ -19,7 +19,7 @@ function createMainWindow() {
 
     mainWindow = global.mainWindow = new BrowserWindow({
         title: '烽火前端开发环境集成工具',
-        width: 982,
+        width: 992,
         minHeight: 545,
         resizable: false,
         icon: logo

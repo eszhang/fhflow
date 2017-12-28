@@ -70,3 +70,7 @@ b、模块化项目目录结构
     └── oasisl
 
 3、关于上传命令,默认端口为22 默认远程路径为'/',可根据具体情况进行修改。文件过滤出可以填写过滤规则,当有多个条件时使用";"隔开。例如：!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\build\release\css\**;!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\release\assets\css\
+
+4、离线使用antd时,为了图标正常使用需要将链接改为"http://127.0.0.1:8080/iconfont"
+
+5、关于打包名字,${name}为项目名称,${moduleName}模块名称,${version}版本号,${time}时间,打包时会自动替换。比如非模块项目,${moduleName}不存在,就不需要使用了。
