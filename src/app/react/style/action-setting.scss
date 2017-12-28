@@ -1,6 +1,10 @@
 .action-setting-area{
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
+    .ant-tabs-nav-container-scrolling{
+        padding-left: 0;
+        padding-right: 0;
+    }
     .ant-tabs-tabpane-active{
         .ant-form {
             .ant-form-item{
