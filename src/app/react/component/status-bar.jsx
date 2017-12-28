@@ -34,7 +34,7 @@ class StatusBar extends React.Component {
 
         return (
             <div className="status-bar">
-                <a className="opt-btn delete" onClick = {deleteHandler}><i className="opt-btn delete" title="删除项目" /></a>
+                <a className="opt-btn delete" onClick = {deleteHandler}><Icon type="delete" /></a>
                 <div ref={(dom) => { this.wrapper = dom }}>
                     <ul>
                         {
