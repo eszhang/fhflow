@@ -14,13 +14,13 @@ import '../style/doc-list.scss';
 
 function DocList(props) {
 
-    let { updateHandler } = props,
+    let { updateHandler, onClickHandler } = props,
         { data = [], page = {} } = props.data,
         { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = page;
 
     return (
         <div className="doc-list">
-            <ItemList data={data} extraText="查看" />
+            <ItemList data={data} extraText="查看" onDocClick={onClickHandler}/>
             {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(pageNo, pageSize) => updateHandler(pageNo, pageSize)} />}
         </div>
     )

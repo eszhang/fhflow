@@ -66,6 +66,10 @@ class Container extends React.Component {
         this.props.updateDocList(docListData, pageNo, pageSize);
     }
 
+    handleDocClick = (link) => {
+        this.props.openLink(link);
+    }
+
     handleUpdateToInstallList = (pageNo, pageSize) => {
         this.props.updateInstallToolsList(installListData.tools, pageNo, pageSize);
     }
@@ -111,7 +115,7 @@ class Container extends React.Component {
                 MainView = <DigitalList data={digitalListData} />
                 break;
             case "environment-doc":
-                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList} />
+                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleDocClick}/>
                 break;
             case "environment-install":
                 MainView = <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />

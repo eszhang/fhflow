@@ -64,6 +64,7 @@ globalStore.subscribe(
                 CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS, IMPORT_MODULES, DEL_MODULES,
                 UPDATE_PROXY_HOST, UPDATE_PROJECT_NAME,
                 UPDATE_PROJECT_SETTING, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
+                OPEN_LINK,
                 UPDATE_INSTALL_PROGRESS
             } = globalAction;
 
@@ -172,6 +173,9 @@ globalStore.subscribe(
                     }
                 };
                 ACTION.updateConfig(config);
+                break;
+            case OPEN_LINK:
+                ACTION.openDoc(action.payload.link)
                 break;
             //安装环境
             case UPDATE_INSTALL_PROGRESS:

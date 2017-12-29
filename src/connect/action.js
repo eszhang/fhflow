@@ -435,6 +435,10 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                 about: 'https://github.com/eszhang'
             };
             shell.openExternal(urlMap[urlName])
+        },
+        //打开外链
+        openDoc: function (urlName) {
+            shell.openExternal(urlName)
         }
 
     }
