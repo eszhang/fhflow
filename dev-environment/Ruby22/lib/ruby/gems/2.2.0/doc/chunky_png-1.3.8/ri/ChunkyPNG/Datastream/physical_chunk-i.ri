@@ -1,0 +1,2 @@
+U:RDoc::Attr[iI"physical_chunk:ETI")ChunkyPNG::Datastream#physical_chunk;TI"RW;T:publico:RDoc::Markup::Document:@parts[o:RDoc::Markup::Paragraph;	[I"GThe chunk containing the physical dimensions of the PNG's pixels. ;TI")@return [ChunkyPNG::Chunk::Physical];T:
+@fileI"!lib/chunky_png/datastream.rb;T:0@omit_headings_from_table_of_contents_below0F@I"ChunkyPNG::Datastream;TcRDoc::NormalClass0

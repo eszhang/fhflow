@@ -94,21 +94,21 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false }),
+        // new CleanWebpackPlugin([ASSETS_BUILD_PATH], { verbose: false }),
         new HtmlWebpackPlugin({
             filename: path.join(ASSETS_BUILD_APP_PATH, './index.html'),
             template: './react/template/index.html',
             hash: false
         }),
-        new CopyWebpackPlugin([{
-            from: ELECTRON_PATH,
-            to: ASSETS_BUILD_ELECTRON_PATH
-        }, {
-            from: TASK_PATH,
-            to: ASSETS_BUILD_TASK_PATH
-        },{
-            from: CONNECT_PATH,
-            to: ASSETS_BUILD_CONNECT_PATH
-        }])
+        // new CopyWebpackPlugin([{
+        //     from: ELECTRON_PATH,
+        //     to: ASSETS_BUILD_ELECTRON_PATH
+        // }, {
+        //     from: TASK_PATH,
+        //     to: ASSETS_BUILD_TASK_PATH
+        // },{
+        //     from: CONNECT_PATH,
+        //     to: ASSETS_BUILD_CONNECT_PATH
+        // }])
     ]
 }

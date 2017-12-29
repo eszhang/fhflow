@@ -6,5 +6,4 @@ oasisl
 .sass-cache
 release
 /*.zip
-dev-environment
 test

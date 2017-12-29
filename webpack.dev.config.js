@@ -4,11 +4,12 @@
  */
 
 const webpack = require('webpack');
+const path = require('path');
 const config = require('./webpack.base.config');
 
 // 添加 webpack-dev-server 相关的配置项
 config.devServer = {
-    contentBase: './',
+    contentBase: path.join(__dirname, "build"),
     inline: true,
     hot: true
 };

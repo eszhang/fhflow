@@ -2,11 +2,12 @@
   "name": "fhflow",
   "version": "1.0.0",
   "description": "烽火前端开发环境集成工具",
-  "main": "app.js",
+  "main": "electron/app.js",
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
-    "build": "webpack --config webpack.dev.config.js",
+    "build": "webpack --config webpack.dist.config.js",
+    "build:win64": " electron-packager ./build FhFlow --platform=win32 --arch=x64   --overwrite --out ./electron-package2 ",
     "electron": "electron build/electron/app.js"
   },
   "keywords": [
@@ -38,7 +39,7 @@
     "eslint-plugin-react": "^7.5.1",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.2",
-    "node-sass": "^4.6.0",
+    "node-sass": "^4.7.2",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "sass-loader": "^6.0.6",
@@ -54,6 +55,8 @@
     "browser-sync": "^2.18.13",
     "del": "^3.0.0",
     "electron": "^1.7.9",
+    "electron-builder": "^19.49.2",
+    "electron-packager": "^10.1.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-clean": "^0.3.2",
