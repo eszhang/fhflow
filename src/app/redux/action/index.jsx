@@ -36,6 +36,7 @@ export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
 export const CREATE_PROJECT_ORDER = 'CREATE_PROJECT_ORDER';
 export const OPEN_PROJECT_ORDER = 'OPEN_PROJECT_ORDER';
 export const DEl_PROJECT_ORDER = 'DEl_PROJECT_ORDER';
+export const OPEN_LINK = 'OPEN_LINK';
 
 
 
@@ -199,6 +200,14 @@ export const updateDocList = (data, pageNo, pageSize) => ({
         pageNo,
         pageSize
     })
+});
+
+//打开连接
+export const openLink = (link) => ({
+    type: OPEN_LINK,
+    payload: {
+        link
+    }
 });
 
 //更新安装进度
