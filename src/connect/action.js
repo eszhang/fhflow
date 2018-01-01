@@ -12,7 +12,7 @@ const { isFileExist, isDirExist } = require('./utils');
 const task = require('../task/index');
 const notifier = require('./notifier');
 
-function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
+function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG) {
 
     let {
         setProjectData, setWorkSpace,
@@ -353,7 +353,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
         //安装环境
         installEnvironment: function () {
 
-            exec(`${__dirname}/bat/node-install.bat ${path.join(__dirname, "../../dev-environment")}`, function (err, stdout, stderr) {
+            exec(`${__dirname}/bat/node-install.bat ${path.join(__dirname, "/lib")}`, function (err, stdout, stderr) {
                 if (err || stdout.indexOf("i-error") !== -1) {
                     globalDispatch({
                         type: 'UPDATE_INSTALL_PROGRESS',
@@ -370,7 +370,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                             status: 0
                         }
                     })
-                    exec(`${__dirname}/bat/compass-install.bat ${path.join(__dirname, "../../dev-environment")}`, function (err, stdout, stderr) {
+                    exec(`${__dirname}/bat/compass-install.bat ${path.join(__dirname, "/lib")}`, function (err, stdout, stderr) {
                         if (err || stdout.indexOf("i-error") !== -1) {
                             globalDispatch({
                                 type: 'UPDATE_INSTALL_PROGRESS',

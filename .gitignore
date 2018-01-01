@@ -1,9 +1,9 @@
 .DS_Store
-node_modules
-build
-oasisl
 .vscode
 .sass-cache
+node_modules
+package-lock.json
+build
 release
-/*.zip
 test
+electron-package

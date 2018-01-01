@@ -1,6 +1,6 @@
 arch=i386-mingw32
 sitearch=i386-msvcrt
-prefix=C:/Users/Justin/Projects/rubyinstaller/sandbox/ruby22_mingw
+prefix=C:/Users/Justin/Projects/rubyinstaller/sandbox/ruby_mingw
 exec_prefix=${prefix}
 bindir=${exec_prefix}/bin
 libdir=${exec_prefix}/lib
