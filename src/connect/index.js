@@ -98,7 +98,15 @@ globalStore.subscribe(
                 break;
             //导入模块化设置
             case IMPORT_MODULES:
-                ACTION.importModulesSetting(curProjectPath);
+                try{
+                    ACTION.importModulesSetting(curProjectPath);
+                }catch(e){
+                    let msg = ''
+                    if(e.message.indexOf('not a directory')){
+                        msg = '本项目不符合模块化项目格式';
+                    }
+                    ACTION.notify(msg)
+                }
                 break;
             //删除模块化设置
             case DEL_MODULES:

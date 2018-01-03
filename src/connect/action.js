@@ -439,6 +439,9 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
         //打开外链
         openDoc: function (urlName) {
             shell.openExternal(urlName)
+        },
+        notify: function(msg){
+            notifier.showMessageError(msg)
         }
 
     }
