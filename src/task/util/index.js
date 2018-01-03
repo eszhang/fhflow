@@ -47,12 +47,6 @@ function isDirExist(dirPath) {
 function renameProject(oldPath,newPath) {
     try {
         if(oldPath !== newPath){
-            // fs.rename(oldPath,newPath, function(err){
-            //     if(err){
-            //         throw err;
-            //     }
-            //     console.log('done!');
-            // })
             fs.renameSync(oldPath,newPath)
         }
     } catch (err) {
