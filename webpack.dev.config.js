@@ -1,18 +1,18 @@
 
-/*
+/**
  * webpack dev config
  */
 
 const webpack = require('webpack');
+const path = require('path');
 const config = require('./webpack.base.config');
 
 // 添加 webpack-dev-server 相关的配置项
 config.devServer = {
-    contentBase: './',
+    contentBase: path.join(__dirname, "build"),
     inline: true,
     hot: true
 };
-// 有关 Webpack 的 API 本地代理，另请参考 https://webpack.github.io/docs/webpack-dev-server.html#proxy 
 
 config.module.rules.push(
     {
@@ -33,12 +33,23 @@ config.module.rules.push(
     }
 );
 
+// 定义 运行环境变量 
+config.plugins.unshift(
+    new webpack.DefinePlugin(
+        {
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }
+    )
+);
+
 // 添加 Sourcemap 支持
 config.plugins.push(
-    new webpack.SourceMapDevToolPlugin({
-        filename: '[file].map',
-        exclude: ['vendor.js'] // vendor 通常不需要 sourcemap
-    })
+    new webpack.SourceMapDevToolPlugin(
+        {
+            filename: '[file].map',
+            exclude: ['vendor.js'] // vendor 通常不需要 sourcemap
+        }
+    )
 );
 
 // Hot module replacement

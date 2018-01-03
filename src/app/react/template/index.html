@@ -16,6 +16,12 @@
 <body>
     <div id="root"></div>
 </body>
-<script type="text/javascript" src="/src/connect/index.js"></script>
+<script type="text/javascript">
+    if(process.env['NODE_ENV'] === 'development'){
+        require(process.cwd() + '/src/connect/index.js')
+    }else{
+        require("../connect/index") 
+    } 
+</script>
 
 </html>

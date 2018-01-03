@@ -10,10 +10,9 @@ const globalStore = window.fhStore;
 const globalAction = window.fhAction;
 const globalDispatch = globalStore.dispatch;
 
-let BASEPATH = process.cwd() + '/src/connect';
-let CONFIG = require(`${BASEPATH}/config.js`);
-let STORAGE = require(`${BASEPATH}/storage.js`);
-let ACTION = require(`${BASEPATH}/action.js`)(globalDispatch, globalAction, STORAGE, CONFIG);
+let CONFIG = require('./config.js');
+let STORAGE = require('./storage.js');
+let ACTION = require('./action.js')(globalStore, globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`)
 
