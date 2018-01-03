@@ -44,7 +44,6 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
                         notifier.showMessageError(err.message);
                         throw new Error(err);
                     }
-
                 });
             } else {
                 checkLocalProjects();
@@ -259,6 +258,7 @@ function createAction(globalDispatch, globalAction, STORAGE, CONFIG) {
 
             projectList.data[projectList.selectedIndex].name = projectList.data[projectList.selectedIndex].willName
             projectList.data[projectList.selectedIndex].nowName = projectList.data[projectList.selectedIndex].willName
+            projectList.data[projectList.selectedIndex].path = newPath
             globalDispatch(setProjectData(projectList.data));
             // storage.projects
         },
