@@ -21,32 +21,32 @@ const installListData = {
     tools: [
         {
             title: 'sublime',
-            desc: 'sublime 描述信息',
-            href: 'http://sw.bos.baidu.com/sw-search-sp/software/e25c4cc36a934/QQ_8.9.6.22427_setup.exe'
+            desc: '一款代码编辑器',
+            href: 'http://172.16.9.7:8080/download/compare.zip'
         }, {
             title: 'vscode',
-            desc: 'vscode 描述信息',
-            href: '#'
+            desc: '微软开发轻量级的"披着IDE外衣的编辑器"',
+            href: 'http://172.16.9.7:8080/download/vscode.zip'
         }, {
             title: 'git',
-            desc: 'git 描述信息',
-            href: '#'
+            desc: 'Git是一款免费、开源的分布式版本控制系统',
+            href: 'http://172.16.9.7:8080/download/git.zip'
         }, {
             title: 'markdownPad',
-            desc: 'markdownPad 描述信息',
-            href: '#'
+            desc: '一款多功能Markdown编辑器',
+            href: 'http://172.16.9.7:8080/download/markdownpad.zip'
         }, {
             title: 'koala',
-            desc: 'koala 描述信息',
-            href: '#'
+            desc: '一款前端预处理器语言图形编译工具',
+            href: 'http://172.16.9.7:8080/download/koala.zip'
         }, {
             title: 'compare',
-            desc: 'compare 描述信息',
-            href: '#'
+            desc: '一款专业的文本文件对比工具',
+            href: 'http://172.16.9.7:8080/download/compare.zip'
         }, {
             title: 'node',
-            desc: 'node 描述信息',
-            href: '#'
+            desc: '一个基于Chrome V8引擎的JavaScript运行环境',
+            href: 'http://172.16.9.7:8080/download/node.zip'
         }
     ]
 };
