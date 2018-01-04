@@ -115,10 +115,10 @@ class Container extends React.Component {
                 MainView = <DigitalList data={digitalListData} />
                 break;
             case "environment-doc":
-                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleDocClick}/>
+                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleToolClick}/>
                 break;
             case "environment-install":
-                MainView = <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} />
+                MainView = <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} onClickHandler={this.handleDocClick}/>
                 break;
         }
         

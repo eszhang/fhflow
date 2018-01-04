@@ -49,7 +49,7 @@ class InstallList extends React.Component {
 
     render() {
 
-        let { devData = [], data, updateListHandler, updateProgressHandler } = this.props,
+        let { devData = [], data, updateListHandler, updateProgressHandler, onClickHandler } = this.props,
             { dev, tools } = data,
             { progressIndex: devProgressIndex = 0,progressStatus: devProgressStatus = 0 } = dev,
             { data: toolsData = [], page: toolsPage = {} } = tools,
@@ -78,7 +78,7 @@ class InstallList extends React.Component {
                         </div>
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />常用开发工具下载</span>} key="2">
-                        <ItemList data={toolsData} extraText="下载" />
+                        <ItemList data={toolsData} onDocClick={onClickHandler} extraText="下载" />
                         {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(pageNo, pageSize) => this.handleChange(pageNo, pageSize)} />}
                     </TabPane>
                 </Tabs>
