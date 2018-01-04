@@ -63,7 +63,7 @@ const docListData = [
     }, {
         title: 'requirejs',
         desc: 'requirejs API 开发文档',
-        href: 'http://172.16.9.7:4000/requirejs/index.html'
+        href: 'http://172.16.9.7:4000/requirejs/index.htm'
     }, {
         title: 'lodash',
         desc: 'lodash API 开发文档',

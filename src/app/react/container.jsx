@@ -26,6 +26,7 @@ import actionSettingData from '../redux/data/action-setting';
 import 'antd/dist/antd.css';
 
 import './style/index.scss';
+import './iconfont/iconfont.css';
 
 const pageSize = 9;
 
@@ -115,7 +116,7 @@ class Container extends React.Component {
                 MainView = <DigitalList data={digitalListData} />
                 break;
             case "environment-doc":
-                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleToolClick}/>
+                MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleDocClick}/>
                 break;
             case "environment-install":
                 MainView = <InstallList devData={installListData.dev} data={installList} updateListHandler={this.handleUpdateToInstallList} updateProgressHandler={this.handleUpdateToInstallProgress} onClickHandler={this.handleDocClick}/>

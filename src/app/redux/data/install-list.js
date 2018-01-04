@@ -22,7 +22,7 @@ const installListData = {
         {
             title: 'sublime',
             desc: '一款代码编辑器',
-            href: 'http://172.16.9.7:8080/download/compare.zip'
+            href: 'http://172.16.9.7:8080/download/sublime.zip'
         }, {
             title: 'vscode',
             desc: '微软开发轻量级的"披着IDE外衣的编辑器"',
