@@ -14,6 +14,11 @@ body{
 .app-container{
     position: relative;
     height: 100%;
+    .projectMask{
+        .folderAdd{
+            font-size: 100px;
+        }
+    }
     .action-menu-area{
         position: absolute;
         top: 0;
