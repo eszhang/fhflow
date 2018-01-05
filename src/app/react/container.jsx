@@ -113,7 +113,7 @@ class Container extends React.Component {
                 MainView = <ProxyList host={proxyList.host} data={proxyList.data} addProxyItemHandler={addProxyItem} updateProxyItemHandler={updateProxyItem} delProxyItemHandler={delProxyItem} updateHostHandler={updateProxyHost} />
                 break;
             case "digital-simulation":
-                MainView = <DigitalList data={digitalListData} />
+                MainView = <DigitalList data={digitalListData} onClickHandler={this.handleDocClick}/>
                 break;
             case "environment-doc":
                 MainView = <DocList data={docList} updateHandler={this.handleUpdateToDocList}  onClickHandler={this.handleDocClick}/>

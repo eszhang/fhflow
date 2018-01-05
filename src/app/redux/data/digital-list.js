@@ -21,7 +21,7 @@ const digitalListData = {
     ],
     link: {
         text: '开始安装RAP',
-        href: '#'
+        href: 'http://172.16.9.7:4000/rap-install/index.htm'
     }
     
 }

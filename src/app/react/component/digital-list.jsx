@@ -13,8 +13,8 @@ import '../style/digital-list.scss';
 
 function DigitalList(props) {
 
-    let { title, contents = [], link = { text: "link", href: "#" } } = props.data;
-
+    let { title, contents = [], link = { text: "link", href: "#" }} = props.data;
+    let {onClickHandler} = props
     return (
         <div className="digital-list">
             <div>
@@ -28,7 +28,7 @@ function DigitalList(props) {
                     ))
                 }
                 <div className="btn-area">   
-                    <Button type="primary" onClick={() => { window.open(link.href, "_blank") }}>
+                    <Button type="primary" onClick={e=>onClickHandler(link.href)}>
                         {link.text}<Icon type="right" />
                     </Button>
                 </div>
