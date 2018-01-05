@@ -6,7 +6,7 @@
 import {
     CHANGE_MENU_SELECTED,
     SET_WORKSPACE,
-    ADD_PROJECT_ITEM, DEl_PROJECT_ITEM, SET_PROJECT_DATA, CHANGE_PROJECT_SELECTED,
+    ADD_PROJECT_ITEM, DEL_PROJECT_ITEM, SET_PROJECT_DATA, CHANGE_PROJECT_SELECTED,
     CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,CHANGE_RUN_STATUS,
     UPDATE_PROJECT_SETTING,
     ADD_STATUS_LIST, UPDATE_STATUS_LIST,
@@ -40,7 +40,7 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
                     data: [...state.data, action.payload]
                 }
             );
-        case DEl_PROJECT_ITEM:
+        case DEL_PROJECT_ITEM:
             return Object.assign({}, state,
                 {
                     data: state.data.filter((value, index) => {

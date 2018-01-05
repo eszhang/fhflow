@@ -9,7 +9,7 @@
 export const CHANGE_MENU_SELECTED = 'CHANGE_MENU_SELECTED';
 export const SET_WORKSPACE = 'SET_WORKSPACE';
 export const ADD_PROJECT_ITEM = 'ADD_PROJECT_ITEM';
-export const DEl_PROJECT_ITEM = 'DEl_PROJECT_ITEM';
+export const DEL_PROJECT_ITEM = 'DEL_PROJECT_ITEM';
 export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const CHANGE_PROJECT_SELECTED = 'CHANGE_PROJECT_SELECTED';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
@@ -70,7 +70,7 @@ export const addProject = (data) => ({
 
 //删除文件夹
 export const delProject = (name) => ({
-    type: DEl_PROJECT_ITEM,
+    type: DEL_PROJECT_ITEM,
     payload: {
         name
     } 
