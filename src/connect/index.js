@@ -35,7 +35,20 @@ ipcRenderer.on('delProject', (event) => {
 
 //运行任务
 ipcRenderer.on('runTask', (event, taskName) => {
-    ACTION.runTask(taskName)
+    let {changeDevStatus, changeUploadStatus, changePackStatus, changeRunStatus} = globalAction
+    let data = globalStore.getState().projectList
+    if(taskName === 'dev' && !data.data[data.selectedIndex].isRunning){
+        !data.data[data.selectedIndex].isDeveloping && globalDispatch(changeRunStatus(data.selectedIndex));
+        globalDispatch(changeDevStatus(data.selectedIndex));
+    }
+    if(taskName === 'upload' && !data.data[data.selectedIndex].isRunning){
+        !data.data[data.selectedIndex].isUploading && globalDispatch(changeRunStatus(data.selectedIndex));
+         globalDispatch(changeUploadStatus(data.selectedIndex));
+    }
+    if(taskName === 'pack' && !data.data[data.selectedIndex].isRunning){
+        !data.data[data.selectedIndex].isPackageing &&  globalDispatch(changeRunStatus(data.selectedIndex));
+         globalDispatch(changePackStatus(data.selectedIndex));
+    }
 });
 
 //检查更新

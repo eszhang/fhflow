@@ -76,8 +76,8 @@ async.series([
     },
     function (next) {
         gulp.src(`${CONNECT_PATH}/**/*.js`)
-            // .pipe(babel({ presets: [es2015] }))
-            // .pipe(uglify())
+            .pipe(babel({ presets: [es2015] }))
+            .pipe(uglify())
             .pipe(gulp.dest(BUILD_CONNECT_PATH))
             .on('end', function () {
                 log.success('[2/7] connect目录文件已压缩拷贝至build目录');

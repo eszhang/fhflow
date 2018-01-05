@@ -26,7 +26,8 @@ function getDevObj(config){
         tplSrcArray = [],
         imageSrcArray = [],
         fontSrcArray = [],
-        othersSrcArray = [];
+        othersSrcArray = [],
+        others= [];
 
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
@@ -220,7 +221,8 @@ function getPackObj(config){
         tplSrcArray = [],
         imageSrcArray = [],
         fontSrcArray = [],
-        othersSrcArray = [];
+        othersSrcArray = [],
+        others= [];
     // 获取模块化后的源目录
     for( var i = 0 ; i < packageModules.length ; i++ ){
         var modulePathAdd = ( buinessName ? ( '/' + buinessName) : '' ) + ( packageModules[i] ? ( '/' + packageModules[i]) : '' );

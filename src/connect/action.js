@@ -307,7 +307,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                 { workSpace, curProjectPath } = storage;
 
             let config = task.getConfig(curProjectPath),
-                { ftp, package, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType } = config,
+                { ftp, package: pack, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType } = config,
                 chooseFunc = [];
 
             server && server.liverload && chooseFunc.push('liveReload');
@@ -327,9 +327,9 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                 "uploadRemotePath": ftp && ftp.remotePath,
                 "uploadIgnoreFileRegExp": ftp && ftp.ignoreFileRegExp,
                 "uploadType": (ftp && ftp.ssh) ? 'ftp' : 'sftp',
-                "packType": package && package.type,
-                "packVersion": package && package.version,
-                "packFileRegExp": package && package.fileRegExp,
+                "packType": pack && pack.type,
+                "packVersion": pack && pack.version,
+                "packFileRegExp": pack && pack.fileRegExp,
                 "modules": modules,
                 "choseModules": choseModules
             }));
@@ -440,7 +440,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         openDoc: function (urlName) {
             shell.openExternal(urlName)
         },
-        notify: function(msg){
+        notify: function (msg) {
             notifier.showMessageError(msg)
         }
 
