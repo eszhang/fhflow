@@ -4,11 +4,10 @@
  */
 
 const gulp = require('gulp');
-const RevAll = require('weflow-rev-all');
+const RevAll = require('../lib/weflow-rev-all');
 const revDel = require('gulp-rev-delete-original');
 
 module.exports = function (config = {}, startCb, endCb) {
-
     const { src, dest } = config;
 
     startCb && startCb();

@@ -1,0 +1,87 @@
+{
+  "_from": "weflow-rev-all@^0.0.1",
+  "_id": "weflow-rev-all@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha1-X81yz3OEUMWcjHFgV1N9HG6WaD8=",
+  "_location": "/weflow-rev-all",
+  "_phantomChildren": {
+    "core-util-is": "1.0.2",
+    "has-color": "0.1.7",
+    "inherits": "2.0.3",
+    "xtend": "2.1.2"
+  },
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "weflow-rev-all@^0.0.1",
+    "name": "weflow-rev-all",
+    "escapedName": "weflow-rev-all",
+    "rawSpec": "^0.0.1",
+    "saveSpec": null,
+    "fetchSpec": "^0.0.1"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/weflow-rev-all/-/weflow-rev-all-0.0.1.tgz",
+  "_shasum": "5fcd72cf738450c59c8c716057537d1c6e96683f",
+  "_spec": "weflow-rev-all@^0.0.1",
+  "_where": "E:\\eszhang-git\\fhflow",
+  "author": {
+    "name": "Joshua Bellamy-Henn",
+    "email": "josh@psidox.com"
+  },
+  "bugs": {
+    "url": "https://github.com/smysnk/gulp-rev-all/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "chalk": "~0.4.0",
+    "gulp-util": "~2.2.14",
+    "merge": "^1.2.0",
+    "through2": "~0.4.0"
+  },
+  "deprecated": false,
+  "description": "Static asset revisioning by appending content hash to filenames: unicorn.css => unicorn.098f6bcd.css, also re-writes references in each file to new reved name.",
+  "devDependencies": {
+    "gulp": "~3.5.5",
+    "gulp-jshint": "~1.5.1",
+    "gulp-mocha": "~2.2.0",
+    "mocha": "~2.2.1",
+    "should": "*"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "homepage": "https://github.com/smysnk/gulp-rev-all",
+  "keywords": [
+    "gulpplugin",
+    "rev",
+    "all",
+    "revision",
+    "hash",
+    "optimize",
+    "version",
+    "versioning",
+    "cache",
+    "expire",
+    "static",
+    "asset",
+    "assets",
+    "aws",
+    "s3",
+    "cloudfront",
+    "cdn"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "weflow-rev-all",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/smysnk/gulp-rev-all.git"
+  },
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "version": "0.0.1"
+}
