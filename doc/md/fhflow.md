@@ -97,13 +97,13 @@
 	│   ├── images 
 	│   ├── css    
 	│   ├── js	   
-	│ 	│ 	├── 模块js
-	│ 	│ 	└── template
-	│ 	│ 		└── helper.js
+	│   │ 	├── 模块js
+	│   │ 	└── template
+	│   │ 		└── helper.js
 	│   ├── template  
-	│ 	│ 	├── 模块模板
-	│ 	│ 	└── template.js
-	│ 	├── 平台html
+	│   │ 	├── 模块模板
+	│   │ 	└── template.js
+	│   ├── 平台html
 
 + 上传模式
 
