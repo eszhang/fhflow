@@ -4,16 +4,15 @@
  */
 
 const config = require('./config');
-const name = config.NAME;
 
-localStorage = window.localStorage;
+const name = config.NAME;
+const localStorage = window.localStorage;
 
 function get() {
     if (localStorage.getItem(name)) {
         return JSON.parse(localStorage.getItem(name));
-    } else {
-        return false;
     }
+    return false;
 }
 
 function set(data) {

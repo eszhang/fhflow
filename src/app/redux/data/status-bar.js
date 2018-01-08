@@ -26,6 +26,6 @@ const statusBarData = [
         desc: '这是一条警告描述信息',
         type: 'warning'
     }
-]
+];
 
 export default statusBarData;

@@ -18,9 +18,7 @@ const Step = Steps.Step;
  */
 
 
-
 class InstallList extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -29,8 +27,7 @@ class InstallList extends React.Component {
     }
 
     enterLoading = () => {
-
-        //模拟
+        // 模拟
         this.setState({
             installPending: true
         });
@@ -40,7 +37,7 @@ class InstallList extends React.Component {
     componentWillReceiveProps(nextProps) {
         let { devData = [], data } = nextProps,
             { progressIndex: devProgressIndex, progressStatus: devProgressStatus } = data.dev;
-        if (devProgressIndex === devData.length-1 || devProgressStatus===1) {
+        if (devProgressIndex === devData.length - 1 || devProgressStatus === 1) {
             this.setState({
                 installPending: false
             });
@@ -48,20 +45,23 @@ class InstallList extends React.Component {
     }
 
     render() {
-
-        let { devData = [], data, updateListHandler, updateProgressHandler, onClickHandler } = this.props,
+        let {
+                devData = [], data, updateListHandler, updateProgressHandler, onClickHandler
+            } = this.props,
             { dev, tools } = data,
-            { progressIndex: devProgressIndex = 0,progressStatus: devProgressStatus = 0 } = dev,
+            { progressIndex: devProgressIndex = 0, progressStatus: devProgressStatus = 0 } = dev,
             { data: toolsData = [], page: toolsPage = {} } = tools,
-            { pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0 } = toolsPage;
+            {
+                pageNo = 1, pageSize = 10, totalRows = 0, totalPages = 0
+            } = toolsPage;
 
-        let { installPending } = this.state;
+        const { installPending } = this.state;
 
-        let statusMap = {
-            0: "finish",
-            1: "error"
-        }
-        console.log(2222,dev,devProgressStatus)
+        const statusMap = {
+            0: 'finish',
+            1: 'error'
+        };
+        console.log(2222, dev, devProgressStatus);
         return (
             <div className="install-list">
                 <Tabs defaultActiveKey="1">
@@ -84,7 +84,7 @@ class InstallList extends React.Component {
                 </Tabs>
 
             </div>
-        )
+        );
     }
 }
 
@@ -93,6 +93,6 @@ InstallList.propTypes = {
     devData: PropTypes.array.isRequired,
     updateListHandler: PropTypes.func.isRequired,
     updateProgressHandler: PropTypes.func.isRequired
-}
+};
 
 export default InstallList;

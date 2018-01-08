@@ -8,7 +8,7 @@ const docListData = [
         title: '前端编码规范',
         desc: '前端编码规范指南',
         href: 'http://172.16.9.7:4000/code_guide/index.html'
-    },{
+    }, {
         title: 'oasis',
         desc: 'oasis API 开发文档',
         href: 'http://ued.njsecnet.com:8080/oasis/docs/html/started.html'

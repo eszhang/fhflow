@@ -7,6 +7,7 @@
     "start": "npm run dev",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
     "dist": "node run.build.js",
+    "eslint": "eslint --ext .jsx,.js  src/",
     "electron-start": "electron build/electron/app.js",
     "electron-package:win32": "rimraf electron-package && electron-packager ./build FhFlow --platform=win32 --arch=ia32 --overwrite --icon=./build/electron/logo.ico --out ./electron-package",
     "electron-package:win64": "rimraf electron-package && electron-packager ./build FhFlow --platform=win32 --arch=x64 --overwrite --icon=./build/electron/logo.ico --out ./electron-package"
@@ -41,6 +42,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-eslint": "^4.0.1",
     "gulp-uglify": "^3.0.0",
     "html-webpack-plugin": "^2.30.1",
     "ora": "^1.3.0",

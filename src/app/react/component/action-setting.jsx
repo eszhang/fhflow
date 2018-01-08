@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Icon, Button, Checkbox, Radio, message, Tabs } from 'antd';
 import '../style/action-setting.scss';
+
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -28,11 +29,12 @@ class ActionSettingForm extends React.Component {
     }
 
     render() {
-
         const { actionSetting, selectedIndex } = this.props;
-        const { choseFunctions, workSpace, uploadHost, uploadPort,
+        const {
+            choseFunctions, workSpace, uploadHost, uploadPort,
             uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp,
-            uploadType, packType, packVersion, packFileRegExp, packTpye } = actionSetting;
+            uploadType, packType, packVersion, packFileRegExp, packTpye
+        } = actionSetting;
 
         const functionOptions = [
             { label: '开启LiveReload浏览器自动刷新', value: 'liveReload' },
@@ -47,15 +49,15 @@ class ActionSettingForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
 
 
-         const formItemLayout = {
+        const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 7 },
+                sm: { span: 7 }
             },
             wrapperCol: {
                 xs: { span: 24 },
-                sm: { span: 17},
-            },
+                sm: { span: 17 }
+            }
         };
         return (
             <Form className="projectSetting" layout="vertical" onSubmit={this.handleSubmit}>
@@ -68,101 +70,79 @@ class ActionSettingForm extends React.Component {
                 }
                 <FormItem label="功能">
                     {getFieldDecorator('choseFunctions', {
-                        initialValue: choseFunctions,
-                    })(
-                        <CheckboxGroup className="functionGroup" options={functionOptions} />
-                        )}
+                        initialValue: choseFunctions
+                    })(<CheckboxGroup className="functionGroup" options={functionOptions} />)}
                 </FormItem>
                 <div className="modulName">上传模式配置</div>
                 <InputGroup size="small" >
-                    <FormItem  {...formItemLayout} label="IP">
+                    <FormItem {...formItemLayout} label="IP">
                         {getFieldDecorator('uploadHost', {
                             initialValue: uploadHost
-                        })(
-                            <Input placeholder="服务器地址" size="small" />
-                            )}
+                        })(<Input placeholder="服务器地址" size="small" />)}
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="用户名">
+                    <FormItem {...formItemLayout} label="用户名">
                         {getFieldDecorator('uploadUser', {
                             initialValue: uploadUser
-                        })(
-                            <Input placeholder="用户名" size="small" />
-                            )}
+                        })(<Input placeholder="用户名" size="small" />)}
                     </FormItem>
-                    <FormItem   {...formItemLayout} label="密码">
+                    <FormItem {...formItemLayout} label="密码">
                         {getFieldDecorator('uploadPass', {
                             initialValue: uploadPass
-                        })(
-                            <Input placeholder="密码" type="password" size="small" />
-                            )}
+                        })(<Input placeholder="密码" type="password" size="small" />)}
                     </FormItem>
-                    <FormItem   {...formItemLayout} label="端口号">
+                    <FormItem {...formItemLayout} label="端口号">
                         {getFieldDecorator('uploadPort', {
                             initialValue: uploadPort
-                        })(
-                            <Input placeholder="端口号" size="small" />
-                            )}
+                        })(<Input placeholder="端口号" size="small" />)}
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="远程路径">
+                    <FormItem {...formItemLayout} label="远程路径">
                         {getFieldDecorator('uploadRemotePath', {
                             initialValue: uploadRemotePath
-                        })(
-                            <Input placeholder="远程路径"  size="small" />
-                            )}
+                        })(<Input placeholder="远程路径" size="small" />)}
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="文件过滤">
+                    <FormItem {...formItemLayout} label="文件过滤">
                         {getFieldDecorator('uploadIgnoreFileRegExp', {
                             initialValue: uploadIgnoreFileRegExp
-                        })(
-                            <Input placeholder="过滤上传文件(支持正则匹配)" size="small" />
-                            )}
+                        })(<Input placeholder="过滤上传文件(支持正则匹配)" size="small" />)}
                     </FormItem>
                     <FormItem >
                         {getFieldDecorator('uploadType', {
                             initialValue: uploadType
-                        })(
-                            <RadioGroup onChange={this.onUploadChange}>
-                                <Radio value="sftp">SFTP</Radio>
-                                <Radio value="ftp">FTP</Radio>
-                            </RadioGroup>
-                            )}
+                        })(<RadioGroup onChange={this.onUploadChange}>
+                            <Radio value="sftp">SFTP</Radio>
+                            <Radio value="ftp">FTP</Radio>
+                        </RadioGroup>)}
                     </FormItem>
                 </InputGroup>
                 <div className="modulName">打包</div>
-               <InputGroup size="small" >
+                <InputGroup size="small" >
                     <FormItem {...formItemLayout} label="版本号">
                         {getFieldDecorator('packVersion', {
                             initialValue: packVersion
-                        })(   
-                            <Input placeholder="版本号" size="small" />
-                        )} 
+                        })(<Input placeholder="版本号" size="small" />)}
                     </FormItem>
                     <FormItem {...formItemLayout} label="命名规则">
                         {getFieldDecorator('packFileRegExp', {
                             initialValue: packFileRegExp
-                        })(   
-                            <Input placeholder="自定义命名规则" size="small" />
-                        )} 
+                        })(<Input placeholder="自定义命名规则" size="small" />)}
                     </FormItem>
-                    <FormItem  >
+                    <FormItem >
                         {getFieldDecorator('packType', {
                             initialValue: packType
-                        })(   
-                            <RadioGroup >
-                                <Radio value="zip">zip</Radio>
-                                <Radio value="rar">rar</Radio>
-                            </RadioGroup>
-                        )} 
+                        })(<RadioGroup >
+                            <Radio value="zip">zip</Radio>
+                            <Radio value="rar">rar</Radio>
+                           </RadioGroup>)}
                     </FormItem>
                 </InputGroup>
-                 <FormItem className="buttons"> 
+                <FormItem className="buttons">
                     <Button type="primary" htmlType="submit">保存</Button>
                     <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                         重置
                     </Button>
                 </FormItem>
             </Form>
-        )
+        );
     }
 }
 
@@ -174,30 +154,32 @@ class SeniorDevelopSetting extends React.Component {
     onChange = (values) => {
         console.log(values);
         const { submitHandler } = this.props;
-        var obj = {};
+        const obj = {};
         obj.choseModules = values;
         submitHandler(obj);
-    } 
+    }
 
     choseHasModules = (e) => {
-        if(e.target.checked){//导入模块
+        if (e.target.checked) { // 导入模块
             const { importModulesHandler } = this.props;
             importModulesHandler();
-        }else{// 去除模块
+        } else { // 去除模块
             const { delModulesHandler } = this.props;
             delModulesHandler();
         }
-    } 
+    }
 
     changeProjectType = (e) => {
         const { submitHandler } = this.props;
-        var obj = {};
+        const obj = {};
         obj.projectType = e.target.value;
         submitHandler(obj);
-    } 
+    }
 
-    render(){
-        const { actionSetting, selectedIndex, importModulesHandler,delModulesHandler } = this.props;
+    render() {
+        const {
+            actionSetting, selectedIndex, importModulesHandler, delModulesHandler
+        } = this.props;
         const { modules, choseModules, projectType } = actionSetting;
         const { getFieldDecorator } = this.props.form;
 
@@ -209,18 +191,16 @@ class SeniorDevelopSetting extends React.Component {
             <Form layout="vertical" className="moduleSetting" onSubmit={this.handleSubmit}>
                 {
                     <FormItem label="模块化选择">
-                        <Checkbox className="hasModuleSetting" checked={ modules.length > 0 ? true : false } onChange={this.choseHasModules}>是否含有模块</Checkbox>
+                        <Checkbox className="hasModuleSetting" checked={modules.length > 0} onChange={this.choseHasModules}>是否含有模块</Checkbox>
                     </FormItem>
                 }
                 {
                     <FormItem label="项目类型选择">
                         {
                             getFieldDecorator('projectType', {
-                                    initialValue: projectType
-                                })(
-                                <RadioGroup options={options} onChange={this.changeProjectType}  />
-                                )
-                            }
+                                initialValue: projectType
+                            })(<RadioGroup options={options} onChange={this.changeProjectType} />)
+                        }
                         }
                     </FormItem>
                 }
@@ -229,42 +209,39 @@ class SeniorDevelopSetting extends React.Component {
                     <FormItem label="模块设置">
                         {
                             getFieldDecorator('choseModules', {
-                                initialValue: choseModules,
-                            })(
-                                <CheckboxGroup options={modules} onChange={this.onChange} />
-                                )
+                                initialValue: choseModules
+                            })(<CheckboxGroup options={modules} onChange={this.onChange} />)
                         }
                     </FormItem>
                 }
             </Form>
-        )
+        );
     }
 }
 
 
-
 const WrappedActionSettingForm = Form.create({
-     mapPropsToFields(props) {
+    mapPropsToFields(props) {
         return {
-            choseFunctions: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.choseFunctions,
-            uploadHost: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadHost,
-            uploadUser: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadUser,
-            uploadPass: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadPass,
-            uploadPort: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadPort,
-            uploadRemotePath: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadRemotePath,
-            uploadIgnoreFileRegExp: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadIgnoreFileRegExp,
-            uploadType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.uploadType,
-            packVersion: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packVersion,
-            packFileRegExp: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packFileRegExp,
-            packType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.packType
+            choseFunctions: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.choseFunctions,
+            uploadHost: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadHost,
+            uploadUser: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadUser,
+            uploadPass: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadPass,
+            uploadPort: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadPort,
+            uploadRemotePath: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadRemotePath,
+            uploadIgnoreFileRegExp: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadIgnoreFileRegExp,
+            uploadType: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.uploadType,
+            packVersion: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.packVersion,
+            packFileRegExp: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.packFileRegExp,
+            packType: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.packType
         };
     }
 })(ActionSettingForm);
 const WrappedSeniorDevelopSettingForm = Form.create({
-     mapPropsToFields(props) {
+    mapPropsToFields(props) {
         return {
-            choseModules: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.choseModules,
-            projectType: JSON.stringify(props.actionSetting) == "{}" && props.actionSetting.projectType,
+            choseModules: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.choseModules,
+            projectType: JSON.stringify(props.actionSetting) == '{}' && props.actionSetting.projectType
         };
     }
 })(SeniorDevelopSetting);
@@ -276,19 +253,26 @@ export default class ActionSetting extends React.Component {
 
 
     render() {
-        const { actionSetting, selectedIndex, submitProjectSettingHandler, importModulesHandler, delModulesHandler } = this.props;
+        const {
+            actionSetting, selectedIndex, submitProjectSettingHandler, importModulesHandler, delModulesHandler
+        } = this.props;
         return (
             <div className="action-setting">
                 <Tabs defaultActiveKey="1" className="actionSettingHeader">
                     <TabPane tab={<span><Icon type="apple" />项目设置</span>} key="1">
-                        { Object.keys(actionSetting).length > 0 &&  <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
+                        { Object.keys(actionSetting).length > 0 && <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
                     <TabPane tab={<span><Icon type="android" />开发高级设置</span>} key="2">
-                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler}
-                         importModulesHandler={importModulesHandler} delModulesHandler={delModulesHandler}/> }
+                        { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm
+                            actionSetting={actionSetting}
+                            selectedIndex={selectedIndex}
+                            submitHandler={submitProjectSettingHandler}
+                            importModulesHandler={importModulesHandler}
+                            delModulesHandler={delModulesHandler}
+                        /> }
                     </TabPane>
                 </Tabs>
             </div>
-        )
+        );
     }
 }

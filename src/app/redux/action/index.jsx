@@ -31,69 +31,86 @@ export const CHANGE_RUN_STATUS = 'CHANGE_RUN_STATUS';
 export const IMPORT_MODULES = 'IMPORT_MODULES';
 export const DEL_MODULES = 'DEL_MODULES';
 
-//action指令，不影响 state tree 数据
+// action指令，不影响 state tree 数据
 export const CHANGE_PROJECT_SETTING = 'CHANGE_PROJECT_SETTING';
 export const CREATE_PROJECT_ORDER = 'CREATE_PROJECT_ORDER';
 export const OPEN_PROJECT_ORDER = 'OPEN_PROJECT_ORDER';
-export const DEl_PROJECT_ORDER = 'DEl_PROJECT_ORDER';
+export const DEL_PROJECT_ORDER = 'DEL_PROJECT_ORDER';
 export const OPEN_LINK = 'OPEN_LINK';
 
+// 模拟分页获取数据
+function fetchData(data = [], condition = { pageNo: 1, pageSize: 10 }) {
+    const { pageNo, pageSize } = condition;
+    const totalRows = data.length;
+    const totalPages = Math.ceil(totalRows / pageSize);
 
+    const res = {
+        data: data.slice((pageNo - 1) * pageSize, pageNo * pageSize),
+        page: {
+            pageNo,
+            pageSize,
+            totalPages,
+            totalRows
+        }
+    };
+
+    return res;
+}
 
 /*
  * action 创建函数
  */
 
-//切换主模块
+// 切换主模块
 export const changeMenuSelected = index => ({
     type: CHANGE_MENU_SELECTED,
     payload: {
         index
-    },
+    }
 });
 
-//更改工作空间
-export const setWorkSpace = (data) => ({
+// 更改工作空间
+export const setWorkSpace = data => ({
     type: SET_WORKSPACE,
     payload: {
         data
     }
 });
 
-//新增文件夹
-export const addProject = (data) => ({
+// 新增文件夹
+export const addProject = data => ({
     type: ADD_PROJECT_ITEM,
     payload: {
         ...data
     }
 });
 
-//删除文件夹
-export const delProject = (name) => ({
+// 删除文件夹
+export const delProject = name => ({
     type: DEL_PROJECT_ITEM,
     payload: {
         name
-    } 
+    }
 });
 
-//设置文件夹初始化数据
-export const setProjectData = (data) => ({
+// 设置文件夹初始化数据
+export const setProjectData = data => ({
     type: SET_PROJECT_DATA,
     payload: {
         data
     }
 });
 
-//切换文件夹
-export const changeActionProject = (index) => ({
+// 切换文件夹
+export const changeActionProject = index => ({
     type: CHANGE_PROJECT_SELECTED,
     payload: {
         index
-    },
+    }
 });
 
 
-//设置开发按钮的状态
+// 设置开发按钮的状态
 export const changeDevStatus = () => ({
     type: CHANGE_DEV_STATUS,
     payload: {
@@ -101,7 +118,7 @@ export const changeDevStatus = () => ({
     }
 });
 
-//设置上传按钮的状态
+// 设置上传按钮的状态
 export const changeUploadStatus = () => ({
     type: CHANGE_UPLOAD_STATUS,
     payload: {
@@ -109,7 +126,7 @@ export const changeUploadStatus = () => ({
     }
 });
 
-//设置打包按钮的状态
+// 设置打包按钮的状态
 export const changePackStatus = () => ({
     type: CHANGE_PACK_STATUS,
     payload: {
@@ -117,48 +134,48 @@ export const changePackStatus = () => ({
     }
 });
 
-//修改是否在运行中
+// 修改是否在运行中
 export const changeRunStatus = () => ({
     type: CHANGE_RUN_STATUS,
     payload: {
     }
 });
 
-//更新项目配置项
-export const updateProjectSetting = (data) => ({
+// 更新项目配置项
+export const updateProjectSetting = data => ({
     type: UPDATE_PROJECT_SETTING,
     payload: {
         data
     }
 });
 
-//新增状态信息
-export const addStatusList = (data) => ({
+// 新增状态信息
+export const addStatusList = data => ({
     type: ADD_STATUS_LIST,
     payload: {
         data
     }
-})
+});
 
-//更新状态栏
-export const updateStatusList = (data) => ({
+// 更新状态栏
+export const updateStatusList = data => ({
     type: UPDATE_STATUS_LIST,
     payload: {
         data
     }
-})
+});
 
-//更新本地请求host配置项
-export const updateProxyHost = (data) => ({
+// 更新本地请求host配置项
+export const updateProxyHost = data => ({
     type: UPDATE_PROXY_HOST,
     payload: {
         ...data
     }
-})
+});
 
-//新增转发代理
+// 新增转发代理
 export const addProxyItem = (data) => {
-    let uniqueID = Date.now();
+    const uniqueID = Date.now();
     return {
         type: ADD_PROXY_ITEM,
         payload: {
@@ -166,34 +183,34 @@ export const addProxyItem = (data) => {
             key: uniqueID,
             ...data
         }
-    }
-}
+    };
+};
 
-//修改转发代理
-export const updateProxyItem = (data) => ({
+// 修改转发代理
+export const updateProxyItem = data => ({
     type: UPDATE_PROXY_ITEM,
     payload: {
         ...data
     }
-})
+});
 
-//删除转发代理
-export const delProxyItem = (id) => ({
+// 删除转发代理
+export const delProxyItem = id => ({
     type: DEL_PROXY_ITEM,
     payload: {
         id
     }
 });
 
-//重置转发代理数据
-export const setProxyData = (data) => ({
+// 重置转发代理数据
+export const setProxyData = data => ({
     type: SET_PROXY_DATA,
     payload: {
         data
     }
 });
 
-//更新文档数据列表
+// 更新文档数据列表
 export const updateDocList = (data, pageNo, pageSize) => ({
     type: UPDATE_DOC_LIST,
     payload: fetchData(data, {
@@ -202,16 +219,16 @@ export const updateDocList = (data, pageNo, pageSize) => ({
     })
 });
 
-//打开连接
-export const openLink = (link) => ({
+// 打开连接
+export const openLink = link => ({
     type: OPEN_LINK,
     payload: {
         link
     }
 });
 
-//更新安装进度
-export const updateInstallProgress = index => ({
+// 更新安装进度
+export const updateInstallProgress = (index, status) => ({
     type: UPDATE_INSTALL_PROGRESS,
     payload: {
         index,
@@ -219,7 +236,7 @@ export const updateInstallProgress = index => ({
     }
 });
 
-//更新工具数据列表
+// 更新工具数据列表
 export const updateInstallToolsList = (data, pageNo, pageSize) => ({
     type: UPDATE_INSTALL_TOOLS_LIST,
     payload: fetchData(data, {
@@ -228,64 +245,38 @@ export const updateInstallToolsList = (data, pageNo, pageSize) => ({
     })
 });
 
-//切换右侧展示的配置内容
-export const changeProjectSetting = (index) => ({
+// 切换右侧展示的配置内容
+export const changeProjectSetting = () => ({
     type: CHANGE_PROJECT_SETTING
 });
 
-//新增文件夹指令
+// 新增文件夹指令
 export const addProjectOrder = () => ({
     type: CREATE_PROJECT_ORDER
 });
 
-//打开文件夹目录指令
-export const openProjectOrder = (data) => ({
+// 打开文件夹目录指令
+export const openProjectOrder = () => ({
     type: OPEN_PROJECT_ORDER
 });
 
-//后端删除文件夹
+// 后端删除文件夹
 export const delProjectOrder = () => ({
-    type: DEl_PROJECT_ORDER
+    type: DEL_PROJECT_ORDER
 });
 
-//修改文件夹名称
+// 修改文件夹名称
 export const updateProjectName = () => ({
     type: UPDATE_PROJECT_NAME
 });
 
-//导入模块名
+// 导入模块名
 export const importModules = () => ({
     type: IMPORT_MODULES
 });
 
-//删除模块名
+// 删除模块名
 export const delModules = () => ({
     type: DEL_MODULES
 });
 
-
-
-
-
-/*==============*/
-
-//模拟分页获取数据
-const fetchData = (data = [], condition = { pageNo: 1, pageSize: 10 }) => {
-
-    let { pageNo, pageSize } = condition,
-        totalRows = data.length,
-        totalPages = Math.ceil(totalRows / pageSize),
-        res;
-
-    res = {
-        data: data.slice((pageNo - 1) * pageSize, pageNo * pageSize),
-        page: {
-            pageNo: pageNo,
-            pageSize: pageSize,
-            totalPages: totalPages,
-            totalRows: totalRows
-        }
-    }
-
-    return res;
-}

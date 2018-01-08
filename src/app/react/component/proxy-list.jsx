@@ -15,11 +15,10 @@ import '../style/proxy-list.scss';
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 
-//host 表单
+// host 表单
 class IpPortForm extends React.Component {
-
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     componentDidMount() {
@@ -42,9 +41,10 @@ class IpPortForm extends React.Component {
     }
 
     render() {
-
         const { ip, port } = this.props;
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const {
+            getFieldDecorator, getFieldsError, getFieldError, isFieldTouched
+        } = this.props.form;
         const ipError = isFieldTouched('ip') && getFieldError('ip');
         const portError = isFieldTouched('port') && getFieldError('port');
         return (
@@ -69,22 +69,23 @@ class IpPortForm extends React.Component {
                     <Button type="primary" htmlType="submit" disabled={this.hasErrors(getFieldsError())} > 保存 </Button>
                 </FormItem>
             </Form>
-        )
+        );
     }
 }
 
 const WrappedIpPortForm = Form.create()(IpPortForm);
-;
 
-//proxyItem 表单
+
+// proxyItem 表单
 class ProxItemForm extends React.Component {
-
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
-        const { visible, onCancel, onCreate, form } = this.props;
+        const {
+            visible, onCancel, onCreate, form
+        } = this.props;
         const { getFieldDecorator } = form;
         const formItemLayout = {
             labelCol: {
@@ -95,7 +96,7 @@ class ProxItemForm extends React.Component {
                 xs: { span: 24 },
                 sm: { span: 12 }
             }
-        }
+        };
         return (
             <Modal title="新增代理请求" visible={visible} onOk={onCreate} onCancel={onCancel}>
                 <Form>
@@ -106,7 +107,7 @@ class ProxItemForm extends React.Component {
                             })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="rule" />)
                         }
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="目标地址">
+                    <FormItem {...formItemLayout} label="目标地址">
                         {
                             getFieldDecorator('target', {
                                 rules: [{ required: true, message: 'Please input your target!' }]
@@ -115,9 +116,8 @@ class ProxItemForm extends React.Component {
                     </FormItem>
                 </Form>
             </Modal>
-        )
+        );
     }
-
 }
 const WrappedProxItemForm = Form.create()(ProxItemForm);
 
@@ -131,7 +131,6 @@ const EditableCell = ({ editable, value, onChange }) => (
 );
 
 export default class ProxyList extends React.Component {
-
     constructor(props) {
         super(props);
         this.columns = [{
@@ -164,15 +163,14 @@ export default class ProxyList extends React.Component {
                         <a onClick={() => this.delete(record.key)}>删除</a>
                     </div>
                 );
-            },
+            }
         }];
 
         this.cacheData = this.props.data.map(item => ({ ...item }));
 
         this.state = {
             modalVisible: false
-        }
-
+        };
     }
 
     renderColumns(text, record, column) {
@@ -210,7 +208,7 @@ export default class ProxyList extends React.Component {
     }
 
     delete(key) {
-        let that = this;
+        const that = this;
         confirm({
             title: '您确认删除该条代理请求么？',
             onOk() {
@@ -224,7 +222,6 @@ export default class ProxyList extends React.Component {
                 }
             }
         });
-
     }
 
     save(key) {
@@ -275,7 +272,7 @@ export default class ProxyList extends React.Component {
     render() {
         const { host = {}, data = [], updateHostHandler } = this.props;
         const { ip, port } = host;
-        const pagination = { pageSize: 10 }
+        const pagination = { pageSize: 10 };
         return (
             <div className="proxy-list">
                 <div>
@@ -285,6 +282,6 @@ export default class ProxyList extends React.Component {
                     <WrappedProxItemForm ref={this.saveFormRef} visible={this.state.modalVisible} onCancel={() => this.handleModalCancel()} onCreate={() => this.handleModalCreate()} />
                 </div>
             </div>
-        )
+        );
     }
 }

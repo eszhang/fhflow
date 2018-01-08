@@ -11,8 +11,8 @@ function showMessageInfo(msg) {
         type: 'info',
         title: config.NAMECN,
         message: msg,
-        wait: true,
-    })
+        wait: true
+    });
 }
 
 function showMessageError(msg) {
@@ -20,8 +20,8 @@ function showMessageError(msg) {
         type: 'error',
         title: config.NAMECN,
         message: msg,
-        wait: true,
-    })
+        wait: true
+    });
 }
 
 function showMessageWarn(msg) {
@@ -29,12 +29,12 @@ function showMessageWarn(msg) {
         type: 'warn',
         title: config.NAMECN,
         message: msg,
-        wait: true,
-    })
+        wait: true
+    });
 }
 
 module.exports = {
     showMessageInfo,
     showMessageError,
     showMessageWarn
-}
+};

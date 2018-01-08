@@ -3,15 +3,11 @@
  * 自定义中间件，用于全局记录上一次的action对象
  */
 
-export const  createRecordAction = (vb) => {
+export default vb => () => next => (action) => {
+    const g = window || global;
 
-    return store => next => action => {
-        
-        let  g = window || global;
-    
-        g[vb] = action;
-    
-        return next(action);
-    }
-}
+    g[vb] = action;
+
+    return next(action);
+};
 

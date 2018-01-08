@@ -12,30 +12,24 @@ import '../style/status-bar.scss';
  */
 
 class StatusBar extends React.Component {
-
-    constructor(props){
-        super(props)
-    }
-
     componentDidUpdate() {
         this.wrapper.scrollTop = this.wrapper.scrollHeight;
     }
 
     render() {
-
-        let { data, deleteHandler} = this.props;
+        const { data, deleteHandler } = this.props;
 
         const iconTypeMap = {
-            info: "info-circle",
-            warning: "exclamation-circle",
-            success: "check-circle",
-            error: "close-circle" 
+            info: 'info-circle',
+            warning: 'exclamation-circle',
+            success: 'check-circle',
+            error: 'close-circle'
         };
 
         return (
             <div className="status-bar">
-                <a className="opt-btn delete" onClick = {deleteHandler}><Icon type="delete" /></a>
-                <div ref={(dom) => { this.wrapper = dom }}>
+                <a className="opt-btn delete" onClick={deleteHandler}><Icon type="delete" /></a>
+                <div ref={(dom) => { this.wrapper = dom; }}>
                     <ul>
                         {
                             data.map((info, index) => (
@@ -50,12 +44,12 @@ class StatusBar extends React.Component {
                     </ul>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 StatusBar.propTypes = {
     data: PropTypes.array.isRequired
-}
+};
 
 export default StatusBar;

@@ -2,13 +2,14 @@
 /**
  *  run task
  */
-const webpack = require("webpack");
-const gulp = require("gulp");
+const webpack = require('webpack');
+const gulp = require('gulp');
 const uglify = require('gulp-uglify');
+const eslint = require('gulp-eslint');
 const path = require('path');
 const async = require('async');
-const babel = require("gulp-babel");
-const es2015 = require("babel-preset-es2015");
+const babel = require('gulp-babel');
+const es2015 = require('babel-preset-es2015');
 const ora = require('ora');
 const del = require('del');
 
@@ -35,7 +36,7 @@ class Log {
         this.target = ora({
             color: 'yellow',
             text: msg
-        })
+        });
     }
     start(msg) {
         this.target.start(msg);
@@ -47,8 +48,8 @@ class Log {
         this.target.clear();
     }
     success(msg) {
-        this.target.succeed(msg)
-        this.target.start('...')
+        this.target.succeed(msg);
+        this.target.start('...');
     }
 }
 
@@ -61,88 +62,102 @@ async.series([
     function (next) {
         del(BUILD_PATH, {
             force: true
-        }).then(function () {
+        }).then(() => {
             log.success('[1/7] build目录已清除干净');
             next();
-        })
+        });
     },
     // copy connect
     function (next) {
         gulp.src([`${CONNECT_PATH}/**/*.*`, '!*.js'])
             .pipe(gulp.dest(BUILD_TASK_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 next();
-            })
+            });
     },
     function (next) {
         gulp.src(`${CONNECT_PATH}/**/*.js`)
+            .pipe(eslint({
+                configFile: './.eslintrc.js'
+            }))
+            .pipe(eslint.failAfterError())
+            .pipe(eslint.format())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_CONNECT_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 log.success('[2/7] connect目录文件已压缩拷贝至build目录');
                 next();
-            })
+            });
     },
     // copy electron
     function (next) {
         gulp.src([`${ELECTRON_PATH}/**/*.*`, '!*.js'])
             .pipe(gulp.dest(BUILD_ELECTRON_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 next();
-            })
+            });
     },
     function (next) {
         gulp.src(`${ELECTRON_PATH}/**/*.js`)
+            .pipe(eslint({
+                configFile: './.eslintrc.js'
+            }))
+            .pipe(eslint.failAfterError())
+            .pipe(eslint.format())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_ELECTRON_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 log.success('[3/7] electron目录文件已压缩拷贝至build目录');
                 next();
-            })
+            });
     },
     // copy task
     function (next) {
         gulp.src([`${TASK_PATH}/**/*.*`, '!*.js'])
             .pipe(gulp.dest(BUILD_TASK_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 next();
-            })
+            });
     },
     function (next) {
         gulp.src(`${TASK_PATH}/**/*.js`)
+            .pipe(eslint({
+                configFile: './.eslintrc.js'
+            }))
+            .pipe(eslint.failAfterError())
+            .pipe(eslint.format())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_TASK_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 log.success('[4/7] task目录文件已压缩拷贝至build目录');
                 next();
-            })
+            });
     },
     // copy node_modules
     function (next) {
         gulp.src(`${NODE_MODULES_PATH}/**/*.*`)
             .pipe(gulp.dest(BUILD_NODE_MODULES_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 log.success('[5/7] node_module包已拷贝至build目录');
                 next();
-            })
+            });
     },
-    //copy package.json
+    // copy package.json
     function (next) {
         gulp.src(PACKAGE_JSON_PATH)
             .pipe(gulp.dest(BUILD_PACKAGE_JSON_PATH))
-            .on('end', function () {
+            .on('end', () => {
                 log.success('[6/7] package.json文件已拷贝至build目录');
                 next();
-            })
+            });
     },
     // webpack
     function (next) {
         webpack(webpackDistConfig, (err, stats) => {
-
-            if (err) throw err
+            if (err) throw err;
             // console.log(stats.toString({
             //     colors: true,
             //     modules: false,
@@ -152,11 +167,11 @@ async.series([
             // }) + '\n')
             log.success('[7/7] app目录已拷贝至build目录');
             log.success('dist已结束 ！');
-            log.stop()
+            log.stop();
             next();
-        })
+        });
     }
-], function (error) {
+], (error) => {
     if (error) {
         throw new Error(error);
     }
