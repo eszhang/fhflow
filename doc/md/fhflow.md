@@ -90,20 +90,17 @@
 + 开发模式
 
   选中项目点击开发按钮，该项目进度开发状态。在该模式下会将src目录中的文件按指定路径编译值build目录下（同时打印出日志），并监听src目录下的变化，当你在日志区看到`启动server成功`后说明项目编译完成。具体目录结构为：
-
+     
 	build（构建目录）
-	
 	├── assets   (静态文件)
-	
 	│   ├── fonts 
-	
 	│   ├── images 
-	│   ├── css    
-	│   ├── js	   
+	│   ├── css
+	│   ├── js
 	│   │ 	├── 模块js
 	│   │ 	└── template
 	│   │ 		└── helper.js
-	│   ├── template  
+	│   ├── template
 	│   │ 	├── 模块模板
 	│   │ 	└── template.js
 	│   ├── 平台html
