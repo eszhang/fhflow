@@ -9,7 +9,8 @@
     "dist": "node run.build.js",
     "electron-start": "electron build/electron/app.js",
     "electron-package:win32": "rimraf electron-package && electron-packager ./build FhFlow --platform=win32 --arch=ia32 --overwrite --icon=./build/electron/logo.ico --out ./electron-package",
-    "electron-package:win64": "rimraf electron-package && electron-packager ./build FhFlow --platform=win32 --arch=x64 --overwrite --icon=./build/electron/logo.ico --out ./electron-package"
+    "electron-package:win64": "rimraf electron-package && electron-packager ./build FhFlow --platform=win32 --arch=x64 --overwrite --icon=./build/electron/logo.ico --out ./electron-package",
+    "build": "node run.build.js && electron build/electron/app.js"
   },
   "keywords": [
     "fhflow",

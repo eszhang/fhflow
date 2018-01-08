@@ -230,3 +230,55 @@
      }
 	}
 	
+  #### 注意点: 
+1.  iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
+2. 文件目录结构
+
+* 非模块化项目目录结构
+    ```
+    ├── build
+    ├── src
+    │   ├── 其他(项目自己需要的文件目录)
+    │   ├── icons
+    │   │   ├── assets  (svg)  
+    │   │   └── templates  (icon模板文件 projectName +"icon.css")  
+    │   ├── images
+    │   ├── scss
+    │   ├── tpl
+    │   ├── js
+    │   └── view
+    └── oasisl
+   ```
+
+* 模块化项目目录结构
+
+    ```
+    ├── build
+    ├── src
+    │   ├── 其他(项目自己需要的文件目录)
+    │   ├── icons
+    │   │    └── bussinessName
+    │   │        └── common  (公共模块)  
+    │   │           ├── assets  (svg)  
+    │   │           └── templates  (icon模板文件 projectName +"icon.css")  
+    │   ├── images
+    │   ├── scss
+    │   ├── tpl
+    │   ├── js
+    │   │    └── bussinessName
+    │   │        ├── module1
+    │   │        ├── module2
+    │   │        ├── module3
+    │   │        └── common  (公共模块)      
+    │   └── view
+    │       └── bussinessName
+    │           ├── module1  (业务模块1)
+    │           ├── module2  (业务模块2)
+    │           ├── module3  (业务模块3)
+    │           └── common   (公共模块)
+    └── oasisl
+    ```
+    
+3. 关于上传命令,默认端口为22 默认远程路径为'/',可根据具体情况进行修改。文件过滤出可以填写过滤规则,当有多个条件时使用";"隔开。例如：!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\build\release\css\**;!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\release\assets\css\
+
+4. 关于打包名字,${name}为项目名称,${moduleName}模块名称,${version}版本号,${time}时间,打包时会自动替换。比如非模块项目,${moduleName}不存在,就不需要使用了。
