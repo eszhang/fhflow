@@ -6,7 +6,7 @@
 const config = require('./config');
 const name = config.NAME;
 
-localStorage = window.localStorage;
+var localStorage = window.localStorage;
 
 function get() {
     if (localStorage.getItem(name)) {

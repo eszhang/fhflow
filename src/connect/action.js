@@ -55,7 +55,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                     storage.curProjectPath = curProjectPath = projects[projectsKeys[0]].path;
                     globalDispatch(setWorkSpace(workSpace));
                     for (var key in projects) {
-                        projectPath = projects[key].path;
+                        let projectPath = projects[key].path;
                         projectName = path.basename(projectPath);
                         projectArr.push({
                             key: Date.now(),
