@@ -417,6 +417,7 @@ function getUploadObj( config ){
             pass: setting.ftp.pass,
             remotePath: setting.ftp.remotePath
         },
+        type: setting.ftp.ssh,
         startLog: '上传files开始...',
         endLog: '上传files成功...'
     }

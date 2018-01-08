@@ -27,8 +27,14 @@ function upload2T(config, cb) {
     config.sft['callback'] = function(){
         cb && cb();
     }
-    gulp.src([config.destBase + '/**/**'])
+    if(config.type === 'FTP'){
+        gulp.src([config.destBase + '/**/**'])
+        .pipe(gulpSSH(config.sft))
+    }else{
+        gulp.src([config.destBase + '/**/**'])
         .pipe(sftp(config.sft))
+    }
+    
 }
 module.exports = function (config, startCb, endCb) {
     //过滤不需要匹配的文件

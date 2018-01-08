@@ -122,8 +122,8 @@ class ActionSettingForm extends React.Component {
                             initialValue: uploadType
                         })(
                             <RadioGroup onChange={this.onUploadChange}>
-                                <Radio value="ftp">FTP</Radio>
                                 <Radio value="sftp">SFTP</Radio>
+                                <Radio value="ftp">FTP</Radio>
                             </RadioGroup>
                             )}
                     </FormItem>
@@ -149,8 +149,8 @@ class ActionSettingForm extends React.Component {
                             initialValue: packType
                         })(   
                             <RadioGroup >
-                                <Radio value="rar">rar</Radio>
                                 <Radio value="zip">zip</Radio>
+                                <Radio value="rar">rar</Radio>
                             </RadioGroup>
                         )} 
                     </FormItem>
