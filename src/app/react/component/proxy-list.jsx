@@ -170,7 +170,8 @@ export default class ProxyList extends React.Component {
         this.cacheData = this.props.data.map(item => ({ ...item }));
 
         this.state = {
-            modalVisible: false
+            modalVisible: false,
+            newData: {}
         }
 
     }
@@ -186,12 +187,13 @@ export default class ProxyList extends React.Component {
     }
 
     handleChange(value, key, column) {
-        const { data, updateProxyItemHandler } = this.props;
-        const newData = [...data];
+        const { updateProxyItemHandler } = this.props;
+        const newData = [...this.state.newData];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target[column] = value;
-            updateProxyItemHandler(newData);
+            this.setState({ newData: newData });
+            // updateProxyItemHandler(newData);
         }
     }
 
@@ -205,6 +207,7 @@ export default class ProxyList extends React.Component {
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target.editable = true;
+            this.setState({ newData: newData });
             updateProxyItemHandler(newData);
         }
     }
@@ -228,13 +231,14 @@ export default class ProxyList extends React.Component {
     }
 
     save(key) {
-        const { data, updateProxyItemHandler } = this.props;
-        const newData = [...data];
+        const { updateProxyItemHandler } = this.props;
+        const newData = [...this.state.newData];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             delete target.editable;
             updateProxyItemHandler(newData);
             this.cacheData = newData.map(item => ({ ...item }));
+            this.setState({ newData: {} });
             message.success('更新成功');
         }
     }
@@ -247,6 +251,7 @@ export default class ProxyList extends React.Component {
             Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
             delete target.editable;
             updateProxyItemHandler({ newData });
+            this.setState({ newData: {} });
         }
     }
 
