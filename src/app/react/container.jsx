@@ -34,7 +34,6 @@ const pageSize = 9;
  * @class action-menu
  * @extends {Component}
  */
-
 class Container extends React.Component {
 
     constructor(props) {

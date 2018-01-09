@@ -56,7 +56,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                     globalDispatch(setWorkSpace(workSpace));
                     for (var key in projects) {
                         let projectPath = projects[key].path;
-                        projectName = path.basename(projectPath);
+                        let projectName = path.basename(projectPath);
                         projectArr.push({
                             key: Date.now(),
                             class: 'project-folder',

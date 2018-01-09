@@ -45,8 +45,7 @@ config.module.rules.push(
                 },
                 'less-loader'
             ]
-        ),
-        exclude: /node_modules/
+        )
     }
 );
 
