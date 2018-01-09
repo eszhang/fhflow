@@ -5,13 +5,14 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 const SRC_PATH = path.resolve('./src');
 const APP_PATH = path.join(SRC_PATH, 'app');
 const BUILD_APP_PATH = path.resolve('./build/app');
 
 module.exports = {
-    context: APP_PATH, // 设置源代码的默认根路径
+    context: APP_PATH,
     resolve: {
         extensions: ['.js', '.jsx']
     },
@@ -86,6 +87,9 @@ module.exports = {
             filename: path.join(BUILD_APP_PATH, './index.html'),
             template: './react/template/index.html',
             hash: false
+        }),
+        new StyleLintPlugin({
+            configFile: './.stylelintrc'
         })
     ]
 };

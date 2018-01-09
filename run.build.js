@@ -2,6 +2,7 @@
 /**
  *  run task
  */
+
 const webpack = require('webpack');
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
@@ -16,20 +17,19 @@ const del = require('del');
 const webpackDistConfig = require('./webpack.dist.config');
 
 const SRC_PATH = path.resolve('./src');
-const APP_PATH = path.join(SRC_PATH, 'app');
 const ELECTRON_PATH = path.join(SRC_PATH, 'electron');
 const TASK_PATH = path.join(SRC_PATH, 'task');
 const CONNECT_PATH = path.join(SRC_PATH, 'connect');
 const NODE_MODULES_PATH = path.resolve('./node_modules');
 const PACKAGE_JSON_PATH = path.resolve('./package.json');
 const BUILD_PATH = path.resolve('./build');
-const BUILD_APP_PATH = path.resolve('./build/app');
 const BUILD_ELECTRON_PATH = path.resolve('./build/electron');
 const BUILD_TASK_PATH = path.resolve('./build/task');
 const BUILD_CONNECT_PATH = path.resolve('./build/connect');
 const BUILD_NODE_MODULES_PATH = path.resolve('./build/node_modules');
 const BUILD_PACKAGE_JSON_PATH = BUILD_PATH;
 
+const CONFIG_FILE_PATH = path.resolve('./.eslintrc.js');
 
 class Log {
     constructor(msg) {
@@ -70,7 +70,7 @@ async.series([
     // copy connect
     function (next) {
         gulp.src([`${CONNECT_PATH}/**/*.*`, '!*.js'])
-            .pipe(gulp.dest(BUILD_TASK_PATH))
+            .pipe(gulp.dest(BUILD_CONNECT_PATH))
             .on('end', () => {
                 next();
             });
@@ -78,10 +78,11 @@ async.series([
     function (next) {
         gulp.src(`${CONNECT_PATH}/**/*.js`)
             .pipe(eslint({
-                configFile: './.eslintrc.js'
+                fix: true,
+                configFile: CONFIG_FILE_PATH
             }))
-            .pipe(eslint.failAfterError())
             .pipe(eslint.format())
+            .pipe(eslint.failAfterError())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_CONNECT_PATH))
@@ -101,10 +102,11 @@ async.series([
     function (next) {
         gulp.src(`${ELECTRON_PATH}/**/*.js`)
             .pipe(eslint({
-                configFile: './.eslintrc.js'
+                fix: true,
+                configFile: CONFIG_FILE_PATH
             }))
-            .pipe(eslint.failAfterError())
             .pipe(eslint.format())
+            .pipe(eslint.failAfterError())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_ELECTRON_PATH))
@@ -124,10 +126,11 @@ async.series([
     function (next) {
         gulp.src(`${TASK_PATH}/**/*.js`)
             .pipe(eslint({
-                configFile: './.eslintrc.js'
+                fix: true,
+                configFile: CONFIG_FILE_PATH
             }))
-            .pipe(eslint.failAfterError())
             .pipe(eslint.format())
+            .pipe(eslint.failAfterError())
             .pipe(babel({ presets: [es2015] }))
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_TASK_PATH))
