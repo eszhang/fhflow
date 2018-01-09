@@ -41,6 +41,14 @@ class IpPortForm extends React.Component {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
     }
 
+    isPort = (rule, value, callback) => {
+        if (value && (!/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value))) {
+            callback([new Error('please input right port')]);
+        } else {
+            callback();
+        }
+    }
+
     render() {
 
         const { ip, port } = this.props;
@@ -61,7 +69,10 @@ class IpPortForm extends React.Component {
                     {
                         getFieldDecorator('port', {
                             initialValue: port,
-                            rules: [{ required: true, message: 'Please input your port!' }]
+                            rules: [
+                                { required: true, message: 'Please input your port!' },
+                                { validator: this.isPort }
+                            ]
                         })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="port" />)
                     }
                 </FormItem>
