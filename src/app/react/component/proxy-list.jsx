@@ -42,10 +42,22 @@ class IpPortForm extends React.Component {
     }
 
     isPort = (rule, value, callback) => {
-        if (value && (!/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value))) {
-            callback([new Error('please input right port')]);
-        } else {
+        if(value === ''){
+            callback([new Error('please input your port')]);
+        }else if (/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value)) {
             callback();
+        } else {
+            callback([new Error('please input right port')]);
+        }
+    }
+
+    isIp = (rule, value, callback) => {
+        if(value === ''){
+            callback([new Error('please input your ip')]);
+        }else if (/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))$/.test(value) || value==='localhost') {
+            callback();
+        } else {
+            callback([new Error('please input right ip')]);
         }
     }
 
@@ -61,8 +73,10 @@ class IpPortForm extends React.Component {
                     {
                         getFieldDecorator('ip', {
                             initialValue: ip,
-                            rules: [{ required: true, message: 'Please input your ip!' }]
-                        })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" />)
+                            rules: [
+                                    { validator: this.isIp }
+                                   ]
+                        })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" disabled={true} />)
                     }
                 </FormItem>
                 <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} label="端口号">
@@ -70,7 +84,6 @@ class IpPortForm extends React.Component {
                         getFieldDecorator('port', {
                             initialValue: port,
                             rules: [
-                                { required: true, message: 'Please input your port!' },
                                 { validator: this.isPort }
                             ]
                         })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="port" />)
@@ -93,6 +106,17 @@ class ProxItemForm extends React.Component {
     constructor(props) {
         super(props)
     }
+
+    isTarget = (rule, value, callback) => {
+        if(value === ''){
+            callback([new Error('please input your target')]);
+        }else if (/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*(\/[^\/]+)*\/?$/.test(value) || value==='localhost') {
+            callback();
+        } else {
+            callback([new Error('please input right target')]);
+        }
+    }
+
 
     render() {
         const { visible, onCancel, onCreate, form } = this.props;
@@ -120,7 +144,7 @@ class ProxItemForm extends React.Component {
                     <FormItem  {...formItemLayout} label="目标地址">
                         {
                             getFieldDecorator('target', {
-                                rules: [{ required: true, message: 'Please input your target!' }]
+                                rules: [{ validator: this.isTarget }]
                             })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="target" />)
                         }
                     </FormItem>
