@@ -12,6 +12,7 @@ const globalDispatch = globalStore.dispatch;
 
 let CONFIG = require('./config.js');
 let STORAGE = require('./storage.js');
+let utils = require('./utils');
 let ACTION = require('./action.js')(globalStore, globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`)
@@ -82,6 +83,8 @@ globalStore.subscribe(
 
         let { data, selectedIndex } = projectList;
 
+        let { changeRunStatus, changeUploadStatusData } = globalAction;
+
         let storage = STORAGE.get(),
             workSpace = storage && storage.workSpace || "",
             curProjectPath = storage && storage.curProjectPath || "",
@@ -140,8 +143,14 @@ globalStore.subscribe(
                 ACTION.runTask('dev', taskFlag);
                 break;
             case CHANGE_UPLOAD_STATUS:
-                taskFlag = data[selectedIndex].isUploading ? 1 : 0;
-                ACTION.runTask('upload', taskFlag);
+                if(!utils.isDirExist(curProjectPath+"//build")){
+                    globalDispatch(changeRunStatus(selectedIndex))
+                    globalDispatch(changeUploadStatusData(selectedIndex))
+                    ACTION.notify("请保证项目已经编译完成,再点击上传按钮")
+                }else{
+                    taskFlag = data[selectedIndex].isUploading ? 1 : 0;
+                    ACTION.runTask('upload', taskFlag);
+                }
                 break;
             case CHANGE_PACK_STATUS:
                 taskFlag = data[selectedIndex].isPackageing ? 1 : 0;

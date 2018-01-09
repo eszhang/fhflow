@@ -14,6 +14,7 @@ export const SET_PROJECT_DATA = 'SET_PROJECT_DATA';
 export const CHANGE_PROJECT_SELECTED = 'CHANGE_PROJECT_SELECTED';
 export const CHANGE_DEV_STATUS = 'CHANGE_DEV_STATUS';
 export const CHANGE_UPLOAD_STATUS = 'CHANGE_UPLOAD_STATUS';
+export const CHANGE_UPLOAD_STATUS_DATA = 'CHANGE_UPLOAD_STATUS_DATA';
 export const CHANGE_PACK_STATUS = 'CHANGE_PACK_STATUS';
 export const UPDATE_PROJECT_SETTING = 'UPDATE_PROJECT_SETTING';
 export const ADD_STATUS_LIST = 'ADD_STATUS_LIST';
@@ -104,6 +105,14 @@ export const changeDevStatus = () => ({
 //设置上传按钮的状态
 export const changeUploadStatus = () => ({
     type: CHANGE_UPLOAD_STATUS,
+    payload: {
+        // index
+    }
+});
+
+//设置上传按钮的状态（只修改数据）
+export const changeUploadStatusData = () => ({
+    type: CHANGE_UPLOAD_STATUS_DATA,
     payload: {
         // index
     }

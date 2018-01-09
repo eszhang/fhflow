@@ -8,6 +8,7 @@ import {
     SET_WORKSPACE,
     ADD_PROJECT_ITEM, DEL_PROJECT_ITEM, SET_PROJECT_DATA, CHANGE_PROJECT_SELECTED,
     CHANGE_DEV_STATUS, CHANGE_UPLOAD_STATUS, CHANGE_PACK_STATUS,CHANGE_RUN_STATUS,
+    CHANGE_UPLOAD_STATUS_DATA,
     UPDATE_PROJECT_SETTING,
     ADD_STATUS_LIST, UPDATE_STATUS_LIST,
     UPDATE_PROXY_HOST, ADD_PROXY_ITEM, UPDATE_PROXY_ITEM, DEL_PROXY_ITEM, SET_PROXY_DATA,
@@ -77,6 +78,22 @@ export const projectList = (state = { selectedIndex: 0, data: [] }, action = {})
                 }
             );
         case CHANGE_UPLOAD_STATUS:
+            return Object.assign({}, state,
+                {
+                    data: state.data.map((value, index) => {
+                        if (index === state.selectedIndex) {
+                            return Object.assign({}, value,
+                                {
+                                    isUploading: !value.isUploading
+                                }
+                            )
+                        } else {
+                            return value
+                        }
+                    })
+                }
+            );
+        case CHANGE_UPLOAD_STATUS_DATA:
             return Object.assign({}, state,
                 {
                     data: state.data.map((value, index) => {
