@@ -135,19 +135,19 @@ let template = [
             {
                 label: 'FhFlow 官网',
                 click: function () {
-                    action.openExternal("https://github.com/eszhang/fhflow/tree/develop");
+                    action.openExternal("home");
                 }
             },
             {
                 label: 'FhFlow 使用帮助',
                 click: function () {
-                    action.openExternal("https://github.com/eszhang/fhflow/blob/develop/doc/md/fhflow.md");
+                    action.openExternal("help");
                 }
             },
             {
                 label: '报告问题',
                 click: function () {
-                    action.openExternal("https://github.com/eszhang/fhflow/issues");
+                    action.openExternal("problem");
                 }
             }
         ]

@@ -69,3 +69,7 @@ electron-package:win64
     ]
 }
 ```
+
+#### 可能遇到的问题
+
+在使用npm run electron-package:win64打包过程中拷贝node_modules时可能会存在漏包的情况。如果存在漏报情况需要手动开发环境中的node_modules下的包拷贝到目录electron-package/FhFlow-win32-x64/resources/app/node_modules 下
