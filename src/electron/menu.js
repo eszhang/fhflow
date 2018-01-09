@@ -135,19 +135,19 @@ let template = [
             {
                 label: 'FhFlow 官网',
                 click: function () {
-                    action.openExternal("home");
+                    action.openExternal("https://github.com/eszhang/fhflow/tree/develop");
                 }
             },
             {
                 label: 'FhFlow 使用帮助',
                 click: function () {
-                    action.openExternal("help");
+                    action.openExternal("https://github.com/eszhang/fhflow/blob/develop/doc/md/fhflow.md");
                 }
             },
             {
                 label: '报告问题',
                 click: function () {
-                    action.openExternal("problem");
+                    action.openExternal("https://github.com/eszhang/fhflow/issues");
                 }
             }
         ]
@@ -210,22 +210,22 @@ if (process.platform === 'darwin') {
         ]
     });
 } else if (process.platform === 'win32') {
-    let helpItem = template[template.length - 1];
+    // let helpItem = template[template.length - 1];
 
-    helpItem.submenu.push({
-        label: '检查更新',
-        accelerator: '',
-        click: function () {
-            action.checkUpdate();
-        }
-    });
+    // helpItem.submenu.push({
+    //     label: '检查更新',
+    //     accelerator: '',
+    //     click: function () {
+    //         action.checkUpdate();
+    //     }
+    // });
 
-    helpItem.submenu.push({
-        label: '关于',
-        click: function (item, focusedWindow) {
-            action.openExternal("about");
-        }
-    });
+    // helpItem.submenu.push({
+    //     label: '关于',
+    //     click: function (item, focusedWindow) {
+    //         action.openExternal("about");
+    //     }
+    // });
 }
 
 const menu = Menu.buildFromTemplate(template);

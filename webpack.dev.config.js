@@ -23,6 +23,15 @@ config.module.rules.push(
         ]
     },
     {
+        test: /\.less$/,
+        use: [
+            'style-loader',
+            'css-loader',
+            'less-loader'
+        ],
+        exclude: /node_modules/
+    },
+    {
         test: /\.scss$/,
         use: [
             'style-loader',

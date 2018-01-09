@@ -23,11 +23,11 @@ import installListData from '../redux/data/install-list';
 import projectManageData from '../redux/data/project-list';
 import actionSettingData from '../redux/data/action-setting';
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 
 import './style/index.scss';
-import './iconfont/iconfont.css';
-
+// import './iconfont/iconfont.css';
+import './iconfont/iconfont.less';
 const pageSize = 9;
 
 /**

@@ -34,6 +34,19 @@ config.module.rules.push(
             ]
         ),
         exclude: /node_modules/
+    },
+    {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract(
+            [
+                {
+                    loader: 'css-loader',
+                    options: { minimize: true }
+                },
+                'less-loader'
+            ]
+        ),
+        exclude: /node_modules/
     }
 );
 
