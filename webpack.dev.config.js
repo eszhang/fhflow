@@ -14,30 +14,28 @@ config.devServer = {
     hot: true
 };
 
-config.module.rules.push(
-    {
-        test: /\.css$/,
-        use: [
-            'style-loader',
-            {
-                loader: 'css-loader',
-                options: { sourceMap: true }
-            }
-        ]
-    },
-    {
-        test: /\.scss$/,
-        use: [
-            'style-loader',
-            {
-                loader: 'css-loader',
-                options: { sourceMap: true }
-            },
-            'sass-loader'
-        ],
-        exclude: /node_modules/
-    }
-);
+// 添加 scss css处理
+config.module.rules.push({
+    test: /\.css$/,
+    use: [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+        }
+    ]
+}, {
+    test: /\.scss$/,
+    use: [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+        },
+        'sass-loader'
+    ],
+    exclude: /node_modules/
+});
 
 // 定义 运行环境变量
 config.plugins.unshift(new webpack.DefinePlugin({

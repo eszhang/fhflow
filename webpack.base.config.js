@@ -5,7 +5,6 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 const SRC_PATH = path.resolve('./src');
 const APP_PATH = path.join(SRC_PATH, 'app');
@@ -25,15 +24,6 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                enforce: 'pre',
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'eslint-loader',
-                options: {
-                    fix: true
-                }
-            },
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -87,9 +77,6 @@ module.exports = {
             filename: path.join(BUILD_APP_PATH, './index.html'),
             template: './react/template/index.html',
             hash: false
-        }),
-        new StyleLintPlugin({
-            configFile: './.stylelintrc'
         })
     ]
 };

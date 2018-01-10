@@ -1,6 +1,6 @@
 
 /**
- *  run task
+ *  run build task
  */
 
 const webpack = require('webpack');
@@ -159,7 +159,7 @@ async.series([
     },
     // webpack
     function (next) {
-        webpack(webpackDistConfig, (err, stats) => {
+        webpack(webpackDistConfig, (err/* , stats */) => {
             if (err) throw err;
             // console.log(stats.toString({
             //     colors: true,

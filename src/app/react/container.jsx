@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as action from '../redux/action/index';
-import { ActionMenu } from './component/action-menu';
+import ActionMenu from './component/action-menu';
 import { ProjectMask } from './component/project-mask';
 import StatusBar from './component/status-bar';
 import ProxyList from './component/proxy-list';
@@ -30,7 +30,6 @@ const defaultPageSize = 9;
  */
 
 class Container extends React.Component {
-    static propTypes = {}
     componentDidMount() {
         this.props.updateDocList(docListData, 1, defaultPageSize);
         this.props.updateInstallToolsList(installListData.tools, 1, defaultPageSize);

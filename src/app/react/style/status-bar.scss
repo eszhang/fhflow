@@ -3,18 +3,7 @@
     position: relative;
     height: 100%;
     min-height: 70px;
-    i{
-        &.delete{
-            display: block;
-            width: 16px;
-            height: 22px;
-            line-height: 22px;
-            background-size: 16px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: url(../images/icon-project-delete-normal.png);
-        }
-    }
+    background-color: #1e1e1e;
     .opt-btn.delete{
         position: absolute;
         top: 5px;
@@ -33,33 +22,10 @@
         padding: 8px;
     }
     li{ 
-        padding: 4px 10px;
-        white-space: nowrap;    
-        >a{
+        >div{
+            font-size: 13px;
             color: #fff;
-        }
-        i{
-            margin-right: 5px;
-        }
-        &.info{
-            a{
-                color: #49a9ee;
-            }        
-        }
-        &.warning{
-            a{
-                color: #f56e00;
-            }
-        }
-        &.success{
-            a{
-                color: #3dbd7d;
-            }
-        }
-        &.error{
-            a{
-                color: #f4665c;
-            }
-        }
+            white-space: pre-wrap;
+        }   
     }
 }

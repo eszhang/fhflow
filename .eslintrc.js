@@ -42,6 +42,7 @@ const eslintrc = {
         'prefer-destructuring': 0,
         'import/first': true,
         'import/no-extraneous-dependencies': 0,
+        'import/no-dynamic-require': 0,
         'react/jsx-indent': [
             'error',
             4
