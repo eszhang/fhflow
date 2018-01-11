@@ -5,7 +5,7 @@
 
 const gulp = require('gulp');
 
-module.exports = (config = {}, cbs) => {
+module.exports = (config = {}, cbs = {}) => {
     const { src, dest, srcBase } = config;
     const {
         start = function () { },
@@ -19,10 +19,8 @@ module.exports = (config = {}, cbs) => {
         .pipe(gulp.dest(dest))
         .on('error', (err) => {
             log(err.message);
-            end();
         })
         .on('end', () => {
-            log();
             end();
         });
 

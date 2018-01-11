@@ -40,7 +40,10 @@ const eslintrc = {
             'windows'
         ],
         'prefer-destructuring': 0,
-        'import/first': true,
+        'no-buffer-constructor': 0,
+        'no-param-reassign': 0,
+        'no-unused-expressions': 0,
+        'import/first': 0,
         'import/no-extraneous-dependencies': 0,
         'import/no-dynamic-require': 0,
         'react/jsx-indent': [

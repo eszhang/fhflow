@@ -4,7 +4,6 @@
  */
 
 const del = require('del');
-const chalk = require('chalk');
 
 module.exports = (config = {}, cbs = {}) => {
     const { src, force = true } = config;
@@ -18,15 +17,10 @@ module.exports = (config = {}, cbs = {}) => {
 
     const stream = del(src, {
         force
-    }).then((paths) => {
-        log(chalk.green(`
-            ✔ Deleted files and folders:
-                ${paths.join}
-            `));
+    }).then(() => {
         end();
     }, (err) => {
         log(err);
-        end();
     });
 
     return stream;

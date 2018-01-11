@@ -1,1 +1,6 @@
-module.exports = {}
+
+/**
+ * cache 缓存文件
+ */
+module.exports = {};
+

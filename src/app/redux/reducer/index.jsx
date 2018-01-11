@@ -237,10 +237,12 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 // statusList state
 export const statusList = (state = { data: [] }, action = {}) => {
     let logs = null;
+    if (action.payload && action.payload.logs) {
+        logs = action.payload.logs;
+        logs = Array.isArray(logs) ? logs : [logs];
+    }
     switch (action.type) {
         case ADD_STATUS_LIST:
-            logs = action.payload.logs;
-            logs = Array.isArray(logs) ? logs : [logs];
             return Object.assign(
                 {}, state,
                 {

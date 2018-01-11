@@ -5,7 +5,6 @@
 
 const copy = require('./copy');
 
-module.exports = function (config = {}, startCb, endCb) {
-
-    return copy(config, startCb, endCb)
-} 
+module.exports = function (config = {}, cbs = {}) {
+    return copy(config, cbs);
+};

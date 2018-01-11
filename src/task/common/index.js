@@ -1,7 +1,8 @@
 
 /**
- * config 
+ * config
  */
+
 const path = require('path');
 
 const constantConfig = {
@@ -17,4 +18,5 @@ const constantConfig = {
 
 module.exports = {
     constantConfig
-}
+};
+

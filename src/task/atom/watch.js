@@ -12,124 +12,134 @@ const tplAtom = require('./tpl');
 const imageAtom = require('./image');
 const fontAtom = require('./font');
 const remAtom = require('./rem');
+const cache = require('./cache');
 
-var cache = require('./cache');
-
-module.exports = function (config = {}, loggerhandler, startCb, endCb) {
-
-    const { html, sass, clean, js, tpl, img, font, watch, bs } = config;
+module.exports = function (config = {}, cbs = {}) {
+    const {
+        html, sass, js, tpl, img, font, watch, bs
+    } = config;
     const { srcBase, watchPath, liverload } = watch;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
 
-    startCb && startCb();
+    start();
 
-    let watcher = watchAtom(watchPath, { ignored: /[\/\\]\./ });
-
+    const watcher = watchAtom(watchPath, { ignored: /[\/\\]\./ });
     cache[bs.name] = watcher;
-    watcher.on('change', function (file) {
-        console.log(file + "has been changed");
-        watchHandler('changed', file);
-    }).on('add', function (file) {
-        console.log(file + "has been added");
-        watchHandler('add', file);
-    }).on('unlink', function (file) {
-        console.log(file + "is deleted");
-        watchHandler('removed', file);
-    })
-
-    endCb && endCb();
 
     function watchHandler(type, file) {
         let target = file.split(srcBase)[1].match(/[\/\\](\w+)[\/\\]/);
         if (target.length && target[1]) {
             target = target[1];
         }
-        loggerhandler({
-            desc: target + " has been " + type,
-            type: "info"
-        })
+        log(`${file} has been ${type}`);
+
         switch (target) {
             case 'images':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase, 'build\\assets')
-                    delAtom([tmp], { force: true }).then(function () {
+                    const tmp = file.replace(srcBase, 'build\\assets');
+                    delAtom([tmp], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    imageAtom(img,function(){},function(){
+                    imageAtom(img, () => {}, () => {
                         liverload && bs.reload();
                     });
                 }
                 break;
             case 'js':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase, 'build\\assets')
-                    delAtom([tmp], { force: true }).then(function () {
+                    const tmp = file.replace(srcBase, 'build\\assets');
+                    delAtom([tmp], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    javaSriptAtom(js,function(){},function(){
+                    javaSriptAtom(js, () => {}, () => {
                         liverload && bs.reload();
                     });
                 }
                 break;
             case 'scss':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase + '\\scss', 'build\\assets\\css').replace(".scss", '.css')
-                    let tmp2 = tmp.replace(".css", '.css.map')
-                    delAtom([tmp, tmp2], { force: true }).then(function () {
+                    const tmp = file.replace(`${srcBase}\\scss`, 'build\\assets\\css').replace('.scss', '.css');
+                    const tmp2 = tmp.replace('.css', '.css.map');
+                    delAtom([tmp, tmp2], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    sassAtom(sass,function(){},function(){
-                        if(config.compileAutoprefixer){
-                            remAtom(config.compileAutoprefixer,function(){},function(){
+                    sassAtom(sass, {
+                        end() {
+                            if (config.compileAutoprefixer) {
+                                remAtom(config.compileAutoprefixer, {
+                                    end() {
+                                        liverload && bs.reload();
+                                    },
+                                    log(err) {
+                                        log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                                    }
+                                });
+                            } else {
                                 liverload && bs.reload();
-                            })
-                        }else{
-                            liverload && bs.reload();
+                            }
+                        },
+                        log(err) {
+                            log(err);
                         }
                     });
-                    
                 }
                 break;
             case 'view':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase, 'build');
-                    delAtom([tmp], { force: true }).then(function () {
+                    const tmp = file.replace(srcBase, 'build');
+                    delAtom([tmp], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    htmlAtom(html,function(){},function(){
+                    htmlAtom(html, () => {}, () => {
                         liverload && bs.reload();
                     });
                 }
                 break;
             case 'tpl':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase + '\\tpl', 'build\\assets\\template').replace(".tpl", '.js');
-                    delAtom([tmp], { force: true }).then(function () {
+                    const tmp = file.replace(`${srcBase}\\tpl`, 'build\\assets\\template').replace('.tpl', '.js');
+                    delAtom([tmp], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    tplAtom(tpl,function(){},function(){
+                    tplAtom(tpl, () => {}, () => {
                         liverload && bs.reload();
                     });
                 }
                 break;
             case 'font':
                 if (type === 'removed') {
-                    let tmp = file.replace(srcBase, 'build\\assets');
-                    delAtom([tmp], { force: true }).then(function () {
+                    const tmp = file.replace(srcBase, 'build\\assets');
+                    delAtom([tmp], { force: true }).then(() => {
                         liverload && bs.reload();
-                    })
+                    });
                 } else {
-                    fontAtom(font,function(){},function(){
+                    fontAtom(font, () => {}, () => {
                         liverload && bs.reload();
                     });
                 }
                 break;
+            default:
+                break;
         }
     }
 
-}
+    watcher.on('change', (file) => {
+        watchHandler('changed', file);
+    }).on('add', (file) => {
+        watchHandler('add', file);
+    }).on('unlink', (file) => {
+        watchHandler('removed', file);
+    });
+
+    end();
+};

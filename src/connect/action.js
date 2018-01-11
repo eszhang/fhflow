@@ -279,7 +279,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                     globalDispatch(changePackStatus());
                 };
             }
-            task.runTask(curProjectPath, taskName, taskStatus, this.printLog, notifier, fn);
+            task.runTask(curProjectPath, taskName, taskStatus, this.printLog, fn);
         },
 
         importModulesSetting(curProjectPath) {
@@ -399,20 +399,6 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 打印输出信息
         printLog(logs) {
-            logs = Array.isArray(logs) ? logs : [logs];
-            logs = logs.map((log, logIndex) => {
-                let D = new Date(),
-                    h = D.getHours(),
-                    m = D.getMinutes(),
-                    s = D.getSeconds();
-                h = h - 0 < 10 ? `0${h}` : h;
-                m = m - 0 < 10 ? `0${m}` : m;
-                s = s - 0 < 10 ? `0${s}` : s;
-
-                return Object.assign({}, log, {
-                    desc: `[${h}:${m}:${s}] ${log.desc}`
-                });
-            });
             globalDispatch(addStatusList(logs));
         },
 
