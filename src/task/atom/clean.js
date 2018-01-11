@@ -4,18 +4,30 @@
  */
 
 const del = require('del');
+const chalk = require('chalk');
 
-module.exports = function (config = {}, startCb, endCb) {
-
+module.exports = (config = {}, cbs = {}) => {
     const { src, force = true } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    startCb && startCb();
-    
-    let stream = del(src, {
-        force: true
-    }).then(function () {
-        endCb && endCb();
-    })
+    start();
+
+    const stream = del(src, {
+        force
+    }).then((paths) => {
+        log(chalk.green(`
+            ✔ Deleted files and folders:
+                ${paths.join}
+            `));
+        end();
+    }, (err) => {
+        log(err);
+        end();
+    });
 
     return stream;
-}   
+};

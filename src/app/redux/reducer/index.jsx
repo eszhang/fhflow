@@ -236,19 +236,22 @@ export const installList = (state = { dev: {}, tools: {} }, action = {}) => {
 
 // statusList state
 export const statusList = (state = { data: [] }, action = {}) => {
+    let logs = null;
     switch (action.type) {
         case ADD_STATUS_LIST:
+            logs = action.payload.logs;
+            logs = Array.isArray(logs) ? logs : [logs];
             return Object.assign(
                 {}, state,
                 {
-                    data: [...state.data, ...action.payload.data]
+                    data: [...state.data, ...logs]
                 }
             );
         case UPDATE_STATUS_LIST:
             return Object.assign(
                 {}, state,
                 {
-                    data: action.payload.data
+                    data: logs
                 }
             );
         default:

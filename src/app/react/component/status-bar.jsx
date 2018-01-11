@@ -33,9 +33,9 @@ class StatusBar extends React.Component {
                 <div ref={(dom) => { this.scrollWrapper = dom; }}>
                     <ul>
                         {
-                            data.map((info, index) => (
+                            data.map((m, index) => (
                                 <li key={index}>
-                                    <div dangerouslySetInnerHTML={{ __html: `${info.desc}` }} />
+                                    <div dangerouslySetInnerHTML={{ __html: `${m}` }} />
                                 </li>
                             ))
                         }

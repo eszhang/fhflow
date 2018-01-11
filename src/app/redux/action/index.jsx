@@ -150,18 +150,18 @@ export const updateProjectSetting = data => ({
 });
 
 // 新增状态信息
-export const addStatusList = data => ({
+export const addStatusList = logs => ({
     type: ADD_STATUS_LIST,
     payload: {
-        data
+        logs
     }
 });
 
 // 更新状态栏
-export const updateStatusList = data => ({
+export const updateStatusList = logs => ({
     type: UPDATE_STATUS_LIST,
     payload: {
-        data
+        logs
     }
 });
 

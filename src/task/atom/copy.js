@@ -4,19 +4,27 @@
  */
 
 const gulp = require('gulp');
-const del = require('del');
 
-module.exports = function (config = {}, startCb, endCb) {
-
+module.exports = (config = {}, cbs) => {
     const { src, dest, srcBase } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    startCb && startCb();
+    start();
 
-    let stream = gulp.src(src, { base: srcBase })
+    const stream = gulp.src(src, { base: srcBase })
         .pipe(gulp.dest(dest))
-        .on('end', function () {
-            endCb && endCb();
+        .on('error', (err) => {
+            log(err.message);
+            end();
+        })
+        .on('end', () => {
+            log();
+            end();
         });
 
     return stream;
-}
+};
