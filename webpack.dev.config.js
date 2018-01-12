@@ -35,6 +35,17 @@ config.module.rules.push({
         'sass-loader'
     ],
     exclude: /node_modules/
+}, {
+    test: /\.less$/,
+    use: [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+        },
+        'less-loader'
+    ],
+    exclude: /node_modules/
 });
 
 // 定义 运行环境变量

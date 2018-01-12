@@ -17,10 +17,10 @@ import digitalListData from '../redux/data/digital-list';
 import docListData from '../redux/data/doc-list';
 import installListData from '../redux/data/install-list';
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 
 import './style/index.scss';
-// import './iconfont/iconfont.less';
+import './iconfont/iconfont.less';
 
 const defaultPageSize = 9;
 
