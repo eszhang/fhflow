@@ -5,11 +5,8 @@
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
-const autoprefixer = require('gulp-autoprefixer');
-const sourceMap = require('gulp-sourcemaps');
 const compass = require('gulp-compass');
-const minifyCss = require('gulp-clean-css');
-const utils = require('../util/index');
+const { isDirExist, readFistLevelFolder } = require('../utils/file');
 
 module.exports = function (config = {}, cbs = {}) {
     const {
@@ -47,7 +44,7 @@ module.exports = function (config = {}, cbs = {}) {
         return stream;
     }// 模块化的情况
     for (let i = 0; i < src.length; i++) {
-        if (utils.isDirExist(srcBase[i]) && utils.readFistLevelFolder(srcBase[i]).length !== 0) { // 目录存在,并且目录不为空
+        if (isDirExist(srcBase[i]) && readFistLevelFolder(srcBase[i]).length !== 0) { // 目录存在,并且目录不为空
             gulp.src(src[i])
                 .pipe(plumber((err) => {
                     log(err);
@@ -62,10 +59,12 @@ module.exports = function (config = {}, cbs = {}) {
                 }))
                 .pipe(gulp.dest(destBase[i]))
                 .on('end', () => {
-                    sassNo++ == (src.length - 1) ? end() : undefined;
+                    sassNo++ === (src.length - 1) ? end() : undefined;
                 });
         } else { // 容错,当有的文件夹sass中不存在
-            sassNo++ == (src.length - 1) ? end() : undefined;
+            sassNo++ === (src.length - 1) ? end() : undefined;
         }
     }
+
+    return false;
 };

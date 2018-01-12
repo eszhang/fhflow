@@ -5,7 +5,7 @@
 
 const path = require('path');
 
-const constantConfig = {
+const config = {
     NAME: 'fhflow',
     ROOT: path.join(__dirname, '../'),
     WORKSPACE: 'fhflow_workspace',
@@ -16,7 +16,5 @@ const constantConfig = {
     TEMPLAGE_PROJECT: path.resolve(path.join(__dirname, '../template/project.zip'))
 };
 
-module.exports = {
-    constantConfig
-};
+module.exports = config;
 

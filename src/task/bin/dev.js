@@ -20,11 +20,11 @@ const watchHandler = require('../atom/watch');
 const remHandler = require('../atom/rem');
 const reversionHandler = require('../atom/reversion');
 
-const chalk = require('../util/chalk');
-const { requireUncached } = require('../util/index');
+const chalk = require('../utils/chalk');
+const { requireUncached } = require('../utils/file');
 
-const { getDevObj } = require('../task.config.js');
-const { constantConfig } = require('../common/index');
+const { getDevObj } = require('./config.js');
+const constantConfig = require('../constant/config');
 
 const { CONFIGNAME } = constantConfig;
 

@@ -39,11 +39,15 @@ const eslintrc = {
             'error',
             'windows'
         ],
+        'global-require': 0,
         'prefer-destructuring': 0,
         'no-buffer-constructor': 0,
         'no-param-reassign': 0,
         'no-unused-expressions': 0,
+        'no-loop-func': 0,
         'import/first': 0,
+        'no-restricted-syntax': 0,
+        'guard-for-in': 1,
         'import/no-extraneous-dependencies': 0,
         'import/no-dynamic-require': 0,
         'react/jsx-indent': [

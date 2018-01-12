@@ -2,7 +2,7 @@
 /**
  * watch 操作
  */
-
+const path = require('path');
 const watchAtom = require('gulp-watch');
 const delAtom = require('del');
 const htmlAtom = require('./html');
@@ -13,6 +13,7 @@ const imageAtom = require('./image');
 const fontAtom = require('./font');
 const remAtom = require('./rem');
 const cache = require('./cache');
+const chalk = require('../utils/chalk');
 
 module.exports = function (config = {}, cbs = {}) {
     const {
@@ -28,15 +29,15 @@ module.exports = function (config = {}, cbs = {}) {
 
     start();
 
-    const watcher = watchAtom(watchPath, { ignored: /[\/\\]\./ });
+    const watcher = watchAtom(watchPath, { ignored: /[\\/\\]\./ });
     cache[bs.name] = watcher;
 
     function watchHandler(type, file) {
-        let target = file.split(srcBase)[1].match(/[\/\\](\w+)[\/\\]/);
+        let target = file.split(srcBase)[1].match(/[\\/\\](\w+)[\\/\\]/);
         if (target.length && target[1]) {
             target = target[1];
         }
-        log(`${file} has been ${type}`);
+        log(`${chalk.yellow('☷')}  ${path.normalize(file).match(/src.+/)[0]} has been ${chalk.yellow(type)}`);
 
         switch (target) {
             case 'images':
@@ -46,8 +47,13 @@ module.exports = function (config = {}, cbs = {}) {
                         liverload && bs.reload();
                     });
                 } else {
-                    imageAtom(img, () => {}, () => {
-                        liverload && bs.reload();
+                    imageAtom(img, {
+                        end() {
+                            liverload && bs.reload();
+                        },
+                        log(err) {
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                        }
                     });
                 }
                 break;
@@ -58,8 +64,13 @@ module.exports = function (config = {}, cbs = {}) {
                         liverload && bs.reload();
                     });
                 } else {
-                    javaSriptAtom(js, () => {}, () => {
-                        liverload && bs.reload();
+                    javaSriptAtom(js, {
+                        end() {
+                            liverload && bs.reload();
+                        },
+                        log(err) {
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                        }
                     });
                 }
                 break;
@@ -87,7 +98,7 @@ module.exports = function (config = {}, cbs = {}) {
                             }
                         },
                         log(err) {
-                            log(err);
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
                         }
                     });
                 }
@@ -99,8 +110,13 @@ module.exports = function (config = {}, cbs = {}) {
                         liverload && bs.reload();
                     });
                 } else {
-                    htmlAtom(html, () => {}, () => {
-                        liverload && bs.reload();
+                    htmlAtom(html, {
+                        end() {
+                            liverload && bs.reload();
+                        },
+                        log(err) {
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                        }
                     });
                 }
                 break;
@@ -111,8 +127,13 @@ module.exports = function (config = {}, cbs = {}) {
                         liverload && bs.reload();
                     });
                 } else {
-                    tplAtom(tpl, () => {}, () => {
-                        liverload && bs.reload();
+                    tplAtom(tpl, {
+                        end() {
+                            liverload && bs.reload();
+                        },
+                        log(err) {
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                        }
                     });
                 }
                 break;
@@ -123,8 +144,13 @@ module.exports = function (config = {}, cbs = {}) {
                         liverload && bs.reload();
                     });
                 } else {
-                    fontAtom(font, () => {}, () => {
-                        liverload && bs.reload();
+                    fontAtom(font, {
+                        end() {
+                            liverload && bs.reload();
+                        },
+                        log(err) {
+                            log(`${chalk.red('☼  Error bug :')}\n${err}`);
+                        }
                     });
                 }
                 break;

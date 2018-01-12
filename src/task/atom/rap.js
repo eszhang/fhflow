@@ -34,5 +34,7 @@ module.exports = function () {
         }
 
         cb(null, file);
+
+        return false;
     });
 };

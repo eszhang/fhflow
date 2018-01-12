@@ -6,7 +6,7 @@
 const gulp = require('gulp');
 const zip = require('gulp-zip');
 const plumber = require('gulp-plumber');
-const utils = require('../util/index');
+const { isDirExist, readFistLevelFolder } = require('../utils/file');
 
 module.exports = function (config = {}, cbs = {}) {
     const {
@@ -33,8 +33,8 @@ module.exports = function (config = {}, cbs = {}) {
 
     const time = `${year}${month}${day}`;
     if (srcArray.length === 0) {
-        let name = fileRegExp.replace(/\${name}/g, projectName)
-            .replace(/\${version}/g, version).replace(/\${time}/g, time);
+        let name = fileRegExp.replace(/\[name\]/g, projectName)
+            .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
         name = `${name}.${type}`;
         gulp.src(`${srcBase}\\**\\*`)
             .pipe(plumber((err) => {
@@ -47,11 +47,11 @@ module.exports = function (config = {}, cbs = {}) {
             });
     } else {
         for (let i = 0; i < srcArray.length; i++) {
-            let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
-                .replace(/\${version}/g, version).replace(/\${time}/g, time);
+            let name = fileRegExp.replace(/\[name\]/g, projectName).replace(/\[moduleName\]/g, packageModules[i])
+                .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
             name = `${name}.${type}`;
 
-            if (packageModules[i] === 'common' && utils.isDirExist(`${srcBase}/oasisl`) && utils.readFistLevelFolder(`${srcBase}/oasisl`).length !== 0) {
+            if (packageModules[i] === 'common' && isDirExist(`${srcBase}/oasisl`) && readFistLevelFolder(`${srcBase}/oasisl`).length !== 0) {
                 srcArray[i].push(`${srcBase}/oasisl/**/*.*`);
             }
 

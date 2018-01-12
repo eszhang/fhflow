@@ -25,10 +25,34 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         // 初始化
         initApp() {
             let storage = STORAGE.get(),
-                curProjectPath,
                 workSpace,
-                projects,
-                projectArr = [];
+                projects;
+
+            const projectArr = [];
+
+            // 每次启动的时候检查本地项目是否还存在
+            function checkLocalProjects() {
+                const stg = STORAGE.get();
+                if (stg) {
+                    if (stg.workSpace) {
+                        if (!isDirExist(stg.workSpace)) {
+                            stg.projects = {};
+                            console.log('本地工作区已不存在');
+                        }
+                    }
+                    const pts = stg.projects;
+                    if (projects) {
+                        for (const key in pts) {
+                            if (!isDirExist(projects[key].path)) {
+                                delete projects[key];
+                            }
+                        }
+                        stg.projects = pts;
+                    }
+                    STORAGE.set(stg);
+                }
+            }
+
             if (!storage) {
                 storage = {};
                 workSpace = path.join(remote.app.getPath(CONFIG.DEFAULT_PATH), CONFIG.WORKSPACE);
@@ -51,11 +75,11 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                 projects = storage.projects;
                 const projectsKeys = Object.keys(projects);
                 if (projectsKeys.length > 0) {
-                    storage.curProjectPath = curProjectPath = projects[projectsKeys[0]].path;
+                    storage.curProjectPath = projects[projectsKeys[0]].path;
                     globalDispatch(setWorkSpace(workSpace));
                     for (const key in projects) {
-                        projectPath = projects[key].path;
-                        projectName = path.basename(projectPath);
+                        const projectPath = projects[key].path;
+                        const projectName = path.basename(projectPath);
                         projectArr.push({
                             key: Date.now(),
                             class: 'project-folder',
@@ -72,45 +96,22 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                         });
                     }
                     globalDispatch(setProjectData(projectArr));
-                    let maxIndex = projectArr.length - 1,
-                        index = maxIndex >= 0 ? 0 : -1;
+                    const maxIndex = projectArr.length - 1;
+                    const index = maxIndex >= 0 ? 0 : -1;
                     globalDispatch(changeActionProject(index));
                     globalDispatch(changeProjectSetting());
                 } else {
                     globalDispatch(setWorkSpace(workSpace));
                 }
             }
-
-            // 每次启动的时候检查本地项目是否还存在
-            function checkLocalProjects() {
-                const storage = STORAGE.get();
-                if (storage) {
-                    if (storage.workSpace) {
-                        if (!isDirExist(storage.workSpace)) {
-                            storage.projects = {};
-                            console.log('本地工作区已不存在');
-                        }
-                    }
-                    const projects = storage.projects;
-                    if (projects) {
-                        for (const key in projects) {
-                            if (!isDirExist(projects[key].path)) {
-                                delete projects[key];
-                            }
-                        }
-                        storage.projects = projects;
-                    }
-                    STORAGE.set(storage);
-                }
-            }
         },
 
         // 新建项目
         createProject() {
-            let storage = STORAGE.get(),
-                { workSpace } = storage,
-                suffix = CONFIG.NAME + new Date().getTime(),
-                projectPath = `${workSpace}\\${suffix}`;
+            const storage = STORAGE.get();
+            const { workSpace } = storage;
+            const suffix = CONFIG.NAME + new Date().getTime();
+            const projectPath = `${workSpace}\\${suffix}`;
 
             // 先判断一下工作区是否存在
             if (!isDirExist(workSpace)) {
@@ -150,8 +151,8 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                             isPackageing: false,
                             isRunning: false
                         }));
-                        let { projectList } = globalStore.getState(),
-                            { data, selectedIndex } = projectList,
+                        const { projectList } = globalStore.getState();
+                        const { data } = projectList,
                             maxIndex = data.length - 1;
                         globalDispatch(changeActionProject(maxIndex));
                         globalDispatch(changeProjectSetting());
@@ -163,12 +164,13 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         },
 
         // 打开项目
-        openProject(callback) {
-            let storage = STORAGE.get(),
-                projectPaths = remote.dialog.showOpenDialog({
-                    properties: ['openDirectory']
-                }),
-                projectPath,
+        openProject() {
+            const storage = STORAGE.get();
+            const projectPaths = remote.dialog.showOpenDialog({
+                properties: ['openDirectory']
+            });
+
+            let projectPath,
                 projectName;
 
             if (projectPaths && projectPaths.length) {
@@ -199,9 +201,9 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                             isPackageing: false,
                             isRunning: false
                         }));
-                        let { projectList } = globalStore.getState(),
-                            { data, selectedIndex } = projectList,
-                            maxIndex = data.length - 1;
+                        const { projectList } = globalStore.getState();
+                        const { data } = projectList;
+                        const maxIndex = data.length - 1;
                         globalDispatch(changeActionProject(maxIndex));
                         globalDispatch(changeProjectSetting());
                     }
@@ -211,8 +213,8 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 打开工作目录
         openProjectPath() {
-            let storage = STORAGE.get(),
-                curProjectPath = storage && storage.curProjectPath;
+            const storage = STORAGE.get();
+            const curProjectPath = storage && storage.curProjectPath;
             if (curProjectPath) {
                 shell.openItem(curProjectPath);
             }
@@ -220,17 +222,23 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 删除项目
         delProject() {
-            let storage = STORAGE.get(),
-                { curProjectPath } = storage,
-                projectName = path.basename(curProjectPath);
+            const storage = STORAGE.get();
+            const { curProjectPath } = storage;
+            const projectName = path.basename(curProjectPath);
+
             if (storage && storage.projects && storage.projects[projectName]) {
                 delete storage.projects[projectName];
                 STORAGE.set(storage);
                 globalDispatch(delProject(projectName));
-                let { projectList } = globalStore.getState(),
-                    { data, selectedIndex } = projectList,
-                    maxIndex = data.length - 1,
-                    index = maxIndex < 0 ? -1 : (selectedIndex > maxIndex ? maxIndex : selectedIndex);
+                const { projectList } = globalStore.getState();
+                const { data, selectedIndex } = projectList;
+                const maxIndex = data.length - 1;
+                let index;
+                if (maxIndex < 0) {
+                    index = -1;
+                } else {
+                    index = selectedIndex > maxIndex ? maxIndex : selectedIndex;
+                }
                 globalDispatch(changeActionProject(index));
                 globalDispatch(changeProjectSetting());
             }
@@ -261,9 +269,11 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 运行任务
         runTask(taskName, taskStatus) {
-            let storage = STORAGE.get(),
-                { curProjectPath } = storage,
-                fn;
+            const storage = STORAGE.get();
+            const { curProjectPath } = storage;
+
+            let fn;
+
             if (taskName === 'dev') {
                 fn = function () {
                     globalDispatch(changeRunStatus());
@@ -297,15 +307,13 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         },
 
         // 获取项目配置项
-        getSelectedProjectSetting(projectPath) {
-            let storage = STORAGE.get(),
-                { workSpace, curProjectPath } = storage;
-
-            let config = task.getConfig(curProjectPath),
-                {
-                    ftp, package: pack, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType
-                } = config,
-                chooseFunc = [];
+        getSelectedProjectSetting() {
+            const storage = STORAGE.get();
+            const { workSpace, curProjectPath } = storage;
+            const {
+                ftp, package: pack, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType
+            } = task.getConfig(curProjectPath);
+            const chooseFunc = [];
 
             server && server.liverload && chooseFunc.push('liveReload');
             supportChanged && chooseFunc.push('fileAddCompileSupport');
@@ -341,15 +349,15 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 更新配置项
         updateConfig(config) {
-            let storage = STORAGE.get(),
-                { curProjectPath } = storage;
+            const storage = STORAGE.get();
+            const { curProjectPath } = storage;
             task.updateConfig(curProjectPath, config);
         },
 
         // 安装环境
         installEnvironment() {
-            exec(`${__dirname}/bat/node-install.bat ${path.join(__dirname, '/lib')}`, (err, stdout, stderr) => {
-                if (err || stdout.indexOf('i-error') !== -1) {
+            exec(`${__dirname}/bat/node-install.bat ${path.join(__dirname, '/lib')}`, (nodeErr, nodeStdout) => {
+                if (nodeErr || nodeStdout.indexOf('i-error') !== -1) {
                     globalDispatch({
                         type: 'UPDATE_INSTALL_PROGRESS',
                         payload: {
@@ -365,8 +373,8 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                             status: 0
                         }
                     });
-                    exec(`${__dirname}/bat/compass-install.bat ${path.join(__dirname, '/lib')}`, (err, stdout, stderr) => {
-                        if (err || stdout.indexOf('i-error') !== -1) {
+                    exec(`${__dirname}/bat/compass-install.bat ${path.join(__dirname, '/lib')}`, (compassErr, compassStdout) => {
+                        if (compassErr || compassStdout.indexOf('i-error') !== -1) {
                             globalDispatch({
                                 type: 'UPDATE_INSTALL_PROGRESS',
                                 payload: {

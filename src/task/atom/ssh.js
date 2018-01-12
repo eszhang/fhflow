@@ -38,7 +38,7 @@ function upload2T(config, cb = function () {}) {
 }
 module.exports = function (config = {}, cbs = {}) {
     // 过滤不需要匹配的文件
-    const ignoreArray = config.ignoreFileRegExp.split(';').filter(item => item != '');
+    const ignoreArray = config.ignoreFileRegExp.split(';').filter(item => item !== '');
     const {
         start = function () { },
         log = function () { },

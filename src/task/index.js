@@ -1,5 +1,5 @@
 
-/*
+/**
  * task 对外接口
  */
 
@@ -9,14 +9,14 @@ const _ = require('lodash');
 const extract = require('./atom/extract');
 const copy = require('./atom/copy');
 const taskRunOpt = require('./bin/run.js');
-const {
-    requireUncached, isFileExist, isDirExist, renameProject, readFistLevelFolder
-} = require('./util/index');
+const chalk = require('./utils/chalk');
 
-let { constantConfig, cacheConfig } = require('./common/index'),
-    {
-        NAME, ROOT, WORKSPACE, CONFIGNAME, CONFIGPATH, PLATFORM, DEFAULT_PAT, TEMPLAGE_PROJECT, TEMPLAGE_EXAMPLE, EXAMPLE_NAME
-    } = constantConfig;
+const {
+    requireUncached, isFileExist, renameProject, readFistLevelFolder
+} = require('./utils/file');
+const {
+    CONFIGNAME, CONFIGPATH, TEMPLAGE_PROJECT
+} = require('./constant/config');
 
 
 const action = {
@@ -26,10 +26,10 @@ const action = {
         extract({
             src: TEMPLAGE_PROJECT,
             dest: projectPath
-        }, () => {
-
-        }, () => {
-            callback && callback();
+        }, {
+            end() {
+                callback && callback();
+            }
         });
     },
 
@@ -37,8 +37,9 @@ const action = {
     runTask(projectPath, taskName, taskStatus, loggerhandler, fn) {
         if (taskStatus) {
             taskRunOpt[taskName](projectPath, loggerhandler, fn);
-        } else {
-            taskName === 'dev' && this.close(projectPath);
+        } else if (taskName === 'dev') {
+            this.close(projectPath);
+            loggerhandler(`${chalk.yellow('☷')}  dev mode closed`);
         }
     },
 
@@ -68,7 +69,6 @@ const action = {
         config.choseModules = modules;
         this.updateConfig(curProjectPath, config);
         fn(config);
-        // console.log(modules);
     },
 
     // 删除项目名称
@@ -118,7 +118,7 @@ const action = {
             fs.writeFileSync(configPath, configContent);
             callback && callback(requireUncached(config));
         } catch (e) {
-            console.log('报错');
+            throw new Error(e);
         }
     }
 

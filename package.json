@@ -8,7 +8,7 @@
     "dev": "webpack-dev-server --config webpack.dev.config.js",
     "build": "node run.build.js",
     "codelint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint --ext .jsx,.js  src/",
+    "eslint": "eslint --ext .jsx,.js  src/connect",
     "eslint-fix": "npm run eslint --fix",
     "stylelint": "stylelint src/**/*.scss",
     "stylelint-fix": "stylefmt -r src/**/*.scss",

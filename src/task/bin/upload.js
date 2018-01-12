@@ -6,11 +6,11 @@
 const path = require('path');
 const sshHandler = require('../atom/ssh');
 
-const chalk = require('../util/chalk');
-const { requireUncached } = require('../util/index');
+const chalk = require('../utils/chalk');
+const { requireUncached } = require('../utils/file');
 
-const { getUploadObj } = require('../task.config.js');
-const { constantConfig } = require('../common/index');
+const { getUploadObj } = require('./config.js');
+const constantConfig = require('../constant/config');
 
 const { CONFIGNAME } = constantConfig;
 
