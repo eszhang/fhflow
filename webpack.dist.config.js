@@ -20,7 +20,7 @@ config.module.rules.unshift({
     }
 });
 
-// 添加scss css处理
+// 添加scss less css处理
 config.module.rules.push({
     test: /\.css$/,
     use: ExtractTextPlugin.extract([
@@ -40,6 +40,15 @@ config.module.rules.push({
         'sass-loader'
     ]),
     exclude: /node_modules/
+}, {
+    test: /\.less$/,
+    use: ExtractTextPlugin.extract([
+        {
+            loader: 'css-loader',
+            options: { minimize: true }
+        },
+        'less-loader'
+    ])
 });
 
 // 添加 环境变量 css模块化语法检查 js压缩

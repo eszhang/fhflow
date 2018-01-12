@@ -21,56 +21,55 @@ fhflow前端开发环境集成工具，对fh目前前端开发环境、编译打
 4. 【开发文档模块】 整合UED前端目前自研的文档,如oasis、oasisL、rhyton，以及常用开发文档，如jQuery、loadsh、echart。这模块相对简单，只需要归类提供对应文档链接入口即可。
 5. 【环境安装模块】 分为常规环境安装（nodejs、ruby、compass）及常用开发工具包下载（beyond compare、vscode、markdownpad、koala），其中常规环境安装，安装时需要进度条显示安装到哪一步了，目前三步完整安装流程，常用开发工具包下载，不需要进度条，点击即下载，这里需要明显区分出常规环境安装（推荐）和常用开发工具包下载
 
+#### 如何启动: 
+Step 1
+```
+git clone git@github.com:eszhang/fhflow.git
+```
 
+Step 2
+```
+npm i
+```
 
+Step 3
+```
+npm run build
+```
 
-注意点: 
-1、iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
+#### 如何打包: 
+Step 1
+```
+npm run dist
+```
 
-2、文件目录结构
-a、非模块化项目目录结构
-    ├── build
-    ├── src
-    │   ├── 其他(项目自己需要的文件目录)
-    │   ├── icons
-    │   │   ├── assets  (svg)  
-    │   │   └── templates  (icon模板文件 projectName +"icon.css")  
-    │   ├── images
-    │   ├── scss
-    │   ├── tpl
-    │   ├── js
-    │   └── view
-    └── oasisl
+Step 2
+```
+electron-package:win64
+```
 
+#### 如何开发: 
+在开发过程中可以通过npm run start 启动页面服务
+使用vscode进行断点调试，具体调试代码如下:
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Main Process",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+            "program": "${workspaceRoot}/src/electron/app.js"
+        }
+    ]
+}
+```
 
-b、模块化项目目录结构
-    ├── build
-    ├── src
-    │   ├── 其他(项目自己需要的文件目录)
-    │   ├── icons
-    │   │    └── bussinessName
-    │   │        └── common  (公共模块)  
-    │   │           ├── assets  (svg)  
-    │   │           └── templates  (icon模板文件 projectName +"icon.css")  
-    │   ├── images
-    │   ├── scss
-    │   ├── tpl
-    │   ├── js
-    │   │    └── bussinessName
-    │   │        ├── module1
-    │   │        ├── module2
-    │   │        ├── module3
-    │   │        └── common  (公共模块)      
-    │   └── view
-    │       └── bussinessName
-    │           ├── module1  (业务模块1)
-    │           ├── module2  (业务模块2)
-    │           ├── module3  (业务模块3)
-    │           └── common   (公共模块)
-    └── oasisl
+#### 可能遇到的问题
 
-3、关于上传命令,默认端口为22 默认远程路径为'/',可根据具体情况进行修改。文件过滤出可以填写过滤规则,当有多个条件时使用";"隔开。例如：!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\build\release\css\**;!D:\mygit\fhFlowWorkspaceTest\fhflowTest1\release\assets\css\
-
-4、离线使用antd时,为了图标正常使用需要将链接改为"http://127.0.0.1:8080/iconfont"
-
-5、关于打包名字,${name}为项目名称,${moduleName}模块名称,${version}版本号,${time}时间,打包时会自动替换。比如非模块项目,${moduleName}不存在,就不需要使用了。
+在使用npm run electron-package:win64打包过程中拷贝node_modules时可能会存在漏包的情况。如果存在漏报情况需要手动开发环境中的node_modules下的包拷贝到目录electron-package/FhFlow-win32-x64/resources/app/node_modules 下

@@ -210,22 +210,22 @@ if (process.platform === 'darwin') {
         ]
     });
 } else if (process.platform === 'win32') {
-    const helpItem = template[template.length - 1];
+    // const helpItem = template[template.length - 1];
 
-    helpItem.submenu.push({
-        label: '检查更新',
-        accelerator: '',
-        click() {
-            action.checkUpdate();
-        }
-    });
+    // helpItem.submenu.push({
+    //     label: '检查更新',
+    //     accelerator: '',
+    //     click() {
+    //         action.checkUpdate();
+    //     }
+    // });
 
-    helpItem.submenu.push({
-        label: '关于',
-        click() {
-            action.openExternal('about');
-        }
-    });
+    // helpItem.submenu.push({
+    //     label: '关于',
+    //     click() {
+    //         action.openExternal('about');
+    //     }
+    // });
 }
 
 const menu = Menu.buildFromTemplate(template);

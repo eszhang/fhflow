@@ -63,7 +63,7 @@ async.series([
         del(BUILD_PATH, {
             force: true
         }).then(() => {
-            log.success('[1/7] build目录已清除干净');
+            log.success('[1/8] build目录已清除干净');
             next();
         });
     },
@@ -87,7 +87,7 @@ async.series([
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_CONNECT_PATH))
             .on('end', () => {
-                log.success('[2/7] connect目录文件已压缩拷贝至build目录');
+                log.success('[2/8] connect目录文件已压缩拷贝至build目录');
                 next();
             });
     },
@@ -111,7 +111,7 @@ async.series([
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_ELECTRON_PATH))
             .on('end', () => {
-                log.success('[3/7] electron目录文件已压缩拷贝至build目录');
+                log.success('[3/8] electron目录文件已压缩拷贝至build目录');
                 next();
             });
     },
@@ -124,7 +124,7 @@ async.series([
             });
     },
     function (next) {
-        gulp.src(`${TASK_PATH}/**/*.js`)
+        gulp.src([`${TASK_PATH}/**/*.js`, `!${TASK_PATH}/lib/**/*.js`])
             .pipe(eslint({
                 fix: true,
                 configFile: CONFIG_FILE_PATH
@@ -135,7 +135,15 @@ async.series([
             .pipe(uglify())
             .pipe(gulp.dest(BUILD_TASK_PATH))
             .on('end', () => {
-                log.success('[4/7] task目录文件已压缩拷贝至build目录');
+                log.success('[4/8] task目录文件已压缩拷贝至build目录');
+                next();
+            });
+    },
+    function (next) {
+        gulp.src(`${TASK_PATH}/lib/**/*.js`, { base: `${TASK_PATH}/` })
+            .pipe(gulp.dest(BUILD_TASK_PATH))
+            .on('end', () => {
+                log.success('[5/8] task目录文件下lib目录拷贝纸build目录下');
                 next();
             });
     },
@@ -143,8 +151,9 @@ async.series([
     function (next) {
         gulp.src(`${NODE_MODULES_PATH}/**/*.*`)
             .pipe(gulp.dest(BUILD_NODE_MODULES_PATH))
+
             .on('end', () => {
-                log.success('[5/7] node_module包已拷贝至build目录');
+                log.success('[6/8] node_module包已拷贝至build目录');
                 next();
             });
     },
@@ -153,7 +162,7 @@ async.series([
         gulp.src(PACKAGE_JSON_PATH)
             .pipe(gulp.dest(BUILD_PACKAGE_JSON_PATH))
             .on('end', () => {
-                log.success('[6/7] package.json文件已拷贝至build目录');
+                log.success('[7/8] package.json文件已拷贝至build目录');
                 next();
             });
     },
@@ -168,7 +177,7 @@ async.series([
             //     chunks: false,
             //     chunkModules: false
             // }) + '\n')
-            log.success('[7/7] app目录已拷贝至build目录');
+            log.success('[8/8] app目录已拷贝至build目录');
             log.success('dist已结束 ！');
             log.stop();
             next();

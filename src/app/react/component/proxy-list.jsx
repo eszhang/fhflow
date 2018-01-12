@@ -40,6 +40,14 @@ class IpPortForm extends React.Component {
         return Object.keys(fieldsError).some(field => fieldsError[field]);
     }
 
+    isPort = (rule, value, callback) => {
+        if (value && (!/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value))) {
+            callback([new Error('please input right port')]);
+        } else {
+            callback();
+        }
+    }
+
     render() {
         const { ip, port } = this.props;
         const {
@@ -61,7 +69,10 @@ class IpPortForm extends React.Component {
                     {
                         getFieldDecorator('port', {
                             initialValue: port,
-                            rules: [{ required: true, message: 'Please input your port!' }]
+                            rules: [
+                                { required: true, message: 'Please input your port!' },
+                                { validator: this.isPort }
+                            ]
                         })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="port" />)
                     }
                 </FormItem>
@@ -167,9 +178,9 @@ export default class ProxyList extends React.Component {
         }];
 
         this.cacheData = this.props.data.map(item => ({ ...item }));
-
         this.state = {
-            modalVisible: false
+            modalVisible: false,
+            newData: {}
         };
     }
 
@@ -184,12 +195,13 @@ export default class ProxyList extends React.Component {
     }
 
     handleChange(value, key, column) {
-        const { data, updateProxyItemHandler } = this.props;
-        const newData = [...data];
+        const { updateProxyItemHandler } = this.props;
+        const newData = [...this.state.newData];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target[column] = value;
-            updateProxyItemHandler(newData);
+            this.setState({ newData });
+            // updateProxyItemHandler(newData);
         }
     }
 
@@ -203,6 +215,7 @@ export default class ProxyList extends React.Component {
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target.editable = true;
+            this.setState({ newData });
             updateProxyItemHandler(newData);
         }
     }
@@ -225,13 +238,14 @@ export default class ProxyList extends React.Component {
     }
 
     save(key) {
-        const { data, updateProxyItemHandler } = this.props;
-        const newData = [...data];
+        const { updateProxyItemHandler } = this.props;
+        const newData = [...this.state.newData];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             delete target.editable;
             updateProxyItemHandler(newData);
             this.cacheData = newData.map(item => ({ ...item }));
+            this.setState({ newData: {} });
             message.success('更新成功');
         }
     }
@@ -244,6 +258,7 @@ export default class ProxyList extends React.Component {
             Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
             delete target.editable;
             updateProxyItemHandler({ newData });
+            this.setState({ newData: {} });
         }
     }
 

@@ -14,7 +14,7 @@ config.devServer = {
     hot: true
 };
 
-// 添加 scss css处理
+// 添加 scss less css处理
 config.module.rules.push({
     test: /\.css$/,
     use: [

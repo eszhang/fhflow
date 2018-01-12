@@ -11,6 +11,7 @@ const globalDispatch = globalStore.dispatch;
 
 const CONFIG = require('./config.js');
 const STORAGE = require('./storage.js');
+const { isDirExist } = require('./utils');
 const ACTION = require('./action.js')(globalStore, globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`);
@@ -63,7 +64,6 @@ ipcRenderer.on('openExternal', (event, urlName) => {
     ACTION.openExternal(urlName);
 });
 
-
 //= =监听 app redux state tree 执行对应指令
 
 globalStore.subscribe(() => {
@@ -82,7 +82,7 @@ globalStore.subscribe(() => {
     } = globalAction;
 
     const { data, selectedIndex } = projectList;
-
+    const { changeRunStatus, changeUploadStatusData } = globalAction;
     const storage = STORAGE.get();
     const curProjectPath = (storage && storage.curProjectPath) || '';
     let taskFlag;
@@ -140,8 +140,14 @@ globalStore.subscribe(() => {
             ACTION.runTask('dev', taskFlag);
             break;
         case CHANGE_UPLOAD_STATUS:
-            taskFlag = data[selectedIndex].isUploading ? 1 : 0;
-            ACTION.runTask('upload', taskFlag);
+            if (!isDirExist(`${curProjectPath}//build`)) {
+                globalDispatch(changeRunStatus(selectedIndex));
+                globalDispatch(changeUploadStatusData(selectedIndex));
+                ACTION.notify('请保证项目已经编译完成,再点击上传按钮');
+            } else {
+                taskFlag = data[selectedIndex].isUploading ? 1 : 0;
+                ACTION.runTask('upload', taskFlag);
+            }
             break;
         case CHANGE_PACK_STATUS:
             taskFlag = data[selectedIndex].isPackageing ? 1 : 0;
@@ -195,9 +201,13 @@ globalStore.subscribe(() => {
                         fileRegExp: packFileRegExp
                     }
                 };
+
                 ACTION.updateConfig(config);
             }
+
+
             break;
+        // 打开外链
         case OPEN_LINK:
             ACTION.openDoc(action.payload.link);
             break;

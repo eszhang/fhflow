@@ -418,10 +418,9 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         // 打开外链
         openExternal(urlName) {
             const urlMap = {
-                home: 'https://github.com/eszhang',
-                help: 'https://github.com/eszhang',
-                problem: 'https://github.com/eszhang',
-                about: 'https://github.com/eszhang'
+                home: 'https://github.com/eszhang/fhflow/tree/develop',
+                help: 'https://github.com/eszhang/fhflow/blob/develop/doc/md/fhflow.md',
+                problem: 'https://github.com/eszhang/fhflow/issues'
             };
             shell.openExternal(urlMap[urlName]);
         },

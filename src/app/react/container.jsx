@@ -20,7 +20,7 @@ import installListData from '../redux/data/install-list';
 import 'antd/dist/antd.css';
 
 import './style/index.scss';
-import './iconfont/iconfont.css';
+// import './iconfont/iconfont.less';
 
 const defaultPageSize = 9;
 
@@ -28,7 +28,6 @@ const defaultPageSize = 9;
  * @class action-menu
  * @extends {Component}
  */
-
 class Container extends React.Component {
     componentDidMount() {
         this.props.updateDocList(docListData, 1, defaultPageSize);

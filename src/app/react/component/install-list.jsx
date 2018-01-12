@@ -65,7 +65,7 @@ class InstallList extends React.Component {
         return (
             <div className="install-list">
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={<span><Icon type="apple" />开发环境检测安装</span>} key="1">
+                    <TabPane tab={<span><Icon type="eye-o" />开发环境检测安装</span>} key="1">
                         <div className="dev-wrap">
                             <Steps current={devProgressIndex} status={statusMap[devProgressStatus]}>
                                 {devData.map(m => <Step key={m.title} title={m.title} />)}
@@ -77,7 +77,7 @@ class InstallList extends React.Component {
                             </div>
                         </div>
                     </TabPane>
-                    <TabPane tab={<span><Icon type="android" />常用开发工具下载</span>} key="2">
+                    <TabPane tab={<span><Icon type="download" />常用开发工具下载</span>} key="2">
                         <ItemList data={toolsData} onDocClick={onClickHandler} extraText="下载" />
                         {totalPages > 1 && <Pagination current={pageNo} pageSize={pageSize} total={totalRows} onChange={(pageNo, pageSize) => this.handleChange(pageNo, pageSize)} />}
                     </TabPane>

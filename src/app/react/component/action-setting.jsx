@@ -111,7 +111,7 @@ class ActionSettingForm extends React.Component {
                         })(<RadioGroup onChange={this.onUploadChange}>
                             <Radio value="sftp">SFTP</Radio>
                             <Radio value="ftp">FTP</Radio>
-                        </RadioGroup>)}
+                           </RadioGroup>)}
                     </FormItem>
                 </InputGroup>
                 <div className="modulName">打包</div>
@@ -132,7 +132,7 @@ class ActionSettingForm extends React.Component {
                         })(<RadioGroup >
                             <Radio value="zip">zip</Radio>
                             <Radio value="rar">rar</Radio>
-                           </RadioGroup>)}
+                        </RadioGroup>)}
                     </FormItem>
                 </InputGroup>
                 <FormItem className="buttons">
@@ -259,10 +259,10 @@ export default class ActionSetting extends React.Component {
         return (
             <div className="action-setting">
                 <Tabs defaultActiveKey="1" className="actionSettingHeader">
-                    <TabPane tab={<span><Icon type="apple" />项目设置</span>} key="1">
+                    <TabPane tab={<span><Icon type="setting" />项目设置</span>} key="1">
                         { Object.keys(actionSetting).length > 0 && <WrappedActionSettingForm actionSetting={actionSetting} selectedIndex={selectedIndex} submitHandler={submitProjectSettingHandler} /> }
                     </TabPane>
-                    <TabPane tab={<span><Icon type="android" />开发高级设置</span>} key="2">
+                    <TabPane tab={<span><Icon type="tool" />开发高级设置</span>} key="2">
                         { Object.keys(actionSetting).length > 0 && <WrappedSeniorDevelopSettingForm
                             actionSetting={actionSetting}
                             selectedIndex={selectedIndex}
