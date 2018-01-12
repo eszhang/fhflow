@@ -231,7 +231,8 @@
 	}
 	
   #### 注意点: 
-1.  iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
+1. iconfont 使用时规定了template模板名称为  项目名称icon.css,例如 godway项目中命名应该为godwayicon.css
+
 2. 文件目录结构
 
 * 非模块化项目目录结构
