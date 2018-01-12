@@ -132,11 +132,13 @@
             margin-left: 10px;
         }
     }
-    .ant-tabs-tabpane-active{
-        .ant-form{
-            .ant-form-item-label{
-                >label{
-                    font-size: 14px;
+    .tabpanel:last-child{
+        .ant-tabs-tabpane-active{
+            .ant-form{
+                .ant-form-item-label{
+                    >label{
+                        font-size: 14px;
+                    }   
                 }
             }
         }
