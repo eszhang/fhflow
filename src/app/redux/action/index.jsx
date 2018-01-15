@@ -183,24 +183,15 @@ export const updateProxyHost = data => ({
 });
 
 // 新增转发代理
-export const addProxyItem = (data) => {
-    const uniqueID = Date.now();
-    return {
-        type: ADD_PROXY_ITEM,
-        payload: {
-            id: uniqueID,
-            key: uniqueID,
-            ...data
-        }
-    };
-};
+export const addProxyItem = data => ({
+    type: ADD_PROXY_ITEM,
+    payload: data
+});
 
 // 修改转发代理
 export const updateProxyItem = data => ({
     type: UPDATE_PROXY_ITEM,
-    payload: {
-        ...data
-    }
+    payload: data
 });
 
 // 删除转发代理
