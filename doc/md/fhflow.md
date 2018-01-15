@@ -85,21 +85,21 @@
 + 开发模式
 
   选中项目点击开发按钮，该项目进度开发状态。在该模式下会将src目录中的文件按指定路径编译值build目录下（同时打印出日志），并监听src目录下的变化，当你在日志区看到`启动server成功`后说明项目编译完成。具体目录结构为：
-     ```
-	build（构建目录）
-	├── assets   (静态文件)
-	│   ├── fonts 
-	│   ├── images 
-	│   ├── css
-	│   ├── js
-	│   │ 	├── 模块js
-	│   │ 	└── template
-	│   │ 		└── helper.js
-	│   ├── template
-	│   │ 	├── 模块模板
-	│   │ 	└── template.js
-	│   ├── 平台html
-    ```
+  
+      build（构建目录）
+      ├── assets   (静态文件)
+      │   ├── fonts 
+      │   ├── images 
+      │   ├── css
+      │   ├── js
+      │   │ 	├── 模块js
+      │   │ 	└── template
+      │   │ 		└── helper.js
+      │   ├── template
+      │   │ 	├── 模块模板
+      │   │ 	└── template.js
+      │   ├── 平台html
+
 + 上传模式
 
     在该模式下会将build下的文件，过滤不需要的文件，去除rap后拷贝到release目录下，然后根据设置将release目录下的文件上传到服务器指定位置。**值得注意的是：点击上传按钮前请确认项目已经经过编译过程，生成了build文件夹**
