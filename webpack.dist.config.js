@@ -20,7 +20,7 @@ config.module.rules.push(
                 }
             ]
         ),
-        exclude: /node_modules/y
+        exclude: /node_modules/
     },
     {
         test: /\.scss$/,
