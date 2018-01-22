@@ -4,32 +4,45 @@
  */
 
 const gulp = require('gulp');
+const plumber = require('gulp-plumber');
 const iconfont = require('gulp-iconfont');
 const consolidate = require('gulp-consolidate');
 
-module.exports = function (config = {}, startCb, endCb) {
+module.exports = function (config = {}, cbs = {}) {
+    const {
+        svgSrc, fontName, cssSrc, fontPath, className, version, cssDest, fontsDest
+    } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    const { svgSrc, fontName, cssSrc, fontPath, className, version, cssDest, fontsDest } = config;
+    start();
 
-    startCb && startCb();
-
-    let stream = gulp.src(svgSrc)
-        .pipe(iconfont({ fontName:fontName }))
-        .on('codepoints', function(codepoints, options) {
-                gulp.src(cssSrc)
-                    .pipe(consolidate('lodash',{
-                        glyphs: codepoints,
-                        fontName: fontName,
-                        fontPath: fontPath,
-                        className: className,
-                        version: version + '.' + (+new Date())
-                    }))
-            .pipe(gulp.dest(cssDest))
+    const stream = gulp.src(svgSrc)
+        .pipe(plumber((err) => {
+            log(err);
+        }))
+        .pipe(iconfont({ fontName }))
+        .on('codepoints', (codepoints) => {
+            gulp.src(cssSrc)
+                .pipe(plumber((err) => {
+                    log(err);
+                }))
+                .pipe(consolidate('lodash', {
+                    glyphs: codepoints,
+                    fontName,
+                    fontPath,
+                    className,
+                    version: `${version}.${+new Date()}`
+                }))
+                .pipe(gulp.dest(cssDest));
         })
         .pipe(gulp.dest(fontsDest))
-        .on('end', function () {
-            endCb && endCb();
-        }); 
+        .on('end', () => {
+            end();
+        });
     return stream;
-}
+};
 

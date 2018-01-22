@@ -4,20 +4,29 @@
  */
 
 const gulp = require('gulp');
+const plumber = require('gulp-plumber');
 const RevAll = require('../lib/weflow-rev-all');
 const revDel = require('gulp-rev-delete-original');
 
-module.exports = function (config = {}, startCb, endCb) {
+module.exports = function (config = {}, cbs = {}) {
     const { src, dest } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    startCb && startCb();
+    start();
 
-    var revAll = new RevAll({
-        fileNameManifest: "fhflow.config.json",
-        dontRenameFile: [".html",".php"]
-    })
+    const revAll = new RevAll({
+        fileNameManifest: 'fhflow.config.json',
+        dontRenameFile: ['.html', '.php']
+    });
 
-    gulp.src(src)
+    const stream = gulp.src(src)
+        .pipe(plumber((err) => {
+            log(err);
+        }))
         .pipe(revAll.revision())
         .pipe(gulp.dest(dest))
         .pipe(revDel({
@@ -25,8 +34,9 @@ module.exports = function (config = {}, startCb, endCb) {
         }))
         .pipe(revAll.manifestFile())
         .pipe(gulp.dest(dest))
-        .on('end', function () {
-            endCb && endCb();
+        .on('end', () => {
+            end();
         });
 
-}
+    return stream;
+};

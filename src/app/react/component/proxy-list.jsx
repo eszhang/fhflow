@@ -15,11 +15,10 @@ import '../style/proxy-list.scss';
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 
-//host 表单
+// host 表单
 class IpPortForm extends React.Component {
-
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     componentDidMount() {
@@ -42,9 +41,9 @@ class IpPortForm extends React.Component {
     }
 
     isPort = (rule, value, callback) => {
-        if(value === ''){
+        if (value === '') {
             callback([new Error('please input your port')]);
-        }else if (/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value)) {
+        } else if (/^([0-9]|[1-9]\d|[1-9]\d{2}|[1-9]\d{3}|[1-5]\d{4}|6[0-4]\d{3}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/.test(value)) {
             callback();
         } else {
             callback([new Error('please input right port')]);
@@ -52,9 +51,9 @@ class IpPortForm extends React.Component {
     }
 
     isIp = (rule, value, callback) => {
-        if(value === ''){
+        if (value === '') {
             callback([new Error('please input your ip')]);
-        }else if (/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))$/.test(value) || value==='localhost') {
+        } else if (/^(([1-9]|([1-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.)(([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))\.){2}([0-9]|([0-9]\d)|(1\d\d)|(2([0-4]\d|5[0-5])))$/.test(value) || value === 'localhost') {
             callback();
         } else {
             callback([new Error('please input right ip')]);
@@ -62,9 +61,10 @@ class IpPortForm extends React.Component {
     }
 
     render() {
-
         const { ip, port } = this.props;
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const {
+            getFieldDecorator, getFieldsError, getFieldError, isFieldTouched
+        } = this.props.form;
         const ipError = isFieldTouched('ip') && getFieldError('ip');
         const portError = isFieldTouched('port') && getFieldError('port');
         return (
@@ -74,9 +74,9 @@ class IpPortForm extends React.Component {
                         getFieldDecorator('ip', {
                             initialValue: ip,
                             rules: [
-                                    { validator: this.isIp }
-                                   ]
-                        })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" disabled={true} />)
+                                { validator: this.isIp }
+                            ]
+                        })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="ip" disabled />)
                     }
                 </FormItem>
                 <FormItem validateStatus={portError ? 'error' : ''} help={portError || ''} label="端口号">
@@ -93,24 +93,23 @@ class IpPortForm extends React.Component {
                     <Button type="primary" htmlType="submit" disabled={this.hasErrors(getFieldsError())} > 保存 </Button>
                 </FormItem>
             </Form>
-        )
+        );
     }
 }
 
 const WrappedIpPortForm = Form.create()(IpPortForm);
-;
 
-//proxyItem 表单
+
+// proxyItem 表单
 class ProxItemForm extends React.Component {
-
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     isTarget = (rule, value, callback) => {
-        if(value === ''){
+        if (value === '') {
             callback([new Error('please input your target')]);
-        }else if (/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*(\/[^\/]+)*\/?$/.test(value) || value==='localhost') {
+        } else if (/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*(\/[^\/]+)*\/?$/.test(value) || value === 'localhost') {
             callback();
         } else {
             callback([new Error('please input right target')]);
@@ -119,7 +118,9 @@ class ProxItemForm extends React.Component {
 
 
     render() {
-        const { visible, onCancel, onCreate, form } = this.props;
+        const {
+            visible, onCancel, onCreate, form
+        } = this.props;
         const { getFieldDecorator } = form;
         const formItemLayout = {
             labelCol: {
@@ -130,7 +131,7 @@ class ProxItemForm extends React.Component {
                 xs: { span: 24 },
                 sm: { span: 12 }
             }
-        }
+        };
         return (
             <Modal title="新增代理请求" visible={visible} onOk={onCreate} onCancel={onCancel}>
                 <Form>
@@ -141,7 +142,7 @@ class ProxItemForm extends React.Component {
                             })(<Input prefix={<Icon type="link" style={{ fontSize: 13 }} />} placeholder="rule" />)
                         }
                     </FormItem>
-                    <FormItem  {...formItemLayout} label="目标地址">
+                    <FormItem {...formItemLayout} label="目标地址">
                         {
                             getFieldDecorator('target', {
                                 rules: [{ validator: this.isTarget }]
@@ -150,9 +151,8 @@ class ProxItemForm extends React.Component {
                     </FormItem>
                 </Form>
             </Modal>
-        )
+        );
     }
-
 }
 const WrappedProxItemForm = Form.create()(ProxItemForm);
 
@@ -166,7 +166,6 @@ const EditableCell = ({ editable, value, onChange }) => (
 );
 
 export default class ProxyList extends React.Component {
-
     constructor(props) {
         super(props);
         this.columns = [{
@@ -199,16 +198,13 @@ export default class ProxyList extends React.Component {
                         <a onClick={() => this.delete(record.key)}>删除</a>
                     </div>
                 );
-            },
+            }
         }];
 
         this.cacheData = this.props.data.map(item => ({ ...item }));
-
         this.state = {
-            modalVisible: false,
-            newData: {}
-        }
-
+            modalVisible: false
+        };
     }
 
     renderColumns(text, record, column) {
@@ -222,13 +218,12 @@ export default class ProxyList extends React.Component {
     }
 
     handleChange(value, key, column) {
-        const { updateProxyItemHandler } = this.props;
-        const newData = [...this.state.newData];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target[column] = value;
-            this.setState({ newData: newData });
-            // updateProxyItemHandler(newData);
+            updateProxyItemHandler(newData);
         }
     }
 
@@ -242,13 +237,12 @@ export default class ProxyList extends React.Component {
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             target.editable = true;
-            this.setState({ newData: newData });
             updateProxyItemHandler(newData);
         }
     }
 
     delete(key) {
-        let that = this;
+        const that = this;
         confirm({
             title: '您确认删除该条代理请求么？',
             onOk() {
@@ -262,18 +256,16 @@ export default class ProxyList extends React.Component {
                 }
             }
         });
-
     }
 
     save(key) {
-        const { updateProxyItemHandler } = this.props;
-        const newData = [...this.state.newData];
+        const { data, updateProxyItemHandler } = this.props;
+        const newData = [...data];
         const target = newData.filter(item => key === item.key)[0];
         if (target) {
             delete target.editable;
             updateProxyItemHandler(newData);
             this.cacheData = newData.map(item => ({ ...item }));
-            this.setState({ newData: {} });
             message.success('更新成功');
         }
     }
@@ -286,19 +278,25 @@ export default class ProxyList extends React.Component {
             Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
             delete target.editable;
             updateProxyItemHandler({ newData });
-            this.setState({ newData: {} });
         }
     }
 
     handleModalCreate() {
         const { addProxyItemHandler } = this.props;
         const form = this.form;
+        const uniqueID = Date.now();
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
             form.resetFields();
-            addProxyItemHandler(values);
+            const proxyItem = {
+                id: uniqueID,
+                key: uniqueID,
+                ...values
+            };
+            addProxyItemHandler(proxyItem);
+            this.cacheData = [{ ...proxyItem }, ...this.cacheData];
             this.setState({ modalVisible: false });
             message.success('添加成功');
         });
@@ -315,7 +313,7 @@ export default class ProxyList extends React.Component {
     render() {
         const { host = {}, data = [], updateHostHandler } = this.props;
         const { ip, port } = host;
-        const pagination = { pageSize: 10 }
+        const pagination = { pageSize: 10 };
         return (
             <div className="proxy-list">
                 <div>
@@ -325,6 +323,6 @@ export default class ProxyList extends React.Component {
                     <WrappedProxItemForm ref={this.saveFormRef} visible={this.state.modalVisible} onCancel={() => this.handleModalCancel()} onCreate={() => this.handleModalCreate()} />
                 </div>
             </div>
-        )
+        );
     }
 }

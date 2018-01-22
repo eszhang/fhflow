@@ -5,17 +5,23 @@
 
 const del = require('del');
 
-module.exports = function (config = {}, startCb, endCb) {
-
+module.exports = (config = {}, cbs = {}) => {
     const { src, force = true } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    startCb && startCb();
-    
-    let stream = del(src, {
-        force: true
-    }).then(function () {
-        endCb && endCb();
-    })
+    start();
+
+    const stream = del(src, {
+        force
+    }).then(() => {
+        end();
+    }, (err) => {
+        log(err);
+    });
 
     return stream;
-}   
+};

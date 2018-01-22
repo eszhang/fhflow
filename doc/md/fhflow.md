@@ -74,7 +74,7 @@
 
   ![project-02](../img/project-02.png)
 
-  c. 开已有项目
+  c. 打开已有项目
 
   ![project-03](../img/project-03.png)
 

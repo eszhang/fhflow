@@ -102,22 +102,6 @@
                 background-position: center;
                 background-repeat: no-repeat;
             }
-            &.apple{
-                background-image: url(../images/icon-action-setting-apple-normal.png);
-            }
-            &.android{
-                background-image: url(../images/icon-action-setting-android-normal.png);
-            }
-        }
-        .ant-tabs-nav{
-            .ant-tabs-tab-active{
-                .apple{
-                    background-image: url(../images/icon-action-setting-apple-active.png);
-                }
-                .android{
-                    background-image: url(../images/icon-action-setting-android-active.png);
-                }
-            }
         }
     }
     .projectSetting{
@@ -132,11 +116,13 @@
             margin-left: 10px;
         }
     }
-    .ant-tabs-tabpane-active{
-        .ant-form{
-            .ant-form-item-label{
-                >label{
-                    font-size: 14px;
+    .tabpanel:last-child{
+        .ant-tabs-tabpane-active{
+            .ant-form{
+                .ant-form-item-label{
+                    >label{
+                        font-size: 14px;
+                    }   
                 }
             }
         }

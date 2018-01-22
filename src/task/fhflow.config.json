@@ -1,5 +1,5 @@
 {
-    "supportREM": true,
+    "supportREM": false,
     "supportChanged": false,
     "reversion": false,
     "projectType": "normal",
@@ -24,6 +24,6 @@
     "package": {
         "type": "zip",
         "version": "0.0.1",
-        "fileRegExp": "${name}-${moduleName}-${version}-${time}"
+        "fileRegExp": "[name]-[moduleName]-[version]-[time]"
     }
 }

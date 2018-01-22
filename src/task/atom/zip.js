@@ -3,55 +3,69 @@
  * zip 操作
  */
 
-const gulp = require('gulp')
+const gulp = require('gulp');
 const zip = require('gulp-zip');
-const utils = require('../util/index');
-module.exports = function (config = {}, startCb, endCb) {
+const plumber = require('gulp-plumber');
+const { isDirExist, readFistLevelFolder } = require('../utils/file');
 
-    const { projectName, version, srcArray, srcBase, dist, type, fileRegExp, packageModules } = config;
+module.exports = function (config = {}, cbs = {}) {
+    const {
+        projectName, version, srcArray, srcBase, dist, type, fileRegExp, packageModules
+    } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    let date = new Date();
+    const date = new Date();
 
-    startCb && startCb();
+    start();
     //  用于记录是不是最后一个打包已经完成
-    var packNo = 0;
+    let packNo = 0;
 
-    let year = date.getFullYear(),
-        month = date.getMonth() + 1,
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1,
         day = date.getDate();
-    month = month > 9 ? month : '0' + month;
-    day = day > 9 ? day : '0' + day;
 
-    let time = '' + year + month + day;
+    month = month > 9 ? month : `0${month}`;
+    day = day > 9 ? day : `0${day}`;
+
+    const time = `${year}${month}${day}`;
     if (srcArray.length === 0) {
-        let name = fileRegExp.replace(/\${name}/g, projectName)
-            .replace(/\${version}/g, version).replace(/\${time}/g, time);
-        name = name + '.' + type;
-        gulp.src(srcBase + '\\**\\*')
+        let name = fileRegExp.replace(/\[name\]/g, projectName)
+            .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
+        name = `${name}.${type}`;
+        gulp.src(`${srcBase}\\**\\*`)
+            .pipe(plumber((err) => {
+                log(err);
+            }))
             .pipe(zip(name))
             .pipe(gulp.dest(dist))
-            .on('end', function () {
-                endCb && endCb();
+            .on('end', () => {
+                end();
             });
     } else {
-        for (var i = 0; i < srcArray.length; i++) {
-            let name = fileRegExp.replace(/\${name}/g, projectName).replace(/\${moduleName}/g, packageModules[i])
-                .replace(/\${version}/g, version).replace(/\${time}/g, time);
-            name = name + '.' + type;
+        for (let i = 0; i < srcArray.length; i++) {
+            let name = fileRegExp.replace(/\[name\]/g, projectName).replace(/\[moduleName\]/g, packageModules[i])
+                .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
+            name = `${name}.${type}`;
 
-            if(packageModules[i]==='common' && utils.isDirExist(srcBase + '/oasisl') && utils.readFistLevelFolder(srcBase + '/oasisl').length !== 0){
-                srcArray[i].push(srcBase + '/oasisl/**/*.*')
+            if (packageModules[i] === 'common' && isDirExist(`${srcBase}/oasisl`) && readFistLevelFolder(`${srcBase}/oasisl`).length !== 0) {
+                srcArray[i].push(`${srcBase}/oasisl/**/*.*`);
             }
 
             gulp.src(srcArray[i], { base: srcBase })
+                .pipe(plumber((err) => {
+                    log(err);
+                }))
                 .pipe(zip(name))
                 .pipe(gulp.dest(dist))
-                .on('end', function () {
-                    if(packNo++ == (srcArray.length-1) ){
-                        endCb && endCb();
+                .on('end', () => {
+                    if (packNo++ === (srcArray.length - 1)) {
+                        end();
                     }
                 });
-            
         }
     }
-}
+};

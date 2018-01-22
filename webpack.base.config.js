@@ -3,7 +3,6 @@
  * webpack base config
  */
 
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -12,7 +11,7 @@ const APP_PATH = path.join(SRC_PATH, 'app');
 const BUILD_APP_PATH = path.resolve('./build/app');
 
 module.exports = {
-    context: APP_PATH, // 设置源代码的默认根路径
+    context: APP_PATH,
     resolve: {
         extensions: ['.js', '.jsx']
     },
@@ -25,12 +24,6 @@ module.exports = {
     },
     module: {
         rules: [
-            // {
-            //     enforce: 'pre',  // ESLint 优先级高于其他 JS 相关的 loader
-            //     test: /\.jsx?$/,
-            //     exclude: /node_modules/,
-            //     loader: 'eslint-loader'
-            // },
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -42,10 +35,10 @@ module.exports = {
                     {
                         loader: 'url-loader',
                         options:
-                        {
-                            limit: 8192,
-                            name: 'images/[name].[ext]'
-                        }
+                            {
+                                limit: 8192,
+                                name: 'images/[name].[ext]'
+                            }
                     }
                 ]
             },
@@ -55,11 +48,11 @@ module.exports = {
                     {
                         loader: 'url-loader',
                         options:
-                        {
-                            limit: 8192,
-                            mimetype: 'application/font-woff',
-                            name: 'fonts/[name].[ext]'
-                        }
+                            {
+                                limit: 8192,
+                                mimetype: 'application/font-woff',
+                                name: 'fonts/[name].[ext]'
+                            }
                     }
                 ]
             },
@@ -69,23 +62,22 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options:
-                        {
-                            limit: 8192,
-                            mimetype: 'application/font-woff',
-                            name: 'fonts/[name].[ext]'
-                        }
+                            {
+                                limit: 8192,
+                                mimetype: 'application/font-woff',
+                                name: 'fonts/[name].[ext]'
+                            }
                     }
                 ]
             }
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin(
-            {
-                filename: path.join(BUILD_APP_PATH, './index.html'),
-                template: './react/template/index.html',
-                hash: false
-            }
-        )
+        new HtmlWebpackPlugin({
+            filename: path.join(BUILD_APP_PATH, './index.html'),
+            template: './react/template/index.html',
+            hash: false
+        })
     ]
-}
+};
+

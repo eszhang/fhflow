@@ -9,18 +9,18 @@ const proxyListData = {
         port: 8080
     },
     data: (function () {
-        let data = [];
+        const data = [];
         for (let i = 0; i < 46; i++) {
             data.push({
                 id: i,
                 key: i,
                 ip: `172.16.10.${i}`,
                 port: i,
-                project: `London-${i}`,
+                project: `London-${i}`
             });
         }
         return data;
-    })()
+    }())
 };
 
 export default proxyListData;

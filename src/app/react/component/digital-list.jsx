@@ -12,9 +12,8 @@ import '../style/digital-list.scss';
  */
 
 function DigitalList(props) {
-
-    let { title, contents = [], link = { text: "link", href: "#" }} = props.data;
-    let {onClickHandler} = props
+    const { title, contents = [], link = { text: 'link', href: '#' } } = props.data;
+    const { onClickHandler } = props;
     return (
         <div className="digital-list">
             <div>
@@ -27,19 +26,19 @@ function DigitalList(props) {
                         </div>
                     ))
                 }
-                <div className="btn-area">   
-                    <Button type="primary" onClick={e=>onClickHandler(link.href)}>
+                <div className="btn-area">
+                    <Button type="primary" onClick={e => onClickHandler(link.href)}>
                         {link.text}<Icon type="right" />
                     </Button>
                 </div>
 
             </div>
         </div>
-    )
+    );
 }
 
 DigitalList.propTypes = {
     data: PropTypes.object.isRequired
-}
+};
 
 export default DigitalList;

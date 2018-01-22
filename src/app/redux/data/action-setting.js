@@ -14,10 +14,10 @@ const actionSettingData = {
     uploadIgnoreFileRegExp: '*.js',
     uploadType: 'ftp',
     packVersion: '0.0.1',
-    packFileRegExp: '${name}-${moduleName}-${version}-${time}',
+    packFileRegExp: '[name]-[moduleName]-[version]-[time]',
     packType: 'zip',
-    modules: ['fk','backflow'],
+    modules: ['fk', 'backflow'],
     choseModules: ['fk']
-}
+};
 
 export default actionSettingData;

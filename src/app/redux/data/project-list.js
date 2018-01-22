@@ -3,8 +3,8 @@
  *  projectList 数据
  */
 
-const projectManageData ={
-    data : [
+const projectManageData = {
+    data: [
         {
             key: 0,
             class: 'project-floader',
@@ -55,7 +55,6 @@ const projectManageData ={
             isPackageing: false
         }
     ]
-} 
- 
+};
 
 export default projectManageData;

@@ -36,13 +36,11 @@
                 background-size: 32px;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-image: url(../images/icon-project-folder-normal.png);
                 &:hover{
                     padding: 8px;
                     width: 32px;
                     height: 32px;
                     background-size: 24px;
-                    background-image: url(../images/icon-project-folder-active.png);
                 }
             }
         }
@@ -95,18 +93,7 @@
                         background-size: 16px;
                         background-position: center;
                         background-repeat: no-repeat;
-                    }
-                    &.folder-add{
-                        background-image: url(../images/icon-project-addFolder-normal.png);
-                    }
-                    &.delete{
-                        position: relative;
-                        top: -1px;
-                        background-image: url(../images/icon-project-delete-normal.png);
-                    }
-                    &.setting{
-                        background-image: url(../images/icon-project-setting-normal.png);
-                    }
+                    }              
                 }
             }
             &.plf-right{

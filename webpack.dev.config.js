@@ -9,57 +9,55 @@ const config = require('./webpack.base.config');
 
 // 添加 webpack-dev-server 相关的配置项
 config.devServer = {
-    contentBase: path.join(__dirname, "build"),
+    contentBase: path.join(__dirname, 'build'),
     inline: true,
     hot: true
 };
 
-config.module.rules.push(
-    {
-        test: /\.css$/,
-        use: [
-            'style-loader',
-            'css-loader'
-        ]
-    },
-    {
-        test: /\.less$/,
-        use: [
-            'style-loader',
-            'css-loader',
-            'less-loader'
-        ],
-        exclude: /node_modules/
-    },
-    {
-        test: /\.scss$/,
-        use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader'
-        ],
-        exclude: /node_modules/
-    }
-);
-
-// 定义 运行环境变量 
-config.plugins.unshift(
-    new webpack.DefinePlugin(
+// 添加 scss less css处理
+config.module.rules.push({
+    test: /\.css$/,
+    use: [
+        'style-loader',
         {
-            'process.env.NODE_ENV': JSON.stringify('development')
+            loader: 'css-loader',
+            options: { sourceMap: true }
         }
-    )
-);
+    ]
+}, {
+    test: /\.scss$/,
+    use: [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+        },
+        'sass-loader'
+    ],
+    exclude: /node_modules/
+}, {
+    test: /\.less$/,
+    use: [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: { sourceMap: true }
+        },
+        'less-loader'
+    ],
+    exclude: /node_modules/
+});
+
+// 定义 运行环境变量
+config.plugins.unshift(new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('development')
+}));
 
 // 添加 Sourcemap 支持
-config.plugins.push(
-    new webpack.SourceMapDevToolPlugin(
-        {
-            filename: '[file].map',
-            exclude: ['vendor.js'] // vendor 通常不需要 sourcemap
-        }
-    )
-);
+config.plugins.push(new webpack.SourceMapDevToolPlugin({
+    filename: '[file].map',
+    exclude: ['vendor.js'] // vendor 通常不需要 sourcemap
+}));
 
 // Hot module replacement
 Object.keys(config.entry).forEach((key) => {
@@ -71,8 +69,6 @@ Object.keys(config.entry).forEach((key) => {
         );
     }
 });
-config.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-);
+config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 module.exports = config;

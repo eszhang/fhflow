@@ -5,14 +5,24 @@
 
 const gulp = require('gulp');
 const tmodjs = require('gulp-tmod');
+const plumber = require('gulp-plumber');
 
-module.exports = function (config = {}, startCb, endCb) {
+module.exports = function (config = {}, cbs = {}) {
+    const {
+        src, srcBase, dest, helperJs
+    } = config;
+    const {
+        start = function () { },
+        log = function () { },
+        end = function () { }
+    } = cbs;
 
-    const { src, srcBase, dest, helperJs } = config;
+    start();
 
-    startCb && startCb();
-
-    let stream = gulp.src(src, { base: srcBase })
+    const stream = gulp.src(src, { base: srcBase })
+        .pipe(plumber((err) => {
+            log(err);
+        }))
         .pipe(tmodjs({
             templateBase: srcBase,
             combo: true,
@@ -21,9 +31,9 @@ module.exports = function (config = {}, startCb, endCb) {
             helpers: helperJs || ''
         }))
         .pipe(gulp.dest(dest))
-        .on('end', function () {
-            endCb && endCb();
+        .on('end', () => {
+            end();
         });
 
     return stream;
-}
+};

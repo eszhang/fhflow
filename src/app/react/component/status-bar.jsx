@@ -12,50 +12,42 @@ import '../style/status-bar.scss';
  */
 
 class StatusBar extends React.Component {
-
-    constructor(props){
-        super(props)
+    componentDidMount() {
+        setTimeout(() => {
+            this.scrollWrapper.scrollTop = this.scrollWrapper.scrollHeight;
+        }, 400);
     }
 
     componentDidUpdate() {
-        this.wrapper.scrollTop = this.wrapper.scrollHeight;
+        setTimeout(() => {
+            this.scrollWrapper.scrollTop = this.scrollWrapper.scrollHeight;
+        }, 150);
     }
 
     render() {
-
-        let { data, deleteHandler} = this.props;
-
-        const iconTypeMap = {
-            info: "info-circle",
-            warning: "exclamation-circle",
-            success: "check-circle",
-            error: "close-circle" 
-        };
+        const { data, deleteHandler } = this.props;
 
         return (
             <div className="status-bar">
-                <a className="opt-btn delete" onClick = {deleteHandler}><Icon type="delete" /></a>
-                <div ref={(dom) => { this.wrapper = dom }}>
+                <a className="opt-btn delete" onClick={deleteHandler}><Icon type="delete" /></a>
+                <div ref={(dom) => { this.scrollWrapper = dom; }}>
                     <ul>
                         {
-                            data.map((info, index) => (
-                                <li className={info.type} key={index}>
-                                    <a>
-                                        {info.type && <Icon type={iconTypeMap[info.type]} />}
-                                        {info.desc}
-                                    </a>
+                            data.map((m, index) => (
+                                <li key={index}>
+                                    <div dangerouslySetInnerHTML={{ __html: `${m}` }} />
                                 </li>
                             ))
                         }
                     </ul>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 StatusBar.propTypes = {
     data: PropTypes.array.isRequired
-}
+};
 
 export default StatusBar;

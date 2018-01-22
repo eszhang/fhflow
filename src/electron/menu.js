@@ -6,21 +6,21 @@
 const { app, Menu } = require('electron');
 const action = require('./action');
 
-let template = [
+const template = [
     {
         label: '文件',
         submenu: [
             {
                 label: '新建项目',
                 accelerator: 'CmdOrCtrl+N',
-                click: function (item, focusedWindow) {
+                click() {
                     action.createProject();
                 }
             },
             {
                 label: '打开项目',
                 accelerator: 'CmdOrCtrl+O',
-                click: function (item, focusedWindow) {
+                click() {
                     action.openProject();
                 }
             },
@@ -75,21 +75,21 @@ let template = [
             {
                 label: 'Run 开发流程',
                 accelerator: 'CmdOrCtrl+1',
-                click: function (item, focusedWindow) {
+                click() {
                     action.runTask('dev');
                 }
             },
             {
                 label: 'Ftp 发布部署',
                 accelerator: 'CmdOrCtrl+3',
-                click: function (item, focusedWindow) {
+                click() {
                     action.runTask('upload');
                 }
             },
             {
                 label: 'Pack 项目打包',
                 accelerator: 'CmdOrCtrl+4',
-                click: function (item, focusedWindow) {
+                click() {
                     action.runTask('pack');
                 }
             }
@@ -101,7 +101,7 @@ let template = [
             {
                 label: '删除当前项目',
                 accelerator: 'CmdOrCtrl+shift+D',
-                click: function (item, focusedWindow) {
+                click() {
                     action.delProject();
                 }
             }
@@ -134,20 +134,20 @@ let template = [
         submenu: [
             {
                 label: 'FhFlow 官网',
-                click: function () {
-                    action.openExternal("home");
+                click() {
+                    action.openExternal('home');
                 }
             },
             {
                 label: 'FhFlow 使用帮助',
-                click: function () {
-                    action.openExternal("help");
+                click() {
+                    action.openExternal('help');
                 }
             },
             {
                 label: '报告问题',
-                click: function () {
-                    action.openExternal("problem");
+                click() {
+                    action.openExternal('problem');
                 }
             }
         ]
@@ -155,14 +155,14 @@ let template = [
 ];
 
 if (process.platform === 'darwin') {
-    var name = app.getName();
+    const name = app.getName();
     template.unshift({
         label: name,
         submenu: [
             {
                 label: '关于 FhFlow',
-                click: function (item, focusedWindow) {
-                    action.openExternal("about");
+                click() {
+                    action.openExternal('about');
                 }
             },
             {
@@ -171,7 +171,7 @@ if (process.platform === 'darwin') {
             {
                 label: '检查更新…',
                 accelerator: '',
-                click: function () {
+                click() {
                     action.checkUpdate();
                 }
             },
@@ -186,7 +186,7 @@ if (process.platform === 'darwin') {
                 type: 'separator'
             },
             {
-                label: '隐藏 ' + name,
+                label: `隐藏 ${name}`,
                 accelerator: 'Command+H',
                 role: 'hide'
             },
@@ -210,20 +210,20 @@ if (process.platform === 'darwin') {
         ]
     });
 } else if (process.platform === 'win32') {
-    // let helpItem = template[template.length - 1];
+    // const helpItem = template[template.length - 1];
 
     // helpItem.submenu.push({
     //     label: '检查更新',
     //     accelerator: '',
-    //     click: function () {
+    //     click() {
     //         action.checkUpdate();
     //     }
     // });
 
     // helpItem.submenu.push({
     //     label: '关于',
-    //     click: function (item, focusedWindow) {
-    //         action.openExternal("about");
+    //     click() {
+    //         action.openExternal('about');
     //     }
     // });
 }
