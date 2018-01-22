@@ -311,7 +311,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
             const storage = STORAGE.get();
             const { workSpace, curProjectPath } = storage;
             const {
-                ftp, package: pack, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType
+                ftp, package: pack, server, modules, choseModules, supportChanged, supportREM, reversion, businessName, projectType, tplType
             } = task.getConfig(curProjectPath);
             const chooseFunc = [];
 
@@ -324,6 +324,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                 businessName: businessName || '',
                 workSpace,
                 projectType: projectType || 'normal',
+                tplType: tplType,
                 choseFunctions: chooseFunc,
                 uploadHost: ftp && ftp.host,
                 uploadPort: ftp && ftp.port,

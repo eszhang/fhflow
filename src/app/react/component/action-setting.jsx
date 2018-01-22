@@ -33,7 +33,8 @@ class ActionSettingForm extends React.Component {
         const {
             choseFunctions, workSpace, uploadHost, uploadPort,
             uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp,
-            uploadType, packType, packVersion, packFileRegExp, packTpye
+            uploadType, packType, packVersion, packFileRegExp, packTpye, 
+            tplType
         } = actionSetting;
 
         const functionOptions = [
@@ -78,9 +79,11 @@ class ActionSettingForm extends React.Component {
                     {getFieldDecorator('tplType', {
                         initialValue: tplType
                     })(
-                        <RadioGroup onChange={this.onUploadChange}>
-                            <Radio value="sftp">SFTP</Radio>
-                            <Radio value="ftp">FTP</Radio>
+                        <RadioGroup>
+                            <Radio value="amd">amd</Radio>
+                            <Radio value="cmd">cmd</Radio>
+                            <Radio value="commonjs">commonjs</Radio>
+                            <Radio value="default">default</Radio>
                         </RadioGroup>
                         )}
                 </FormItem>

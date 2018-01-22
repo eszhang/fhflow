@@ -169,7 +169,7 @@ globalStore.subscribe(() => {
         case SET_PROXY_DATA:
             {
                 const {
-                    uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions, projectType
+                    uploadHost, uploadPort, uploadUser, uploadPass, uploadRemotePath, uploadIgnoreFileRegExp, uploadType, modules, choseModules, packType, packVersion, packFileRegExp, choseFunctions, projectType, tplType
                 } = actionSetting.data;
                 const { ip, port } = proxyList.host;
                 const config = {
@@ -180,6 +180,7 @@ globalStore.subscribe(() => {
                     supportREM: choseFunctions.indexOf('rem') !== -1,
                     supportChanged: choseFunctions.indexOf('fileAddCompileSupport') !== -1,
                     reversion: choseFunctions.indexOf('md5') !== -1,
+                    tplType: tplType || 'amd',
                     server: {
                         host: ip,
                         port,

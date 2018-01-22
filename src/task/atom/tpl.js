@@ -9,7 +9,7 @@ const plumber = require('gulp-plumber');
 
 module.exports = function (config = {}, cbs = {}) {
     const {
-        src, srcBase, dest, helperJs
+        src, srcBase, dest, helperJs, type
     } = config;
     const {
         start = function () { },
@@ -26,7 +26,7 @@ module.exports = function (config = {}, cbs = {}) {
         .pipe(tmodjs({
             templateBase: srcBase,
             combo: true,
-            type: 'amd',
+            type: type,
             outputBase: dest,
             helpers: helperJs || ''
         }))

@@ -97,6 +97,7 @@ function getDevObj(config) {
             srcBase: `${projectPath}src/tpl`,
             dest: `${projectPath}build/assets/template`,
             helperJs: `${projectPath}src/js/template/helper.js`,
+            type: setting.tplType,
             startLog: '编译template开始...',
             endLog: '编译template成功...'
         },
@@ -265,6 +266,7 @@ function getPackObj(config) {
         tpl: {
             src: tplSrcArray.length > 0 ? tplSrcArray : `${projectPath}src/tpl/**/*.tpl`,
             srcBase: `${projectPath}src/tpl`,
+            type: setting.tplType,
             dest: `${projectPath}build/assets/template`,
             helperJs: `${projectPath}src/js/template/helper.js`
         },
