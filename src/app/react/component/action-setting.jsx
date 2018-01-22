@@ -73,6 +73,17 @@ class ActionSettingForm extends React.Component {
                         <CheckboxGroup className="functionGroup" options={functionOptions} />
                         )}
                 </FormItem>
+
+                <FormItem label="模板类型选择">
+                    {getFieldDecorator('tplType', {
+                        initialValue: tplType
+                    })(
+                        <RadioGroup onChange={this.onUploadChange}>
+                            <Radio value="sftp">SFTP</Radio>
+                            <Radio value="ftp">FTP</Radio>
+                        </RadioGroup>
+                        )}
+                </FormItem>
                 <div className="modulName">上传模式配置</div>
                 <InputGroup size="small" >
                     <FormItem  {...formItemLayout} label="IP">
@@ -117,7 +128,7 @@ class ActionSettingForm extends React.Component {
                             <Input placeholder="过滤上传文件(支持正则匹配)" size="small" />
                             )}
                     </FormItem>
-                    <FormItem >
+                    <FormItem>
                         {getFieldDecorator('uploadType', {
                             initialValue: uploadType
                         })(
