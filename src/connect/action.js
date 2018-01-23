@@ -246,25 +246,26 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
 
         // 修改项目名称
         updateProjectName(projectList) {
+            let project = projectList.data[projectList.selectedIndex];
+            const willName = project.willName;
             const storage = STORAGE.get();
-            const newPath = projectList.data[projectList.selectedIndex].path.replace(projectList.data[projectList.selectedIndex].nowName, projectList.data[projectList.selectedIndex].willName);
+            const newPath = project.path.replace(project.nowName, willName);
 
-            task.updateProjectName(projectList.data[projectList.selectedIndex].path, newPath);
+            task.updateProjectName(project.path, newPath);
             // 更新缓存
-            delete storage.projects[projectList.data[projectList.selectedIndex].name];
+            delete storage.projects[project.name];
             delete storage.curProjectPath;
             const projectInfo = {
                 path: newPath
             };
-            storage.projects[projectList.data[projectList.selectedIndex].willName] = projectInfo;
+            storage.projects[willName] = projectInfo;
             storage.curProjectPath = newPath;
             STORAGE.set(storage);
 
-            projectList.data[projectList.selectedIndex].name = projectList.data[projectList.selectedIndex].willName;
-            projectList.data[projectList.selectedIndex].nowName = projectList.data[projectList.selectedIndex].willName;
-            projectList.data[projectList.selectedIndex].path = newPath;
+            project.name = willName;
+            project.nowName = willName;
+            project.path = newPath;
             globalDispatch(setProjectData(projectList.data));
-            // storage.projects
         },
 
         // 运行任务
