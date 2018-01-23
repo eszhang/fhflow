@@ -11,7 +11,7 @@ const globalDispatch = globalStore.dispatch;
 
 const CONFIG = require('./config.js');
 const STORAGE = require('./storage.js');
-const { isDirExist } = require('./utils');
+const { isDirExist, firstLetterUpper } = require('./utils');
 const ACTION = require('./action.js')(globalStore, globalDispatch, globalAction, STORAGE, CONFIG);
 
 console.log(`store=${globalStore}`);
@@ -35,22 +35,17 @@ ipcRenderer.on('delProject', () => {
 
 // 运行任务
 ipcRenderer.on('runTask', (event, taskName) => {
-    const {
-        changeDevStatus, changeUploadStatus, changePackStatus, changeRunStatus
-    } = globalAction;
     const data = globalStore.getState().projectList;
+    let selectedIndex = data.selectedIndex;
+    let project = data.data[selectedIndex];
+    // 获取改变状态的方法
+    let changeStatus = globalAction['change' + firstLetterUpper(taskName) + 'Status'];
+    // 状态
+    let status = 'is' + firstLetterUpper(taskName) + 'ing'
 
-    if (taskName === 'dev' && !data.data[data.selectedIndex].isRunning) {
-        !data.data[data.selectedIndex].isDeveloping && globalDispatch(changeRunStatus(data.selectedIndex));
-        globalDispatch(changeDevStatus(data.selectedIndex));
-    }
-    if (taskName === 'upload' && !data.data[data.selectedIndex].isRunning) {
-        !data.data[data.selectedIndex].isUploading && globalDispatch(changeRunStatus(data.selectedIndex));
-        globalDispatch(changeUploadStatus(data.selectedIndex));
-    }
-    if (taskName === 'pack' && !data.data[data.selectedIndex].isRunning) {
-        !data.data[data.selectedIndex].isPackageing && globalDispatch(changeRunStatus(data.selectedIndex));
-        globalDispatch(changePackStatus(data.selectedIndex));
+    if(!project.isRunning){
+        !project[status] && globalDispatch(globalAction['changeRunStatus'](selectedIndex));
+        globalDispatch(changeStatus(selectedIndex));
     }
 });
 
