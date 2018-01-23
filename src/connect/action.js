@@ -429,8 +429,20 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         openDoc(urlName) {
             shell.openExternal(urlName);
         },
-        notify(msg) {
-            notifier.showMessageError(msg);
+        notify(msg, type) {
+            switch (type)
+            {
+                case 'info':  
+                    notifier.showMessageInfo(msg);
+                    break;
+                case 'error':  
+                    notifier.showMessageError(msg);
+                    break;
+                case 'warn':  
+                    notifier.showMessageWarn(msg);
+                    break;
+            }
+
         }
 
     };

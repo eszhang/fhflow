@@ -112,7 +112,7 @@ globalStore.subscribe(() => {
                 if (e.message.indexOf('not a directory')) {
                     msg = '本项目不符合模块化项目格式';
                 }
-                ACTION.notify(msg);
+                ACTION.notify(msg, 'error');
             }
             break;
         // 删除模块化设置
@@ -134,16 +134,18 @@ globalStore.subscribe(() => {
             taskFlag = data[selectedIndex].isDeveloping ? 1 : 0;
             ACTION.runTask('dev', taskFlag);
             break;
+        // 执行上传任务
         case CHANGE_UPLOAD_STATUS:
             if (!isDirExist(`${curProjectPath}//build`)) {
                 globalDispatch(changeRunStatus(selectedIndex));
                 globalDispatch(changeUploadStatusData(selectedIndex));
-                ACTION.notify('请保证项目已经编译完成,再点击上传按钮');
+                ACTION.notify('请保证项目已经编译完成,再点击上传按钮', 'error');
             } else {
                 taskFlag = data[selectedIndex].isUploading ? 1 : 0;
                 ACTION.runTask('upload', taskFlag);
             }
             break;
+        // 执行打包任务
         case CHANGE_PACK_STATUS:
             taskFlag = data[selectedIndex].isPackageing ? 1 : 0;
             ACTION.runTask('pack', taskFlag);
