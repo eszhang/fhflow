@@ -10,21 +10,26 @@ const sftp = require('gulp-sftp');
 const async = require('async');
 const cleanHandler = require('./clean');
 
-function upload2TestJs(config = {}, cb = function () {}) {
+// 将build目录下的js文件,去除rap后复制到release目录下
+function removeRap(config = {}, cb = function () {}) {
     gulp.src(`${config.srcBase}/**/*.js`)
         .pipe(rap())
         .pipe(gulp.dest(config.destBase)).on('end', () => {
             cb();
         });
 }
-function upload2TestOther(config, cb = function () {}) {
+
+// 将build目录下除了js以外的文件复制到release目录下
+function copyOthers(config, cb = function () {}) {
     const src = [`${config.srcBase}/**/**`, `!${config.srcBase}/**/*.js`];
     gulp.src(src)
         .pipe(gulp.dest(config.destBase)).on('end', () => {
             cb();
         });
 }
-function upload2T(config, cb = function () {}) {
+    
+// 将release目录下的文件上传到服务器
+function upload(config, cb = function () {}) {
     config.sft.callback = function () {
         cb();
     };
@@ -53,10 +58,10 @@ module.exports = function (config = {}, cbs = {}) {
             });
         },
         function (next) {
-            upload2TestOther(config, next);
+            copyOthers(config, next);
         },
         function (next) {
-            upload2TestJs(config, next);
+            removeRap(config, next);
         },
         function (next) {
             cleanHandler({ src: ignoreArray }, () => {}, () => {
@@ -64,7 +69,7 @@ module.exports = function (config = {}, cbs = {}) {
             });
         },
         function (next) {
-            upload2T(config, next);
+            upload(config, next);
         },
         function (next) {
             end();
