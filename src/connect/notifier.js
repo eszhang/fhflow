@@ -6,6 +6,7 @@
 const notifier = require('node-notifier');
 const config = require('./config');
 
+// 调用info信息提示框
 function showMessageInfo(msg) {
     notifier.notify({
         type: 'info',
@@ -15,6 +16,7 @@ function showMessageInfo(msg) {
     });
 }
 
+// 调用error信息提示框
 function showMessageError(msg) {
     notifier.notify({
         type: 'error',
@@ -24,6 +26,7 @@ function showMessageError(msg) {
     });
 }
 
+// 调用warn信息提示框
 function showMessageWarn(msg) {
     notifier.notify({
         type: 'warn',

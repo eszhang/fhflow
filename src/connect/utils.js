@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 
+// 文件是否存在 
 function isFileExist(filePath) {
     try {
         const stat = fs.statSync(filePath);
@@ -20,6 +21,7 @@ function isFileExist(filePath) {
     }
 }
 
+// 目录是否存在
 function isDirExist(dirPath) {
     try {
         const stat = fs.statSync(dirPath);
@@ -35,6 +37,7 @@ function isDirExist(dirPath) {
     }
 }
 
+// 首字母转化为大写
 function firstLetterUpper(name){
     return name.substring(0,1).toUpperCase() + name.substring(1)
 }

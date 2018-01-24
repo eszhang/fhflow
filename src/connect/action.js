@@ -293,6 +293,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
             task.runTask(curProjectPath, taskName, taskStatus, this.printLog, fn);
         },
 
+        // 导入模块
         importModulesSetting(curProjectPath) {
             const fn = function (config) {
                 globalDispatch(updateProjectSetting(config));
@@ -300,6 +301,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
             task.readModulesName(curProjectPath, fn);
         },
 
+        // 删除模块
         delModulesSetting(curProjectPath) {
             const fn = function (config) {
                 globalDispatch(updateProjectSetting(config));
@@ -430,6 +432,7 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
         openDoc(urlName) {
             shell.openExternal(urlName);
         },
+        // 通知
         notify(msg, type) {
             switch (type)
             {
