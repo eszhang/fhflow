@@ -27,7 +27,7 @@ function copyOthers(config, cb = function () {}) {
             cb();
         });
 }
-    
+
 // 将release目录下的文件上传到服务器
 function upload(config, cb = function () {}) {
     config.sft.callback = function () {
@@ -63,7 +63,7 @@ module.exports = function (config = {}, cbs = {}) {
         function (next) {
             removeRap(config, next);
         },
-        function (next) {
+        function (next) { 
             cleanHandler({ src: ignoreArray }, () => {}, () => {
                 next();
             });

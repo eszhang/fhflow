@@ -21,8 +21,6 @@ module.exports = function (config = {}, cbs = {}) {
     const date = new Date();
 
     start();
-    //  用于记录是不是最后一个打包已经完成
-    let packNo = 0;
 
     const year = date.getFullYear();
     let month = date.getMonth() + 1,
@@ -32,6 +30,8 @@ module.exports = function (config = {}, cbs = {}) {
     day = day > 9 ? day : `0${day}`;
 
     const time = `${year}${month}${day}`;
+
+    // 非模块化打包
     if (srcArray.length === 0) {
         let name = fileRegExp.replace(/\[name\]/g, projectName)
             .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
@@ -46,6 +46,9 @@ module.exports = function (config = {}, cbs = {}) {
                 end();
             });
     } else {
+        //  用于记录是不是最后一个打包已经完成
+        let packNo = 0;
+        // 模块化打包
         for (let i = 0; i < srcArray.length; i++) {
             let name = fileRegExp.replace(/\[name\]/g, projectName).replace(/\[moduleName\]/g, packageModules[i])
                 .replace(/\[version\]/g, version).replace(/\[time\]/g, time);
