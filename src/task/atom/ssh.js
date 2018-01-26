@@ -53,9 +53,9 @@ module.exports = function (config = {}, cbs = {}) {
     start();
     async.series([
         function (next) {
-            cleanHandler({ src: `${config.destBase}/**` }, () => {}, () => {
+            cleanHandler({ src: `${config.destBase}/**` },{ start: () => {}, end: () => {
                 next();
-            });
+            }});
         },
         function (next) {
             copyOthers(config, next);
@@ -64,9 +64,9 @@ module.exports = function (config = {}, cbs = {}) {
             removeRap(config, next);
         },
         function (next) { 
-            cleanHandler({ src: ignoreArray }, () => {}, () => {
+            cleanHandler({ src: ignoreArray },{ start: () => {}, end: () => {
                 next();
-            });
+            }});
         },
         function (next) {
             upload(config, next);
