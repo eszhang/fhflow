@@ -69,7 +69,7 @@ async.series([
     },
     // copy connect
     function (next) {
-        gulp.src([`${CONNECT_PATH}/**/*.*`, '!*.js'])
+        gulp.src([`${CONNECT_PATH}/**/*`, '!*.js'])
             .pipe(gulp.dest(BUILD_CONNECT_PATH))
             .on('end', () => {
                 next();

@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const { remote, shell } = require('electron');
 const { exec } = require('child_process');
 const { isDirExist } = require('./utils');
@@ -78,22 +79,24 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                     storage.curProjectPath = projects[projectsKeys[0]].path;
                     globalDispatch(setWorkSpace(workSpace));
                     for (const key in projects) {
-                        const projectPath = projects[key].path;
-                        const projectName = path.basename(projectPath);
-                        projectArr.push({
-                            key: Date.now(),
-                            class: 'project-folder',
-                            logo: 'folder',
-                            name: projectName,
-                            path: projectPath,
-                            editable: false,
-                            nowName: projectName,
-                            willName: projectName,
-                            isDeveloping: false,
-                            isUploading: false,
-                            isPackageing: false,
-                            isRunning: false
-                        });
+                        if(_.has(projects, key)) {
+                            const projectPath = projects[key].path;
+                            const projectName = path.basename(projectPath);
+                            projectArr.push({
+                                key: Date.now(),
+                                class: 'project-folder',
+                                logo: 'folder',
+                                name: projectName,
+                                path: projectPath,
+                                editable: false,
+                                nowName: projectName,
+                                willName: projectName,
+                                isDeveloping: false,
+                                isUploading: false,
+                                isPackageing: false,
+                                isRunning: false
+                            });
+                        }
                     }
                     globalDispatch(setProjectData(projectArr));
                     const maxIndex = projectArr.length - 1;
@@ -444,6 +447,8 @@ function createAction(globalStore, globalDispatch, globalAction, STORAGE, CONFIG
                     break;
                 case 'warn':  
                     notifier.showMessageWarn(msg);
+                    break;
+                default : 
                     break;
             }
 
