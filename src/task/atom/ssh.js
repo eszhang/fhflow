@@ -5,6 +5,7 @@
 
 const gulp = require('gulp');
 const gulpSSH = require('gulp-ssh');
+const plumber = require('gulp-plumber');
 const rap = require('./rap');
 const sftp = require('gulp-sftp');
 const async = require('async');
@@ -35,9 +36,19 @@ function upload(config, cb = function () {}) {
     };
     if (config.type === 'FTP') {
         gulp.src([`${config.destBase}/**/**`])
+            .pipe(plumber({
+                errorHandler: function(error){
+                    config.log(error)
+                }
+            }))
             .pipe(gulpSSH(config.sft));
     } else {
         gulp.src([`${config.destBase}/**/**`])
+            .pipe(plumber({
+                errorHandler: function(error){
+                   config.log(error)
+                }
+            }))
             .pipe(sftp(config.sft));
     }
 }
@@ -49,6 +60,8 @@ module.exports = function (config = {}, cbs = {}) {
         log = function () { },
         end = function () { }
     } = cbs;
+    // 错误时日志打印
+    config.log = log;
 
     start();
     async.series([
