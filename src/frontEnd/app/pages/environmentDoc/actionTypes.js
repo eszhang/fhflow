@@ -1,0 +1,1 @@
+export const UPDATE_DOC_LIST = 'UPDATE_DOC_LIST';

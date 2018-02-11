@@ -1,0 +1,26 @@
+.digital-list {
+    padding: 30px;
+    background-color: #e2e2e2;
+
+    > div {
+        padding: 10px 15px;
+        background-color: #fff;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+    }
+
+    h3 {
+        padding: 2px 0;
+    }
+
+    p {
+        padding: 5px 0 10px;
+    }
+
+    .btn-area {
+        padding: 15px 0;
+        text-align: right;
+    }
+}

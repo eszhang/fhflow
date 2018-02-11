@@ -3,12 +3,15 @@
  * webpack base config
  */
 
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const packageConfig = require('./package.json');
 
 const SRC_PATH = path.resolve('./src');
-const APP_PATH = path.join(SRC_PATH, 'app');
-const BUILD_APP_PATH = path.resolve('./build/app');
+const FRONT_END_PATH = path.join(SRC_PATH, 'frontEnd');
+const APP_PATH = path.join(FRONT_END_PATH, 'app');
+const BUILD_APP_PATH = path.resolve('./build/frontEnd/app');
 
 module.exports = {
     context: APP_PATH,
@@ -16,7 +19,8 @@ module.exports = {
         extensions: ['.js', '.jsx']
     },
     entry: {
-        app: ['./app.jsx']
+        app: ['./index.jsx'],
+        vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: {
         path: BUILD_APP_PATH,
@@ -74,9 +78,16 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            title: packageConfig.name,
             filename: path.join(BUILD_APP_PATH, './index.html'),
             template: './react/template/index.html',
             hash: false
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            minChunks(module) {
+                return module.context && module.context.indexOf('node_modules') !== -1;
+            }
         })
     ]
 };

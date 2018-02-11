@@ -1,0 +1,5 @@
+export const SET_PROXY_HOST = 'SET_PROXY_HOST';
+export const ADD_PROXY_ITEM = 'ADD_PROXY_ITEM';
+export const UPDATE_PROXY_ITEM = 'UPDATE_PROXY_ITEM';
+export const DEL_PROXY_ITEM = 'DEL_PROXY_ITEM';
+export const SET_PROXY_DATA = 'SET_PROXY_DATA';

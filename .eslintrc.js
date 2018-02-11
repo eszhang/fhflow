@@ -50,6 +50,8 @@ const eslintrc = {
         'guard-for-in': 1,
         'import/no-extraneous-dependencies': 0,
         'import/no-dynamic-require': 0,
+        'import/prefer-default-export': 0,
+        'react/default-props-match-prop-types': 0,
         'react/jsx-indent': [
             'error',
             4

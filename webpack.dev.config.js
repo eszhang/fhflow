@@ -1,27 +1,23 @@
-
 /**
  * webpack dev config
  */
 
 const webpack = require('webpack');
-const path = require('path');
-const config = require('./webpack.base.config');
+const OpenBrowser = require('open-browser-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const config = require('./config');
+const webpackConfig = require('./webpack.base.config');
 
-// 添加 webpack-dev-server 相关的配置项
-config.devServer = {
-    contentBase: path.join(__dirname, 'build'),
-    inline: true,
-    hot: true
-};
+const { hotReloadHost, hotReloadPort } = config;
 
 // 添加 scss less css处理
-config.module.rules.push({
+webpackConfig.module.rules.push({
     test: /\.css$/,
     use: [
         'style-loader',
         {
-            loader: 'css-loader',
-            options: { sourceMap: true }
+            loader: 'css-loader'
+            // options: { sourceMap: true }
         }
     ]
 }, {
@@ -29,8 +25,8 @@ config.module.rules.push({
     use: [
         'style-loader',
         {
-            loader: 'css-loader',
-            options: { sourceMap: true }
+            loader: 'css-loader'
+            // options: { sourceMap: true }
         },
         'sass-loader'
     ],
@@ -40,8 +36,8 @@ config.module.rules.push({
     use: [
         'style-loader',
         {
-            loader: 'css-loader',
-            options: { sourceMap: true }
+            loader: 'css-loader'
+            // options: { sourceMap: true }
         },
         'less-loader'
     ],
@@ -49,26 +45,35 @@ config.module.rules.push({
 });
 
 // 定义 运行环境变量
-config.plugins.unshift(new webpack.DefinePlugin({
+webpackConfig.plugins.unshift(new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development')
 }));
 
+// 添加 进度查看
+webpackConfig.plugins.push(new ProgressBarPlugin());
+
 // 添加 Sourcemap 支持
-config.plugins.push(new webpack.SourceMapDevToolPlugin({
+webpackConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
     filename: '[file].map',
     exclude: ['vendor.js'] // vendor 通常不需要 sourcemap
 }));
 
+// 添加 自动打开浏览器
+webpackConfig.plugins.push(new OpenBrowser({
+    url: `http://${hotReloadHost}:${hotReloadPort}`
+}));
+
 // Hot module replacement
-Object.keys(config.entry).forEach((key) => {
+Object.keys(webpackConfig.entry).forEach((key) => {
     // 这里有一个私有的约定，如果 entry 是一个数组，则证明它需要被 hot module replace
-    if (Array.isArray(config.entry[key])) {
-        config.entry[key].unshift(
-            'webpack-dev-server/client?http://0.0.0.0:8080',
-            'webpack/hot/only-dev-server'
+    if (Array.isArray(webpackConfig.entry[key])) {
+        webpackConfig.entry[key].unshift(
+            'babel-polyfill',
+            'react-hot-loader/patch',
+            `webpack-hot-middleware/client?path=http://${hotReloadHost}:${hotReloadPort}/__webpack_hmr`
         );
     }
 });
-config.plugins.push(new webpack.HotModuleReplacementPlugin());
+webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-module.exports = config;
+module.exports = webpackConfig;
